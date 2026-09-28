@@ -18,3 +18,11 @@ def test_normalize_browser_aliases():
     assert CloudflareFiretraceAgent.normalize_action("browser_status") == "status"
     assert CloudflareFiretraceAgent.normalize_action("browser_screenshot") == "screenshot"
     assert CloudflareFiretraceAgent.normalize_action("trigger_and_capture") == "trigger_and_capture"
+
+
+def test_append_only_inbox_paths_exist():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    assert (root / "commands" / "inbox").exists()
+    assert (root / "commands" / "results").exists()
+    assert (root / "commands" / "screenshots").exists()
