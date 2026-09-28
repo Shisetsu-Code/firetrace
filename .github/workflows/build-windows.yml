@@ -28,7 +28,7 @@ jobs:
       - name: Install build dependencies
         run: python -m pip install -e . pyinstaller
       - name: Build worker executable
-        run: pyinstaller --onefile --name Firetrace-Worker --collect-all playwright firetrace_entry.py
+        run: pyinstaller --onefile --windowed --name Firetrace-Worker --collect-all playwright firetrace_entry.py
       - name: Preserve built executable
         shell: pwsh
         run: Copy-Item dist/Firetrace-Worker.exe "$env:RUNNER_TEMP/Firetrace-Worker.exe" -Force
