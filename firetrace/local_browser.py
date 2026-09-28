@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from typing import Any
 
 from .redact import redact_capture
@@ -21,7 +22,7 @@ class LocalBrowserBackend:
         try:
             self.browser = self._pw.chromium.connect_over_cdp(cdp_url)
         except Exception:
-            self.browser = self._pw.chromium.launch(headless=False)
+            self.browser = self._pw.chromium.launch(headless=os.getenv("FIRETRACE_HEADLESS", "0") == "1")
             self._owns_browser = True
 
         contexts = self.browser.contexts
