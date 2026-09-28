@@ -1,31 +1,48 @@
 # Firetrace
 
-Local Firecrawl/CDP worker for browser automation and deterministic endpoint capture.
+Firetrace is a local browser/CDP worker for deterministic endpoint capture.
 
-## Purpose
+It is designed for the workflow used in this project: request a screenshot, choose a click, execute it in the real browser, and capture the matching request/response (for example Yggdrasil `fn=play`) without manually debugging every game.
 
-Firetrace keeps Firecrawl and browser control on the local machine while using a small command queue in this repository. The main operation, `trigger_and_capture`, creates a CDP session, enables the Network domain, performs a click, and returns matching request/response pairs including request post data and response bodies.
+## Important Firecrawl finding
 
-Sensitive authentication/cookie headers are redacted before results are persisted.
+During implementation the current Firecrawl source was checked rather than assuming that its hosted browser API is part of the normal self-hosted stack.
 
-## Local start
+Firecrawl's `/v2/browser` implementation calls a separate service through `HANGAR_URL`. That Hangar browser service is not part of Firecrawl's standard Docker Compose self-hosting stack. The scrape-bound `/interact` path also requires stored scrape context/database authentication, while Firecrawl's own self-hosting guide recommends starting with `USE_DB_AUTHENTICATION=false`.
 
-Requirements: Windows/Linux with Python 3.11+, Git and Docker Desktop/Engine.
+Therefore Firetrace does **not** make the local workflow depend on an unavailable self-hosted browser service.
+
+The default backend is local Chrome + Playwright/CDP. Firecrawl support remains optional for environments that actually provide the browser service.
+
+## Normal use
+
+On Windows, run:
+
+```text
+Firetrace-Worker.exe
+```
+
+The launcher:
+
+1. updates the repository;
+2. reuses Chrome CDP on `127.0.0.1:9222` if available;
+3. otherwise starts Chrome with a private Firetrace profile and CDP bound to localhost;
+4. starts the command worker;
+5. polls the GitHub command queue;
+6. executes browser actions and publishes results.
+
+No browser/CDP port is exposed to the Internet.
+
+For development:
 
 ```powershell
-git clone https://github.com/Shisetsu-Code/firetrace.git
-cd firetrace
 python -m pip install -e .
 python -m firetrace.launcher
 ```
 
-The launcher pins Firecrawl to `v2.11.0`, clones it into `.runtime/firecrawl`, starts its official Docker Compose stack, waits for the local API, then starts the command worker.
-
-Firecrawl is used locally at `http://127.0.0.1:3002`. Do not expose Firecrawl or browser/CDP ports publicly.
-
 ## Commands
 
-Write `commands/current.json` with a unique id and one of:
+`commands/current.json` accepts:
 
 - `status`
 - `open`
@@ -37,7 +54,9 @@ Write `commands/current.json` with a unique id and one of:
 - `network_events`
 - `trigger_and_capture`
 
-Example:
+Results go to `commands/result.json`. Screenshots go to `commands/latest.jpg`.
+
+Example capture command:
 
 ```json
 {
@@ -52,12 +71,30 @@ Example:
 }
 ```
 
-Results are written to `commands/result.json`; screenshots are written to `commands/latest.jpg`.
+`trigger_and_capture` uses a CDP session and:
 
-## Why /v2/browser instead of scrape-bound /interact
+- enables the Network domain;
+- records matching `Network.requestWillBeSent`;
+- records matching `Network.responseReceived`;
+- executes the click;
+- retrieves the response with `Network.getResponseBody`;
+- returns all matching request/response pairs;
+- redacts authorization, cookies and equivalent sensitive headers before persistence.
 
-Firetrace uses Firecrawl's direct `/v2/browser` and `/v2/browser/:sessionId/execute` APIs. Current Firecrawl self-hosting documentation recommends `USE_DB_AUTHENTICATION=false` for the baseline stack, while scrape-bound `/interact` requires stored scrape context/database authentication. The direct browser API still provides Node execution with `page`, `context`, and CDP access, which is exactly what Firetrace needs.
+## Optional Firecrawl backend
+
+Set:
+
+```text
+FIRETRACE_BROWSER_BACKEND=firecrawl
+```
+
+only when the configured Firecrawl deployment actually exposes a working browser service. The stock self-hosted Compose stack alone is not enough for that feature.
+
+## CI
+
+GitHub Actions runs unit tests and compilation checks on every push. A separate Windows workflow builds `Firetrace-Worker.exe` and commits the current executable to the repository root.
 
 ## Safety
 
-Only use Firetrace on systems and sites you are authorized to test.
+Use Firetrace only on systems and sites you are authorized to test.
