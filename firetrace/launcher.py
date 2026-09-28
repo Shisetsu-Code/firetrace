@@ -8,7 +8,23 @@ import time
 import urllib.request
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+def find_repo_root() -> Path:
+    candidates = []
+    if getattr(sys, "frozen", False):
+        candidates.append(Path(sys.executable).resolve().parent)
+    candidates.extend([
+        Path(__file__).resolve().parents[1],
+        Path.cwd(),
+        Path.home() / "firetrace",
+        Path.home() / "Firetrace",
+    ])
+    for candidate in candidates:
+        if (candidate / ".git").exists() and (candidate / "pyproject.toml").exists():
+            return candidate
+    return candidates[0]
+
+
+ROOT = find_repo_root()
 RUNTIME = ROOT / ".runtime"
 FIRECRAWL_DIR = RUNTIME / "firecrawl"
 FIRECRAWL_REF = os.getenv("FIRETRACE_FIRECRAWL_REF", "v2.11.0")
