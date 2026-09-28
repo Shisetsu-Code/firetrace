@@ -45,6 +45,18 @@ python -m firetrace.launcher
 
 ## Cloudflare transport
 
+### ChatGPT MCP
+
+The OAuth-enabled ChatGPT endpoint is
+`https://firetrace-mcp.braian-n-l.workers.dev/mcp`.
+Choose **OAuth** and leave client ID/secret empty. Complete the Firetrace
+authorization page with your separate connection password.
+The server implementation, tests and deployment instructions are in
+[`cloudflare/`](cloudflare/README.md).
+
+Keep the local agent running. The new MCP URL is only for ChatGPT; the local
+agent continues using the existing `CF_CONTROL_URL` control-plane address.
+
 Firetrace automatically uses the same persisted control-plane variables created for the existing MCP launcher:
 
 ```text

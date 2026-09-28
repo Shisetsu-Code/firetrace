@@ -1,0 +1,24 @@
+{
+  "name": "firetrace-mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pretest": "wrangler deploy --dry-run --outdir .wrangler/test",
+    "test": "node --test",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "1.2.1",
+    "@modelcontextprotocol/sdk": "1.31.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "miniflare": "5.20260926.0-alpha",
+    "wrangler": "4.143.0"
+  },
+  "overrides": {
+    "undici": "7.29.1"
+  }
+}

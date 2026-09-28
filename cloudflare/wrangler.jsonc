@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "firetrace-mcp",
+  "main": "src/index.js",
+  "account_id": "3904fa9871c00ad145ed8f8f5404d1bd",
+  "compatibility_date": "2026-09-28",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "services": [{"binding":"CONTROL","service":"shisetsu-browser-control"}],
+  "vars": {"PUBLIC_URL":"https://firetrace-mcp.braian-n-l.workers.dev"},
+  "kv_namespaces": [{"binding":"OAUTH_KV","id":"8cbed6bc5f7a4406b88258fed3fbe226"}],
+  "d1_databases": [{"binding":"DB","database_name":"shisetsu-browser-control","database_id":"9d907ba6-ff11-44d3-b917-41ee483038f1"}],
+  "r2_buckets": [{"binding":"SCREENSHOTS","bucket_name":"shisetsu-browser-screenshots"}]
+}
