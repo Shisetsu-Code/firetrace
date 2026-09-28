@@ -1,0 +1,7 @@
+{
+  "id": "020-wait-buy-10945",
+  "action": "wait",
+  "args": {
+    "ms": 1200
+  }
+}
