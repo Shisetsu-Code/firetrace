@@ -1,0 +1,10 @@
+{
+  "id": "wait-10945-006",
+  "action": "wait",
+  "ok": true,
+  "data": {
+    "waited_ms": 6000
+  },
+  "started_at": 1790637248.1683621,
+  "finished_at": 1790637254.1835744
+}
