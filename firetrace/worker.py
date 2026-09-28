@@ -85,6 +85,48 @@ class Worker:
             data = self.backend.network_events()
         elif action == "trigger_and_capture":
             data = self.backend.trigger_and_capture(**args)
+        elif action == "sequence":
+            steps = args.get("steps") or []
+            if not isinstance(steps, list) or len(steps) > 20:
+                raise ValueError("sequence.steps must be a list with at most 20 items")
+            results = []
+            screenshot_bytes = None
+            screenshot_quality = None
+            for index, step in enumerate(steps):
+                if not isinstance(step, dict):
+                    raise ValueError(f"invalid sequence step {index}")
+                step_action = step.get("action")
+                step_args = step.get("args") or {}
+                if step_action == "click":
+                    step_data = self.backend.click(step_args["x"], step_args["y"])
+                elif step_action == "click_relative":
+                    step_data = self.backend.click_relative(step_args["rx"], step_args["ry"])
+                elif step_action == "wait":
+                    step_data = self.backend.wait(step_args.get("ms", 500))
+                elif step_action == "open":
+                    step_data = self.backend.open(step_args["url"])
+                elif step_action == "trigger_and_capture":
+                    step_data = self.backend.trigger_and_capture(**step_args)
+                elif step_action == "screenshot":
+                    screenshot_quality = int(step_args.get("quality", 70))
+                    screenshot_bytes = self.backend.screenshot(screenshot_quality)
+                    step_data = {"bytes": len(screenshot_bytes), "quality": screenshot_quality}
+                elif step_action == "status":
+                    step_data = self.backend.status()
+                else:
+                    raise ValueError(f"unsupported sequence action: {step_action}")
+                results.append({"index": index, "action": step_action, "data": step_data})
+
+            if screenshot_bytes is not None:
+                SCREENSHOT.parent.mkdir(parents=True, exist_ok=True)
+                SCREENSHOT.write_bytes(screenshot_bytes)
+            data = {
+                "steps": results,
+                "screenshot": (
+                    {"path": "commands/latest.jpg", "bytes": len(screenshot_bytes), "quality": screenshot_quality}
+                    if screenshot_bytes is not None else None
+                ),
+            }
         else:
             raise ValueError(f"unknown action: {action}")
         return {"id": command.get("id"), "ok": True, "action": action, "data": data, "ts": time.time()}
