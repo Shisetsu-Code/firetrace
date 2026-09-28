@@ -20,6 +20,55 @@ def run(cmd, cwd=None, check=True):
     return subprocess.run(cmd, cwd=cwd, check=check)
 
 
+
+def cdp_ready() -> bool:
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=1.5) as res:
+            return res.status == 200
+    except Exception:
+        return False
+
+
+def ensure_chrome_cdp() -> None:
+    if cdp_ready():
+        print("Chrome CDP already ready on 127.0.0.1:9222.")
+        return
+    if os.name != "nt":
+        return
+
+    candidates = [
+        Path(os.environ.get("PROGRAMFILES", "")) / "Google/Chrome/Application/chrome.exe",
+        Path(os.environ.get("PROGRAMFILES(X86)", "")) / "Google/Chrome/Application/chrome.exe",
+        Path(os.environ.get("LOCALAPPDATA", "")) / "Google/Chrome/Application/chrome.exe",
+    ]
+    chrome = next((p for p in candidates if p.is_file()), None)
+    if not chrome:
+        print("Chrome not found; Playwright will launch its own browser if installed.")
+        return
+
+    profile = RUNTIME / "chrome-profile"
+    profile.mkdir(parents=True, exist_ok=True)
+    subprocess.Popen(
+        [
+            str(chrome),
+            "--remote-debugging-port=9222",
+            "--remote-debugging-address=127.0.0.1",
+            f"--user-data-dir={profile}",
+            "--no-first-run",
+            "--no-default-browser-check",
+            "about:blank",
+        ],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    deadline = time.time() + 20
+    while time.time() < deadline:
+        if cdp_ready():
+            print("Chrome CDP ready.")
+            return
+        time.sleep(0.5)
+    print("Chrome started but CDP did not answer; Playwright fallback will be attempted.")
+
 def healthy() -> bool:
     for path in ("/", "/health"):
         try:
@@ -64,6 +113,8 @@ def main() -> int:
         run(["git", "pull", "--ff-only"], cwd=ROOT, check=False)
         if os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower() == "firecrawl":
             ensure_firecrawl()
+        else:
+            ensure_chrome_cdp()
         from .worker import Worker
         Worker().run()
         return 0
