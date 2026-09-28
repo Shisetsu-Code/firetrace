@@ -1,9 +1,10 @@
 {
-  "id": "firetrace-open-10945-001",
+  "id": "firetrace-shot-10945-001",
   "ok": true,
-  "action": "open",
+  "action": "screenshot",
   "data": {
-    "url": "https://staticdemo.yggdrasilgaming.com/10945/index.html?appsrv=https://demo.yggdrasilgaming.com&boostUrl=/boost/current/boost.js&channel=pc&countryCode=ar&currency=EUR&gameid=10945&lang=en&license=mt&org=Demo&pcUrl=/partnerconnect/current/partnerconnect.js"
+    "path": "commands/latest.jpg",
+    "bytes": 79036
   },
-  "ts": 1790634152.6615012
+  "ts": 1790634168.3968277
 }
