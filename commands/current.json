@@ -1,5 +1,5 @@
 {
-  "id": "firetrace-shot-10945-002",
-  "action": "screenshot",
-  "args": {"quality": 70}
+  "id": "firetrace-click-start-10945",
+  "action": "click",
+  "args": {"x": 468, "y": 625}
 }
