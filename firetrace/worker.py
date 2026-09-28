@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 
 from .firecrawl import FirecrawlBackend, FirecrawlClient
+from .local_browser import LocalBrowserBackend
 
 ROOT = Path(__file__).resolve().parents[1]
 COMMAND = ROOT / "commands" / "current.json"
@@ -21,12 +22,18 @@ def git(*args: str, check: bool = False) -> subprocess.CompletedProcess:
 
 class Worker:
     def __init__(self):
-        self.backend = FirecrawlBackend(
-            FirecrawlClient(
-                base_url=os.getenv("FIRETRACE_FIRECRAWL_URL", "http://127.0.0.1:3002"),
-                api_key=os.getenv("FIRETRACE_FIRECRAWL_KEY") or None,
+        selected = os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower()
+        if selected == "firecrawl":
+            self.backend = FirecrawlBackend(
+                FirecrawlClient(
+                    base_url=os.getenv("FIRETRACE_FIRECRAWL_URL", "http://127.0.0.1:3002"),
+                    api_key=os.getenv("FIRETRACE_FIRECRAWL_KEY") or None,
+                )
             )
-        )
+        else:
+            self.backend = LocalBrowserBackend(
+                os.getenv("FIRETRACE_CDP_URL", "http://127.0.0.1:9222")
+            )
         self.last_id = self._load_last_id()
 
     def _load_last_id(self) -> str | None:
