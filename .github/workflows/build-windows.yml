@@ -1,0 +1,39 @@
+name: build-windows
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        run: python -m pip install -e . pyinstaller
+      - name: Build worker executable
+        run: pyinstaller --onefile --name Firetrace-Worker --collect-all playwright firetrace/cli.py
+      - name: Copy executable to repository root
+        shell: pwsh
+        run: Copy-Item dist/Firetrace-Worker.exe ./Firetrace-Worker.exe -Force
+      - name: Commit executable
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Firetrace-Worker.exe
+          if (-not (git diff --cached --quiet)) {
+            git commit -m "build: update Firetrace-Worker.exe [skip ci]"
+            git push
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Firetrace-Worker
+          path: Firetrace-Worker.exe
