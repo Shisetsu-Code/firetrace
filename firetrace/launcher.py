@@ -31,9 +31,17 @@ FIRECRAWL_REF = os.getenv("FIRETRACE_FIRECRAWL_REF", "v2.11.0")
 FIRECRAWL_URL = os.getenv("FIRETRACE_FIRECRAWL_URL", "http://127.0.0.1:3002")
 
 
-def run(cmd, cwd=None, check=True):
+def _no_window_kwargs() -> dict:
+    if os.name == "nt":
+        return {"creationflags": subprocess.CREATE_NO_WINDOW}
+    return {}
+
+
+def run(cmd, cwd=None, check=True, **kwargs):
     print("+", " ".join(map(str, cmd)))
-    return subprocess.run(cmd, cwd=cwd, check=check)
+    options = _no_window_kwargs()
+    options.update(kwargs)
+    return subprocess.run(cmd, cwd=cwd, check=check, **options)
 
 
 
@@ -71,7 +79,12 @@ def ensure_cloudflare_http_bridge() -> None:
         print("git/npm/npx unavailable; skipping automatic Cloudflare deploy.")
         return
 
-    subprocess.run([git, "pull", "--ff-only", "origin", "main"], cwd=mcp, check=False)
+    subprocess.run(
+        [git, "pull", "--ff-only", "origin", "main"],
+        cwd=mcp,
+        check=False,
+        **_no_window_kwargs(),
+    )
     try:
         tree_hash = subprocess.run(
             [git, "rev-parse", "HEAD:cloudflare"],
@@ -79,6 +92,7 @@ def ensure_cloudflare_http_bridge() -> None:
             text=True,
             capture_output=True,
             check=False,
+            **_no_window_kwargs(),
         ).stdout.strip()
     except Exception:
         tree_hash = ""
@@ -91,12 +105,22 @@ def ensure_cloudflare_http_bridge() -> None:
 
     cf = mcp / "cloudflare"
     print("Deploying Cloudflare HTTP bridge...")
-    install = subprocess.run([npm, "install", "--silent"], cwd=cf, check=False)
+    install = subprocess.run(
+        [npm, "install", "--silent"],
+        cwd=cf,
+        check=False,
+        **_no_window_kwargs(),
+    )
     if install.returncode != 0:
         print("Cloudflare npm install failed; keeping existing deployment.")
         return
 
-    deploy = subprocess.run([npx, "wrangler", "deploy"], cwd=cf, check=False)
+    deploy = subprocess.run(
+        [npx, "wrangler", "deploy"],
+        cwd=cf,
+        check=False,
+        **_no_window_kwargs(),
+    )
     if deploy.returncode != 0:
         print("Cloudflare deploy failed; keeping existing deployment.")
         return
