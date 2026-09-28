@@ -4,7 +4,6 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .firetrace-state.json
-commands/latest.jpg
 dist/
 build/
 *.spec
