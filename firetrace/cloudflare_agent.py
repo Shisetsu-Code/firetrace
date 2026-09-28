@@ -90,12 +90,16 @@ class CloudflareFiretraceAgent:
         return aliases.get(action, action)
 
     def _git(self, *args: str) -> subprocess.CompletedProcess:
+        kwargs = {}
+        if os.name == "nt":
+            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
         return subprocess.run(
             ["git", *args],
             cwd=ROOT,
             text=True,
             capture_output=True,
             check=False,
+            **kwargs,
         )
 
     def _publish_repo_result(self, command: dict, result: dict, screenshot: bytes | None = None) -> None:
