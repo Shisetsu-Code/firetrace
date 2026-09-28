@@ -1,0 +1,14 @@
+{
+  "id": "status-10945-005",
+  "action": "status",
+  "ok": true,
+  "data": {
+    "backend": "local-playwright-cdp",
+    "connected": true,
+    "url": "about:blank",
+    "pages": 1,
+    "viewport": null
+  },
+  "started_at": 1790637223.7297475,
+  "finished_at": 1790637223.7297475
+}
