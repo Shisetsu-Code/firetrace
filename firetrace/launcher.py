@@ -37,6 +37,74 @@ def run(cmd, cwd=None, check=True):
 
 
 
+
+def find_command(*names: str) -> str | None:
+    for name in names:
+        found = shutil.which(name)
+        if found:
+            return found
+    return None
+
+
+def find_mcp_repo() -> Path | None:
+    candidates = [
+        ROOT.parent / "MCP",
+        Path.home() / "MCP",
+        Path("C:/MCP"),
+    ]
+    for candidate in candidates:
+        if (candidate / ".git").exists() and (candidate / "cloudflare" / "wrangler.jsonc").exists():
+            return candidate
+    return None
+
+
+def ensure_cloudflare_http_bridge() -> None:
+    mcp = find_mcp_repo()
+    if not mcp:
+        print("MCP repo not found; skipping automatic Cloudflare HTTP bridge deploy.")
+        return
+
+    git = find_command("git.exe", "git")
+    npm = find_command("npm.cmd", "npm")
+    npx = find_command("npx.cmd", "npx")
+    if not git or not npm or not npx:
+        print("git/npm/npx unavailable; skipping automatic Cloudflare deploy.")
+        return
+
+    subprocess.run([git, "pull", "--ff-only", "origin", "main"], cwd=mcp, check=False)
+    try:
+        tree_hash = subprocess.run(
+            [git, "rev-parse", "HEAD:cloudflare"],
+            cwd=mcp,
+            text=True,
+            capture_output=True,
+            check=False,
+        ).stdout.strip()
+    except Exception:
+        tree_hash = ""
+
+    stamp = ROOT / ".cloudflare-http-bridge"
+    previous = stamp.read_text(encoding="utf-8").strip() if stamp.exists() else ""
+    if tree_hash and tree_hash == previous:
+        print("Cloudflare HTTP bridge already deployed.")
+        return
+
+    cf = mcp / "cloudflare"
+    print("Deploying Cloudflare HTTP bridge...")
+    install = subprocess.run([npm, "install", "--silent"], cwd=cf, check=False)
+    if install.returncode != 0:
+        print("Cloudflare npm install failed; keeping existing deployment.")
+        return
+
+    deploy = subprocess.run([npx, "wrangler", "deploy"], cwd=cf, check=False)
+    if deploy.returncode != 0:
+        print("Cloudflare deploy failed; keeping existing deployment.")
+        return
+
+    if tree_hash:
+        stamp.write_text(tree_hash, encoding="utf-8")
+    print("Cloudflare HTTP bridge deployed.")
+
 def cdp_ready() -> bool:
     try:
         with urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=1.5) as res:
@@ -127,6 +195,7 @@ def ensure_firecrawl() -> None:
 def main() -> int:
     try:
         run(["git", "pull", "--ff-only"], cwd=ROOT, check=False)
+        ensure_cloudflare_http_bridge()
         if os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower() == "firecrawl":
             ensure_firecrawl()
         else:
