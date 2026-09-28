@@ -1,13 +1,9 @@
 {
-  "id": "firetrace-first-status-001",
+  "id": "firetrace-open-10945-001",
   "ok": true,
-  "action": "status",
+  "action": "open",
   "data": {
-    "backend": "local-playwright-cdp",
-    "connected": true,
-    "url": "about:blank",
-    "pages": 1,
-    "viewport": null
+    "url": "https://staticdemo.yggdrasilgaming.com/10945/index.html?appsrv=https://demo.yggdrasilgaming.com&boostUrl=/boost/current/boost.js&channel=pc&countryCode=ar&currency=EUR&gameid=10945&lang=en&license=mt&org=Demo&pcUrl=/partnerconnect/current/partnerconnect.js"
   },
-  "ts": 1790634118.8492641
+  "ts": 1790634152.6615012
 }
