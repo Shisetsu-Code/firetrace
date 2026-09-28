@@ -1,5 +1,13 @@
 {
-  "id": "bootstrap",
-  "ok": false,
-  "note": "Waiting for the first local worker result."
+  "id": "firetrace-first-status-001",
+  "ok": true,
+  "action": "status",
+  "data": {
+    "backend": "local-playwright-cdp",
+    "connected": true,
+    "url": "about:blank",
+    "pages": 1,
+    "viewport": null
+  },
+  "ts": 1790634118.8492641
 }
