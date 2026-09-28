@@ -62,7 +62,8 @@ def ensure_firecrawl() -> None:
 def main() -> int:
     try:
         run(["git", "pull", "--ff-only"], cwd=ROOT, check=False)
-        ensure_firecrawl()
+        if os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower() == "firecrawl":
+            ensure_firecrawl()
         from .worker import Worker
         Worker().run()
         return 0
