@@ -10,7 +10,7 @@ from urllib.parse import quote
 
 from websockets.sync.client import connect
 
-from .worker import Worker, ROOT
+from .worker import Worker, ROOT, SCREENSHOT
 
 
 def ws_url(base_url: str, agent_id: str) -> str:
@@ -142,6 +142,9 @@ class CloudflareFiretraceAgent:
                     "args": args,
                 })
                 data = envelope.get("data")
+                if action == "sequence" and isinstance(data, dict) and data.get("screenshot"):
+                    if SCREENSHOT.exists():
+                        screenshot = SCREENSHOT.read_bytes()
             result = {
                 "id": command_id,
                 "action": raw_action,
