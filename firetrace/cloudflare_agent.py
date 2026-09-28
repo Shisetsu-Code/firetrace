@@ -3,12 +3,14 @@ from __future__ import annotations
 import json
 import os
 import struct
+import subprocess
 import time
+from pathlib import Path
 from urllib.parse import quote
 
 from websockets.sync.client import connect
 
-from .worker import Worker
+from .worker import Worker, ROOT
 
 
 def ws_url(base_url: str, agent_id: str) -> str:
@@ -30,6 +32,13 @@ class CloudflareFiretraceAgent:
             raise RuntimeError("Cloudflare control URL/token are not configured")
         self.agent_id = os.getenv("FIRETRACE_AGENT_ID", "firetrace")
         self.worker = Worker()
+        self.inbox = ROOT / "commands" / "inbox"
+        self.results = ROOT / "commands" / "results"
+        self.screenshots = ROOT / "commands" / "screenshots"
+        self.inbox.mkdir(parents=True, exist_ok=True)
+        self.results.mkdir(parents=True, exist_ok=True)
+        self.screenshots.mkdir(parents=True, exist_ok=True)
+        self.seen_inbox: set[str] = set()
 
     def send_json(self, ws, payload: dict) -> None:
         ws.send(json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
@@ -79,6 +88,107 @@ class CloudflareFiretraceAgent:
             "browser_wait": "wait",
         }
         return aliases.get(action, action)
+
+    def _git(self, *args: str) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            ["git", *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+    def _publish_repo_result(self, command: dict, result: dict, screenshot: bytes | None = None) -> None:
+        command_id = str(command.get("id", "unknown"))
+        result_path = self.results / f"{command_id}.json"
+        result_path.write_text(
+            json.dumps(result, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        paths = [str(result_path.relative_to(ROOT)).replace("\\", "/")]
+        if screenshot is not None:
+            shot_path = self.screenshots / f"{command_id}.jpg"
+            shot_path.write_bytes(screenshot)
+            paths.append(str(shot_path.relative_to(ROOT)).replace("\\", "/"))
+
+        self._git("add", *paths)
+        commit = self._git("commit", "-m", f"firetrace result {command_id}")
+        if commit.returncode == 0:
+            pushed = self._git("push", "origin", "main")
+            if pushed.returncode != 0:
+                self._git("pull", "--rebase", "origin", "main")
+                self._git("push", "origin", "main")
+
+    def _execute_local(self, command: dict) -> tuple[dict, bytes | None]:
+        command_id = str(command.get("id", ""))
+        raw_action = str(command.get("action", ""))
+        action = self.normalize_action(raw_action)
+        args = command.get("args") or {}
+        started = time.time()
+        screenshot = None
+        try:
+            if action == "screenshot":
+                quality = max(20, min(int(args.get("quality", 65)), 90))
+                screenshot = self.worker.backend.screenshot(quality)
+                data = {"bytes": len(screenshot), "quality": quality}
+            else:
+                envelope = self.worker.execute({
+                    "id": command_id,
+                    "action": action,
+                    "args": args,
+                })
+                data = envelope.get("data")
+            result = {
+                "id": command_id,
+                "action": raw_action,
+                "ok": True,
+                "data": data,
+                "started_at": started,
+                "finished_at": time.time(),
+            }
+        except Exception as exc:
+            result = {
+                "id": command_id,
+                "action": raw_action,
+                "ok": False,
+                "error": f"{type(exc).__name__}: {exc}",
+                "started_at": started,
+                "finished_at": time.time(),
+            }
+        return result, screenshot
+
+    def poll_repo_inbox(self) -> None:
+        # Append-only command files avoid write conflicts on commands/current.json.
+        pull = self._git("pull", "--ff-only", "origin", "main")
+        if pull.returncode != 0:
+            return
+
+        for path in sorted(self.inbox.glob("*.json")):
+            key = path.name
+            if key in self.seen_inbox:
+                continue
+            result_path = self.results / path.name
+            if result_path.exists():
+                self.seen_inbox.add(key)
+                continue
+            try:
+                command = json.loads(path.read_text(encoding="utf-8"))
+                if not isinstance(command, dict):
+                    raise ValueError("command must be a JSON object")
+                result, screenshot = self._execute_local(command)
+            except Exception as exc:
+                command = {"id": path.stem, "action": "invalid"}
+                result = {
+                    "id": path.stem,
+                    "action": "invalid",
+                    "ok": False,
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "finished_at": time.time(),
+                }
+                screenshot = None
+
+            self._publish_repo_result(command, result, screenshot)
+            self.seen_inbox.add(key)
 
     def handle_command(self, ws, command: dict) -> None:
         command_id = str(command.get("id", ""))
@@ -152,6 +262,7 @@ class CloudflareFiretraceAgent:
             self.send_state(ws)
 
             last_heartbeat = time.monotonic()
+            last_inbox_poll = 0.0
 
             while True:
                 try:
@@ -160,6 +271,10 @@ class CloudflareFiretraceAgent:
                     raw = None
 
                 now = time.monotonic()
+                if now - last_inbox_poll >= 2:
+                    self.poll_repo_inbox()
+                    last_inbox_poll = now
+
                 if now - last_heartbeat >= 10:
                     self.send_json(ws, {
                         "type": "hello",
