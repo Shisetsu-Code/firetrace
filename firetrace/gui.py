@@ -28,6 +28,7 @@ class FiretraceGui(tk.Tk):
         super().__init__()
         self.title("Firetrace Control")
         self.geometry("780x540")
+        self.after(150, self._bring_to_front)
         self.minsize(650, 420)
         self.log_queue: queue.Queue[str] = queue.Queue()
         self.worker_thread: threading.Thread | None = None
@@ -51,6 +52,16 @@ class FiretraceGui(tk.Tk):
 
         self.after(100, self.drain_logs)
         self.start_worker()
+
+    def _bring_to_front(self) -> None:
+        try:
+            self.deiconify()
+            self.lift()
+            self.attributes("-topmost", True)
+            self.after(800, lambda: self.attributes("-topmost", False))
+            self.focus_force()
+        except Exception:
+            pass
 
     def append_log(self, text: str) -> None:
         self.text.configure(state="normal")
