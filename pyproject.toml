@@ -7,7 +7,7 @@ name = "firetrace"
 version = "0.2.0"
 description = "Local browser/CDP worker for deterministic endpoint capture"
 requires-python = ">=3.11"
-dependencies = ["playwright>=1.55"]
+dependencies = ["playwright>=1.55", "websockets>=15,<16"]
 
 [project.scripts]
 firetrace = "firetrace.cli:main"
