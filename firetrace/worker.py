@@ -94,9 +94,16 @@ class Worker:
         RESULT.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
         self.last_id = cid
         self._save_last_id(cid)
-        git("add", "commands/result.json", "commands/latest.jpg")
-        git("commit", "-m", f"firetrace result {cid}")
-        git("push", "origin", "main")
+        paths = ["commands/result.json"]
+        if SCREENSHOT.exists():
+            paths.append("commands/latest.jpg")
+        git("add", *paths)
+        commit = git("commit", "-m", f"firetrace result {cid}")
+        if commit.returncode == 0:
+            pushed = git("push", "origin", "main")
+            if pushed.returncode != 0:
+                git("pull", "--rebase", "origin", "main")
+                git("push", "origin", "main")
         return True
 
     def run(self) -> None:
