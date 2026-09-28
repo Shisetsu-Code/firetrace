@@ -26,3 +26,14 @@ def test_append_only_inbox_paths_exist():
     assert (root / "commands" / "inbox").exists()
     assert (root / "commands" / "results").exists()
     assert (root / "commands" / "screenshots").exists()
+
+
+def test_http_bridge_repo_search_candidates(monkeypatch, tmp_path):
+    import firetrace.launcher as launcher
+    fake = tmp_path / "MCP"
+    (fake / ".git").mkdir(parents=True)
+    (fake / "cloudflare").mkdir()
+    (fake / "cloudflare" / "wrangler.jsonc").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(launcher, "ROOT", tmp_path / "firetrace")
+    monkeypatch.setattr(launcher.Path, "home", classmethod(lambda cls: tmp_path))
+    assert launcher.find_mcp_repo() == fake
