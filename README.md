@@ -27,9 +27,12 @@ The launcher:
 1. updates the repository;
 2. reuses Chrome CDP on `127.0.0.1:9222` if available;
 3. otherwise starts Chrome with a private Firetrace profile and CDP bound to localhost;
-4. starts the command worker;
-5. polls the GitHub command queue;
-6. executes browser actions and publishes results.
+4. detects the existing Cloudflare control configuration;
+5. connects outbound to Cloudflare over WSS as agent `firetrace`;
+6. receives commands in real time and sends results/state back through Cloudflare;
+7. sends screenshots as binary frames for storage in the existing R2 bucket.
+
+If Cloudflare credentials are absent, the old GitHub polling queue remains available only as a fallback.
 
 No browser/CDP port is exposed to the Internet.
 
@@ -40,9 +43,36 @@ python -m pip install -e .
 python -m firetrace.launcher
 ```
 
+## Cloudflare transport
+
+Firetrace automatically uses the same persisted control-plane variables created for the existing MCP launcher:
+
+```text
+CF_CONTROL_URL
+CF_CONTROL_TOKEN
+```
+
+Optional Firetrace-specific overrides are:
+
+```text
+FIRETRACE_CONTROL_URL
+FIRETRACE_CONTROL_TOKEN
+FIRETRACE_AGENT_ID
+```
+
+The default agent id is `firetrace`, so it does not collide with the older `main` browser agent.
+
+The control path is:
+
+```text
+Cloudflare Worker -> Durable Object -> WSS -> Firetrace-Worker.exe -> Chrome/CDP
+```
+
+Chrome and CDP stay bound to localhost. The local worker initiates the outbound WSS connection; no inbound port is opened on the PC.
+
 ## Commands
 
-`commands/current.json` accepts:
+The WSS transport accepts both the Firetrace names and the older browser aliases:
 
 - `status`
 - `open`
@@ -54,7 +84,7 @@ python -m firetrace.launcher
 - `network_events`
 - `trigger_and_capture`
 
-Results go to `commands/result.json`. Screenshots go to `commands/latest.jpg`.
+With Cloudflare enabled, command results are persisted by the Cloudflare control plane and screenshots are uploaded as binary WSS frames to R2. The files under `commands/` are retained only for the GitHub fallback transport.
 
 Example capture command:
 
