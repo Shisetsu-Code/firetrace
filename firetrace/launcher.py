@@ -131,8 +131,16 @@ def main() -> int:
             ensure_firecrawl()
         else:
             ensure_chrome_cdp()
-        from .worker import Worker
-        Worker().run()
+        control_url = os.getenv("FIRETRACE_CONTROL_URL") or os.getenv("CF_CONTROL_URL")
+        control_token = os.getenv("FIRETRACE_CONTROL_TOKEN") or os.getenv("CF_CONTROL_TOKEN")
+        if control_url and control_token:
+            print("Cloudflare WSS transport enabled.")
+            from .cloudflare_agent import main as cloudflare_main
+            cloudflare_main()
+        else:
+            print("Cloudflare credentials not found; using GitHub polling fallback.")
+            from .worker import Worker
+            Worker().run()
         return 0
     except KeyboardInterrupt:
         return 0
