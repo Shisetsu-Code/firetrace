@@ -3,7 +3,15 @@ name: build-windows
 on:
   push:
     branches: [main]
+    paths:
+      - "firetrace/**"
+      - "pyproject.toml"
+      - ".github/workflows/build-windows.yml"
   workflow_dispatch:
+
+concurrency:
+  group: firetrace-windows-build
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -31,6 +39,7 @@ jobs:
           git add Firetrace-Worker.exe
           if (-not (git diff --cached --quiet)) {
             git commit -m "build: update Firetrace-Worker.exe [skip ci]"
+            git pull --rebase origin main
             git push
           }
       - uses: actions/upload-artifact@v4
