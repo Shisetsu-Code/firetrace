@@ -1,5 +1,7 @@
 {
-  "id": "firetrace-first-status-001",
-  "action": "status",
-  "args": {}
+  "id": "firetrace-open-10945-001",
+  "action": "open",
+  "args": {
+    "url": "https://staticdemo.yggdrasilgaming.com/10945/index.html?gameid=10945&org=Demo&lang=en&appsrv=https://demo.yggdrasilgaming.com"
+  }
 }
