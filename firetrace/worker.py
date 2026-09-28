@@ -3,13 +3,30 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 import time
 from pathlib import Path
 
 from .firecrawl import FirecrawlBackend, FirecrawlClient
 from .local_browser import LocalBrowserBackend
 
-ROOT = Path(__file__).resolve().parents[1]
+def find_repo_root() -> Path:
+    candidates = []
+    if getattr(sys, "frozen", False):
+        candidates.append(Path(sys.executable).resolve().parent)
+    candidates.extend([
+        Path(__file__).resolve().parents[1],
+        Path.cwd(),
+        Path.home() / "firetrace",
+        Path.home() / "Firetrace",
+    ])
+    for candidate in candidates:
+        if (candidate / ".git").exists() and (candidate / "pyproject.toml").exists():
+            return candidate
+    return candidates[0]
+
+
+ROOT = find_repo_root()
 COMMAND = ROOT / "commands" / "current.json"
 RESULT = ROOT / "commands" / "result.json"
 SCREENSHOT = ROOT / "commands" / "latest.jpg"
