@@ -2,6 +2,9 @@ name: ci
 
 on:
   push:
+    paths-ignore:
+      - "commands/**"
+      - "Firetrace-Worker.exe"
   pull_request:
 
 jobs:
