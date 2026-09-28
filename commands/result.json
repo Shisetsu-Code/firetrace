@@ -1,10 +1,10 @@
 {
-  "id": "firetrace-shot-10945-002",
+  "id": "firetrace-click-start-10945",
   "ok": true,
-  "action": "screenshot",
+  "action": "click",
   "data": {
-    "path": "commands/latest.jpg",
-    "bytes": 95251
+    "x": 468,
+    "y": 625
   },
-  "ts": 1790634229.4838977
+  "ts": 1790634246.7624204
 }
