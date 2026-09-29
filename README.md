@@ -67,6 +67,10 @@ agent continues using the existing `CF_CONTROL_URL` control-plane address.
 Firetrace now exposes **14 MCP tools**, including `browser_create`, `browser_list`,
 `browser_close` and `browser_reopen`. GPT can keep several isolated windows open,
 choose temporary or persistent sessions, and route actions by `browser_id`.
+Set `headless: true` on `browser_create` to run without a window, or `false` for
+a visible browser. `browser_list` reports the mode; `browser_reopen` preserves it
+unless explicitly changed while closed. Both temporary and persistent profiles
+support headless. See [connection recovery and billing](docs/resource-usage.md).
 See the [window and profile guide](docs/browser-sessions.md).
 
 After updating the MCP server, open the Firetrace connection in ChatGPT Plugins,

@@ -76,7 +76,7 @@ class Worker:
         elif action == 'browser_close':
             data = self.backend.close_browser(browser_id)
         elif action == 'browser_reopen':
-            data = self.backend.reopen(browser_id)
+            data = self.backend.reopen(browser_id, **args)
         elif action == "status":
             data = self.backend.status()
         elif action == "open":

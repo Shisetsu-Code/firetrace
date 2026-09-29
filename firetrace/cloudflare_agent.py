@@ -6,6 +6,8 @@ import struct
 import subprocess
 import time
 import threading
+import random
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
 
@@ -27,6 +29,17 @@ def ws_url(base_url: str, agent_id: str) -> str:
 
 
 class CloudflareFiretraceAgent:
+    HEARTBEAT_INTERVAL = 30
+
+    @staticmethod
+    def log(message):
+        print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} {message}", flush=True)
+
+    @staticmethod
+    def reconnect_delay(previous, connected_seconds, *, jitter=None):
+        base = 1.0 if connected_seconds >= 60 else min(max(previous * 1.7, 1.0), 30.0)
+        return min(30.0, base * (random.uniform(0.8, 1.2) if jitter is None else jitter))
+
     def __init__(self, stop_event: threading.Event | None = None) -> None:
         load_user_environment()
         self.stop_event = stop_event or threading.Event()
@@ -261,11 +274,22 @@ class CloudflareFiretraceAgent:
             self.send_json(ws, {'type':'hello', 'agent_id':self.agent_id,
                                 'ts':time.time(), 'version':'0.4.0',
                                 'transport':'cloudflare-wss-sync'})
-        self.send_state(ws)
+
+    def _keepalive(self, ws, done, optimized):
+        # Playwright remains on its owning thread. Only socket sends happen here.
+        while not done.wait(self.HEARTBEAT_INTERVAL):
+            if self.stop_event.is_set():
+                return
+            try:
+                self.heartbeat(ws, optimized=optimized.is_set())
+            except Exception as exc:
+                self.log(f'Heartbeat failed: {type(exc).__name__}')
+                ws.close()
+                return
 
     def session(self) -> None:
         uri = ws_url(self.base_url, self.agent_id)
-        print(f"Connecting Firetrace agent {self.agent_id!r} to {uri}")
+        self.log(f"Connecting Firetrace agent {self.agent_id!r}")
 
         with connect(
             uri,
@@ -274,68 +298,82 @@ class CloudflareFiretraceAgent:
             open_timeout=15,
             close_timeout=5,
             ping_interval=30,
-            ping_timeout=20,
+            ping_timeout=60,
         ) as ws:
-            print("Cloudflare WSS connected.")
+            self._connected_at = time.monotonic()
+            self.log("Cloudflare WSS connected.")
             self._last_state = None
-            optimized = False
+            optimized = threading.Event()
             self.send_json(ws, {
                 "type": "hello",
                 "agent_id": self.agent_id,
                 "ts": time.time(),
-                "version": "0.3.1",
+                "version": "0.5.0",
                 "transport": "cloudflare-wss-sync",
                 "backend": self.worker.backend.status().get("backend"),
             })
             self.send_state(ws)
 
-            last_heartbeat = time.monotonic()
+            done = threading.Event()
+            keepalive = threading.Thread(target=self._keepalive, args=(ws, done, optimized), daemon=True)
+            keepalive.start()
+            try:
+                self._receive(ws, optimized)
+            finally:
+                done.set()
+                keepalive.join(timeout=6)
 
-            while not self.stop_event.is_set():
-                try:
-                    raw = ws.recv(timeout=1.0)
-                except TimeoutError:
-                    raw = None
+    def _receive(self, ws, optimized):
+        last_state_check = time.monotonic()
 
-                now = time.monotonic()
-                if now - last_heartbeat >= 30:
-                    self.heartbeat(ws, optimized=optimized)
-                    last_heartbeat = now
-
-                if raw is None or not isinstance(raw, str):
-                    continue
-                if raw == 'firetrace:pong':
-                    continue
-
-                try:
-                    msg = json.loads(raw)
-                except json.JSONDecodeError:
-                    continue
-
-                if msg.get('type') == 'capabilities' and msg.get('heartbeat') == 'hibernation-heartbeat':
-                    optimized = True
-                    print('Cloudflare hibernation heartbeat enabled (30s, state only on change).')
-                    continue
-                if msg.get("type") != "command":
-                    continue
-
-                command = msg.get("command")
-                if isinstance(command, dict):
-                    self.handle_command(ws, command)
-
-    def run_forever(self) -> None:
-        delay = 1.0
         while not self.stop_event.is_set():
             try:
+                raw = ws.recv(timeout=1.0)
+            except TimeoutError:
+                raw = None
+
+            now = time.monotonic()
+            if now - last_state_check >= 30:
+                self.send_state(ws)
+                last_state_check = now
+
+            if raw is None or not isinstance(raw, str):
+                continue
+            if raw == 'firetrace:pong':
+                continue
+
+            try:
+                msg = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+
+            if msg.get('type') == 'capabilities' and msg.get('heartbeat') == 'hibernation-heartbeat':
+                optimized.set()
+                self.log('Cloudflare hibernation heartbeat enabled (30s, state only on change).')
+                continue
+            if msg.get("type") != "command":
+                continue
+
+            command = msg.get("command")
+            if isinstance(command, dict):
+                self.handle_command(ws, command)
+
+    def run_forever(self) -> None:
+        delay = 0.0
+        while not self.stop_event.is_set():
+            try:
+                self._connected_at = None
                 self.session()
-                delay = 1.0
             except KeyboardInterrupt:
                 raise
             except Exception as exc:
-                print(f"WSS disconnected: {type(exc).__name__}: {exc}")
-                print(f"Reconnecting in {delay:.1f}s...")
+                if self.stop_event.is_set():
+                    break
+                uptime = time.monotonic() - self._connected_at if self._connected_at is not None else 0
+                delay = self.reconnect_delay(delay, uptime)
+                self.log(f"WSS disconnected: {type(exc).__name__}: {exc}; connected_seconds={uptime:.1f}")
+                self.log(f"Reconnecting in {delay:.1f}s...")
                 self.stop_event.wait(delay)
-                delay = min(delay * 1.7, 15.0)
 
 
 def main(stop_event: threading.Event | None = None) -> None:

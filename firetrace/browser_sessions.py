@@ -59,6 +59,7 @@ class BrowserSessions(LocalBrowserBackend):
         live = self._live(record)
         pages = record['context'].pages if live else []
         return {'browser_id': record['id'], 'mode': record['mode'],
+                'headless': record['headless'],
                 'profile': record['profile'], 'open': live,
                 'pages': len(pages), 'urls': [page.url for page in pages]}
 
@@ -79,7 +80,9 @@ class BrowserSessions(LocalBrowserBackend):
         if profile in {'con', 'prn', 'aux', 'nul', *(f'com{i}' for i in range(10)), *(f'lpt{i}' for i in range(10))}:
             raise ValueError('Reserved profile name')
 
-    def create(self, mode='temporary', profile=None):
+    def create(self, mode='temporary', profile=None, headless=None):
+        if headless is not None and not isinstance(headless, bool):
+            raise ValueError('headless must be a boolean')
         if mode not in ('temporary', 'persistent'):
             raise ValueError('mode must be temporary or persistent')
         if mode == 'persistent':
@@ -88,10 +91,11 @@ class BrowserSessions(LocalBrowserBackend):
                 if record['profile'] == profile:
                     if self._live(record):
                         raise ValueError('Persistent profile is already open: ' + record['id'])
-                    return self.reopen(record['id'])
+                    return self.reopen(record['id'], headless=headless)
         elif profile is not None:
             raise ValueError('profile is only valid for persistent sessions')
-        record = {'id': uuid.uuid4().hex, 'mode': mode, 'profile': profile}
+        record = {'id': uuid.uuid4().hex, 'mode': mode, 'profile': profile,
+                  'headless': os.getenv('FIRETRACE_HEADLESS', '0') == '1' if headless is None else headless}
         self._launch(record)
         self._sessions[record['id']] = record
         return self._describe(record)
@@ -99,7 +103,7 @@ class BrowserSessions(LocalBrowserBackend):
     def _launch(self, record):
         if self.list_browsers()['active_count'] >= self.max_browsers:
             raise ValueError(f'Browser limit reached ({self.max_browsers}); close a window first')
-        headless = os.getenv('FIRETRACE_HEADLESS', '0') == '1'
+        headless = record['headless']
         if record['mode'] == 'persistent':
             self.profile_root.mkdir(parents=True, exist_ok=True)
             path = self.profile_root / record['profile']
@@ -134,11 +138,17 @@ class BrowserSessions(LocalBrowserBackend):
             browser.close()
         return self._describe(record)
 
-    def reopen(self, browser_id):
+    def reopen(self, browser_id, headless=None):
+        if headless is not None and not isinstance(headless, bool):
+            raise ValueError('headless must be a boolean')
         record = self._record(browser_id)
         if self._live(record):
+            if headless is not None and headless != record['headless']:
+                raise ValueError('Close the browser before changing headless mode')
             return self._describe(record)
         self.close_browser(browser_id)
+        if headless is not None:
+            record['headless'] = headless
         self._launch(record)
         return self._describe(record)
 

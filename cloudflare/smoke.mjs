@@ -43,8 +43,10 @@ const rpc=async(method,params)=>{
 const initialization=await rpc('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'smoke',version:'1'}});
 assert.equal(initialization.serverInfo.name,'firetrace');
 assert.match(initialization.instructions,/browser_create/);
+assert.match(initialization.instructions,/headless/);
 const advertised=(await rpc('tools/list',{})).tools;
 assert.equal(advertised.length,14);
+assert.equal(advertised.find(t=>t.name==='browser_create').inputSchema.properties.headless.type,'boolean');
 for(const name of ['browser_create','browser_list','browser_close','browser_reopen']) assert.ok(advertised.some(t=>t.name===name));
 console.log('PASS server '+initialization.serverInfo.version+' instructions and tool catalog: '+advertised.map(t=>t.name).join(', '));
 const status=await rpc('tools/call',{name:'browser_status',arguments:{}});
@@ -62,9 +64,10 @@ if(process.env.FIRETRACE_SMOKE_SESSIONS==='1') {
   };
   try {
     for(let i=0;i<2;i++) {
-      const browser=await call('browser_create',{mode:'temporary'});
+      const browser=await call('browser_create',{mode:'temporary',headless:true});
       assert.ok(browser.browser_id);
       created.push(browser.browser_id);
+      assert.equal(browser.headless,true);
     }
     const list=await call('browser_list');
     assert.ok(created.every(id=>list.browsers.some(b=>b.browser_id===id && b.open)));
@@ -75,7 +78,7 @@ if(process.env.FIRETRACE_SMOKE_SESSIONS==='1') {
     await call('browser_wait',{browser_id:created[1],ms:0});
     await call('browser_reopen',{browser_id:created[0]});
     assert.equal((await call('browser_list')).browsers.find(b=>b.browser_id===created[0]).open,true);
-    console.log('PASS two simultaneous blank windows, targeted close, other window alive, reopen through OAuth/MCP/WSS');
+    console.log('PASS two isolated headless browsers, targeted close, other browser alive, reopen through OAuth/MCP/WSS');
   } finally {
     for(const browser_id of created) await call('browser_close',{browser_id});
   }

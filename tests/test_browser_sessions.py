@@ -95,6 +95,15 @@ def test_invalid_profiles_and_legacy_recovery(sessions):
     assert sessions.list_browsers()['active_count'] == 0
 
 
+def test_headless_is_selected_per_session_and_retained_on_reopen(sessions):
+    item = sessions.create(headless=True)
+    assert item['headless'] is True
+    sessions.close_browser(item['browser_id'])
+    assert sessions.reopen(item['browser_id'])['headless'] is True
+    with pytest.raises(ValueError, match='headless'):
+        sessions.create(headless='false')
+
+
 def test_worker_routes_commands_and_screenshots(sessions):
     from firetrace.worker import Worker
     from firetrace.cloudflare_agent import CloudflareFiretraceAgent

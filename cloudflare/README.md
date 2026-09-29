@@ -32,10 +32,12 @@ guide in the MCP `initialize.instructions` field. ChatGPT receives these protoco
 descriptions; it does not automatically read this repository's Markdown files.
 
 - `browser_status`: agent connectivity and browser state.
-- `browser_create`: open another independent window, temporary or persistent.
+- `browser_create`: open an independent browser, temporary or persistent, with
+  `headless: true` for background work or `false` for a visible window.
 - `browser_list`: list window IDs, saved profiles and the concurrent window limit.
 - `browser_close`: close the specified window without stopping the agent.
 - `browser_reopen`: reopen a closed ID, retaining data only for persistent profiles.
+  Preserves headless mode unless explicitly overridden while the browser is closed.
 - `browser_open`: HTTP(S) navigation.
 - `browser_click`, `browser_click_relative`: pixel or normalized clicks.
 - `browser_wait`: wait up to ten seconds.

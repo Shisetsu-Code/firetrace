@@ -10,10 +10,21 @@
 - MCP → control: Service Binding, sin petición adicional facturable en Workers
   Standard; sí se contabiliza el CPU utilizado y los servicios asociados.
 
-Mantener un socket abierto no convierte todas las operaciones en gratuitas.
-Durable Objects factura mensajes entrantes y actividad; D1, KV y R2 tienen sus
-propias operaciones y almacenamiento. No se ha consultado una factura ni el plan
-de esta cuenta, por lo que no se promete una cifra monetaria de ahorro.
+## Cómo se contabiliza (plan pago)
+
+Workers cuenta una request al abrir el WebSocket. Los mensajes posteriores no
+cuentan como requests de Workers, tampoco después de los 10 millones incluidos
+al mes: ese cupo corresponde a requests entrantes, no a mensajes del socket.
+
+Firetrace también usa Durable Objects: los mensajes entrantes de aplicación se
+contabilizan 20:1, con un millón de unidades de request incluido al mes. Diez
+millones de mensajes equivalen a 500.000 unidades, antes de sumar el resto del
+consumo. Los mensajes salientes y los pings entrantes del protocolo no se cobran
+como requests. La auto-respuesta no agrega duración; esto no implica una exención
+general de todos los medidores.
+
+D1, KV, R2, CPU y duración tienen sus propios medidores. No se ha consultado la
+factura ni el plan de esta cuenta: estas reglas no garantizan una factura de cero.
 
 ## Optimización
 
@@ -54,6 +65,31 @@ detectan si existe auto-respuesta; con servidores viejos usan un latido normal
 cada 30 segundos. Para obtener el ahorro completo deben actualizarse tanto el
 control como el ejecutable. Reiniciar el agente cierra sus ventanas: guardar el
 trabajo antes de sustituir el ejecutable.
+
+## Recuperación y diagnóstico
+
+El heartbeat corre en un hilo de red separado: una navegación lenta no interrumpe
+la presencia. Playwright conserva su hilo y sus navegadores al reconectar.
+El ping de protocolo usa 30 s de intervalo y 60 s de tolerancia. La reconexión usa
+espera progresiva con variación aleatoria, como máximo 30 s, y vuelve a unos 1 s
+tras una conexión estable de al menos 60 s. Los registros incluyen hora UTC y
+duración. Los cortes de red, suspensión del PC y despliegues pueden cerrar el
+socket; el agente vuelve a conectar mientras siga abierto.
+
+Una acción interrumpida puede haber ocurrido aunque su resultado no haya llegado.
+Consultar command_result y el estado antes de repetir clicks; no se reejecutan
+acciones automáticamente. Reiniciar el proceso sí pierde IDs y sesiones temporales.
+
+## Navegadores headless
+
+browser_create acepta headless: true (sin ventana) o false (visible), tanto para
+sesiones temporales como persistentes. Al omitirlo usa FIRETRACE_HEADLESS.
+browser_list informa el modo de cada navegador. browser_reopen conserva ese modo,
+o permite elegirlo explícitamente si el navegador está cerrado. Cambiar de modo
+requiere cerrar primero; las sesiones temporales pierden sus datos al cerrar.
+Headless mantiene capturas y acciones, y consume recursos locales; no es un ahorro
+garantizado de CPU o RAM. Actualizar el catálogo MCP de ChatGPT tras actualizar el
+servidor y el ejecutable para descubrir estos parámetros.
 
 ## Fuentes de facturación
 
