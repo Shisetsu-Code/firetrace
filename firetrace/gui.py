@@ -48,6 +48,7 @@ class FiretraceGui(tk.Tk):
 
         self.status = tk.StringVar(value="Starting...")
         ttk.Label(frame, textvariable=self.status).pack(anchor="w", pady=(4, 8))
+        ttk.Label(frame, text="GPT puede abrir varias ventanas aisladas. Cerrar el navegador no detiene este agente.", wraplength=710).pack(anchor="w", pady=(0, 8))
 
         buttons = ttk.Frame(frame)
         buttons.pack(fill="x", pady=(0, 8))

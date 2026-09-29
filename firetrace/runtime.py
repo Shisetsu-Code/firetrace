@@ -3,12 +3,22 @@ from __future__ import annotations
 
 import os
 import subprocess
+from pathlib import Path
 
 CONFIG_NAMES = (
     'CF_CONTROL_URL', 'CF_CONTROL_TOKEN', 'FIRETRACE_CONTROL_URL',
     'FIRETRACE_CONTROL_TOKEN', 'FIRETRACE_AGENT_ID', 'FIRETRACE_CDP_URL',
     'FIRETRACE_BROWSER_BACKEND', 'FIRETRACE_TRANSPORT',
+    'FIRETRACE_MAX_BROWSERS', 'FIRETRACE_PROFILE_DIR',
 )
+
+
+def configure_browser_cache() -> None:
+    # Playwright defaults to a package-local browser path when sys.frozen is
+    # true. Our one-file executable uses the normal Windows installation cache.
+    if os.name == 'nt':
+        root = Path(os.getenv('LOCALAPPDATA', str(Path.home() / 'AppData' / 'Local')))
+        os.environ.setdefault('PLAYWRIGHT_BROWSERS_PATH', str(root / 'ms-playwright'))
 
 
 def load_user_environment() -> None:

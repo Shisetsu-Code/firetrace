@@ -25,3 +25,22 @@ test('upstream errors do not leak credentials or response bodies', async () => {
   const env = {CONTROL_TOKEN:'secret',CONTROL:{fetch:async()=>new Response('secret',{status:401})}};
   await assert.rejects(()=>readState(env), /^Error: Control service returned HTTP 401$/);
 });
+test('browser lifecycle failures give safe actionable instructions',async()=>{
+  const env={CONTROL_TOKEN:'secret',CONTROL:{fetch:async req=>new URL(req.url).pathname==='/api/state'
+    ? Response.json({state:{connected:true,last_seen:Date.now()}})
+    : Response.json({status:'error',error:'ValueError: Browser window closed; use browser_reopen with this browser_id'},{status:502})}};
+  await assert.rejects(()=>runCommand(env,'click',{browser_id:'a'.repeat(32),x:1,y:2}),/browser_reopen/);
+});
+test('a late started event cannot hide an already completed browser command',async()=>{
+  let commands=0;
+  const env={CONTROL_TOKEN:'secret',CONTROL:{fetch:async req=>{
+    const path=new URL(req.url).pathname;
+    if(path==='/api/state') return Response.json({state:{connected:true,last_seen:Date.now()}});
+    if(path==='/api/rpc') { commands++; return Response.json({id:'test-id',status:'running'}); }
+    return Response.json({command:{id:'test-id',agent_id:'firetrace',status:'running',finished_at:123,result:{active_count:2},error:null}});
+  }}};
+  const result=await runCommand(env,'browser_list');
+  assert.equal(result.status,'done');
+  assert.deepEqual(result.result,{active_count:2});
+  assert.equal(commands,1);
+});

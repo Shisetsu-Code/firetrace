@@ -9,7 +9,8 @@ import threading
 from pathlib import Path
 
 from .firecrawl import FirecrawlBackend, FirecrawlClient
-from .local_browser import LocalBrowserBackend
+from .browser_sessions import BrowserSessions
+from .automation import AutomationManager
 from .runtime import quiet_process_options, git_environment
 
 def find_repo_root() -> Path:
@@ -51,9 +52,7 @@ class Worker:
                 )
             )
         else:
-            self.backend = LocalBrowserBackend(
-                os.getenv("FIRETRACE_CDP_URL", "http://127.0.0.1:9222")
-            )
+            self.backend = AutomationManager()
         self.last_id = self._load_last_id()
 
     def _load_last_id(self) -> str | None:
@@ -66,9 +65,23 @@ class Worker:
         STATE.write_text(json.dumps({"last_id": value}), encoding="utf-8")
 
     def execute(self, command: dict) -> dict:
+        if isinstance(self.backend, AutomationManager):
+            data=self.backend.execute(command.get('action'),command.get('args') or {})
+            return {'id':command.get('id'),'ok':True,'action':command.get('action'),'data':data,'ts':time.time()}
         action = command.get("action")
-        args = command.get("args") or {}
-        if action == "status":
+        args = dict(command.get("args") or {})
+        browser_id = args.pop('browser_id', None)
+        if action not in ('status', 'browser_list', 'browser_create', 'browser_close', 'browser_reopen', 'sequence'):
+            self.select_browser(browser_id, allow_create=action == 'open')
+        if action == 'browser_list':
+            data = self.backend.list_browsers()
+        elif action == 'browser_create':
+            data = self.backend.create(**args)
+        elif action == 'browser_close':
+            data = self.backend.close_browser(browser_id)
+        elif action == 'browser_reopen':
+            data = self.backend.reopen(browser_id, **args)
+        elif action == "status":
             data = self.backend.status()
         elif action == "open":
             data = self.backend.open(args["url"])
@@ -100,6 +113,10 @@ class Worker:
                     raise ValueError(f"invalid sequence step {index}")
                 step_action = step.get("action")
                 step_args = step.get("args") or {}
+                step_args = dict(step_args)
+                step_browser_id = step_args.pop('browser_id', browser_id)
+                if step_action != 'status':
+                    self.select_browser(step_browser_id, allow_create=step_action == 'open')
                 if step_action == "click":
                     step_data = self.backend.click(step_args["x"], step_args["y"])
                 elif step_action == "click_relative":
@@ -133,6 +150,12 @@ class Worker:
         else:
             raise ValueError(f"unknown action: {action}")
         return {"id": command.get("id"), "ok": True, "action": action, "data": data, "ts": time.time()}
+
+    def select_browser(self, browser_id=None, *, allow_create=False):
+        if isinstance(self.backend, BrowserSessions):
+            return self.backend.select(browser_id, allow_create=allow_create)
+        if browser_id is not None:
+            raise ValueError('This backend does not support browser_id')
 
     def process_once(self) -> bool:
         git("pull", "--ff-only")

@@ -6,6 +6,7 @@
   "compatibility_date": "2026-09-28",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "workers_dev": true,
+  "assets": {"directory":"./public","binding":"ASSETS","run_worker_first":true},
   "services": [{"binding":"CONTROL","service":"shisetsu-browser-control"}],
   "vars": {"PUBLIC_URL":"https://firetrace-mcp.braian-n-l.workers.dev"},
   "kv_namespaces": [{"binding":"OAUTH_KV","id":"8cbed6bc5f7a4406b88258fed3fbe226"}],
