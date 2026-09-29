@@ -104,15 +104,18 @@ class BrowserSessions(LocalBrowserBackend):
         if self.list_browsers()['active_count'] >= self.max_browsers:
             raise ValueError(f'Browser limit reached ({self.max_browsers}); close a window first')
         headless = record['headless']
+        # Use full Chromium in headless mode too: headless-shell defaults to
+        # SwiftShader. Allow hardware acceleration without bypassing GPU safety checks.
+        launch_options = {'headless': headless, 'channel': 'chromium', 'args': ['--enable-gpu']}
         if record['mode'] == 'persistent':
             self.profile_root.mkdir(parents=True, exist_ok=True)
             path = self.profile_root / record['profile']
             if path.resolve().parent != self.profile_root.resolve() or path.is_symlink():
                 raise ValueError('Invalid profile directory')
-            context = self._pw.chromium.launch_persistent_context(str(path), headless=headless)
+            context = self._pw.chromium.launch_persistent_context(str(path), **launch_options)
             browser = context.browser
         else:
-            browser = self._pw.chromium.launch(headless=headless)
+            browser = self._pw.chromium.launch(**launch_options)
             try:
                 context = browser.new_context()
             except Exception:

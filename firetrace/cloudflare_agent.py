@@ -339,7 +339,7 @@ class CloudflareFiretraceAgent:
                 "type": "hello",
                 "agent_id": self.agent_id,
                 "ts": time.time(),
-                "version": "0.6.0",
+                "version": "0.6.1",
                 "transport": "cloudflare-wss-sync",
                 "backend": self.worker.backend.status().get("backend"),
             })

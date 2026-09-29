@@ -22,7 +22,7 @@ class LocalBrowserBackend:
         try:
             self.browser = self._pw.chromium.connect_over_cdp(cdp_url)
         except Exception:
-            self.browser = self._pw.chromium.launch(headless=os.getenv("FIRETRACE_HEADLESS", "0") == "1")
+            self.browser = self._pw.chromium.launch(headless=os.getenv("FIRETRACE_HEADLESS", "0") == "1", channel="chromium", args=["--enable-gpu"])
             self._owns_browser = True
 
         contexts = self.browser.contexts

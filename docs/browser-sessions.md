@@ -57,3 +57,7 @@ MCP transmite las descripciones en `tools/list` y el flujo de uso en
 Si siguen apareciendo menos de 35 herramientas, no se importó el catálogo nuevo.
 
 [Procedimiento oficial de actualización](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata).
+
+## Aceleración gráfica (agente 0.6.1)
+Las sesiones temporales y persistentes usan Chromium completo y --enable-gpu, también en headless. Chromium conserva sus comprobaciones de compatibilidad: el hardware y el controlador determinan la aceleración disponible. Verificado en Windows con RX 6800 XT: WebGL por Direct3D11 en ambos tipos de sesión. No acelera todo el JavaScript ni elimina el consumo de CPU. Requiere la distribución completa instalada mediante playwright install chromium.
+
