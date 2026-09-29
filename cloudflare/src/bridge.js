@@ -54,7 +54,7 @@ export async function runCommand(env, action, args = {}) {
     throw new Error('Firetrace agent not connected. Start the Firetrace worker on your PC.');
   }
   const response=await (await controlRequest(env, '/api/rpc', {
-    id: crypto.randomUUID(), agent_id: 'firetrace', action, args, wait_ms: 25000,
+    id: crypto.randomUUID(), agent_id: 'firetrace', action, args, wait_ms: 25000, require_online:true,
   })).json();
   if(response.status==='running') {
     const {command}=await readCommand(env,response.id);

@@ -50,6 +50,9 @@ class CloudflareFiretraceAgent:
     def send_state(self, ws, command_id: str | None = None) -> None:
         try:
             state = self.worker.backend.status()
+            fingerprint = json.dumps(state, sort_keys=True, separators=(',', ':'))
+            if fingerprint == getattr(self, '_last_state', None):
+                return
             self.send_json(ws, {
                 "type": "state",
                 "agent_id": self.agent_id,
@@ -57,6 +60,7 @@ class CloudflareFiretraceAgent:
                 "state": state,
                 "ts": time.time(),
             })
+            self._last_state = fingerprint
         except Exception as exc:
             self.send_json(ws, {
                 "type": "event",
@@ -250,20 +254,31 @@ class CloudflareFiretraceAgent:
         self.send_json(ws, payload)
         self.send_state(ws, command_id=command_id)
 
+    def heartbeat(self, ws, *, optimized: bool) -> None:
+        if optimized:
+            ws.send('firetrace:ping')
+        else:
+            self.send_json(ws, {'type':'hello', 'agent_id':self.agent_id,
+                                'ts':time.time(), 'version':'0.4.0',
+                                'transport':'cloudflare-wss-sync'})
+        self.send_state(ws)
+
     def session(self) -> None:
         uri = ws_url(self.base_url, self.agent_id)
         print(f"Connecting Firetrace agent {self.agent_id!r} to {uri}")
 
         with connect(
             uri,
-            additional_headers={"X-Control-Token": self.token},
+            additional_headers={"X-Control-Token": self.token, "X-Firetrace-Protocol": "2"},
             max_size=16 * 1024 * 1024,
             open_timeout=15,
             close_timeout=5,
-            ping_interval=20,
+            ping_interval=30,
             ping_timeout=20,
         ) as ws:
             print("Cloudflare WSS connected.")
+            self._last_state = None
+            optimized = False
             self.send_json(ws, {
                 "type": "hello",
                 "agent_id": self.agent_id,
@@ -283,18 +298,13 @@ class CloudflareFiretraceAgent:
                     raw = None
 
                 now = time.monotonic()
-                if now - last_heartbeat >= 10:
-                    self.send_json(ws, {
-                        "type": "hello",
-                        "agent_id": self.agent_id,
-                        "ts": time.time(),
-                        "version": "0.3.1",
-                        "transport": "cloudflare-wss-sync",
-                    })
-                    self.send_state(ws)
+                if now - last_heartbeat >= 30:
+                    self.heartbeat(ws, optimized=optimized)
                     last_heartbeat = now
 
                 if raw is None or not isinstance(raw, str):
+                    continue
+                if raw == 'firetrace:pong':
                     continue
 
                 try:
@@ -302,6 +312,10 @@ class CloudflareFiretraceAgent:
                 except json.JSONDecodeError:
                     continue
 
+                if msg.get('type') == 'capabilities' and msg.get('heartbeat') == 'hibernation-heartbeat':
+                    optimized = True
+                    print('Cloudflare hibernation heartbeat enabled (30s, state only on change).')
+                    continue
                 if msg.get("type") != "command":
                     continue
 

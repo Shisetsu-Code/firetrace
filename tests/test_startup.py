@@ -75,3 +75,30 @@ def test_connected_wss_loop_does_not_poll_github(monkeypatch):
     monkeypatch.setattr(cloudflare_agent,'connect',lambda *a,**k:Socket())
     agent.session()
     agent.poll_repo_inbox.assert_not_called()
+
+
+def test_unchanged_browser_state_is_not_retransmitted():
+    from firetrace.cloudflare_agent import CloudflareFiretraceAgent
+    agent=CloudflareFiretraceAgent.__new__(CloudflareFiretraceAgent)
+    agent.agent_id='test'
+    agent.worker=Mock()
+    agent.worker.backend.status.return_value={'browsers':[], 'connected':True}
+    agent.send_json=Mock()
+    agent.send_state(Mock())
+    agent.send_state(Mock(),command_id='another')
+    assert agent.send_json.call_count==1
+    agent.worker.backend.status.return_value={'browsers':[{'open':True}], 'connected':True}
+    agent.send_state(Mock())
+    assert agent.send_json.call_count==2
+
+
+def test_optimized_heartbeat_uses_hibernation_ping_not_hello():
+    from firetrace.cloudflare_agent import CloudflareFiretraceAgent
+    agent=CloudflareFiretraceAgent.__new__(CloudflareFiretraceAgent)
+    agent.agent_id='test'
+    agent.send_json=Mock()
+    agent.send_state=Mock()
+    socket=Mock()
+    agent.heartbeat(socket, optimized=True)
+    socket.send.assert_called_once_with('firetrace:ping')
+    agent.send_json.assert_not_called()
