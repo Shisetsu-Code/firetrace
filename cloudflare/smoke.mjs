@@ -46,6 +46,18 @@ const status=await rpc('tools/call',{name:'browser_status',arguments:{}});
 assert.ok(!status.isError,JSON.stringify(status));
 const data=JSON.parse(status.content[0].text);
 console.log('PASS MCP initialize, tools/list and real browser_status; connected='+Boolean(data.state?.connected));
+if(process.env.FIRETRACE_SMOKE_SCREENSHOT==='1') {
+  assert.equal(data.state?.connected,true,'Firetrace must be online for screenshot verification');
+  const shot=await rpc('tools/call',{name:'browser_screenshot',arguments:{quality:40}});
+  assert.ok(!shot.isError,JSON.stringify(shot));
+  const image=shot.content.find(item=>item.type==='image');
+  assert.equal(image?.mimeType,'image/jpeg');
+  const bytes=Buffer.from(image.data,'base64');
+  assert.equal(bytes[0],0xff);
+  assert.equal(bytes[1],0xd8);
+  assert.ok(bytes.length>1000);
+  console.log('PASS live browser screenshot through OAuth/MCP/WSS/R2; JPEG bytes='+bytes.length);
+}
 const refresh=await fetch(meta.token_endpoint,{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({grant_type:'refresh_token',client_id:client.client_id,refresh_token:tokens.refresh_token,resource:base+'/mcp'})});
 assert.equal(refresh.status,200);
 console.log('PASS refresh token');

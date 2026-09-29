@@ -5,8 +5,10 @@ import shutil
 import subprocess
 import sys
 import time
+import threading
 import urllib.request
 from pathlib import Path
+from .runtime import load_user_environment, quiet_process_options
 
 def find_repo_root() -> Path:
     candidates = []
@@ -32,9 +34,7 @@ FIRECRAWL_URL = os.getenv("FIRETRACE_FIRECRAWL_URL", "http://127.0.0.1:3002")
 
 
 def _no_window_kwargs() -> dict:
-    if os.name == "nt":
-        return {"creationflags": subprocess.CREATE_NO_WINDOW}
-    return {}
+    return quiet_process_options()
 
 
 def run(cmd, cwd=None, check=True, **kwargs):
@@ -168,6 +168,7 @@ def ensure_chrome_cdp() -> None:
         ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
+        **quiet_process_options(),
     )
     deadline = time.time() + 20
     while time.time() < deadline:
@@ -216,24 +217,28 @@ def ensure_firecrawl() -> None:
     raise RuntimeError("Firecrawl did not become healthy within 180 seconds")
 
 
-def main() -> int:
+def main(stop_event: threading.Event | None = None) -> int:
     try:
-        run(["git", "pull", "--ff-only"], cwd=ROOT, check=False)
-        ensure_cloudflare_http_bridge()
+        load_user_environment()
+        control_url = os.getenv("FIRETRACE_CONTROL_URL") or os.getenv("CF_CONTROL_URL")
+        control_token = os.getenv("FIRETRACE_CONTROL_TOKEN") or os.getenv("CF_CONTROL_TOKEN")
+        use_github = os.getenv("FIRETRACE_TRANSPORT", "cloudflare").lower() == "github"
+        if not use_github and not (control_url and control_token):
+            raise RuntimeError("Configure CF_CONTROL_URL and CF_CONTROL_TOKEN in your Windows user environment, then restart Firetrace.")
+        if stop_event and stop_event.is_set():
+            return 0
         if os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower() == "firecrawl":
             ensure_firecrawl()
         else:
             ensure_chrome_cdp()
-        control_url = os.getenv("FIRETRACE_CONTROL_URL") or os.getenv("CF_CONTROL_URL")
-        control_token = os.getenv("FIRETRACE_CONTROL_TOKEN") or os.getenv("CF_CONTROL_TOKEN")
-        if control_url and control_token:
+        if not use_github:
             print("Cloudflare WSS transport enabled.")
             from .cloudflare_agent import main as cloudflare_main
-            cloudflare_main()
+            cloudflare_main(stop_event=stop_event)
         else:
-            print("Cloudflare credentials not found; using GitHub polling fallback.")
+            print("Explicit GitHub transport enabled.")
             from .worker import Worker
-            Worker().run()
+            Worker().run(stop_event=stop_event)
         return 0
     except KeyboardInterrupt:
         return 0

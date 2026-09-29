@@ -11,12 +11,16 @@ from . import launcher
 
 
 class QueueWriter:
-    def __init__(self, q: queue.Queue[str]):
+    def __init__(self, q: queue.Queue[str], logfile=None):
         self.q = q
+        self.logfile = logfile
 
     def write(self, text: str) -> int:
         if text:
             self.q.put(text)
+            if self.logfile:
+                self.logfile.write(text)
+                self.logfile.flush()
         return len(text)
 
     def flush(self) -> None:
@@ -32,6 +36,10 @@ class FiretraceGui(tk.Tk):
         self.minsize(650, 420)
         self.log_queue: queue.Queue[str] = queue.Queue()
         self.worker_thread: threading.Thread | None = None
+        self.stop_event = threading.Event()
+        self.closing = False
+        self.restarting = False
+        self.protocol("WM_DELETE_WINDOW", self.close_worker)
 
         frame = ttk.Frame(self, padding=12)
         frame.pack(fill="both", expand=True)
@@ -78,41 +86,74 @@ class FiretraceGui(tk.Tk):
                 if "cloudflare wss transport enabled" in low:
                     self.status.set("Connecting to Cloudflare...")
                 elif "connecting firetrace agent" in low:
+                    self.status.set("Connecting to Cloudflare...")
+                elif "cloudflare wss connected" in low:
                     self.status.set("Cloudflare WSS active")
                 elif "github polling fallback" in low:
                     self.status.set("GitHub fallback active")
                 elif "error:" in low or "disconnected:" in low:
                     self.status.set("Error — see log")
+                elif "worker exited" in low:
+                    self.status.set("Stopped")
         except queue.Empty:
             pass
         self.after(100, self.drain_logs)
 
     def _run_worker(self) -> None:
         old_out, old_err = sys.stdout, sys.stderr
-        writer = QueueWriter(self.log_queue)
+        launcher.RUNTIME.mkdir(parents=True, exist_ok=True)
+        log_path = launcher.RUNTIME / "worker.log"
+        if log_path.exists() and log_path.stat().st_size > 2_000_000:
+            log_path.replace(log_path.with_suffix(".previous.log"))
+        logfile = log_path.open("a", encoding="utf-8", buffering=1)
+        writer = QueueWriter(self.log_queue, logfile)
         sys.stdout = writer
         sys.stderr = writer
         try:
-            code = launcher.main()
+            code = launcher.main(stop_event=self.stop_event)
             self.log_queue.put(f"\nWorker exited with code {code}.\n")
-            self.status.set("Stopped")
         except Exception as exc:
             self.log_queue.put(f"\nFATAL: {type(exc).__name__}: {exc}\n")
-            self.status.set("Error — see log")
         finally:
             sys.stdout, sys.stderr = old_out, old_err
+            logfile.close()
 
     def start_worker(self) -> None:
         if self.worker_thread and self.worker_thread.is_alive():
             return
         self.status.set("Starting...")
+        self.stop_event.clear()
         self.worker_thread = threading.Thread(target=self._run_worker, daemon=True)
         self.worker_thread.start()
 
     def restart_worker(self) -> None:
-        self.log_queue.put("\nRestart requested. Close and reopen the app if the current worker is still active.\n")
-        if not self.worker_thread or not self.worker_thread.is_alive():
+        if self.restarting or self.closing:
+            return
+        self.restarting = True
+        self.status.set("Stopping...")
+        self.stop_event.set()
+        self.after(100, self._finish_restart)
+
+    def _finish_restart(self) -> None:
+        if self.closing:
+            return
+        if self.worker_thread and self.worker_thread.is_alive():
+            self.after(100, self._finish_restart)
+        else:
+            self.restarting = False
             self.start_worker()
+
+    def close_worker(self) -> None:
+        self.closing = True
+        self.stop_event.set()
+        self.status.set("Stopping...")
+        self.after(100, self._finish_close)
+
+    def _finish_close(self) -> None:
+        if self.worker_thread and self.worker_thread.is_alive():
+            self.after(100, self._finish_close)
+        else:
+            self.destroy()
 
     def open_repository(self) -> None:
         import os

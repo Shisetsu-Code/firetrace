@@ -5,10 +5,12 @@ import os
 import subprocess
 import sys
 import time
+import threading
 from pathlib import Path
 
 from .firecrawl import FirecrawlBackend, FirecrawlClient
 from .local_browser import LocalBrowserBackend
+from .runtime import quiet_process_options, git_environment
 
 def find_repo_root() -> Path:
     candidates = []
@@ -34,7 +36,8 @@ STATE = ROOT / ".firetrace-state.json"
 
 
 def git(*args: str, check: bool = False) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", *args], cwd=ROOT, text=True, capture_output=True, check=check)
+    return subprocess.run(["git", *args], cwd=ROOT, text=True, capture_output=True,
+                          check=check, timeout=30, env=git_environment(), **quiet_process_options())
 
 
 class Worker:
@@ -165,12 +168,13 @@ class Worker:
                 git("push", "origin", "main")
         return True
 
-    def run(self) -> None:
+    def run(self, stop_event: threading.Event | None = None) -> None:
+        stop_event = stop_event or threading.Event()
         interval = float(os.getenv("FIRETRACE_POLL_SECONDS", "2"))
         print("Firetrace worker running. Ctrl+C to stop.")
-        while True:
+        while not stop_event.is_set():
             try:
                 self.process_once()
             except Exception as exc:
                 print(f"worker warning: {type(exc).__name__}: {exc}")
-            time.sleep(interval)
+            stop_event.wait(interval)

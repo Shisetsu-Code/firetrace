@@ -24,7 +24,7 @@ Firetrace-Worker.exe
 
 The launcher:
 
-1. updates the repository;
+1. reads the current Windows user configuration, even if Explorer has an older environment;
 2. reuses Chrome CDP on `127.0.0.1:9222` if available;
 3. otherwise starts Chrome with a private Firetrace profile and CDP bound to localhost;
 4. detects the existing Cloudflare control configuration;
@@ -32,7 +32,14 @@ The launcher:
 6. receives commands in real time and sends results/state back through Cloudflare;
 7. sends screenshots as binary frames for storage in the existing R2 bucket.
 
-If Cloudflare credentials are absent, the old GitHub polling queue remains available only as a fallback.
+Missing Cloudflare credentials produce a clear error instead of silently starting
+Git polling. The legacy GitHub transport is available only when explicitly selected
+with `FIRETRACE_TRANSPORT=github`. The WSS transport does not poll the repository.
+
+Opening the desktop worker does not update Git or deploy Cloudflare. Update the
+executable explicitly when installing a new release. Console subprocesses run
+hidden and noninteractively. Diagnostic output is saved to `.runtime/worker.log`.
+The Restart worker button stops the current connection before starting another.
 
 No browser/CDP port is exposed to the Internet.
 

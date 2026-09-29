@@ -5,12 +5,14 @@ import os
 import struct
 import subprocess
 import time
+import threading
 from pathlib import Path
 from urllib.parse import quote
 
 from websockets.sync.client import connect
 
 from .worker import Worker, ROOT, SCREENSHOT
+from .runtime import load_user_environment, quiet_process_options, git_environment
 
 
 def ws_url(base_url: str, agent_id: str) -> str:
@@ -25,7 +27,9 @@ def ws_url(base_url: str, agent_id: str) -> str:
 
 
 class CloudflareFiretraceAgent:
-    def __init__(self) -> None:
+    def __init__(self, stop_event: threading.Event | None = None) -> None:
+        load_user_environment()
+        self.stop_event = stop_event or threading.Event()
         self.base_url = os.getenv("FIRETRACE_CONTROL_URL") or os.getenv("CF_CONTROL_URL")
         self.token = os.getenv("FIRETRACE_CONTROL_TOKEN") or os.getenv("CF_CONTROL_TOKEN")
         if not self.base_url or not self.token:
@@ -90,16 +94,15 @@ class CloudflareFiretraceAgent:
         return aliases.get(action, action)
 
     def _git(self, *args: str) -> subprocess.CompletedProcess:
-        kwargs = {}
-        if os.name == "nt":
-            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
         return subprocess.run(
             ["git", *args],
             cwd=ROOT,
             text=True,
             capture_output=True,
             check=False,
-            **kwargs,
+            timeout=30,
+            env=git_environment(),
+            **quiet_process_options(),
         )
 
     def _publish_repo_result(self, command: dict, result: dict, screenshot: bytes | None = None) -> None:
@@ -258,6 +261,7 @@ class CloudflareFiretraceAgent:
             ping_interval=20,
             ping_timeout=20,
         ) as ws:
+            print("Cloudflare WSS connected.")
             self.send_json(ws, {
                 "type": "hello",
                 "agent_id": self.agent_id,
@@ -269,19 +273,14 @@ class CloudflareFiretraceAgent:
             self.send_state(ws)
 
             last_heartbeat = time.monotonic()
-            last_inbox_poll = 0.0
 
-            while True:
+            while not self.stop_event.is_set():
                 try:
                     raw = ws.recv(timeout=1.0)
                 except TimeoutError:
                     raw = None
 
                 now = time.monotonic()
-                if now - last_inbox_poll >= 2:
-                    self.poll_repo_inbox()
-                    last_inbox_poll = now
-
                 if now - last_heartbeat >= 10:
                     self.send_json(ws, {
                         "type": "hello",
@@ -310,7 +309,7 @@ class CloudflareFiretraceAgent:
 
     def run_forever(self) -> None:
         delay = 1.0
-        while True:
+        while not self.stop_event.is_set():
             try:
                 self.session()
                 delay = 1.0
@@ -319,12 +318,18 @@ class CloudflareFiretraceAgent:
             except Exception as exc:
                 print(f"WSS disconnected: {type(exc).__name__}: {exc}")
                 print(f"Reconnecting in {delay:.1f}s...")
-                time.sleep(delay)
+                self.stop_event.wait(delay)
                 delay = min(delay * 1.7, 15.0)
 
 
-def main() -> None:
-    CloudflareFiretraceAgent().run_forever()
+def main(stop_event: threading.Event | None = None) -> None:
+    agent = CloudflareFiretraceAgent(stop_event=stop_event)
+    try:
+        agent.run_forever()
+    finally:
+        close = getattr(agent.worker.backend, "close", None)
+        if close:
+            close()
 
 
 if __name__ == "__main__":

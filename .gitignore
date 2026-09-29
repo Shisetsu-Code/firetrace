@@ -7,3 +7,5 @@ __pycache__/
 dist/
 build/
 *.spec
+*.egg-info/
+.cloudflare-http-bridge
