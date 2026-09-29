@@ -68,3 +68,21 @@ def test_capture_filters_and_body_limits():
     assert manager.get_response_body(key)['body_status']=='too_large'
     manager.stop(); clock[0]=901
     with pytest.raises(ValueError,match='expired'): manager.get_response_body(key)
+
+
+def test_response_headers_are_charged_to_capture_budget():
+    from firetrace.network_capture import CaptureManager,MAX_BODY
+    class Context:
+        def on(self,*a): pass
+        def remove_listener(self,*a): pass
+    class Request:
+        url='https://demo.test/api'; method='GET'; resource_type='fetch'; headers={}; post_data=None
+        def response(self):
+            class Response:
+                status=200; headers={'content-type':'application/json','content-length':'2','x-large':'x'*100000}
+                def body(self): return b'{}'
+            return Response()
+    manager=CaptureManager(Context(),'a'); manager.start()
+    req=Request();manager._request(req); before=manager.bytes;manager._finished(req)
+    assert manager.bytes>before+100000
+    assert manager.bytes<=20*MAX_BODY

@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 3.11+, Playwright síncrono, websockets, TypeScript/JavaScript MCP SDK, Workers, Durable Objects, D1 y R2 existentes.
 
-**Spec:** [Diseño aprobado](Firetrace-pruebas-paralelas-diseno.md).
+**Spec:** [Diseño aprobado](../specs/2026-09-29-parallel-testing.md).
 
 ## Global Constraints
 

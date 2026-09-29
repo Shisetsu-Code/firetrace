@@ -15,7 +15,7 @@ from .redact import sanitize, safe_url
 
 class SessionRuntime:
     def __init__(self,browser_id,options,profile_root):
-        self.id=browser_id; self.progress=[]
+        self.id=browser_id; self.progress=[]; self.archives=[]; self.progress_callback=lambda value:None
         self.backend=BrowserSessions(profile_root=profile_root,max_browsers=1)
         try:
             self.local_id=self.backend.create(**options)['browser_id']; self.backend.select(self.local_id)
@@ -24,21 +24,45 @@ class SessionRuntime:
             self.backend.close(); raise
 
     def _bind(self):
+        if hasattr(self,'capture'):
+            self.capture.close(); self.archives.append(self.capture)
         self.capture=CaptureManager(self.backend.context,self.id)
         self.dom=DomInspector(self.backend.page)
         self.replay=RequestReplay(self.backend.page,self.capture)
+        self._prune_archives()
+
+    def _prune_archives(self):
+        for store in self.archives: store._purge()
+        while self.archives and (len(self.archives)>4 or sum(s.bytes for s in [self.capture,*self.archives])>20*1024*1024):
+            self.archives.pop(0)
+
+    def evidence_body(self,request_id):
+        self._prune_archives()
+        for store in [self.capture,*reversed(self.archives)]:
+            try: return store.get_response_body(request_id)
+            except ValueError: pass
+        raise ValueError('request_missing_or_expired')
+
+    def evidence_events(self,capture_id=None):
+        self._prune_archives()
+        return {'events':[event for store in [*self.archives,self.capture] for event in store.events(capture_id)['events']]}
 
     def status(self):
         record=self.backend.list_browsers()['browsers'][0]
         return {**record,'browser_id':self.id,'urls':[safe_url(url) for url in record['urls']]}
 
     def poll(self):
+        self._prune_archives()
         if self.capture.active_id:
             try: self.backend.page.wait_for_timeout(5)
             except Exception:
                 self.capture.stop(self.capture.active_id)
 
     def execute(self,action,args):
+        if action=='artifact_get': return self.artifacts.get(args['artifact_id'])
+        if action=='network_events': return self.evidence_events(args.get('capture_id'))
+        if action=='network_get_response_body': return self.evidence_body(args['request_id'])
+        if action=='validate_response': return self.perform(action,args)
         if action=='browser_close':
             self.capture.close(); self.dom.clear()
             self.backend.close_browser(self.local_id)
@@ -84,6 +108,18 @@ class SessionRuntime:
         if action=='artifact_get': return self.artifacts.get(args['artifact_id'])
         if action=='capture_start': return self.capture.start(args.get('filters'))
         if action=='capture_stop': return self.capture.stop(args.get('capture_id'))
+        if action=='capture_read':
+            request_id=args.get('request_id')
+            if request_id is None:
+                capture_id=args.get('capture_id') or self.capture.active_id
+                events=self.capture.events(capture_id)['events']
+                if not events: return {'state':'unknown','note':'No matching request captured'}
+                request_id=events[-1]['request_id']
+            result=self.evidence_body(request_id)
+            if result['body'] is not None:
+                try: result['body']=json.loads(result['body'])
+                except ValueError: pass
+            return result
         if action=='network_capture_window':
             operation=args.get('operation')
             if operation=='start': return self.capture.start(args.get('filters'))
@@ -95,6 +131,7 @@ class SessionRuntime:
         if action=='network_clear':
             if self.capture.active_id: raise ValueError('Stop active capture before clearing')
             self.capture.records.clear(); self.capture.pending.clear(); self.capture.bytes=0
+            self.archives.clear()
             return {'cleared':True}
         if action=='network_get_response_body': return self.capture.get_response_body(args['request_id'])
         if action=='trigger_and_capture':
@@ -118,7 +155,7 @@ class SessionRuntime:
         if action=='request_replay': return self.replay.replay(args['request_id'])
         if action=='request_replay_from_template': return self.replay.replay(args['request_id'],args['template'])
         if action=='validate_response':
-            item=self.capture.get_response_body(args['request_id'])
+            item=self.evidence_body(args['request_id'])
             body=item['body']
             try: body=json.loads(body) if body is not None else None
             except ValueError: pass

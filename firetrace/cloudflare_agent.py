@@ -158,9 +158,13 @@ class CloudflareFiretraceAgent:
         screenshot = None
         try:
             if action == "screenshot":
-                self.worker.select_browser(args.get('browser_id'))
                 quality = max(20, min(int(args.get("quality", 65)), 90))
-                screenshot = self.worker.backend.screenshot(quality)
+                from .automation import AutomationManager
+                if isinstance(self.worker.backend,AutomationManager):
+                    screenshot=self.worker.backend.raw_screenshot({**args,'quality':quality})
+                else:
+                    self.worker.select_browser(args.get('browser_id'))
+                    screenshot = self.worker.backend.screenshot(quality)
                 data = {"bytes": len(screenshot), "quality": quality}
             else:
                 envelope = self.worker.execute({

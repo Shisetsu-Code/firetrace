@@ -2,6 +2,7 @@
 import {readFile} from 'node:fs/promises';
 import {randomBytes,createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
+import {createServer} from 'node:http';
 const base=process.env.MCP_URL||'https://firetrace-mcp.braian-n-l.workers.dev';
 const {MCP_PASSWORD}=JSON.parse(await readFile(new URL('./secrets.json',import.meta.url),'utf8'));
 const request=async(path,options={})=>fetch(base+path,{...options,redirect:'manual'});
@@ -45,7 +46,7 @@ assert.equal(initialization.serverInfo.name,'firetrace');
 assert.match(initialization.instructions,/browser_create/);
 assert.match(initialization.instructions,/headless/);
 const advertised=(await rpc('tools/list',{})).tools;
-assert.equal(advertised.length,14);
+assert.equal(advertised.length,35);
 assert.equal(advertised.find(t=>t.name==='browser_create').inputSchema.properties.headless.type,'boolean');
 for(const name of ['browser_create','browser_list','browser_close','browser_reopen']) assert.ok(advertised.some(t=>t.name===name));
 console.log('PASS server '+initialization.serverInfo.version+' instructions and tool catalog: '+advertised.map(t=>t.name).join(', '));
@@ -81,6 +82,59 @@ if(process.env.FIRETRACE_SMOKE_SESSIONS==='1') {
     console.log('PASS two isolated headless browsers, targeted close, other browser alive, reopen through OAuth/MCP/WSS');
   } finally {
     for(const browser_id of created) await call('browser_close',{browser_id});
+  }
+}
+if(process.env.FIRETRACE_SMOKE_AUTOMATION==='1') {
+  const server=createServer((req,res)=>{
+    const api=req.url==='/api/demo';
+    const body=api?JSON.stringify({ok:true,terminal:true,mode:'demo'}):'<button onclick="fetch(\'/api/demo\',{method:\'POST\'}).then(r=>r.json()).then(()=>document.title=\'done\')">Demo</button>';
+    res.writeHead(200,{'content-type':api?'application/json':'text/html','content-length':Buffer.byteLength(body)}); res.end(body);
+  });
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const url=`http://127.0.0.1:${server.address().port}/`;
+  const created=[];
+  const call=async(name,args={})=>{
+    const response=await rpc('tools/call',{name,arguments:args});
+    assert.ok(!response.isError,JSON.stringify(response));
+    const envelope=JSON.parse(response.content[0].text);
+    assert.equal(envelope.status,'done',JSON.stringify(envelope));
+    return envelope.result;
+  };
+  try {
+    const branches=[];
+    for(let i=0;i<2;i++) {
+      const {browser_id}=await call('browser_create',{mode:'temporary',headless:true}); created.push(browser_id);
+      await call('browser_open',{browser_id,url});
+      const snap=await call('dom_snapshot',{browser_id});
+      const button=snap.elements.find(e=>e.text==='Demo'); assert.ok(button,JSON.stringify(snap));
+      branches.push({browser_id,label:`demo_${i}`,steps:[
+        {action:'capture_start',args:{filters:{path:['/api/demo']}}},
+        {action:'click_element',args:{snapshot_id:snap.snapshot_id,element_id:button.element_id}},
+        {action:'wait',args:{ms:500}}, {action:'capture_read'}, {action:'screenshot'}, {action:'capture_stop'}]});
+    }
+    const submitted=await call('parallel_branches',{branches});
+    let job;
+    for(let i=0;i<30;i++) {
+      job=await call('command_result',{id:submitted.job_id});
+      if(!['queued','running'].includes(job.status)) break;
+      await new Promise(resolve=>setTimeout(resolve,1000));
+    }
+    assert.equal(job.status,'done',JSON.stringify(job)); assert.equal(job.coverage.completed,2,JSON.stringify(job));
+    for(const browser_id of created) {
+      const events=await call('network_events',{browser_id});
+      assert.ok(events.events.length); const request_id=events.events[0].request_id;
+      const body=await call('network_get_response_body',{browser_id,request_id});
+      assert.equal(JSON.parse(body.body).terminal,true);
+      assert.equal((await call('validate_response',{browser_id,request_id,checks:[{path:'body.ok',op:'equals',value:true}]})).valid,true);
+      await call('browser_close',{browser_id});
+      assert.equal((await call('network_get_response_body',{browser_id,request_id})).body,body.body);
+    }
+    const exported=await rpc('tools/call',{name:'history_export',arguments:{job_id:submitted.job_id,format:'json'}});
+    assert.ok(!exported.isError); assert.match(exported.content[0].text,/demo_0/);
+    console.log('PASS real parallel demo branches, DOM clicks, capture/read/validation, evidence after close and history export');
+  } finally {
+    for(const browser_id of created) await call('browser_close',{browser_id});
+    await new Promise(resolve=>server.close(resolve));
   }
 }
 if(process.env.FIRETRACE_SMOKE_SCREENSHOT==='1') {

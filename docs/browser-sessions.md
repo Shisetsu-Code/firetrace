@@ -35,10 +35,10 @@ detiene el agente y sus ventanas; cerrar solamente una ventana del navegador dej
 el agente disponible. Los perfiles persistentes permanecen en el equipo, fuera
 del repositorio. El aislamiento separa datos del navegador; comparten usuario del
 sistema operativo y conexión de red. Las páginas funcionan simultáneamente; las
-órdenes MCP se ejecutan en serie para mantener su orden.
+órdenes mantienen su orden dentro de cada sesión; parallel_branches ejecuta sesiones distintas en paralelo.
 
 Tras actualizar el Worker remoto, actualizar la lista de herramientas de la
-conexión de ChatGPT. El servidor ahora publica 14 herramientas.
+conexión de ChatGPT. El servidor ahora publica 35 herramientas.
 
 ## Si GPT no encuentra las herramientas nuevas
 
@@ -54,6 +54,6 @@ para abrir dos ventanas temporales independientes».
 La guía del repositorio no actualiza el catálogo de una conexión ya creada. El
 MCP transmite las descripciones en `tools/list` y el flujo de uso en
 `initialize.instructions`; la actualización de la conexión importa esos cambios.
-Si siguen apareciendo solo 10 herramientas, no se importó el catálogo nuevo.
+Si siguen apareciendo menos de 35 herramientas, no se importó el catálogo nuevo.
 
 [Procedimiento oficial de actualización](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata).

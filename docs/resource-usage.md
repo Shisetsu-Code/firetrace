@@ -96,3 +96,6 @@ servidor y el ejecutable para descubrir estos parámetros.
 - [Workers: WebSockets y Service Bindings](https://developers.cloudflare.com/workers/platform/pricing/)
 - [Durable Objects: mensajes, duración e hibernación](https://developers.cloudflare.com/durable-objects/platform/pricing/)
 - [Auto-respuesta sin despertar el objeto](https://developers.cloudflare.com/durable-objects/api/state/#setwebsocketautoresponse)
+
+Automatización 2.0: los jobs y el progreso viven en memoria del agente. Consultarlos usa RPC bajo demanda; no hay escrituras periódicas de progreso en D1 ni un WebSocket por navegador. El resultado final requiere confirmación y puede reenviarse sin repetir acciones. Reiniciar el agente pierde jobs/evidencia local.
+

@@ -15,6 +15,9 @@ def expand_matrix(nodes,timeout_ms):
         table[node['label']]=clean
     parents={n.get('parent') for n in nodes if n.get('parent')}
     if not parents.issubset(table): raise ValueError('Unknown matrix parent')
+    for node in table.values():
+        if not node.get('parent') and (not node.get('setup_steps') or not node.get('precondition')):
+            raise ValueError('Every matrix root requires setup_steps and precondition to establish a reproducible start')
     paths={}
     for label in table:
         path=[]; current=label

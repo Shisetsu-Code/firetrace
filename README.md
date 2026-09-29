@@ -64,7 +64,7 @@ The server implementation, tests and deployment instructions are in
 Keep the local agent running. The new MCP URL is only for ChatGPT; the local
 agent continues using the existing `CF_CONTROL_URL` control-plane address.
 
-Firetrace now exposes **14 MCP tools**, including `browser_create`, `browser_list`,
+Firetrace now exposes **35 MCP tools**, including `browser_create`, `browser_list`,
 `browser_close` and `browser_reopen`. GPT can keep several isolated windows open,
 choose temporary or persistent sessions, and route actions by `browser_id`.
 Set `headless: true` on `browser_create` to run without a window, or `false` for
@@ -74,7 +74,7 @@ support headless. See [connection recovery and billing](docs/resource-usage.md).
 See the [window and profile guide](docs/browser-sessions.md).
 
 After updating the MCP server, open the Firetrace connection in ChatGPT Plugins,
-select **Refresh**, verify all 14 tools, and start a new chat with Firetrace selected.
+select **Refresh**, verify all 35 tools, and start a new chat with Firetrace selected.
 Repository documentation alone does not update a previously imported tool catalog.
 
 Firetrace automatically uses the same persisted control-plane variables created for the existing MCP launcher:
@@ -160,3 +160,5 @@ GitHub Actions runs unit tests and compilation checks on every push. A separate 
 ## Safety
 
 Use Firetrace only on systems and sites you are authorized to test.
+
+See [parallel demo automation and evidence](docs/automation.md) for sequences, branches, capture windows, DOM inspection and bounded replay.

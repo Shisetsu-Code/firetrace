@@ -106,6 +106,11 @@ class CaptureManager:
             response=request.response()
             if response is None: record.update(state='failed',body_status='unavailable'); return
             headers=response.headers
+            metadata_size=len(json.dumps(headers,ensure_ascii=False).encode())+64
+            if metadata_size>MAX_BODY or self.bytes+metadata_size>20*MAX_BODY:
+                record.update(state='finished',status=response.status,body_status='budget_exhausted',metadata_omitted=True)
+                return
+            self.bytes+=metadata_size; record['_size']+=metadata_size
             record.update(state='finished',status=response.status,responseHeaders=headers,content_type=headers.get('content-type',''))
             filters=self.captures.get(record['capture_id'],{}).get('filters',{})
             if not self._matches(record,filters,True):
@@ -155,5 +160,6 @@ class CaptureManager:
                 'content_type':record['content_type'],'body':safe_body(record['responseBody'],record['content_type'])}
 
     def close(self):
+        if self.active_id: self.stop(self.active_id)
         for event,handler in self.handlers.items(): self.context.remove_listener(event,handler)
         self.pending.clear()

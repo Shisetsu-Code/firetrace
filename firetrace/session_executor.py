@@ -11,6 +11,7 @@ class SessionExecutor:
         self._queue = Queue(maxsize=8)
         self._lock = threading.Lock()
         self._snapshot = {}
+        self._progress = {}
         self._closed = False
         self._ready = Future()
         self._thread = threading.Thread(target=self._run, args=(factory,), daemon=True)
@@ -21,6 +22,7 @@ class SessionExecutor:
         runtime = None
         try:
             runtime = factory()
+            runtime.progress_callback=self._set_progress
             self._update(runtime)
             self._ready.set_result(True)
             last_update=time.monotonic()
@@ -74,6 +76,12 @@ class SessionExecutor:
 
     def snapshot(self) -> dict:
         with self._lock: return deepcopy(self._snapshot)
+
+    def _set_progress(self,value):
+        with self._lock: self._progress=dict(value)
+
+    def progress(self):
+        with self._lock: return dict(self._progress)
 
     def close(self):
         with self._lock: self._closed = True

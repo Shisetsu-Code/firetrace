@@ -27,7 +27,7 @@ not the new MCP URL. Browser processes run locally; personal Chrome is not attac
 
 ## Tools
 
-The server advertises **14 tools** through `tools/list`, and sends a workflow
+The server advertises **35 tools** through `tools/list`, and sends a workflow
 guide in the MCP `initialize.instructions` field. ChatGPT receives these protocol
 descriptions; it does not automatically read this repository's Markdown files.
 
@@ -119,3 +119,5 @@ now advertises OAuth discovery. It is not the old control-token-only rejection.
 References: [OpenAI connection guide](https://developers.openai.com/plugins/deploy/connect-chatgpt),
 [OpenAI authentication](https://developers.openai.com/plugins/build/auth),
 [Cloudflare OAuth provider](https://github.com/cloudflare/workers-oauth-provider).
+
+For the complete automation catalog and examples, see [Firetrace automation](../docs/automation.md).

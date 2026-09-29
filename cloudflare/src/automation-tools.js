@@ -13,6 +13,7 @@ const step=z.discriminatedUnion('action',[
  z.object({action:z.literal('screenshot'),args:z.object({quality:z.number().int().min(20).max(90).optional()}).strict().optional()}),
  z.object({action:z.literal('capture_start'),args:z.object({filters:filters.optional()}).strict().optional()}),
  z.object({action:z.literal('capture_stop'),args:z.object({capture_id:id.optional()}).strict().optional()}),
+ z.object({action:z.literal('capture_read'),args:z.object({capture_id:id.optional(),request_id:id.optional()}).strict().optional()}),
  z.object({action:z.literal('checkpoint'),args:z.object({label:z.string().min(1).max(120)}).strict()}),
  z.object({action:z.literal('dom_snapshot'),args:z.object({}).strict().optional()}),
  z.object({action:z.literal('inspect'),args:z.object({query:z.enum(['document','frames','storage_names'])}).strict()}),

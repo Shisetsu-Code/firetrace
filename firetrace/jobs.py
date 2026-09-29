@@ -106,7 +106,9 @@ class JobManager:
         with self.lock:
             self._purge()
             if key not in self.items: raise ValueError('job_missing_expired_or_agent_restarted; do not repeat uncertain actions')
-            return deepcopy({k:v for k,v in self.items[key].items() if not k.startswith('_')})
+            result=deepcopy({k:v for k,v in self.items[key].items() if not k.startswith('_')})
+            result['progress']={key:self.manager.sessions[key].progress() for key in self.items[key]['_browser_ids'] if key in self.manager.sessions}
+            return result
 
     def cancel(self,key):
         with self.lock:
