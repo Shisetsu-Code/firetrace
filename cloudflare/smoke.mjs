@@ -40,8 +40,13 @@ const rpc=async(method,params)=>{
   assert.equal(res.status,200);
   const data=await res.json(); assert.ok(!data.error); return data.result;
 };
-assert.equal((await rpc('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'smoke',version:'1'}})).serverInfo.name,'firetrace');
-assert.equal((await rpc('tools/list',{})).tools.length,14);
+const initialization=await rpc('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'smoke',version:'1'}});
+assert.equal(initialization.serverInfo.name,'firetrace');
+assert.match(initialization.instructions,/browser_create/);
+const advertised=(await rpc('tools/list',{})).tools;
+assert.equal(advertised.length,14);
+for(const name of ['browser_create','browser_list','browser_close','browser_reopen']) assert.ok(advertised.some(t=>t.name===name));
+console.log('PASS server '+initialization.serverInfo.version+' instructions and tool catalog: '+advertised.map(t=>t.name).join(', '));
 const status=await rpc('tools/call',{name:'browser_status',arguments:{}});
 assert.ok(!status.isError,JSON.stringify(status));
 const data=JSON.parse(status.content[0].text);

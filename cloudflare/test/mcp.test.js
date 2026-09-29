@@ -6,6 +6,9 @@ const request=(method,params={},id=1)=>new Request('https://example.com/mcp',{me
 test('MCP initializes and advertises browser tools with truthful annotations',async()=>{
   const init=await (await handleMcp(request('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'test',version:'1'}}),{})).json();
   assert.equal(init.result.serverInfo.name,'firetrace');
+  assert.match(init.result.instructions,/browser_create/);
+  assert.match(init.result.instructions,/browser_id/);
+  assert.match(init.result.instructions,/persistent/);
   const result=await (await handleMcp(request('tools/list'),{})).json();
   assert.equal(result.result.tools.length,14);
   for (const name of ['browser_create','browser_list','browser_close','browser_reopen']) {

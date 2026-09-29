@@ -39,3 +39,21 @@ sistema operativo y conexión de red. Las páginas funcionan simultáneamente; l
 
 Tras actualizar el Worker remoto, actualizar la lista de herramientas de la
 conexión de ChatGPT. El servidor ahora publica 14 herramientas.
+
+## Si GPT no encuentra las herramientas nuevas
+
+Abrir Firetrace en [ChatGPT Plugins](https://chatgpt.com/plugins), pulsar
+**Refresh / Actualizar** y comprobar que aparecen `browser_create`, `browser_list`,
+`browser_close` y `browser_reopen`, habilitadas. Después iniciar un chat nuevo y
+seleccionar Firetrace. La dirección debe ser
+`https://firetrace-mcp.braian-n-l.workers.dev/mcp`.
+
+Prueba sugerida: «Usá Firetrace: primero browser_list y después browser_create
+para abrir dos ventanas temporales independientes».
+
+La guía del repositorio no actualiza el catálogo de una conexión ya creada. El
+MCP transmite las descripciones en `tools/list` y el flujo de uso en
+`initialize.instructions`; la actualización de la conexión importa esos cambios.
+Si siguen apareciendo solo 10 herramientas, no se importó el catálogo nuevo.
+
+[Procedimiento oficial de actualización](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata).
