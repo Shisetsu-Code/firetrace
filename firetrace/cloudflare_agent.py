@@ -8,6 +8,7 @@ import time
 import threading
 import random
 from datetime import datetime, timezone
+from collections import OrderedDict
 from pathlib import Path
 from urllib.parse import quote
 
@@ -82,9 +83,13 @@ class CloudflareFiretraceAgent:
             })
 
     def send_screenshot(self, ws, command_id: str, args: dict) -> dict:
-        self.worker.select_browser(args.get('browser_id'))
         quality = max(20, min(int(args.get("quality", 65)), 90))
-        jpg = self.worker.backend.screenshot(quality)
+        from .automation import AutomationManager
+        if isinstance(self.worker.backend,AutomationManager):
+            jpg=self.worker.backend.raw_screenshot({**args,'quality':quality})
+        else:
+            self.worker.select_browser(args.get('browser_id'))
+            jpg = self.worker.backend.screenshot(quality)
 
         header = json.dumps({
             "type": "screenshot",
@@ -221,6 +226,13 @@ class CloudflareFiretraceAgent:
 
     def handle_command(self, ws, command: dict) -> None:
         command_id = str(command.get("id", ""))
+        if not hasattr(self,'_pending_results'):
+            self._pending_results=OrderedDict(); self._seen_commands=OrderedDict()
+        if command_id in self._pending_results:
+            ws.send(self._pending_results[command_id]); return
+        if command_id in self._seen_commands: return
+        if sum(len(v.encode()) for v in self._pending_results.values())>18*1024*1024:
+            raise RuntimeError('Result delivery backlog full; reconnect before accepting work')
         raw_action = str(command.get("action", ""))
         action = self.normalize_action(raw_action)
         args = command.get("args") or {}
@@ -264,8 +276,23 @@ class CloudflareFiretraceAgent:
                 "finished_at": time.time(),
             }
 
-        self.send_json(ws, payload)
+        serialized=json.dumps(payload,ensure_ascii=False,separators=(',',':'))
+        if len(serialized.encode())>1500000:
+            payload={"type":"result","id":command_id,"action":raw_action,"ok":False,
+                     "error":"result_too_large; action may have occurred; inspect state before retrying",
+                     "started_at":started,"finished_at":time.time()}
+            serialized=json.dumps(payload)
+        self._pending_results[command_id]=serialized
+        self._seen_commands[command_id]=time.monotonic()
+        while len(self._seen_commands)>2048: self._seen_commands.popitem(last=False)
+        ws.send(serialized)
         self.send_state(ws, command_id=command_id)
+
+    def ack_result(self,command_id):
+        getattr(self,'_pending_results',{}).pop(command_id,None)
+
+    def replay_results(self,ws):
+        for payload in list(getattr(self,'_pending_results',{}).values()): ws.send(payload)
 
     def heartbeat(self, ws, *, optimized: bool) -> None:
         if optimized:
@@ -308,11 +335,12 @@ class CloudflareFiretraceAgent:
                 "type": "hello",
                 "agent_id": self.agent_id,
                 "ts": time.time(),
-                "version": "0.5.0",
+                "version": "0.6.0",
                 "transport": "cloudflare-wss-sync",
                 "backend": self.worker.backend.status().get("backend"),
             })
             self.send_state(ws)
+            self.replay_results(ws)
 
             done = threading.Event()
             keepalive = threading.Thread(target=self._keepalive, args=(ws, done, optimized), daemon=True)
@@ -346,6 +374,10 @@ class CloudflareFiretraceAgent:
                 msg = json.loads(raw)
             except json.JSONDecodeError:
                 continue
+
+            if not isinstance(msg,dict): continue
+            if msg.get('type')=='result_ack':
+                self.ack_result(str(msg.get('id',''))); continue
 
             if msg.get('type') == 'capabilities' and msg.get('heartbeat') == 'hibernation-heartbeat':
                 optimized.set()

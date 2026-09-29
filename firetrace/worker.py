@@ -10,6 +10,7 @@ from pathlib import Path
 
 from .firecrawl import FirecrawlBackend, FirecrawlClient
 from .browser_sessions import BrowserSessions
+from .automation import AutomationManager
 from .runtime import quiet_process_options, git_environment
 
 def find_repo_root() -> Path:
@@ -51,7 +52,7 @@ class Worker:
                 )
             )
         else:
-            self.backend = BrowserSessions()
+            self.backend = AutomationManager()
         self.last_id = self._load_last_id()
 
     def _load_last_id(self) -> str | None:
@@ -64,6 +65,9 @@ class Worker:
         STATE.write_text(json.dumps({"last_id": value}), encoding="utf-8")
 
     def execute(self, command: dict) -> dict:
+        if isinstance(self.backend, AutomationManager):
+            data=self.backend.execute(command.get('action'),command.get('args') or {})
+            return {'id':command.get('id'),'ok':True,'action':command.get('action'),'data':data,'ts':time.time()}
         action = command.get("action")
         args = dict(command.get("args") or {})
         browser_id = args.pop('browser_id', None)

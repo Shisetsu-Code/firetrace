@@ -3,6 +3,7 @@ from concurrent.futures import Future
 from copy import deepcopy
 from queue import Queue, Empty, Full
 import threading
+import time
 
 
 class SessionExecutor:
@@ -22,6 +23,7 @@ class SessionExecutor:
             runtime = factory()
             self._update(runtime)
             self._ready.set_result(True)
+            last_update=time.monotonic()
             while True:
                 try: item = self._queue.get(timeout=0.05)
                 except Empty:
@@ -32,14 +34,19 @@ class SessionExecutor:
                     if poll:
                         try: poll()
                         except Exception: pass
-                    self._update(runtime)
+                    if time.monotonic()-last_update>=1:
+                        self._update(runtime); last_update=time.monotonic()
                     continue
                 if item is None: break
                 action, args, future = item
                 if future.set_running_or_notify_cancel():
-                    try: future.set_result(runtime.execute(action, args))
-                    except Exception as exc: future.set_exception(exc)
-                self._update(runtime)
+                    try:
+                        result=runtime.execute(action, args)
+                        self._update(runtime)
+                        future.set_result(result)
+                    except Exception as exc:
+                        self._update(runtime)
+                        future.set_exception(exc)
         except BaseException as exc:
             if not self._ready.done(): self._ready.set_exception(exc)
         finally:

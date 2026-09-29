@@ -11,7 +11,7 @@ test('MCP initializes and advertises browser tools with truthful annotations',as
   assert.match(init.result.instructions,/persistent/);
   assert.match(init.result.instructions,/headless/);
   const result=await (await handleMcp(request('tools/list'),{})).json();
-  assert.equal(result.result.tools.length,14);
+  assert.equal(result.result.tools.length,35);
   assert.equal(result.result.tools.find(t=>t.name==='browser_create').inputSchema.properties.headless.type,'boolean');
   for (const name of ['browser_create','browser_list','browser_close','browser_reopen']) {
     assert.ok(result.result.tools.find(t=>t.name===name));

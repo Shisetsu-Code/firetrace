@@ -48,11 +48,12 @@ export async function readCommand(env,id) {
   return data;
 }
 
-export async function runCommand(env, action, args = {}) {
+export async function runCommand(env, action, args = {}, requireCapability = false) {
   const {state} = await readState(env);
   if (!state?.connected || !Number.isFinite(state.last_seen) || Date.now() - state.last_seen > 60000) {
     throw new Error('Firetrace agent not connected. Start the Firetrace worker on your PC.');
   }
+  if(requireCapability && !state.meta?.state?.capabilities?.includes(action)) throw new Error('Update the local Firetrace agent to use '+action+'.');
   const response=await (await controlRequest(env, '/api/rpc', {
     id: crypto.randomUUID(), agent_id: 'firetrace', action, args, wait_ms: 25000, require_online:true,
   })).json();
