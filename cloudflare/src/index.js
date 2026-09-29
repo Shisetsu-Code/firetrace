@@ -21,7 +21,9 @@ const defaultHandler={async fetch(request,env) {
       const consent=await oauth.beginConsent(auth);
       consent.headers.set('content-type','text/html; charset=utf-8');
       consent.headers.set('cache-control','no-store');
-      consent.headers.set('referrer-policy','no-referrer');
+      // Form navigations need their real Origin for the POST CSRF check.
+      // no-referrer makes browsers send Origin:null even to this same site.
+      consent.headers.set('referrer-policy','same-origin');
       return new Response(`<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Conectar Firetrace</title><h1>Conectar Firetrace</h1><p>Aplicación: <strong>${escape(details.clientName)}</strong></p><p>Destino de autorización: ${escape(details.redirectHost)}</p><p>${details.clientDomain ? 'Dominio: '+escape(details.clientDomain) : 'El nombre de esta aplicación no está verificado.'}</p><p>Permite ver y controlar el navegador Firetrace, obtener capturas y leer tráfico de red. Los clics pueden enviar formularios o iniciar transacciones.</p><p>Permisos solicitados: ${escape(details.scope.join(', '))}</p><form method="post" action="/authorize"><input type="hidden" name="handle" value="${escape(consent.handle)}"><label>Clave de conexión Firetrace <input name="password" type="password" autocomplete="current-password" required></label><p><button name="decision" value="approve">Autorizar</button> <button name="decision" value="deny" formnovalidate>Cancelar</button></p></form></html>`,{headers:consent.headers});
     }
     if(request.method==='POST') {
