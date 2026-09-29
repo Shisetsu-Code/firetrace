@@ -1,7 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { z } from 'zod';
-import { runCommand, readState, controlRequest, screenshotForCommand } from './bridge.js';
+import { runCommand, readState, readCommand, screenshotForCommand } from './bridge.js';
 
 const text = value => ({content:[{type:'text',text:JSON.stringify(value)}]});
 const annotations = readOnly => ({readOnlyHint:readOnly, destructiveHint:!readOnly, idempotentHint:readOnly, openWorldHint:true});
@@ -40,9 +40,7 @@ export function createServer(env) {
     ...target,url_contains:z.string().min(1).max(2000),rx:z.number().min(0).max(1),ry:z.number().min(0).max(1),wait_ms:z.number().int().min(0).max(10000).default(2500),
   },false,async args=>text(await runCommand(env,'trigger_and_capture',args)));
   register('command_result','Read a previously submitted command result without repeating the action.',{id:z.string().regex(/^[A-Za-z0-9_.:-]{1,128}$/)},true,async({id})=>{
-    const data=await (await controlRequest(env,`/api/command/${encodeURIComponent(id)}`)).json();
-    if(data.command?.agent_id!=='firetrace') throw new Error('Command not found');
-    return text(data);
+    return text(await readCommand(env,id));
   });
   return server;
 }

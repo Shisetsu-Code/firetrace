@@ -35,14 +35,33 @@ export async function readState(env) {
   return (await controlRequest(env, '/api/state?agent_id=firetrace')).json();
 }
 
+export async function readCommand(env,id) {
+  const data=await (await controlRequest(env,`/api/command/${encodeURIComponent(id)}`)).json();
+  const command=data.command;
+  if(command?.agent_id!=='firetrace' || command.id!==id) throw new Error('Command not found');
+  // The legacy control worker can process "started" after "result". A recorded
+  // finish and result are authoritative; never resubmit a completed action.
+  if(Number.isFinite(command.finished_at) && ['running','sent','queued'].includes(command.status)) {
+    if(command.error) command.status='error';
+    else if(command.result!==null && command.result!==undefined) command.status='done';
+  }
+  return data;
+}
+
 export async function runCommand(env, action, args = {}) {
   const {state} = await readState(env);
   if (!state?.connected || !Number.isFinite(state.last_seen) || Date.now() - state.last_seen > 60000) {
     throw new Error('Firetrace agent not connected. Start the Firetrace worker on your PC.');
   }
-  return (await controlRequest(env, '/api/rpc', {
+  const response=await (await controlRequest(env, '/api/rpc', {
     id: crypto.randomUUID(), agent_id: 'firetrace', action, args, wait_ms: 25000,
   })).json();
+  if(response.status==='running') {
+    const {command}=await readCommand(env,response.id);
+    if(command.status==='done') return {ok:true,id:response.id,status:'done',result:command.result};
+    if(command.status==='error') throw new Error('Browser command failed. Inspect browser_list before retrying.');
+  }
+  return response;
 }
 
 export async function screenshotForCommand(env, id) {
