@@ -1,5 +1,6 @@
 import { OAuthProvider, AuthorizationError } from '@cloudflare/workers-oauth-provider';
 import { handleMcp } from './mcp.js';
+import { page, home } from './brand.js';
 
 const escape = value => String(value).replace(/[&<>"']/g,c=>`&#${c.charCodeAt(0)};`);
 export async function passwordMatches(supplied,expected) {
@@ -11,6 +12,8 @@ export async function passwordMatches(supplied,expected) {
 }
 const defaultHandler={async fetch(request,env) {
   const url=new URL(request.url);
+  if(url.pathname==='/logo.png') return env.ASSETS.fetch(request);
+  if(url.pathname==='/') return new Response(home(),{headers:{'content-type':'text/html; charset=utf-8'}});
   if(url.pathname==='/health') return Response.json({ok:true,service:'firetrace-mcp'});
   if(url.pathname!=='/authorize') return new Response('Firetrace MCP: connect /mcp using OAuth.',{status:404});
   const oauth=env.OAUTH_PROVIDER;
@@ -24,7 +27,7 @@ const defaultHandler={async fetch(request,env) {
       // Form navigations need their real Origin for the POST CSRF check.
       // no-referrer makes browsers send Origin:null even to this same site.
       consent.headers.set('referrer-policy','same-origin');
-      return new Response(`<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Conectar Firetrace</title><h1>Conectar Firetrace</h1><p>Aplicación: <strong>${escape(details.clientName)}</strong></p><p>Destino de autorización: ${escape(details.redirectHost)}</p><p>${details.clientDomain ? 'Dominio: '+escape(details.clientDomain) : 'El nombre de esta aplicación no está verificado.'}</p><p>Permite ver y controlar el navegador Firetrace, obtener capturas y leer tráfico de red. Los clics pueden enviar formularios o iniciar transacciones.</p><p>Permisos solicitados: ${escape(details.scope.join(', '))}</p><form method="post" action="/authorize"><input type="hidden" name="handle" value="${escape(consent.handle)}"><label>Clave de conexión Firetrace <input name="password" type="password" autocomplete="current-password" required></label><p><button name="decision" value="approve">Autorizar</button> <button name="decision" value="deny" formnovalidate>Cancelar</button></p></form></html>`,{headers:consent.headers});
+      return new Response(page(`<h1>Conectar Firetrace</h1><p>Aplicación: <strong>${escape(details.clientName)}</strong></p><p>Destino de autorización: ${escape(details.redirectHost)}</p><p>${details.clientDomain ? 'Dominio: '+escape(details.clientDomain) : 'El nombre de esta aplicación no está verificado.'}</p><p>Permite ver y controlar el navegador Firetrace, obtener capturas y leer tráfico de red. Los clics pueden enviar formularios o iniciar transacciones.</p><p>Permisos solicitados: ${escape(details.scope.join(', '))}</p><form method="post" action="/authorize"><input type="hidden" name="handle" value="${escape(consent.handle)}"><label>Clave de conexión Firetrace <input name="password" type="password" autocomplete="current-password" required></label><p><button name="decision" value="approve">Autorizar</button> <button name="decision" value="deny" formnovalidate>Cancelar</button></p></form>`),{headers:consent.headers});
     }
     if(request.method==='POST') {
       if(request.headers.get('origin')!==url.origin) return new Response('Invalid origin',{status:403});

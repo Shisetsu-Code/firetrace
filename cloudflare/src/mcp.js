@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { z } from 'zod';
 import { runCommand, readState, readCommand, screenshotForCommand } from './bridge.js';
+import { description } from './brand.js';
 
 const text = value => ({content:[{type:'text',text:JSON.stringify(value)}]});
 const annotations = readOnly => ({readOnlyHint:readOnly, destructiveHint:!readOnly, idempotentHint:readOnly, openWorldHint:true});
@@ -10,7 +11,7 @@ const headless = z.boolean().optional().describe('true runs without a visible wi
 const target = {browser_id:browserId.optional().describe('Target from browser_list/create. Required when multiple windows are open. Closed windows require browser_reopen; never guess another window.')};
 
 export function createServer(env) {
-  const server = new McpServer({name:'firetrace',version:'1.2.0'}, {instructions:
+  const server = new McpServer({name:'firetrace',title:'Firetrace',description,version:'1.2.1',websiteUrl:env.PUBLIC_URL || 'https://firetrace-mcp.braian-n-l.workers.dev',icons:[{src:`${env.PUBLIC_URL || 'https://firetrace-mcp.braian-n-l.workers.dev'}/logo.png`,mimeType:'image/png'}]}, {instructions:
     'Firetrace controls multiple independent browser windows on the user PC. Start with browser_list. Use browser_create once per window; choose mode temporary or persistent with a named profile, and headless true for background work or false for a visible window. Pass the returned browser_id to navigation, clicks, waits, screenshots and network tools. Use browser_close to close one window and browser_reopen to recover a closed ID. Closing all windows does not stop the agent. The window limit is reported by browser_list. '+
     'Temporary sessions start clean after closing; persistent profiles keep site storage and can be opened by name after an agent restart. IDs do not survive agent restart. Different profiles do not share cookies or local storage. Browser pages run simultaneously; commands are serialized. '+
     'Use browser_open for HTTP(S) navigation in an existing window, not for creating additional windows. For a running command, use command_result with its command ID instead of repeating the action. Network capture is available through trigger_and_capture; network_events currently has no continuous event buffer. '+
