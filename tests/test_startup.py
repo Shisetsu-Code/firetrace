@@ -20,7 +20,7 @@ def test_launcher_reads_persisted_credentials_before_selecting_transport(monkeyp
     monkeypatch.setattr(launcher, 'ensure_cloudflare_http_bridge', Mock(side_effect=AssertionError('startup must not deploy')), raising=False)
     assert launcher.main() == 0
     connect.assert_called_once()
-    chrome.assert_called_once()
+    chrome.assert_not_called()
 
 
 def test_missing_credentials_never_silently_starts_git_polling(monkeypatch):

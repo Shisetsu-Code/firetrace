@@ -65,6 +65,7 @@ class CloudflareFiretraceAgent:
             })
 
     def send_screenshot(self, ws, command_id: str, args: dict) -> dict:
+        self.worker.select_browser(args.get('browser_id'))
         quality = max(20, min(int(args.get("quality", 65)), 90))
         jpg = self.worker.backend.screenshot(quality)
 
@@ -135,6 +136,7 @@ class CloudflareFiretraceAgent:
         screenshot = None
         try:
             if action == "screenshot":
+                self.worker.select_browser(args.get('browser_id'))
                 quality = max(20, min(int(args.get("quality", 65)), 90))
                 screenshot = self.worker.backend.screenshot(quality)
                 data = {"bytes": len(screenshot), "quality": quality}

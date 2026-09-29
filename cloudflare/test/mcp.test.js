@@ -7,7 +7,13 @@ test('MCP initializes and advertises browser tools with truthful annotations',as
   const init=await (await handleMcp(request('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'test',version:'1'}}),{})).json();
   assert.equal(init.result.serverInfo.name,'firetrace');
   const result=await (await handleMcp(request('tools/list'),{})).json();
-  assert.equal(result.result.tools.length,10);
+  assert.equal(result.result.tools.length,14);
+  for (const name of ['browser_create','browser_list','browser_close','browser_reopen']) {
+    assert.ok(result.result.tools.find(t=>t.name===name));
+  }
+  for (const name of ['browser_open','browser_click','browser_screenshot','network_events','trigger_and_capture']) {
+    assert.ok(result.result.tools.find(t=>t.name===name).inputSchema.properties.browser_id);
+  }
   assert.equal(result.result.tools.find(t=>t.name==='browser_click').annotations.readOnlyHint,false);
   assert.equal(result.result.tools.find(t=>t.name==='browser_screenshot').annotations.readOnlyHint,true);
 });

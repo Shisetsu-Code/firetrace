@@ -41,11 +41,40 @@ const rpc=async(method,params)=>{
   const data=await res.json(); assert.ok(!data.error); return data.result;
 };
 assert.equal((await rpc('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'smoke',version:'1'}})).serverInfo.name,'firetrace');
-assert.equal((await rpc('tools/list',{})).tools.length,10);
+assert.equal((await rpc('tools/list',{})).tools.length,14);
 const status=await rpc('tools/call',{name:'browser_status',arguments:{}});
 assert.ok(!status.isError,JSON.stringify(status));
 const data=JSON.parse(status.content[0].text);
 console.log('PASS MCP initialize, tools/list and real browser_status; connected='+Boolean(data.state?.connected));
+if(process.env.FIRETRACE_SMOKE_SESSIONS==='1') {
+  const created=[];
+  const call=async(name,args={})=>{
+    const response=await rpc('tools/call',{name,arguments:args});
+    assert.ok(!response.isError,JSON.stringify(response));
+    const envelope=JSON.parse(response.content[0].text);
+    assert.equal(envelope.status,'done',JSON.stringify(envelope));
+    return envelope.result;
+  };
+  try {
+    for(let i=0;i<2;i++) {
+      const browser=await call('browser_create',{mode:'temporary'});
+      assert.ok(browser.browser_id);
+      created.push(browser.browser_id);
+    }
+    const list=await call('browser_list');
+    assert.ok(created.every(id=>list.browsers.some(b=>b.browser_id===id && b.open)));
+    await call('browser_close',{browser_id:created[0]});
+    const closed=await rpc('tools/call',{name:'browser_wait',arguments:{browser_id:created[0],ms:0}});
+    assert.equal(closed.isError,true);
+    assert.match(closed.content[0].text,/browser_reopen/);
+    await call('browser_wait',{browser_id:created[1],ms:0});
+    await call('browser_reopen',{browser_id:created[0]});
+    assert.equal((await call('browser_list')).browsers.find(b=>b.browser_id===created[0]).open,true);
+    console.log('PASS two simultaneous blank windows, targeted close, other window alive, reopen through OAuth/MCP/WSS');
+  } finally {
+    for(const browser_id of created) await call('browser_close',{browser_id});
+  }
+}
 if(process.env.FIRETRACE_SMOKE_SCREENSHOT==='1') {
   assert.equal(data.state?.connected,true,'Firetrace must be online for screenshot verification');
   const shot=await rpc('tools/call',{name:'browser_screenshot',arguments:{quality:40}});

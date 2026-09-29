@@ -229,8 +229,8 @@ def main(stop_event: threading.Event | None = None) -> int:
             return 0
         if os.getenv("FIRETRACE_BROWSER_BACKEND", "local").lower() == "firecrawl":
             ensure_firecrawl()
-        else:
-            ensure_chrome_cdp()
+        # Local windows are created on demand by BrowserSessions. Never attach
+        # automatically to a personal Chrome/CDP profile.
         if not use_github:
             print("Cloudflare WSS transport enabled.")
             from .cloudflare_agent import main as cloudflare_main
