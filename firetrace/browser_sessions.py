@@ -9,6 +9,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright, Error
 
 from .local_browser import LocalBrowserBackend
+from .runtime import configure_browser_cache
 
 
 class BrowserSessions(LocalBrowserBackend):
@@ -20,6 +21,7 @@ class BrowserSessions(LocalBrowserBackend):
                                  Path(os.getenv('LOCALAPPDATA', str(Path.home() / '.local/share'))) / 'Firetrace' / 'profiles')
         self._sessions = {}
         self._selected = None
+        configure_browser_cache()
         self._pw = sync_playwright().start()
 
     @property

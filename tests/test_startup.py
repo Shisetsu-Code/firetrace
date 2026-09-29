@@ -6,6 +6,15 @@ from unittest.mock import Mock
 from firetrace import launcher, worker
 
 
+def test_windows_packaged_browser_uses_shared_cache(monkeypatch, tmp_path):
+    from firetrace import runtime
+    monkeypatch.setenv('LOCALAPPDATA', str(tmp_path))
+    monkeypatch.delenv('PLAYWRIGHT_BROWSERS_PATH', raising=False)
+    runtime.configure_browser_cache()
+    if os.name == 'nt':
+        assert os.environ['PLAYWRIGHT_BROWSERS_PATH'] == str(tmp_path / 'ms-playwright')
+
+
 def test_launcher_reads_persisted_credentials_before_selecting_transport(monkeypatch):
     from firetrace import cloudflare_agent
     for key in ('CF_CONTROL_URL', 'CF_CONTROL_TOKEN', 'FIRETRACE_CONTROL_URL', 'FIRETRACE_CONTROL_TOKEN'):
