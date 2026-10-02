@@ -417,6 +417,7 @@ class LocalMcpBridge:
     def run(self, stop_event: threading.Event | None = None) -> None:
         stop_event = stop_event or threading.Event()
         self.httpd = HTTPServer((self.host, self.port), self._handler_class())
+        self.port = int(self.httpd.server_address[1])
         self.httpd.timeout = 0.25
         print(f"Firetrace local MCP listening: {self.endpoint}")
         print(f"Health: {self.health_url}")
