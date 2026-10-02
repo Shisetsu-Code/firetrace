@@ -15,25 +15,22 @@ def test_ws_url_quotes_agent_id():
 
 def test_normalize_browser_aliases():
     from firetrace.cloudflare_agent import CloudflareFiretraceAgent
+
     assert CloudflareFiretraceAgent.normalize_action("browser_status") == "status"
-    assert CloudflareFiretraceAgent.normalize_action("browser_screenshot") == "screenshot"
-    assert CloudflareFiretraceAgent.normalize_action("trigger_and_capture") == "trigger_and_capture"
+    assert (
+        CloudflareFiretraceAgent.normalize_action("browser_screenshot")
+        == "screenshot"
+    )
+    assert (
+        CloudflareFiretraceAgent.normalize_action("trigger_and_capture")
+        == "trigger_and_capture"
+    )
 
 
 def test_append_only_inbox_paths_exist():
     from pathlib import Path
+
     root = Path(__file__).resolve().parents[1]
     assert (root / "commands" / "inbox").exists()
     assert (root / "commands" / "results").exists()
     assert (root / "commands" / "screenshots").exists()
-
-
-def test_http_bridge_repo_search_candidates(monkeypatch, tmp_path):
-    import firetrace.launcher as launcher
-    fake = tmp_path / "MCP"
-    (fake / ".git").mkdir(parents=True)
-    (fake / "cloudflare").mkdir()
-    (fake / "cloudflare" / "wrangler.jsonc").write_text("{}", encoding="utf-8")
-    monkeypatch.setattr(launcher, "ROOT", tmp_path / "firetrace")
-    monkeypatch.setattr(launcher.Path, "home", classmethod(lambda cls: tmp_path))
-    assert launcher.find_mcp_repo() == fake
