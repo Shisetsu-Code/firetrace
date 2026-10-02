@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import queue
 import sys
 import threading
@@ -47,11 +48,17 @@ class FiretraceGui(tk.Tk):
         ttk.Label(frame, text="Firetrace Control", font=("Segoe UI", 16, "bold")).pack(anchor="w")
 
         self.status = tk.StringVar(value="Starting...")
-        ttk.Label(frame, textvariable=self.status).pack(anchor="w", pady=(4, 8))
+        ttk.Label(frame, textvariable=self.status).pack(anchor="w", pady=(4, 2))
+
+        self.mcp_url = tk.StringVar(
+            value=f"http://{os.getenv('FIRETRACE_MCP_HOST', '127.0.0.1')}:{os.getenv('FIRETRACE_MCP_PORT', '8765')}/mcp"
+        )
+        ttk.Label(frame, textvariable=self.mcp_url).pack(anchor="w", pady=(0, 8))
 
         buttons = ttk.Frame(frame)
         buttons.pack(fill="x", pady=(0, 8))
         ttk.Button(buttons, text="Restart worker", command=self.restart_worker).pack(side="left")
+        ttk.Button(buttons, text="Copy MCP URL", command=self.copy_mcp_url).pack(side="left", padx=(8, 0))
         ttk.Button(buttons, text="Open repository", command=self.open_repository).pack(side="left", padx=(8, 0))
 
         self.text = tk.Text(frame, wrap="word", font=("Consolas", 10))
@@ -83,7 +90,9 @@ class FiretraceGui(tk.Tk):
                 text = self.log_queue.get_nowait()
                 self.append_log(text)
                 low = text.lower()
-                if "cloudflare wss transport enabled" in low:
+                if "firetrace local mcp listening" in low:
+                    self.status.set("Local MCP active")
+                elif "cloudflare wss transport enabled" in low:
                     self.status.set("Connecting to Cloudflare...")
                 elif "connecting firetrace agent" in low:
                     self.status.set("Connecting to Cloudflare...")
@@ -155,8 +164,16 @@ class FiretraceGui(tk.Tk):
         else:
             self.destroy()
 
+    def copy_mcp_url(self) -> None:
+        try:
+            self.clipboard_clear()
+            self.clipboard_append(self.mcp_url.get())
+            self.update()
+            self.status.set("MCP URL copied")
+        except Exception as exc:
+            self.log_queue.put(f"Copy MCP URL failed: {exc}\n")
+
     def open_repository(self) -> None:
-        import os
         try:
             os.startfile(str(launcher.ROOT))
         except Exception as exc:
