@@ -1,77 +1,211 @@
 # Firetrace
 
-Firetrace is a local browser/CDP worker for deterministic endpoint capture.
+Firetrace is the local browser/CDP + MCP bridge used to control a real browser, take screenshots, click, inspect network traffic and save HAR captures.
 
-It is designed for the workflow used in this project: request a screenshot, choose a click, execute it in the real browser, and capture the matching request/response (for example Yggdrasil `fn=play`) without manually debugging every game.
-
-## Important Firecrawl finding
-
-During implementation the current Firecrawl source was checked rather than assuming that its hosted browser API is part of the normal self-hosted stack.
-
-Firecrawl's `/v2/browser` implementation calls a separate service through `HANGAR_URL`. That Hangar browser service is not part of Firecrawl's standard Docker Compose self-hosting stack. The scrape-bound `/interact` path also requires stored scrape context/database authentication, while Firecrawl's own self-hosting guide recommends starting with `USE_DB_AUTHENTICATION=false`.
-
-Therefore Firetrace does **not** make the local workflow depend on an unavailable self-hosted browser service.
-
-The default backend is local Chrome + Playwright/CDP. Firecrawl support remains optional for environments that actually provide the browser service.
-
-## Normal use
-
-On Windows, run:
+The default architecture is now entirely local:
 
 ```text
-Firetrace-Worker.exe
+ChatGPT Desktop / Codex
+        ↓
+http://127.0.0.1:8765/mcp
+        ↓
+Firetrace
+        ↓
+Chrome/Edge or Playwright Chromium
+        ↓
+CDP / Network / HAR
 ```
 
-The launcher:
+Cloudflare is optional and is no longer required for normal local use.
 
-1. reads the current Windows user configuration, even if Explorer has an older environment;
-2. reuses Chrome CDP on `127.0.0.1:9222` if available;
-3. otherwise starts Chrome with a private Firetrace profile and CDP bound to localhost;
-4. detects the existing Cloudflare control configuration;
-5. connects outbound to Cloudflare over WSS as agent `firetrace`;
-6. receives commands in real time and sends results/state back through Cloudflare;
-7. sends screenshots as binary frames for storage in the existing R2 bucket.
+## Windows: pull and run
 
-Missing Cloudflare credentials produce a clear error instead of silently starting
-Git polling. The legacy GitHub transport is available only when explicitly selected
-with `FIRETRACE_TRANSPORT=github`. The WSS transport does not poll the repository.
-
-Opening the desktop worker does not update Git or deploy Cloudflare. Update the
-executable explicitly when installing a new release. Console subprocesses run
-hidden and noninteractively. Diagnostic output is saved to `.runtime/worker.log`.
-The Restart worker button stops the current connection before starting another.
-
-No browser/CDP port is exposed to the Internet.
-
-For development:
+From an existing checkout:
 
 ```powershell
-python -m pip install -e .
-python -m firetrace.launcher
+cd C:\firetrace
+git pull
+.\run-firetrace.ps1
 ```
 
-## Cloudflare transport
-
-### ChatGPT MCP
-
-The OAuth-enabled ChatGPT endpoint is
-`https://firetrace-mcp.braian-n-l.workers.dev/mcp`.
-Choose **OAuth** and leave client ID/secret empty. Complete the Firetrace
-authorization page with your separate connection password.
-The server implementation, tests and deployment instructions are in
-[`cloudflare/`](cloudflare/README.md).
-
-Keep the local agent running. The new MCP URL is only for ChatGPT; the local
-agent continues using the existing `CF_CONTROL_URL` control-plane address.
-
-Firetrace automatically uses the same persisted control-plane variables created for the existing MCP launcher:
+Or double-click:
 
 ```text
-CF_CONTROL_URL
-CF_CONTROL_TOKEN
+run-firetrace.cmd
 ```
 
-Optional Firetrace-specific overrides are:
+The launcher creates `.venv` if needed, installs/updates the package, ensures Playwright Chromium is available, and starts the Firetrace GUI.
+
+The GUI shows the MCP URL and has a **Copy MCP URL** button.
+
+## Local MCP
+
+Default endpoint:
+
+```text
+http://127.0.0.1:8765/mcp
+```
+
+Health endpoint:
+
+```text
+http://127.0.0.1:8765/health
+```
+
+PowerShell health check:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8765/health
+```
+
+Expected service name:
+
+```text
+firetrace-local-mcp
+```
+
+The server is stateless Streamable HTTP MCP and binds to localhost by default.
+
+### ChatGPT setup
+
+Create a local custom MCP/App with:
+
+```text
+Name: Firetrace
+Type: HTTP with streaming
+URL: http://127.0.0.1:8765/mcp
+Bearer token: empty
+Headers: empty
+```
+
+Keep Firetrace running while using the app.
+
+The local MCP exposes:
+
+- `browser_status`
+- `browser_open`
+- `browser_click`
+- `browser_click_relative`
+- `browser_wait`
+- `browser_screenshot`
+- `network_events`
+- `network_clear`
+- `trigger_and_capture`
+- `record_start`
+- `record_status`
+- `record_save`
+- `sequence`
+
+Example:
+
+```text
+@Firetrace use browser_status and tell me which page is open.
+```
+
+Full HAR workflow:
+
+```text
+record_start
+→ browser actions
+→ record_status
+→ record_save
+```
+
+HAR files are saved by default to:
+
+```text
+%USERPROFILE%\Downloads\Firetrace-HARs\
+```
+
+Override with:
+
+```text
+FIRETRACE_HAR_DIR
+```
+
+## Browser startup
+
+Firetrace first looks for an existing CDP endpoint on:
+
+```text
+http://127.0.0.1:9222
+```
+
+If none exists on Windows it starts Chrome or Edge with a private Firetrace profile and CDP bound to localhost.
+
+If Chrome/Edge is unavailable, the development launcher can fall back to Playwright Chromium.
+
+No CDP port is exposed to the Internet.
+
+## trigger_and_capture
+
+`trigger_and_capture` opens a temporary CDP Network session, performs one requested click and returns matching request/response data.
+
+Example arguments:
+
+```json
+{
+  "url_contains": "fn=play",
+  "rx": 0.54,
+  "ry": 0.54,
+  "wait_ms": 2500
+}
+```
+
+It captures:
+
+- URL and method
+- request headers
+- POST data
+- response status and headers
+- response body when Chromium exposes it
+
+Sensitive authorization, cookie and API-key headers are redacted from returned network captures.
+
+## Full HAR recording
+
+`record_start` begins a persistent CDP Network recording without reloading the current page.
+
+`record_status` reports:
+
+- elapsed time
+- request count
+- response count
+- WebSocket frame count
+
+`record_save` stops recording and writes a HAR containing HTTP traffic and captured WebSocket frames.
+
+## Configuration
+
+Normal local use requires no environment variables.
+
+Optional local settings:
+
+```text
+FIRETRACE_MCP_HOST=127.0.0.1
+FIRETRACE_MCP_PORT=8765
+FIRETRACE_CDP_URL=http://127.0.0.1:9222
+FIRETRACE_HEADLESS=0
+FIRETRACE_HAR_DIR=C:\some\folder
+```
+
+Default transport:
+
+```text
+FIRETRACE_TRANSPORT=local
+```
+
+## Optional Cloudflare transport
+
+The previous Cloudflare WSS transport remains available for remote access, but it is opt-in:
+
+```text
+FIRETRACE_TRANSPORT=cloudflare
+CF_CONTROL_URL=...
+CF_CONTROL_TOKEN=...
+```
+
+Firetrace-specific overrides are also supported:
 
 ```text
 FIRETRACE_CONTROL_URL
@@ -79,71 +213,55 @@ FIRETRACE_CONTROL_TOKEN
 FIRETRACE_AGENT_ID
 ```
 
-The default agent id is `firetrace`, so it does not collide with the older `main` browser agent.
-
-The control path is:
+The old GitHub polling transport is also still available explicitly with:
 
 ```text
-Cloudflare Worker -> Durable Object -> WSS -> Firetrace-Worker.exe -> Chrome/CDP
+FIRETRACE_TRANSPORT=github
 ```
 
-Chrome and CDP stay bound to localhost. The local worker initiates the outbound WSS connection; no inbound port is opened on the PC.
+Neither Cloudflare nor GitHub is used when the default local transport is active.
 
-## Commands
+## Development
 
-The WSS transport accepts both the Firetrace names and the older browser aliases:
+Python 3.11+:
 
-- `status`
-- `open`
-- `screenshot`
-- `click`
-- `click_relative`
-- `wait`
-- `network_clear`
-- `network_events`
-- `trigger_and_capture`
-
-With Cloudflare enabled, command results are persisted by the Cloudflare control plane and screenshots are uploaded as binary WSS frames to R2. The files under `commands/` are retained only for the GitHub fallback transport.
-
-Example capture command:
-
-```json
-{
-  "id": "capture-001",
-  "action": "trigger_and_capture",
-  "args": {
-    "url_contains": "fn=play",
-    "rx": 0.54,
-    "ry": 0.54,
-    "wait_ms": 2500
-  }
-}
+```powershell
+python -m pip install -e . pytest
+python -m playwright install chromium
+pytest -q
+python -m firetrace.gui
 ```
 
-`trigger_and_capture` uses a CDP session and:
+CLI without the GUI:
 
-- enables the Network domain;
-- records matching `Network.requestWillBeSent`;
-- records matching `Network.responseReceived`;
-- executes the click;
-- retrieves the response with `Network.getResponseBody`;
-- returns all matching request/response pairs;
-- redacts authorization, cookies and equivalent sensitive headers before persistence.
-
-## Optional Firecrawl backend
-
-Set:
-
-```text
-FIRETRACE_BROWSER_BACKEND=firecrawl
+```powershell
+firetrace
 ```
 
-only when the configured Firecrawl deployment actually exposes a working browser service. The stock self-hosted Compose stack alone is not enough for that feature.
+GUI entry point:
+
+```powershell
+firetrace-gui
+```
+
+## Windows executable
+
+GitHub Actions builds `Firetrace-Worker.exe` when Firetrace source changes and publishes the current executable back to the repository root.
+
+For immediate development after a pull, `run-firetrace.ps1` is the canonical path because it always runs the checked-out source.
 
 ## CI
 
-GitHub Actions runs unit tests and compilation checks on every push. A separate Windows workflow builds `Firetrace-Worker.exe` and commits the current executable to the repository root.
+CI validates:
+
+- Python compilation
+- local MCP initialization and tool discovery
+- local MCP tool calls
+- screenshot content blocks
+- local/default transport selection
+- browser + CDP request/response capture
+- full HAR recording and save
 
 ## Safety
 
-Use Firetrace only on systems and sites you are authorized to test.
+Use Firetrace only on systems and services you are authorized to test or automate.
