@@ -1,6 +1,7 @@
 import json
 import os
 import threading
+from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
@@ -60,8 +61,9 @@ def server():
         thread.join(timeout=2)
 
 
-def test_trigger_and_capture_end_to_end(server):
+def test_trigger_and_capture_end_to_end(server, tmp_path, monkeypatch):
     os.environ["FIRETRACE_HEADLESS"] = "1"
+    monkeypatch.setenv("FIRETRACE_HAR_DIR", str(tmp_path))
     browser = LocalBrowserBackend("http://127.0.0.1:1")
     try:
         browser.open(f"http://127.0.0.1:{server}/")
@@ -83,5 +85,26 @@ def test_trigger_and_capture_end_to_end(server):
         for key, value in capture["responseHeaders"].items():
             if key.lower() == "set-cookie":
                 assert value == "[REDACTED]"
+
+        started = browser.record_start()
+        assert started["recording"] is True
+
+        browser.page.locator("#buy").click()
+        browser.page.wait_for_timeout(750)
+
+        recording = browser.record_status()
+        assert recording["recording"] is True
+        assert recording["requests"] >= 1
+
+        saved = browser.record_save()
+        assert saved["ok"] is True
+        assert saved["entries"] >= 1
+        har_path = Path(saved["path"])
+        assert har_path.exists()
+
+        har = json.loads(har_path.read_text(encoding="utf-8"))
+        urls = [entry["request"]["url"] for entry in har["log"]["entries"]]
+        assert any("fn=play" in url for url in urls)
+        assert browser.record_status()["recording"] is False
     finally:
         browser.close()
