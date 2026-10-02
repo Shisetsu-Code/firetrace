@@ -42,6 +42,8 @@ class FiretraceGui(tk.Tk):
         self.restarting = False
         self.protocol("WM_DELETE_WINDOW", self.close_worker)
 
+        launcher.load_user_environment()
+
         frame = ttk.Frame(self, padding=12)
         frame.pack(fill="both", expand=True)
 
