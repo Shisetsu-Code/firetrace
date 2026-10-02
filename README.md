@@ -1,5 +1,11 @@
 # Firetrace
 
+## Chat normal, Electron y memoria del proyecto
+
+La [memoria de integración](docs/aprendizajes-chat-normal-electron.md) documenta la conexión remota Firetrace existente que permitió usar HardFire Electron desde Chat normal, las causas de los fallos y sus límites. [Resume](https://github.com/Shisetsu-Code/Resume) reúne el historial de los tres proyectos y una skill para reconstruir el diagnóstico.
+
+La arquitectura localhost descrita abajo requiere un host que ejecute MCP local. No demuestra por sí sola acceso desde Chat normal. El caso remoto comprobado utilizó Cloudflare existente; documentarlo no despliega esa versión ni convierte el transporte en exclusivamente local.
+
 Firetrace is the local browser/CDP + MCP bridge used to control a real browser, take screenshots, click, inspect network traffic and save HAR captures.
 
 The default architecture is now entirely local:
