@@ -403,7 +403,12 @@ class LocalBrowserBackend:
                 }
             }
 
-            output_dir = Path.home() / "Downloads" / "Firetrace-HARs"
+            configured_dir = os.getenv("FIRETRACE_HAR_DIR")
+            output_dir = (
+                Path(configured_dir).expanduser()
+                if configured_dir
+                else Path.home() / "Downloads" / "Firetrace-HARs"
+            )
             output_dir.mkdir(parents=True, exist_ok=True)
             host = urlparse(self.page.url).hostname or "capture"
             safe_host = "".join(
