@@ -134,5 +134,15 @@
     "responsePath": "responses/000008.json",
     "observationId": "1b45b8b0-b603-4dbb-be25-ff7e6723f09e",
     "error": null
+  },
+  {
+    "seq": 9,
+    "commandId": "settle-single-spin-001",
+    "command": {
+      "action": "wait",
+      "ms": 8000
+    },
+    "startedAt": "2026-10-25T19:38:07.298Z",
+    "status": "reserved"
   }
 ]
