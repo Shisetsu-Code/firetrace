@@ -305,5 +305,14 @@
     "responsePath": "responses/000019.json",
     "observationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
     "error": null
+  },
+  {
+    "seq": 20,
+    "commandId": "verify-settings-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:40:42.984Z",
+    "status": "reserved"
   }
 ]
