@@ -289,5 +289,15 @@
     "responsePath": "responses/000018.json",
     "observationId": "088542a5-35ed-4098-b81e-202e8d14c93b",
     "error": null
+  },
+  {
+    "seq": 19,
+    "commandId": "settle-settings-001",
+    "command": {
+      "action": "wait",
+      "ms": 1000
+    },
+    "startedAt": "2026-10-25T21:40:32.719Z",
+    "status": "reserved"
   }
 ]
