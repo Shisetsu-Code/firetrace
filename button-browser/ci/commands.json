@@ -238,6 +238,24 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "open-rules-verified-001",
+      "command": {
+        "action": "click",
+        "id": "b5",
+        "observationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1"
+      }
+    },
+    {
+      "commandId": "verify-rules-001",
+      "command": {
+        "action": "verify"
+      }
+    },
+    {
+      "commandId": "stop-tower-walkthrough-001",
+      "command": "STOP"
     }
   ]
 }
