@@ -1,0 +1,14 @@
+{
+  "test": "menu_coordinates",
+  "provider": "playtech",
+  "mode": "FUN",
+  "games": [
+    "ftsis",
+    "aogmt",
+    "aogroo",
+    "gpas_gstorm2_pop",
+    "gpas_agstorm3_pop",
+    "gpas_mgaogkol_pop",
+    "gpas_aogwfot_pop"
+  ]
+}
