@@ -14,5 +14,15 @@
     "responsePath": "responses/000001.json",
     "observationId": "12960c74-5ade-4325-a49a-1692222e6966",
     "error": null
+  },
+  {
+    "seq": 2,
+    "commandId": "initial-load-001",
+    "command": {
+      "action": "wait",
+      "ms": 20000
+    },
+    "startedAt": "2026-10-25T19:19:18.443Z",
+    "status": "reserved"
   }
 ]
