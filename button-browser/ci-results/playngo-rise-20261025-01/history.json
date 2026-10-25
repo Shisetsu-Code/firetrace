@@ -93,5 +93,14 @@
     "responsePath": "responses/000006.json",
     "observationId": "351a8728-dd31-406b-b2d6-89e9c87ee4e9",
     "error": null
+  },
+  {
+    "seq": 7,
+    "commandId": "verify-intro-hover-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T19:12:37.270Z",
+    "status": "reserved"
   }
 ]
