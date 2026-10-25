@@ -3,11 +3,41 @@
   "commands": [
     {
       "commandId": "initial-load-001",
-      "command": {"action": "wait", "ms": 20000}
+      "command": {
+        "action": "wait",
+        "ms": 20000
+      }
     },
     {
       "commandId": "capture-intro-001",
-      "command": {"action": "snapshot"}
+      "command": {
+        "action": "snapshot"
+      }
+    },
+    {
+      "commandId": "continue-explicit-capture-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 562
+      }
+    },
+    {
+      "commandId": "settle-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
+    },
+    {
+      "commandId": "verify-selected-board-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "BET_DEC",
+          "BET_INC"
+        ]
+      }
     }
   ]
 }
