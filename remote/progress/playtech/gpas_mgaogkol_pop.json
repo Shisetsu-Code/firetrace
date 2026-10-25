@@ -1,17 +1,17 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "running",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 587,
-  "clicks": 186,
-  "spin_attempts": 183,
-  "network_events": 1453,
+  "observations": 32,
+  "clicks": 3,
+  "spin_attempts": 0,
+  "network_events": 234,
   "websocket_connections": 2,
-  "requests_total": 212,
-  "elapsed_seconds": 3610,
-  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN @ —— ae 4 Gt a @ © KING OF iN AW ! ur) wy AS G! WAYS 1620 WIN €11,149.50 @ *)",
-  "run_id": "40210773172",
-  "time": "2026-10-25T17:16:00+00:00"
+  "requests_total": 165,
+  "elapsed_seconds": 782,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN gu il I Tl ot available ri‘ =e Not available POWER’ I) e> || re PUTO, Mid | | Ag || WAYS WIN 1620 €64.00 ae €10,054.00",
+  "run_id": "40221846216",
+  "time": "2026-10-25T18:48:14+00:00"
 }
