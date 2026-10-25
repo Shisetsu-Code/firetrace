@@ -1,0 +1,12 @@
+{
+  "seq": 11,
+  "commandId": "stop-completed-real-game-test-001",
+  "completedAt": "2026-10-25T19:39:00.521Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "STOP",
+      "stopped": true
+    }
+  }
+}

@@ -165,5 +165,20 @@
     "responsePath": "responses/000010.json",
     "observationId": "5f917bd8-51ff-4375-876d-801032144442",
     "error": null
+  },
+  {
+    "seq": 11,
+    "commandId": "stop-completed-real-game-test-001",
+    "command": {
+      "action": "STOP"
+    },
+    "startedAt": "2026-10-25T19:39:00.375Z",
+    "status": "finished",
+    "completedAt": "2026-10-25T19:39:00.521Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000011.json",
+    "observationId": null,
+    "error": null
   }
 ]
