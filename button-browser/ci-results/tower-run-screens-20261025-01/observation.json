@@ -1,6 +1,6 @@
 {
-  "observationId": "c3128443-0ea5-4c95-bd97-e5675f00f781",
-  "timestamp": "2026-10-25T21:36:35.061Z",
+  "observationId": "52408c37-2fef-4a88-a4fa-eb94aeff265b",
+  "timestamp": "2026-10-25T21:37:11.366Z",
   "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "title": "",
   "viewport": {
@@ -10,125 +10,28 @@
   },
   "coordinateSpace": "viewport-css-px",
   "warnings": [],
-  "timingMs": 27265,
-  "canvasCount": 1,
+  "timingMs": 147,
+  "canvasCount": 0,
   "stability": {
-    "status": "stable",
+    "status": "unverified",
     "requiredSamples": 3,
     "intervalMs": 2000,
     "geometryTolerancePx": 1,
     "maxCropDifference": 0.015,
-    "completedSamples": 3,
+    "completedSamples": 0,
     "reasons": [],
-    "maxGeometryDeltaPx": 0,
-    "maxAppearanceDifference": 0,
-    "samples": [
-      {
-        "index": 1,
-        "timestamp": "2026-10-25T21:36:16.357Z",
-        "candidateCount": 2,
-        "timingsMs": {
-          "dom": 2858,
-          "engine": 2563,
-          "capture": 1582,
-          "vision": 0
-        }
-      },
-      {
-        "index": 2,
-        "timestamp": "2026-10-25T21:36:25.719Z",
-        "candidateCount": 2,
-        "timingsMs": {
-          "dom": 2888,
-          "engine": 2553,
-          "capture": 1572,
-          "vision": 0
-        }
-      },
-      {
-        "index": 3,
-        "timestamp": "2026-10-25T21:36:35.061Z",
-        "candidateCount": 2,
-        "timingsMs": {
-          "dom": 2882,
-          "engine": 2550,
-          "capture": 1580,
-          "vision": 0
-        }
-      }
-    ]
+    "samples": []
   },
   "fixedButtons": [],
   "detection": {
-    "dom": 2,
+    "dom": 0,
     "engine": 0,
     "vision": 0,
     "visionRequested": false
   },
-  "buttons": [
-    {
-      "id": "b1",
-      "label": "49 Your session has timed out The session has timed out. Please logon again to continue playing. If you were in the middle of playing a game, your current progr",
-      "kind": "button",
-      "source": "dom",
-      "confidence": 0.96,
-      "actionable": true,
-      "estimated": false,
-      "bbox": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720
-      },
-      "center": {
-        "x": 640,
-        "y": 360
-      },
-      "clickPoint": {
-        "x": 640,
-        "y": 360
-      },
-      "normalized": {
-        "x": 0,
-        "y": 0,
-        "width": 1,
-        "height": 1
-      },
-      "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/crops/c3128443-0ea5-4c95-bd97-e5675f00f781/b1.png"
-    },
-    {
-      "id": "b2",
-      "label": "EXIT",
-      "kind": "button",
-      "source": "dom",
-      "confidence": 1,
-      "actionable": true,
-      "estimated": false,
-      "bbox": {
-        "x": 472,
-        "y": 448.11,
-        "width": 336.02,
-        "height": 59.94
-      },
-      "center": {
-        "x": 640.01,
-        "y": 478.08
-      },
-      "clickPoint": {
-        "x": 640.01,
-        "y": 478.08
-      },
-      "normalized": {
-        "x": 0.36875,
-        "y": 0.622374,
-        "width": 0.262512,
-        "height": 0.083247
-      },
-      "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/crops/c3128443-0ea5-4c95-bd97-e5675f00f781/b2.png"
-    }
-  ],
-  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/c3128443-0ea5-4c95-bd97-e5675f00f781/screenshot.png",
-  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/c3128443-0ea5-4c95-bd97-e5675f00f781/annotated.png",
-  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/c3128443-0ea5-4c95-bd97-e5675f00f781/buttons.png",
-  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/c3128443-0ea5-4c95-bd97-e5675f00f781/buttons.json"
+  "buttons": [],
+  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/52408c37-2fef-4a88-a4fa-eb94aeff265b/screenshot.png",
+  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/52408c37-2fef-4a88-a4fa-eb94aeff265b/annotated.png",
+  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/52408c37-2fef-4a88-a4fa-eb94aeff265b/buttons.png",
+  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/52408c37-2fef-4a88-a4fa-eb94aeff265b/buttons.json"
 }
