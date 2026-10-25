@@ -169,5 +169,14 @@
       "code": "TARGET_CHANGED",
       "message": "El punto verificado dejó de alcanzar el botón. Solicitá verify; no se recalcula la posición al hacer clic."
     }
+  },
+  {
+    "seq": 11,
+    "commandId": "snapshot-paytable-close-check-001",
+    "command": {
+      "action": "snapshot"
+    },
+    "startedAt": "2026-10-25T20:42:06.672Z",
+    "status": "reserved"
   }
 ]
