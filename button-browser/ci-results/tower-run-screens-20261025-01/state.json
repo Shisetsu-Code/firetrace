@@ -11,13 +11,13 @@
   "lastCommandId": "verify-fresh-paytable-001",
   "lastResponse": null,
   "verification": {
-    "status": "idle",
-    "currentSample": 0,
+    "status": "checking",
+    "currentSample": 1,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:46:36.299Z",
+  "updatedAt": "2026-10-25T21:46:38.575Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
