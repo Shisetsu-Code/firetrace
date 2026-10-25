@@ -1,0 +1,49 @@
+{
+  "seq": 9,
+  "commandId": "settle-after-go-ultra-intro-001",
+  "completedAt": "2026-10-25T21:36:02.155Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "wait"
+    },
+    "observation": {
+      "observationId": "03025ad0-a09b-4b81-bf86-c6ba8e46196e",
+      "timestamp": "2026-10-25T21:36:01.297Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 3076,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/03025ad0-a09b-4b81-bf86-c6ba8e46196e/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/03025ad0-a09b-4b81-bf86-c6ba8e46196e/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/03025ad0-a09b-4b81-bf86-c6ba8e46196e/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/03025ad0-a09b-4b81-bf86-c6ba8e46196e/buttons.json"
+    },
+    "fixedButtons": []
+  }
+}
