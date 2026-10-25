@@ -1,17 +1,17 @@
 {
   "game": "gpas_aogggriffin_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 245,
+  "observations": 252,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 1522,
+  "network_events": 1533,
   "websocket_connections": 2,
   "requests_total": 126,
-  "elapsed_seconds": 1766,
-  "latest_text": "\\GE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUI © jot available Not available POWER A @ 10 9 @ 7 — K @ A 9 =4 | I@ 9 K Vv I@ y es ere TO START WAYS: oe ay xx €9,065.75 @",
+  "elapsed_seconds": 1812,
+  "latest_text": "\\GE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUI © jot available Not available POWER A @ No 10 9 @ 7 — K @ <= 9 <= he =4 I@ « 9 K (Gas 2 I@ () y WE INFO TO START WAYS: €9,065.75 @",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:08:34+00:00"
+  "time": "2026-10-25T21:09:21+00:00"
 }
