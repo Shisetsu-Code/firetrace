@@ -1,17 +1,18 @@
 {
   "game": "aogroo",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "running",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 51,
-  "clicks": 5,
-  "spin_attempts": 2,
+  "observations": 31,
+  "clicks": 3,
+  "spin_attempts": 0,
+  "autoplay_repeats": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 13,
-  "elapsed_seconds": 3617,
-  "latest_text": "& HUGE WINS WITH MORE DURING BATTLE FOR POWER FREE GAMES! WER Wt eat, OWER Ai N i | Ys Ay aa Vata) ee Ee valu) y= <———— — ALS TINES TOTAL BET €0.25 AUTO /TURBO, Ve \\ 25 PLAY /MODE SPIN. } a 9°, me mA. 2 €995.00 19:46:36",
-  "run_id": "40221846216",
-  "time": "2026-10-25T19:46:43+00:00"
+  "elapsed_seconds": 184,
+  "latest_text": "») Not available ov ners swanos 7 caves WITH LOCKED WILDS Wt Not available, 0 A fy > 10 | 10| A | 9 Na a — ey TOTAL BE” €0.25 a 25 ae €0.00 AUTOPI MOD ey 2 €998.75 [Play for Real 20:47:15",
+  "run_id": "40232112481",
+  "time": "2026-10-25T20:47:20+00:00"
 }
