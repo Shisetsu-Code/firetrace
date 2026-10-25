@@ -97,5 +97,19 @@
     "responsePath": "responses/000006.json",
     "observationId": "02b57838-ed96-47a9-bff6-46af3c73f94f",
     "error": null
+  },
+  {
+    "seq": 7,
+    "commandId": "verify-pixi-board-001",
+    "command": {
+      "action": "verify",
+      "excludeLabels": [
+        "BET_DEC",
+        "BET_INC",
+        "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+      ]
+    },
+    "startedAt": "2026-10-25T19:36:44.303Z",
+    "status": "reserved"
   }
 ]
