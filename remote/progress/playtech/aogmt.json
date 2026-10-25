@@ -1,17 +1,17 @@
 {
   "game": "aogmt",
-  "stage": "running",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 227,
-  "clicks": 3,
+  "observations": 239,
+  "clicks": 4,
   "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 1484,
-  "latest_text": "») yet TE Not availal MIGHT MIDAS el LINES ‘WIN TURBO 20 MODE 2 €963.20 [Play for Real 21:09:27",
+  "elapsed_seconds": 1556,
+  "latest_text": "») ATE Not available PE R Not available RP © SN IES a \\\\ 4 a? WIN 40 2 €960.10 21:1039",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:09:30+00:00"
+  "time": "2026-10-25T21:10:42+00:00"
 }
