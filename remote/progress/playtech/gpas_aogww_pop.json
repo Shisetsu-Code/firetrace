@@ -1,16 +1,17 @@
 {
   "game": "gpas_aogww_pop",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "running",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 73,
+  "observations": 9,
   "clicks": 3,
-  "network_events": 1305,
+  "spin_attempts": 0,
+  "network_events": 241,
   "websocket_connections": 2,
-  "requests_total": 231,
-  "elapsed_seconds": 3617,
-  "latest_text": "OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare ay £0 Not available Notavailable: Not available QV La yy La La ™ x i> | 243 WAYS | €9,757.00 @ *)",
-  "run_id": "40209463248",
-  "time": "2026-10-25T16:59:39+00:00"
+  "requests_total": 181,
+  "elapsed_seconds": 749,
+  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN = SS Not available available: SS RA Not avai JER’ ))) my %& ALD) Z — Lis ven 9 |% Y “aly | IN ul 243 WAYS B a \\\\-) €9,987.00 @ *)",
+  "run_id": "40221846216",
+  "time": "2026-10-25T18:58:55+00:00"
 }
