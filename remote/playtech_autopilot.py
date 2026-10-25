@@ -155,6 +155,8 @@ class Probe:
         self.observations = 0
         self.clicks = 0
         self.spin_attempts = 0
+        self.feature_since = None
+        self.last_feature_action = None
         self.feature_seen = False
         self.feature_finished = False
         self.stage = "starting"
@@ -334,6 +336,7 @@ class Probe:
                 words, state = await self.shot(page, "poll", save=self.observations%6 == 0)
                 if state["feature"]:
                     self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
                     self.stage = "feature_observed"
                     await self.shot(page, "feature", save=True)
                     self.note("FEATURE", state["text"][:300])
@@ -345,6 +348,28 @@ class Probe:
                     await self.checkpoint("feature_complete", force=True)
                     return
                 if self.feature_seen:
+                    # Only use a visible, stable and positively identified bonus
+                    # Continue/Play control, never guessed coordinates or buys.
+                    candidates = [w for w in words if CONTINUE.fullmatch(w["text"])
+                                  and 180 < w["y"] < 660 and 140 < w["x"] < 1140]
+                    if candidates:
+                        target = candidates[0]
+                        key = (target["text"].upper(), target["x"]//20, target["y"]//20)
+                        if key != self.last_feature_action:
+                            await page.wait_for_timeout(2000)
+                            verified, _ = await self.shot(page, "revalidate-feature", save=False)
+                            still = any(q["text"].upper() == target["text"].upper()
+                                        and abs(q["x"]-target["x"]) < 18
+                                        and abs(q["y"]-target["y"]) < 18 for q in verified)
+                            if still:
+                                await self.click(page, (target["x"],target["y"]), "confirmed_feature_continue")
+                                self.last_feature_action = key
+                                await self.shot(page, "after-feature-action", save=True)
+                    if self.feature_since and time.monotonic()-self.feature_since > 300:
+                        self.stage = "needs_review"
+                        self.note("FEATURE_STALLED", "Bonus did not reach a verified end in 300 seconds")
+                        await self.checkpoint("feature_needs_review", force=True)
+                        return
                     await self.checkpoint()
                     continue
                 if fallback:
@@ -372,6 +397,7 @@ class Probe:
                         failed_inputs = 0
                     if after["feature"] or settled["feature"]:
                         self.feature_seen = True
+                        self.feature_since = self.feature_since or time.monotonic()
                         self.stage = "feature_observed"
                         self.note("FEATURE", settled["text"][:300])
                         await self.shot(page, "feature", save=True)
@@ -417,6 +443,8 @@ async def main():
     groups = int(os.getenv("PLAYTECH_GROUPS", "4"))
     limit = max(30, min(6000, int(config.get("seconds_per_game", 3600))))
     assigned = [game for i, game in enumerate(IDS) if i % groups == group]
+    if os.getenv("PLAYTECH_ONLY"):
+        assigned = [game for game in IDS if game == os.environ["PLAYTECH_ONLY"]]
     print(json.dumps({"runner": RUN, "group": group, "games": assigned}), flush=True)
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=True, args=["--disable-dev-shm-usage"])
