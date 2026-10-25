@@ -1,17 +1,17 @@
 {
   "game": "aogmt",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "needs_review",
+  "outcome": "feature_needs_review",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 166,
+  "observations": 168,
   "clicks": 3,
   "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 2645,
-  "latest_text": "it available MIGHTY MIDAS CONGRATULATIONS! 3 AMETHYST SPINS All Midas Touch Symbols are double stacked! EN ——, it €0.05 zy 2 €992.75 LFF! i 19:18:59",
+  "elapsed_seconds": 2659,
+  "latest_text": "it available MIGHTY MIDAS CONGRATULATIONS! 3 AMETHYST SPINS All Midas Touch Symbols are double stacked! EN ——, it €0.05 zy 2 €992.75 LFF! i 19:19:28",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:19:17+00:00"
+  "time": "2026-10-25T19:19:32+00:00"
 }
