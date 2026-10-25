@@ -1,0 +1,9 @@
+{
+  "games": [
+    "ftsis",
+    "aogmt"
+  ],
+  "strategy": "native_until_feature_menu",
+  "mode": "FUN",
+  "retry": 1
+}
