@@ -1,17 +1,17 @@
 {
   "game": "aogroo",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40233535136,
-  "source_artifact": 12613919769,
+  "source_run": 40241233787,
+  "source_artifact": 12617529188,
   "source_screenshot": "aogroo/_current.png",
-  "source_result": "verified earned BATTLE FOR POWER bonus intro with CONTINUE at (950,500), blocked by fallback attempts at incorrect SPIN target",
-  "verified_bug": "Global OCR failed to classify Battle for Power bonus intro; fallback sent four spins to covered interface without acknowledging CONTINUE",
-  "fix_commit": "8071c21c9ae4d45fdc07016da86711a6ebdfc237",
-  "only_pending_function": "Twice-verify and acknowledge exactly once the earned FUN bonus intro; observe ensuing free games without buys or uncertain input repeats",
+  "source_result": "Earned 36 FREE GAMES terminal result: CONGRATULATIONS YOU WON €17.15 DURING FREE GAMES, yellow CONTINUE center (944,500), still visible after 333 observations.",
+  "verified_bug": "Old logic classified feature but did not recognize finished Rulers result; 900-second timeout without result acknowledgement.",
+  "fix_commit": "abca79ce5b0e88b59a1a13b3859e068bcb48f41b",
+  "only_pending_function": "Twice-verify earned FUN terminal result, CONTINUE once, verify return to base board; otherwise document needs_review. New DEMO context is not an old session restoration.",
   "forbid_buy": true,
   "forbid_real_money": true,
   "forbid_repeat_uncertain_purchase": true,
   "max_modal_confirms": 4,
-  "exclusive_job": "aogroo only; separate Ash and Griffin recovery 40240882306 not touched",
-  "run_key": "playtech-rulers-earned-bonus-intro-20261025"
+  "exclusive_job": "aogroo only",
+  "run_key": "playtech-rulers-finished-result-guard-20261025-2345Z"
 }
