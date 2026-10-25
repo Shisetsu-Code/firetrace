@@ -1,17 +1,17 @@
 {
   "game": "ashadv",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 49,
+  "observations": 52,
   "clicks": 2,
   "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 2854,
-  "latest_text": "©) aie - NOT ACTIVE ¢} /| ¢! iJ » v4 2 A a Gj 4 ( ¥ ES i! <3 €991.84 Play for Real",
+  "elapsed_seconds": 3022,
+  "latest_text": "& Pro gressivejackpot (OT ACTIVE > /| AD), v4 2 i a i y_~ | a Wi de] ie | yy | 3 AR > i! SAS ES WIN’ — = Sef €0.04 €991.84 Play for Real",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:34:00+00:00"
+  "time": "2026-10-25T19:36:48+00:00"
 }
