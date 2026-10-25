@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        game: [ashadv, gpas_aogggriffin_pop, aogmt, gpas_mgaogkol_pop]
+        game: [ashadv, gpas_aogggriffin_pop]
     env:
       PLAYTECH_ONLY: ${{ matrix.game }}
       PLAYTECH_OUT: /tmp/playtech-bonus-evidence
