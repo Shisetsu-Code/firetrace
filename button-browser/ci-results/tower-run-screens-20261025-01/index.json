@@ -1,25 +1,10 @@
 {
   "sessionId": "tower-run-screens-20261025-01",
-  "seq": 20,
-  "status": "ready",
-  "activeObservationId": "957180af-35cc-4e6b-a43f-878be59b67fc",
+  "seq": 21,
+  "status": "running",
+  "activeObservationId": null,
   "current": {
-    "observationId": "957180af-35cc-4e6b-a43f-878be59b67fc",
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
-    "crops": [
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b1.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b2.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b3.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b4.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b5.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b6.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b7.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b8.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/957180af-35cc-4e6b-a43f-878be59b67fc/b9.png"
-    ]
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
   },
   "responses": [
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000001.json",

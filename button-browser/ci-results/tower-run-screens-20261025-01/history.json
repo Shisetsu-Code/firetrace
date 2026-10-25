@@ -320,5 +320,16 @@
     "responsePath": "responses/000020.json",
     "observationId": "957180af-35cc-4e6b-a43f-878be59b67fc",
     "error": null
+  },
+  {
+    "seq": 21,
+    "commandId": "open-paytable-verified-001",
+    "command": {
+      "action": "click",
+      "id": "b4",
+      "observationId": "957180af-35cc-4e6b-a43f-878be59b67fc"
+    },
+    "startedAt": "2026-10-25T21:41:43.705Z",
+    "status": "reserved"
   }
 ]
