@@ -22,6 +22,9 @@ URL = (
     "?game=gpas_aogwfot_pop&preferedmode=offline&real=0"
 )
 PANEL = (87, 275, 294, 510)
+# Separate text crops; ornate full-panel backgrounds cause unreliable OCR.
+ANTE_LABEL = (97, 386, 280, 439)
+ANTE_STATE = (194, 441, 288, 484)
 REELS = (320, 198, 942, 589)
 
 
@@ -35,10 +38,18 @@ def crop(path: Path, rect) -> Image.Image:
 
 
 def read_panel(path: Path) -> str:
-    im = crop(path, PANEL)
-    im = im.resize((im.width * 2, im.height * 2))
-    im = im.filter(ImageFilter.UnsharpMask(radius=1.5, percent=180))
-    return pytesseract.image_to_string(im, config="--psm 6").upper()
+    """Read the Ante caption and OFF/ON state separately.
+
+    Visually verified on 40232541630/00027-before-ante-toggle.jpg.
+    Full-panel OCR missed both labels while this grayscale crop reads them.
+    """
+    def text(rect, psm):
+        im = crop(path, rect).convert("L")
+        im = im.resize((im.width * 4, im.height * 4))
+        im = im.filter(ImageFilter.UnsharpMask(radius=1.5, percent=180))
+        return pytesseract.image_to_string(im, config=f"--psm {psm}").upper()
+
+    return text(ANTE_LABEL, 6) + " STATE: " + text(ANTE_STATE, 7)
 
 
 async def main():
@@ -71,6 +82,7 @@ async def main():
             _, state = await probe.shot(page, "before-ante-toggle", save=True)
             before_path = probe.dir / "_current.png"
             before = crop(before_path, PANEL)
+            before_ante_state = crop(before_path, ANTE_STATE)
             before_reels = crop(before_path, REELS)
             before_text = read_panel(before_path)
             probe.note("ANTE_BEFORE", before_text[:280])
@@ -103,16 +115,16 @@ async def main():
             after_second = crop(probe.dir / "_current.png", PANEL)
             after_text = read_panel(probe.dir / "_current.png")
             probe.note("ANTE_AFTER", after_text[:280])
-            changed = difference(before, after_second)
+            changed_state = difference(before_ante_state, crop(probe.dir / "_current.png", ANTE_STATE))
             stable = difference(after_first, after_second)
             probe.note("ANTE_VISUAL_DELTA", json.dumps({
-                "changed": round(changed, 2), "stable": round(stable, 2),
+                "changed_state": round(changed_state, 2), "stable": round(stable, 2),
                 "before_OFF": "OFF" in before_text,
                 "after_ON": bool(re.search(r"\bON\b", after_text)),
                 "after_OFF": "OFF" in after_text,
             }))
             # Never spin on a guessed ante state.
-            if not (changed > 6 and stable < 8 and
+            if not (changed_state > 5 and stable < 8 and
                     re.search(r"\bON\b", after_text) and "OFF" not in after_text):
                 probe.stage = "ante_result_uncertain"
                 probe.note("STOP", "One toggle only. Cannot prove ante ON from 2 stable images")
