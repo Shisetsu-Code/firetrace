@@ -111,5 +111,16 @@
     "responsePath": "responses/000007.json",
     "observationId": "ab5ec159-3d10-4b92-ba26-1adb68c24a39",
     "error": null
+  },
+  {
+    "seq": 8,
+    "commandId": "continue-go-ultra-current-coordinate-001",
+    "command": {
+      "action": "click",
+      "x": 1206,
+      "y": 628
+    },
+    "startedAt": "2026-10-25T21:35:40.706Z",
+    "status": "reserved"
   }
 ]
