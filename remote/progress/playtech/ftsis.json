@@ -1,7 +1,7 @@
 {
   "game": "ftsis",
   "stage": "needs_review",
-  "outcome": "repeat_limit",
+  "outcome": "needs_review",
   "feature_seen": false,
   "feature_finished": false,
   "observations": 161,
@@ -11,8 +11,8 @@
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 18,
-  "elapsed_seconds": 1124,
+  "elapsed_seconds": 1125,
   "latest_text": "2 ODS PER NZ PO ER ‘Not availab Notiavatianle,. = EXTRA not available POWER FATS Not available POWER: <4 iif ni Se iis is iif i u i u tif u i tif i a i} i u ii d a it iif i i on U iif y it tif Autoplay stopped. u tif ii 2, iif u if uf I ii ij u Do yo",
   "run_id": "40232112481",
-  "time": "2026-10-25T21:02:57+00:00"
+  "time": "2026-10-25T21:02:59+00:00"
 }
