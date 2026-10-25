@@ -1,0 +1,52 @@
+name: Playtech FUN single unfinished feature
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['remote/playtech-single-target-trigger.json']
+permissions:
+  contents: write
+jobs:
+  single-fun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 85
+    env:
+      PLAYTECH_OUT: /tmp/playtech-single-fun-evidence
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Resolve exactly one allowlisted FUN game
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          trigger = json.loads(Path("remote/playtech-single-target-trigger.json").read_text())
+          cfg = json.loads(Path("remote/playtech-bonus-batch.json").read_text())
+          game = trigger.get("game")
+          if game not in cfg["games"] or trigger.get("mode") != "FUN_OFFLINE_ONLY" or not trigger.get("no_uncertain_purchase_retry", False):
+              raise SystemExit("Invalid or non-FUN target: refusing execution")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as out:
+              out.write(f"PLAYTECH_ONLY={game}\n")
+          print(f"Target: {game} (FUN/offline only, no buys)")
+          PY
+      - name: Install Chromium and OCR
+        run: |
+          python -m pip install -e . pillow pytesseract
+          python -m playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-eng
+      - name: Verify syntax then explore verified earned feature path
+        run: |
+          python -m py_compile remote/playtech_autopilot.py
+          python -u remote/playtech_autopilot.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playtech-single-${{ env.PLAYTECH_ONLY }}-${{ github.run_id }}
+          path: /tmp/playtech-single-fun-evidence/
+          retention-days: 7
+          if-no-files-found: warn
