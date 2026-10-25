@@ -13,6 +13,27 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "continue-current-intro-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 608
+      }
+    },
+    {
+      "commandId": "settle-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
+    },
+    {
+      "commandId": "verify-board-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
