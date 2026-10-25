@@ -2,7 +2,9 @@
 
 Fecha: 25 de octubre de 2026.
 
-## Resultado
+Este documento conserva la validación de la entrega inicial. La prueba posterior con un juego real en GitHub Actions y la suite ampliada de **67/67 pruebas** están documentadas en el [informe de Rise of Olympus Origins](playngo-actions-test.md).
+
+## Resultado de la entrega inicial
 
 `npm test`: **59 pruebas aprobadas, 0 fallos, 0 omitidas**, código de salida 0. Duración observada de la última ejecución completa: 84,22 segundos. Node 24.22.1, Playwright 1.56.1 y Chromium 141.0.7390.37. Las pruebas usan navegador real con páginas y escenas controladas.
 

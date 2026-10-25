@@ -203,7 +203,13 @@ npx playwright install --with-deps chromium
 npm test
 ```
 
-Pruebas con Chromium real: HTML, Shadow DOM, iframes con escala, ocultamiento, controles Pixi, recortes, validación de objetivos, API y reintentos. El transporte de visión se prueba con un endpoint de prueba local; no incluye evaluación de calidad de un modelo de visión externo. Ver `docs/verification.md` para el resultado de la entrega.
+Pruebas con Chromium real: HTML, Shadow DOM, iframes con escala, ocultamiento, controles Pixi, recortes, validación de objetivos, API y reintentos. El transporte de visión se prueba con un endpoint de prueba local; no incluye evaluación de calidad de un modelo de visión externo. Ver `docs/verification.md` para el resultado de la entrega inicial.
+
+### Juego real en GitHub Actions
+
+El 25 de octubre de 2026 se probó la demo oficial de **Rise of Olympus Origins**: se superó la introducción, se verificaron **11 controles en tres lecturas** y se ejecutó un giro de demo por ID. La suite local actual pasó **67/67 pruebas**. La verificación de esa selección excluyó explícitamente dos flechas animadas y un contenedor HTML; no acredita todos los controles del juego. Tardó **39,492 s** en el runner: las pausas entre lecturas son de 2 s y el procesamiento añade tiempo.
+
+El [informe de la prueba real](docs/playngo-actions-test.md) contiene la ejecución de Actions, capturas, recortes, coordenadas, comandos, resultados y límites observados. La sesión terminó con `STOP`.
 
 ## Referencias de implementación
 
