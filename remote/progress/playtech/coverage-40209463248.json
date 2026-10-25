@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-25T22:44:00Z",
+  "original_run": 40209463248,
+  "mode": "preferedmode=offline&real=0; balance ficticio",
+  "all_functions_verified": 0,
+  "total_games": 10,
+  "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
+  "current_active_runs": [
+    40240882306,
+    40241233787,
+    40241535898
+  ],
+  "no_purchase_ever_claimed_from_opaque_frames": true,
+  "notes": [
+    "Mere 'Not available' power labels do not prove buy/bonus absence in other menus.",
+    "All ten are incomplete; this coverage map records evidence, not a verified game outcome.",
+    "Never repeat a purchase when its result is uncertain; new runs so far operate only FUN mode."
+  ],
+  "games": {
+    "ashadv": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "5_FREE_GAMES_earned_in_prior_FUN_run",
+        "evidence": "40231711671/12613454975"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "end_modal_observed_return_not_verified",
+        "evidence": "40231711671/12613454975/ashadv/screenshots/00199-poll.jpg",
+        "text": "YOU'VE WON €4.28; CONTINUE"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40240882306,
+        "status": "needs_review",
+        "reason": "Autoplay stopped modal blocked fallback; no bonus in this attempt",
+        "artifact": 12616158225
+      },
+      "active_recovery": 40241535898
+    },
+    "ftsis": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40232112481,
+        "status": "needs_review",
+        "evidence": "Four verified YES repeat confirmations only, no feature"
+      }
+    },
+    "gpas_aogggriffin_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "8_FREE_GAMES_result_modal_observed",
+        "evidence": "40231711671/12614024580/gpas_aogggriffin_pop/screenshots/00422-feature.jpg",
+        "text": "YOU WON €20.00 IN 8 FREE GAMES"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "end_modal_observed_return_not_verified",
+        "evidence": "40231711671/12614024580"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "active_recovery": 40240882306
+    },
+    "aogmt": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "3_AMETHYST_SPINS_intro_acknowledged_not_finished",
+        "evidence": "40231711671/12614483502"
+      },
+      "bonus_result": {
+        "status": "stalled_no_end_observed",
+        "evidence": "40231711671/12614483502"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      }
+    },
+    "aogroo": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "BATTLE_FOR_POWER_bonus_intro_observed_not_acknowledged",
+        "evidence": "40233535136/12613919769/aogroo/_current.png"
+      },
+      "special_functions": {
+        "status": "RULERS_bonus_intro_PENDING_2x_guarded_continue",
+        "evidence": "40233535136/12613919769"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "active_recovery": 40241233787
+    },
+    "gpas_gstorm2_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40221846216,
+        "status": "time_limit_no_feature_end"
+      }
+    },
+    "gpas_agstorm3_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40221846216,
+        "status": "time_limit_no_feature_end"
+      }
+    },
+    "gpas_mgaogkol_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "FEATURE_WIN_464_end_screen_previously_observed_no_return",
+        "evidence": "40221846216/12610852689/gpas_mgaogkol_pop/screenshots/00164-feature.jpg"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40231711671,
+        "status": "time_limit_no_new_feature",
+        "artifact": 12614837947
+      }
+    },
+    "gpas_aogww_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "not_verified"
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40221846216,
+        "status": "time_limit_no_feature_end"
+      }
+    },
+    "gpas_aogwfot_pop": {
+      "complete": false,
+      "bonus_buy": {
+        "status": "not_verified",
+        "confirmed_purchases": 0
+      },
+      "ante_bet": {
+        "status": "ON_verified_plus_one_FUN_spin_with_reels_and_synthetic_balance_changed",
+        "evidence": "40233694420/12614071877/gpas_aogwfot_pop/screenshots/00027-before-ante-toggle.jpg through 00032-ante-spin-settle.jpg",
+        "server_wager_response_verified": false
+      },
+      "free_games": {
+        "status": "not_verified"
+      },
+      "special_functions": {
+        "status": "not_verified"
+      },
+      "bonus_result": {
+        "status": "not_verified"
+      },
+      "server_game_response": {
+        "status": "not_decoded",
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "last_result": {
+        "run": 40233694420,
+        "status": "ante_spin_visual_change",
+        "artifact": 12614071877
+      }
+    }
+  }
+}
