@@ -1,19 +1,17 @@
 {
-  "run_key": "playtech-40221846216-feature-evidence-followup-20261025",
+  "run_key": "playtech-20261025-finished-modal-recovery-2",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40221846216,
+  "source_run": 40231711671,
   "target_games": [
     "ashadv",
-    "gpas_aogggriffin_pop",
-    "aogmt",
-    "gpas_mgaogkol_pop"
+    "gpas_aogggriffin_pop"
   ],
   "source_artifacts": [
-    12612130837,
-    12611049141,
-    12610852689
+    12613454975,
+    12614024580
   ],
-  "allowed_actions": "acknowledge explicitly observed free-games/feature-result modals, DEMO base spins and native autoplay; no purchase, Ante Bet, or real balance actions",
+  "allowed_actions": "new isolated FUN-only game session, verified native autoplay/DEMO spins and exactly one twice-observed CONTINUE per recognized finished-bonus result; no Buy Bonus, purchases or Ante Bet",
   "no_uncertain_purchase_retry": true,
-  "not_complete_until_response_and_visual_confirm": true
+  "not_complete_until_response_and_visual_confirm": true,
+  "purpose": "Validate return to base board after visible bonus result screens not recognized in the previous run"
 }
