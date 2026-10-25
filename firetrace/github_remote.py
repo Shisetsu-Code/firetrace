@@ -275,6 +275,38 @@ class Session:
                 url_contains=str(args.get("url_contains", ""))[:200],
                 rx=float(args["rx"]), ry=float(args["ry"]),
                 wait_ms=min(10000, int(args.get("wait_ms", 2500))))
+        elif action == "audit_batch":
+            urls = args.get("urls") or []
+            if not isinstance(urls, list) or not 1 <= len(urls) <= 10:
+                raise ValueError("audit_batch accepts 1-10 HTTPS demo URLs")
+            settle_ms = min(15000, max(1000, int(args.get("settle_ms", 5000))))
+            records = []
+            for index, game_url in enumerate(urls, 1):
+                item = {"index":index, "requested_url":safe_url(game_url)}
+                try:
+                    validate_demo_url(game_url, self.allowed_hosts)
+                    if not self.backend.record_status()["recording"]:
+                        self.backend.record_start()
+                    try:
+                        item["navigation"] = self.backend.open(game_url)
+                        self.backend.wait(settle_ms)
+                        item["status"] = self.backend.status()
+                        item["ui"] = self.inspect()
+                        item["image"] = self.capture()
+                    except Exception as exc:
+                        item["error"] = f"{type(exc).__name__}: {exc}"
+                    finally:
+                        item["traffic"] = self.save_har()
+                        self.backend.record_start()
+                except Exception as exc:
+                    item["error"] = f"{type(exc).__name__}: {exc}"
+                item = scrub(item)
+                records.append(item)
+                self.event({"event":"audit_game", "game":item})
+                # Incremental evidence survives a later timeout/cancel.
+                checkpoint = self.artifact_dir / "batch-progress.json"
+                checkpoint.write_text(json.dumps(records, indent=2, ensure_ascii=False), encoding="utf-8")
+            data = {"audited":len(records), "results":records}
         elif action == "note":
             data = {"note":str(args.get("text", ""))[:2000],
                     "tags":[str(x)[:50] for x in args.get("tags", [])[:15]]}
