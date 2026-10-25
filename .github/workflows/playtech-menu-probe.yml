@@ -1,0 +1,37 @@
+name: Playtech autoplay menu visual audit
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['remote/playtech-menu-probe.json']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [0, 1]
+    env:
+      MENU_GROUP: ${{ matrix.group }}
+      MENU_OUT: /tmp/playtech-menu-probe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser
+        run: |
+          python -m pip install -e .
+          python -m playwright install --with-deps chromium
+      - name: Probe native autoplay menus
+        run: python -m py_compile remote/playtech_menu_probe.py && python -u remote/playtech_menu_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-menu-screens-${{ matrix.group }}-${{ github.run_id }}
+          path: /tmp/playtech-menu-probe/
+          retention-days: 7
+          if-no-files-found: warn
