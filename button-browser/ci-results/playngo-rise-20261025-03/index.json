@@ -1,10 +1,27 @@
 {
   "sessionId": "playngo-rise-20261025-03",
   "seq": 7,
-  "status": "running",
-  "activeObservationId": null,
+  "status": "ready",
+  "activeObservationId": "11f96dbb-f0a0-48cb-9ca8-d064ae55d262",
   "current": {
-    "current": "button-browser/ci-results/playngo-rise-20261025-03/current.png"
+    "observationId": "11f96dbb-f0a0-48cb-9ca8-d064ae55d262",
+    "current": "button-browser/ci-results/playngo-rise-20261025-03/current.png",
+    "annotated": "button-browser/ci-results/playngo-rise-20261025-03/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-rise-20261025-03/buttons.png",
+    "observation": "button-browser/ci-results/playngo-rise-20261025-03/observation.json",
+    "crops": [
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b1.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b10.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b11.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b2.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b3.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b4.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b5.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b6.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b7.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b8.png",
+      "button-browser/ci-results/playngo-rise-20261025-03/crops/11f96dbb-f0a0-48cb-9ca8-d064ae55d262/b9.png"
+    ]
   },
   "responses": [
     "button-browser/ci-results/playngo-rise-20261025-03/responses/000001.json",
@@ -12,7 +29,8 @@
     "button-browser/ci-results/playngo-rise-20261025-03/responses/000003.json",
     "button-browser/ci-results/playngo-rise-20261025-03/responses/000004.json",
     "button-browser/ci-results/playngo-rise-20261025-03/responses/000005.json",
-    "button-browser/ci-results/playngo-rise-20261025-03/responses/000006.json"
+    "button-browser/ci-results/playngo-rise-20261025-03/responses/000006.json",
+    "button-browser/ci-results/playngo-rise-20261025-03/responses/000007.json"
   ],
   "state": "button-browser/ci-results/playngo-rise-20261025-03/state.json",
   "history": "button-browser/ci-results/playngo-rise-20261025-03/history.json"
