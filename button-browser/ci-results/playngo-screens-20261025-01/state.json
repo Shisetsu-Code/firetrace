@@ -5,19 +5,66 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 21,
   "lastCommandId": "close-settings-verified-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "click",
+      "clicked": "b6",
+      "x": 641.05,
+      "y": 548.27,
+      "source": "pixi"
+    },
+    "observation": {
+      "observationId": "39064448-af63-4b29-94e4-69dd50a87835",
+      "timestamp": "2026-10-25T20:48:53.282Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 6640,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/buttons.json"
+    },
+    "fixedButtons": []
+  },
   "verification": {
-    "status": "stable",
-    "currentSample": 3,
+    "status": "idle",
+    "currentSample": 0,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:48:39.516Z",
+  "updatedAt": "2026-10-25T20:48:55.073Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -29,9 +76,14 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "39064448-af63-4b29-94e4-69dd50a87835",
   "files": {
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
+    "observationId": "39064448-af63-4b29-94e4-69dd50a87835",
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
+    "crops": []
   },
   "commands": [
     {
@@ -238,8 +290,11 @@
       "commandId": "close-settings-verified-001",
       "fingerprint": "5380298de4aaa7622a4bfe465b23a483c31f14718ecdca3b6c2ff618b61799c7",
       "seq": 21,
-      "status": "reserved",
-      "startedAt": "2026-10-25T20:48:39.513Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T20:48:39.513Z",
+      "completedAt": "2026-10-25T20:48:55.069Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",

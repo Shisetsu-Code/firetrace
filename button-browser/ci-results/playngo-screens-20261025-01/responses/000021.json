@@ -1,0 +1,53 @@
+{
+  "seq": 21,
+  "commandId": "close-settings-verified-001",
+  "completedAt": "2026-10-25T20:48:55.069Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "click",
+      "clicked": "b6",
+      "x": 641.05,
+      "y": 548.27,
+      "source": "pixi"
+    },
+    "observation": {
+      "observationId": "39064448-af63-4b29-94e4-69dd50a87835",
+      "timestamp": "2026-10-25T20:48:53.282Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 6640,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/39064448-af63-4b29-94e4-69dd50a87835/buttons.json"
+    },
+    "fixedButtons": []
+  }
+}
