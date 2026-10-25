@@ -1,0 +1,20 @@
+{
+  "session": "playtech-first10-20261025-b",
+  "id": "audit-first10-001",
+  "action": "audit_batch",
+  "args": {
+    "urls": [
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=ashadv&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=ftsis&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_aogggriffin_pop&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=aogmt&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=aogroo&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_gstorm2_pop&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_agstorm3_pop&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_mgaogkol_pop&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_aogww_pop&preferedmode=offline&real=0",
+      "https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game=gpas_aogwfot_pop&preferedmode=offline&real=0"
+    ],
+    "settle_ms": 5000
+  }
+}
