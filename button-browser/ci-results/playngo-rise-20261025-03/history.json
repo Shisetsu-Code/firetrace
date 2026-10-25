@@ -30,5 +30,14 @@
     "responsePath": "responses/000002.json",
     "observationId": "cfc703f8-17a7-4da8-add2-5824aee43831",
     "error": null
+  },
+  {
+    "seq": 3,
+    "commandId": "capture-intro-001",
+    "command": {
+      "action": "snapshot"
+    },
+    "startedAt": "2026-10-25T19:34:54.478Z",
+    "status": "reserved"
   }
 ]
