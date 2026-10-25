@@ -24,7 +24,9 @@ URL = (
 PANEL = (87, 275, 294, 510)
 # Separate text crops; ornate full-panel backgrounds cause unreliable OCR.
 ANTE_LABEL = (97, 386, 280, 439)
+# OFF appears right of the slider; after toggling, ON appears on the left.
 ANTE_STATE = (194, 441, 288, 484)
+ANTE_ON_LABEL = (100, 446, 184, 481)
 REELS = (320, 198, 942, 589)
 
 
@@ -49,7 +51,8 @@ def read_panel(path: Path) -> str:
         im = im.filter(ImageFilter.UnsharpMask(radius=1.5, percent=180))
         return pytesseract.image_to_string(im, config=f"--psm {psm}").upper()
 
-    return text(ANTE_LABEL, 6) + " STATE: " + text(ANTE_STATE, 7)
+    return (text(ANTE_LABEL, 6) + " STATE_LEFT: " + text(ANTE_ON_LABEL, 7)
+            + " STATE_RIGHT: " + text(ANTE_STATE, 7))
 
 
 async def main():
@@ -131,6 +134,9 @@ async def main():
                 return
             probe.stage = "ante_enabled_observed"
             probe.note("ANTE_VERIFIED", "ON visually read in FUN mode; still no outcome claim")
+            # Reels can change when a settings toggle redraws the board.
+            # Baseline must be *after* Ante is verified, just before spin.
+            before_reels = crop(probe.dir / "_current.png", REELS)
             before_net = probe.network_events
             await probe.click(page, (1205, 627), "single_FUN_spin_with_verified_ante")
             probe.spin_attempts += 1
