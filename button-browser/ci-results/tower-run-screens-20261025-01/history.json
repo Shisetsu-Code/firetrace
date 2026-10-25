@@ -370,5 +370,15 @@
     "responsePath": "responses/000023.json",
     "observationId": "0a15b9c1-7f91-4d7d-afae-fcb3a12909ad",
     "error": null
+  },
+  {
+    "seq": 24,
+    "commandId": "reopen-for-help-001",
+    "command": {
+      "action": "goto",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]"
+    },
+    "startedAt": "2026-10-25T21:44:17.762Z",
+    "status": "reserved"
   }
 ]

@@ -5,133 +5,11 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40235757252",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 23,
-  "lastCommandId": "verify-paytable-filtered-001",
-  "lastResponse": {
-    "ok": true,
-    "result": {
-      "action": "verify",
-      "status": "stable",
-      "positionsReady": true
-    },
-    "observation": {
-      "observationId": "0a15b9c1-7f91-4d7d-afae-fcb3a12909ad",
-      "timestamp": "2026-10-25T21:43:52.642Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 20413,
-      "canvasCount": 1,
-      "stability": {
-        "status": "stable",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 3,
-        "reasons": [],
-        "maxGeometryDeltaPx": 0,
-        "maxAppearanceDifference": 0,
-        "scope": {
-          "excludeLabels": [
-            "49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold "
-          ],
-          "excludedCounts": [
-            1,
-            1,
-            1
-          ]
-        },
-        "samples": [
-          {
-            "index": 1,
-            "timestamp": "2026-10-25T21:43:38.166Z",
-            "candidateCount": 1,
-            "timingsMs": {
-              "dom": 2038,
-              "engine": 1783,
-              "capture": 1086,
-              "vision": 0
-            }
-          },
-          {
-            "index": 2,
-            "timestamp": "2026-10-25T21:43:45.361Z",
-            "candidateCount": 1,
-            "timingsMs": {
-              "dom": 2038,
-              "engine": 1790,
-              "capture": 1089,
-              "vision": 0
-            }
-          },
-          {
-            "index": 3,
-            "timestamp": "2026-10-25T21:43:52.642Z",
-            "candidateCount": 1,
-            "timingsMs": {
-              "dom": 2066,
-              "engine": 1782,
-              "capture": 1108,
-              "vision": 0
-            }
-          }
-        ]
-      },
-      "fixedButtons": [],
-      "detection": {
-        "dom": 1,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [
-        {
-          "id": "b1",
-          "label": "EXIT",
-          "kind": "button",
-          "source": "dom",
-          "confidence": 1,
-          "actionable": true,
-          "estimated": false,
-          "bbox": {
-            "x": 472,
-            "y": 448.11,
-            "width": 336.02,
-            "height": 59.94
-          },
-          "center": {
-            "x": 640.01,
-            "y": 478.08
-          },
-          "clickPoint": {
-            "x": 640.01,
-            "y": 478.08
-          },
-          "normalized": {
-            "x": 0.36875,
-            "y": 0.622374,
-            "width": 0.262512,
-            "height": 0.083247
-          },
-          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/crops/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/b1.png"
-        }
-      ],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/buttons.json"
-    },
-    "fixedButtons": []
-  },
+  "status": "running",
+  "phase": "executing",
+  "seq": 24,
+  "lastCommandId": "reopen-for-help-001",
+  "lastResponse": null,
   "verification": {
     "status": "stable",
     "currentSample": 3,
@@ -139,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:43:53.417Z",
+  "updatedAt": "2026-10-25T21:44:17.764Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -151,16 +29,9 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "0a15b9c1-7f91-4d7d-afae-fcb3a12909ad",
+  "activeObservationId": null,
   "files": {
-    "observationId": "0a15b9c1-7f91-4d7d-afae-fcb3a12909ad",
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
-    "crops": [
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/0a15b9c1-7f91-4d7d-afae-fcb3a12909ad/b1.png"
-    ]
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
   },
   "commands": [
     {
@@ -392,6 +263,13 @@
       "completedAt": "2026-10-25T21:43:53.414Z",
       "ok": true,
       "actionExecuted": true
+    },
+    {
+      "commandId": "reopen-for-help-001",
+      "fingerprint": "a780454ee71c7a76ee19e9b751983176b153a79d72245c1ba4823fdbeb4f6cee",
+      "seq": 24,
+      "status": "reserved",
+      "startedAt": "2026-10-25T21:44:17.762Z"
     }
   ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",
