@@ -49,6 +49,27 @@
           "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
         ]
       }
+    },
+    {
+      "commandId": "single-demo-spin-verified-001",
+      "command": {
+        "action": "click",
+        "id": "b1",
+        "observationId": "11f96dbb-f0a0-48cb-9ca8-d064ae55d262"
+      }
+    },
+    {
+      "commandId": "settle-single-spin-001",
+      "command": {
+        "action": "wait",
+        "ms": 8000
+      }
+    },
+    {
+      "commandId": "capture-after-spin-001",
+      "command": {
+        "action": "snapshot"
+      }
     }
   ]
 }
