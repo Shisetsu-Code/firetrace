@@ -1,0 +1,89 @@
+{
+  "seq": 6,
+  "commandId": "verify-board-001",
+  "completedAt": "2026-10-25T19:23:57.924Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "verify",
+      "status": "unstable",
+      "positionsReady": false
+    },
+    "observation": {
+      "observationId": "07ffcf79-95ba-4ed8-a2ca-304419eb86ba",
+      "timestamp": "2026-10-25T19:23:56.433Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 39207,
+      "canvasCount": 1,
+      "stability": {
+        "status": "unstable",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 3,
+        "reasons": [
+          "Cambió la apariencia del control pixi «BET_DEC» entre las lecturas 1 y 2.",
+          "Cambió la apariencia del control pixi «BET_INC» entre las lecturas 1 y 2.",
+          "Cambió la apariencia del control pixi «BET_INC» entre las lecturas 1 y 3."
+        ],
+        "maxGeometryDeltaPx": 0,
+        "maxAppearanceDifference": 0.01883425245098039,
+        "samples": [
+          {
+            "index": 1,
+            "timestamp": "2026-10-25T19:23:30.132Z",
+            "candidateCount": 14,
+            "timingsMs": {
+              "dom": 2903,
+              "engine": 5358,
+              "capture": 3328,
+              "vision": 0
+            }
+          },
+          {
+            "index": 2,
+            "timestamp": "2026-10-25T19:23:43.226Z",
+            "candidateCount": 14,
+            "timingsMs": {
+              "dom": 2803,
+              "engine": 5064,
+              "capture": 3226,
+              "vision": 0
+            }
+          },
+          {
+            "index": 3,
+            "timestamp": "2026-10-25T19:23:56.433Z",
+            "candidateCount": 14,
+            "timingsMs": {
+              "dom": 2936,
+              "engine": 4998,
+              "capture": 3272,
+              "vision": 0
+            }
+          }
+        ]
+      },
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/07ffcf79-95ba-4ed8-a2ca-304419eb86ba/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/07ffcf79-95ba-4ed8-a2ca-304419eb86ba/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/07ffcf79-95ba-4ed8-a2ca-304419eb86ba/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/07ffcf79-95ba-4ed8-a2ca-304419eb86ba/buttons.json"
+    }
+  }
+}
