@@ -45,5 +45,15 @@
     "responsePath": "responses/000003.json",
     "observationId": "56a5ff05-5902-49ec-9b72-ac5cd7bac718",
     "error": null
+  },
+  {
+    "seq": 4,
+    "commandId": "wait-intro-animation-001",
+    "command": {
+      "action": "wait",
+      "ms": 1500
+    },
+    "startedAt": "2026-10-25T19:10:13.190Z",
+    "status": "reserved"
   }
 ]
