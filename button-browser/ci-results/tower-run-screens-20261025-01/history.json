@@ -386,5 +386,15 @@
     "responsePath": "responses/000024.json",
     "observationId": "c211b58e-2649-42c5-9714-251231d64b1f",
     "error": null
+  },
+  {
+    "seq": 25,
+    "commandId": "load-for-help-001",
+    "command": {
+      "action": "wait",
+      "ms": 25000
+    },
+    "startedAt": "2026-10-25T21:44:27.509Z",
+    "status": "reserved"
   }
 ]
