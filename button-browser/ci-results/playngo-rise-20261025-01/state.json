@@ -12,12 +12,12 @@
   "lastResponse": null,
   "verification": {
     "status": "checking",
-    "currentSample": 2,
+    "currentSample": 3,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T19:08:19.899Z",
-  "updatedAt": "2026-10-25T19:10:42.966Z",
+  "updatedAt": "2026-10-25T19:10:55.654Z",
   "expiresAt": "2026-10-25T19:33:19.899Z",
   "gameURL": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "stopReason": null,
