@@ -1,6 +1,6 @@
 {
-  "observationId": "6cf4abcf-5e74-4678-87db-c2e1e204ca44",
-  "timestamp": "2026-10-25T19:20:30.032Z",
+  "observationId": "bc1833a1-f444-4442-9e33-69ac63f4210d",
+  "timestamp": "2026-10-25T19:22:54.193Z",
   "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "title": "",
   "viewport": {
@@ -10,58 +10,17 @@
   },
   "coordinateSpace": "viewport-css-px",
   "warnings": [],
-  "timingMs": 39530,
-  "canvasCount": 1,
+  "timingMs": 4959,
+  "canvasCount": 0,
   "stability": {
-    "status": "unstable",
+    "status": "unverified",
     "requiredSamples": 3,
     "intervalMs": 2000,
     "geometryTolerancePx": 1,
     "maxCropDifference": 0.015,
-    "completedSamples": 3,
-    "reasons": [
-      "Cambió la apariencia del control pixi «dontShowAgainAnim.btn» entre las lecturas 1 y 2.",
-      "Cambió la apariencia del control pixi «continueBtn» entre las lecturas 1 y 3.",
-      "Cambió la apariencia del control pixi «dontShowAgainAnim.btn» entre las lecturas 1 y 3.",
-      "Cambió la apariencia del control pixi «continueBtn» entre las lecturas 2 y 3."
-    ],
-    "maxGeometryDeltaPx": 0,
-    "maxAppearanceDifference": 0.023283037173202615,
-    "samples": [
-      {
-        "index": 1,
-        "timestamp": "2026-10-25T19:20:04.426Z",
-        "candidateCount": 3,
-        "timingsMs": {
-          "dom": 3707,
-          "engine": 5517,
-          "capture": 3373,
-          "vision": 0
-        }
-      },
-      {
-        "index": 2,
-        "timestamp": "2026-10-25T19:20:17.165Z",
-        "candidateCount": 3,
-        "timingsMs": {
-          "dom": 2891,
-          "engine": 4697,
-          "capture": 3148,
-          "vision": 0
-        }
-      },
-      {
-        "index": 3,
-        "timestamp": "2026-10-25T19:20:30.032Z",
-        "candidateCount": 3,
-        "timingsMs": {
-          "dom": 2724,
-          "engine": 4815,
-          "capture": 3328,
-          "vision": 0
-        }
-      }
-    ]
+    "completedSamples": 0,
+    "reasons": [],
+    "samples": []
   },
   "detection": {
     "dom": 0,
@@ -70,8 +29,8 @@
     "visionRequested": false
   },
   "buttons": [],
-  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/6cf4abcf-5e74-4678-87db-c2e1e204ca44/screenshot.png",
-  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/6cf4abcf-5e74-4678-87db-c2e1e204ca44/annotated.png",
-  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/6cf4abcf-5e74-4678-87db-c2e1e204ca44/buttons.png",
-  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/6cf4abcf-5e74-4678-87db-c2e1e204ca44/buttons.json"
+  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/bc1833a1-f444-4442-9e33-69ac63f4210d/screenshot.png",
+  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/bc1833a1-f444-4442-9e33-69ac63f4210d/annotated.png",
+  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/bc1833a1-f444-4442-9e33-69ac63f4210d/buttons.png",
+  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-02/observations/bc1833a1-f444-4442-9e33-69ac63f4210d/buttons.json"
 }
