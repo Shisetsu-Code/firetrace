@@ -1,0 +1,59 @@
+name: Button Browser — Play'n GO session
+
+on:
+  push:
+    branches:
+      - codex/button-browser-playngo-20261025
+    paths:
+      - button-browser/ci/start.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: button-browser-playngo-live-session
+  cancel-in-progress: false
+
+jobs:
+  session:
+    if: github.repository == 'Shisetsu-Code/firetrace' && github.ref == 'refs/heads/codex/button-browser-playngo-20261025'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: button-browser
+    steps:
+      - name: Checkout dedicated branch
+        uses: actions/checkout@v4
+        with:
+          ref: codex/button-browser-playngo-20261025
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: button-browser/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium and system dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Open session and wait for explicit commands
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/github-session.cjs
+
+      - name: Upload session evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: button-browser-playngo-${{ github.run_id }}-${{ github.run_attempt }}
+          path: button-browser/evidence/
+          if-no-files-found: warn
+          retention-days: 7

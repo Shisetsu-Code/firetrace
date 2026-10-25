@@ -1,0 +1,17 @@
+services:
+  button-browser:
+    build: .
+    init: true
+    restart: unless-stopped
+    ports:
+      - "8766:8766"
+    environment:
+      BUTTON_BROWSER_TOKEN: ${BUTTON_BROWSER_TOKEN:?Definí un token de al menos 16 caracteres}
+      VISION_BASE_URL: ${VISION_BASE_URL:-}
+      VISION_MODEL: ${VISION_MODEL:-}
+      VISION_API_KEY: ${VISION_API_KEY:-}
+    shm_size: "1gb"
+    volumes:
+      - browser-data:/app/data
+volumes:
+  browser-data:

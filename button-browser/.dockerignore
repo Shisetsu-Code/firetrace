@@ -1,0 +1,8 @@
+node_modules
+data
+.git
+.env
+tests
+examples
+*.har
+*.zip

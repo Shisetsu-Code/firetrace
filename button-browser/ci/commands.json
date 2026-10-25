@@ -1,0 +1,13 @@
+{
+  "sessionId": "playngo-rise-20261025-01",
+  "commands": [
+    {
+      "commandId": "initial-load-001",
+      "command": {"action": "wait", "ms": 20000}
+    },
+    {
+      "commandId": "verify-intro-001",
+      "command": {"action": "verify"}
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "observationId": "6cbe0234-9fa5-4a1b-8497-11537c89cd9c",
+  "timestamp": "2026-10-25T15:53:34.124Z",
+  "url": "http://127.0.0.1:39203/demo",
+  "title": "Laboratorio de botones",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "deviceScaleFactor": 1
+  },
+  "coordinateSpace": "viewport-css-px",
+  "warnings": [],
+  "timingMs": 4554,
+  "canvasCount": 0,
+  "stability": {
+    "status": "stable",
+    "requiredSamples": 3,
+    "intervalMs": 2000,
+    "geometryTolerancePx": 1,
+    "maxCropDifference": 0.015,
+    "completedSamples": 3,
+    "reasons": [],
+    "maxGeometryDeltaPx": 0,
+    "maxAppearanceDifference": 0,
+    "samples": [
+      {
+        "index": 1,
+        "timestamp": "2026-10-25T15:53:29.901Z",
+        "candidateCount": 6
+      },
+      {
+        "index": 2,
+        "timestamp": "2026-10-25T15:53:32.017Z",
+        "candidateCount": 6
+      },
+      {
+        "index": 3,
+        "timestamp": "2026-10-25T15:53:34.124Z",
+        "candidateCount": 6
+      }
+    ]
+  },
+  "detection": {
+    "dom": 6,
+    "engine": 0,
+    "vision": 0,
+    "visionRequested": false
+  },
+  "buttons": [
+    {
+      "id": "b1",
+      "label": "Continuar",
+      "kind": "button",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 145,
+        "y": 224.59,
+        "width": 131.19,
+        "height": 48
+      },
+      "center": {
+        "x": 210.59,
+        "y": 248.59
+      },
+      "clickPoint": {
+        "x": 210.59,
+        "y": 248.59
+      },
+      "normalized": {
+        "x": 0.113281,
+        "y": 0.311936,
+        "width": 0.10249,
+        "height": 0.066667
+      },
+      "cropUrl": "b1.png"
+    },
+    {
+      "id": "b2",
+      "label": "Abrir menú",
+      "kind": "button",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 292.19,
+        "y": 224.59,
+        "width": 131.91,
+        "height": 48
+      },
+      "center": {
+        "x": 358.14,
+        "y": 248.59
+      },
+      "clickPoint": {
+        "x": 358.14,
+        "y": 248.59
+      },
+      "normalized": {
+        "x": 0.228271,
+        "y": 0.311936,
+        "width": 0.103052,
+        "height": 0.066667
+      },
+      "cropUrl": "b2.png"
+    },
+    {
+      "id": "b3",
+      "label": "Turbo: apagado",
+      "kind": "toggle",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 440.09,
+        "y": 224.59,
+        "width": 164.41,
+        "height": 48
+      },
+      "center": {
+        "x": 522.3,
+        "y": 248.59
+      },
+      "clickPoint": {
+        "x": 522.3,
+        "y": 248.59
+      },
+      "normalized": {
+        "x": 0.343823,
+        "y": 0.311936,
+        "width": 0.128442,
+        "height": 0.066667
+      },
+      "cropUrl": "b3.png"
+    },
+    {
+      "id": "b4",
+      "label": "Limpiar",
+      "kind": "button",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 391,
+        "y": 539.09,
+        "width": 104.19,
+        "height": 48
+      },
+      "center": {
+        "x": 443.09,
+        "y": 563.09
+      },
+      "clickPoint": {
+        "x": 443.09,
+        "y": 563.09
+      },
+      "normalized": {
+        "x": 0.305469,
+        "y": 0.748741,
+        "width": 0.081396,
+        "height": 0.066667
+      },
+      "cropUrl": "b4.png"
+    },
+    {
+      "id": "b5",
+      "label": "Otra página",
+      "kind": "link",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 511.19,
+        "y": 539.09,
+        "width": 136.92,
+        "height": 48
+      },
+      "center": {
+        "x": 579.65,
+        "y": 563.09
+      },
+      "clickPoint": {
+        "x": 579.65,
+        "y": 563.09
+      },
+      "normalized": {
+        "x": 0.399365,
+        "y": 0.748741,
+        "width": 0.10697,
+        "height": 0.066667
+      },
+      "cropUrl": "b5.png"
+    },
+    {
+      "id": "b6",
+      "label": "Botón en Shadow DOM",
+      "kind": "button",
+      "source": "dom",
+      "confidence": 1,
+      "actionable": true,
+      "estimated": false,
+      "bbox": {
+        "x": 664.11,
+        "y": 539.09,
+        "width": 220.56,
+        "height": 48
+      },
+      "center": {
+        "x": 774.39,
+        "y": 563.09
+      },
+      "clickPoint": {
+        "x": 774.39,
+        "y": 563.09
+      },
+      "normalized": {
+        "x": 0.518835,
+        "y": 0.748741,
+        "width": 0.172314,
+        "height": 0.066667
+      },
+      "cropUrl": "b6.png"
+    }
+  ],
+  "screenshotUrl": "screenshot.png",
+  "annotatedUrl": "annotated.png",
+  "contactSheetUrl": "buttons.png",
+  "jsonUrl": "observation.json"
+}

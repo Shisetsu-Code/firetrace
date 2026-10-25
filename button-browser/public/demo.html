@@ -1,0 +1,18 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorio de botones</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:52px;background:#101828;color:#ecf3f8;font:16px system-ui}main{max-width:1040px;margin:auto}.tag{font:12px monospace;color:#5eeac1;letter-spacing:.16em}h1{font-size:40px;margin:14px 0 12px}p{color:#94a8bd;line-height:1.6}section{margin-top:32px;border:1px solid #2c3e55;border-radius:16px;background:#152238;padding:24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}button,a{border:1px solid #456179;border-radius:10px;padding:14px 23px;background:#233c56;color:white;font-size:15px;cursor:pointer;text-decoration:none}button.primary{background:#38d7aa;color:#0b2c26;border-color:#38d7aa;font-weight:700}button:disabled{opacity:.35;cursor:default}.screen{height:160px;margin-top:24px;border:1px dashed #37546e;border-radius:12px;display:grid;place-items:center;color:#9cb3c6;background:radial-gradient(ellipse at 50% 100%,#214764,transparent 70%)}#status{color:#5eeac1}input{padding:14px;background:#0a1526;border:1px solid #3c566f;color:white;border-radius:10px;font:inherit}footer{font:12px monospace;color:#6b859d;margin-top:32px}.hidden{display:none}dialog{background:#192b40;color:white;border:1px solid #46647b;border-radius:16px;min-width:360px;padding:32px}dialog::backdrop{background:#000b}
+</style><main><div class="tag">BUTTON BROWSER / LABORATORIO</div><h1>Controles para probar.</h1><p>Esta página permite comprobar detección, recortes, coordenadas y comandos sin salir del navegador.</p>
+<section><button class="primary" id="run">Continuar</button><button id="menu">Abrir menú</button><button id="toggle" role="switch" aria-checked="false">Turbo: apagado</button><button id="disable" disabled>Deshabilitado</button><button class="hidden">Oculto</button></section>
+<div class="screen"><div>Estado: <span id="status">Esperando un clic</span></div></div>
+<section><input aria-label="Texto de prueba" placeholder="Probá el comando type"><button id="clear">Limpiar</button><a href="/demo?pagina=2">Otra página</a><div id="shadow"></div></section>
+<p>El botón deshabilitado y el oculto no deben aparecer entre los controles accionables.</p><footer>Origen (0, 0): esquina superior izquierda del área de contenido.</footer></main>
+<dialog><h2>Menú de prueba</h2><p>Un modal tapa los controles que quedan debajo.</p><button id="confirm" class="primary">Confirmar</button><button id="cancel">Cerrar</button></dialog>
+<script>
+let clicks=0;document.querySelector('#run').onclick=()=>document.querySelector('#status').textContent=`Continuar: ${++clicks} clic(s)`;
+document.querySelector('#menu').onclick=()=>document.querySelector('dialog').showModal();
+document.querySelector('#cancel').onclick=()=>document.querySelector('dialog').close();
+document.querySelector('#confirm').onclick=()=>{document.querySelector('#status').textContent='Confirmado';document.querySelector('dialog').close()};
+document.querySelector('#toggle').onclick=e=>{const on=e.target.getAttribute('aria-checked')!=='true';e.target.setAttribute('aria-checked',on);e.target.textContent='Turbo: '+(on?'encendido':'apagado')};
+document.querySelector('#clear').onclick=()=>document.querySelector('input').value='';
+document.querySelector('#shadow').attachShadow({mode:'open'}).innerHTML='<button style="background:#233c56;color:white;border:1px solid #456179;border-radius:10px;padding:14px 23px;font:15px system-ui;cursor:pointer" onclick="this.textContent=\'Sombra: OK\'">Botón en Shadow DOM</button>';
+</script></html>

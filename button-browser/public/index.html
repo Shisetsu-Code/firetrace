@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1119">
+  <meta name="description" content="Navegador controlable por comandos: verificá tres muestras y anotá las coordenadas estables directamente sobre la imagen.">
+  <title>Button Browser · Inspector</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23163f37'/%3E%3Cpath d='M11 6H6v5m15-5h5v5M6 21v5h5m15-5v5h-5M11 12h10v8H11z' fill='none' stroke='%2380dfc4' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6M8 12h12"/></symbol>
+    <symbol id="i-forward" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6M16 12H4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M5.3 8a7.5 7.5 0 0 1 12.4-2L20 9M4 15l2.3 3A7.5 7.5 0 0 0 18.7 16"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M8 3H4a1 1 0 0 0-1 1v4m13-5h4a1 1 0 0 1 1 1v4M3 16v4a1 1 0 0 0 1 1h4m13-5v4a1 1 0 0 1-1 1h-4M7 8h10v8H7zM10 12h4"/></symbol>
+    <symbol id="i-browser" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01M10 13l5 3-2 1-1 2z"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m5 6 6 6-6 6m8 0h6"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="m11 12 9 9m-3-3 3-3m-6 0 3-3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 5h12M9 12h12M9 19h12M3 5h.01M3 12h.01M3 19h.01"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 15v5a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-5"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/></symbol>
+    <symbol id="i-pointer" viewBox="0 0 24 24"><path d="m5 3 15 9-7 2-3 7zM13 14l5 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark"><svg class="icon"><use href="#i-scan"/></svg></span>
+        <div><h1>Button Browser<span class="version-tag">BETA</span></h1><p>Navegá. Verificá. Ejecutá.</p></div>
+      </div>
+      <div class="header-actions">
+        <span class="connection-status" id="connection-status" role="status"><span class="status-dot"></span><span id="connection-label">Conectando</span></span>
+        <details class="access-settings" id="access-settings">
+          <summary><svg class="icon"><use href="#i-key"/></svg><span>Acceso</span><span id="auth-badge" class="subtle-label">Sin token</span></summary>
+          <form id="token-form" class="access-popover">
+            <label for="token-input">Token del servidor</label>
+            <input id="token-input" type="password" placeholder="Opcional en localhost" autocomplete="off" spellcheck="false" autocapitalize="off">
+            <p>Se conserva sólo durante esta sesión de la pestaña.</p>
+            <div class="access-actions"><button class="button button-primary" id="apply-token" type="submit">Aplicar token</button><button class="button button-subtle" id="clear-token" type="button">Quitar</button></div>
+          </form>
+        </details>
+      </div>
+    </header>
+
+    <form class="address-bar" id="address-form" aria-label="Navegación">
+      <div class="navigation-buttons">
+        <button class="icon-button" type="button" data-text-command="back" title="Volver" aria-label="Volver"><svg class="icon"><use href="#i-back"/></svg></button>
+        <button class="icon-button" type="button" data-text-command="forward" title="Avanzar" aria-label="Avanzar"><svg class="icon"><use href="#i-forward"/></svg></button>
+        <button class="icon-button" id="reload-button" type="button" data-text-command="reload" title="Recargar" aria-label="Recargar"><svg class="icon"><use href="#i-refresh"/></svg></button>
+      </div>
+      <div class="address-input-wrap"><svg class="icon"><use href="#i-browser"/></svg><label class="sr-only" for="address-input">URL de la página</label><input id="address-input" type="text" inputmode="url" placeholder="Ingresá una URL para empezar…" autocomplete="url" autocapitalize="off" spellcheck="false"></div>
+      <button id="go-button" class="button button-primary" type="submit" data-mutation>Ir<svg class="icon"><use href="#i-arrow"/></svg></button>
+    </form>
+
+    <div class="inspector-toolbar">
+      <div class="detection-actions">
+        <button class="button button-accent" id="detect-button" type="button" data-mutation title="Verificación explícita: 3 muestras separadas por 2 segundos"><svg class="icon"><use href="#i-scan"/></svg><span>Verificar estabilidad</span></button>
+        <label class="switch-label vision-control" id="vision-control" hidden><input id="vision-toggle" type="checkbox"><span class="switch-track"></span><span>Visión <span class="muted">· estimaciones</span></span></label>
+        <button class="button button-subtle demo-button" type="button" data-demo data-mutation>Página de prueba<svg class="icon"><use href="#i-external"/></svg></button>
+      </div>
+      <div class="source-summary" id="source-summary" aria-label="Fuentes de detección"><span class="source-pill source-dom">DOM <b id="dom-count">—</b></span><span class="source-pill source-pixi">Pixi <b id="pixi-count">—</b></span><span class="source-pill source-vision">Visual <span class="estimate-label">est.</span> <b id="vision-count">—</b></span></div>
+    </div>
+
+    <div class="notice" id="notice" role="alert" hidden><svg class="icon"><use href="#i-info"/></svg><span id="notice-text"></span><button class="icon-button" id="dismiss-notice" type="button" aria-label="Cerrar aviso"><svg class="icon"><use href="#i-close"/></svg></button></div>
+    <details class="warnings" id="warnings" hidden><summary><span class="warning-dot"></span><span id="warning-count"></span><span class="warnings-summary">Ver detalles de la detección</span></summary><ul id="warning-list"></ul></details>
+
+    <main class="workspace-grid">
+      <div class="main-column">
+        <section class="panel viewport-panel" aria-labelledby="viewport-title">
+          <div class="panel-heading viewport-heading">
+            <div class="panel-title"><span class="eyebrow">NAVEGADOR</span><h2 id="viewport-title">Vista actual</h2></div>
+            <div class="viewport-controls">
+              <label class="switch-label"><input id="overlay-toggle" type="checkbox" checked><span class="switch-track"></span><span>Coordenadas</span></label>
+              <label class="manual-control" title="Permitir clics sobre la captura"><input id="manual-toggle" type="checkbox"><svg class="icon"><use href="#i-pointer"/></svg><span>Interactuar</span></label>
+              <label class="sr-only" for="viewport-size">Tamaño del navegador</label><select id="viewport-size" aria-label="Tamaño del navegador"><option value="1280 720">1280 × 720</option><option value="1600 900">1600 × 900</option><option value="1024 768">1024 × 768</option><option value="390 844">390 × 844</option></select>
+            </div>
+          </div>
+          <div class="verification-strip" id="verification-strip" data-status="unverified" role="status" aria-live="polite" aria-atomic="true">
+            <div class="verification-top"><div class="verification-message"><span class="verification-indicator" aria-hidden="true"></span><div><strong id="verification-title">Verificación a pedido</strong><p id="verification-description">Abrí una página y pedí verify: 3 muestras, con 2 s entre cada una.</p></div></div><div class="verification-steps" aria-label="Tres muestras con intervalos de dos segundos"><span class="verification-step" data-sample="1">1</span><span class="verification-interval">2 s</span><span class="verification-step" data-sample="2">2</span><span class="verification-interval">2 s</span><span class="verification-step" data-sample="3">3</span></div></div>
+            <ul id="verification-reasons" class="verification-reasons" hidden></ul>
+          </div>
+          <div class="viewport-stage" id="viewport-stage">
+            <img id="screenshot" alt="Captura actual del navegador" hidden>
+            <div class="bounding-boxes" id="bounding-boxes" aria-hidden="true"></div>
+            <div class="viewport-empty" id="viewport-empty">
+              <div class="empty-illustration" aria-hidden="true"><span class="illustration-corner corner-tl"></span><span class="illustration-corner corner-tr"></span><span class="illustration-corner corner-bl"></span><span class="illustration-corner corner-br"></span><svg class="icon"><use href="#i-browser"/></svg><span class="illustration-point"></span></div>
+              <h3>Tu próximo clic, a la vista.</h3>
+              <p>Abrí una URL o cargá la página de prueba.</p>
+              <button class="button button-primary" type="button" data-demo data-mutation>Cargar página de prueba<svg class="icon"><use href="#i-arrow"/></svg></button>
+              <span class="empty-hint">Captura real · verificación explícita · coordenadas estables</span>
+            </div>
+            <div class="image-loading" id="image-loading" role="status" hidden><span class="spinner"></span><span>Cargando captura…</span></div>
+            <div class="image-error" id="image-error" hidden><svg class="icon"><use href="#i-info"/></svg><p id="image-error-text"></p></div>
+            <div class="busy-overlay" id="busy-overlay" hidden><span class="spinner"></span><span id="busy-label">Ejecutando…</span></div>
+          </div>
+          <div class="viewport-footer"><div class="viewport-description"><span class="viewport-dimensions" id="viewport-dimensions">1280 × 720</span><span class="separator">/</span><span id="interaction-hint">Activá «Interactuar» para hacer clic en la captura.</span></div><output class="pointer-position" id="pointer-position">x — &nbsp; y —</output></div>
+          <div class="observation-footer"><span class="observation-meta" id="observation-meta">Sin observación</span><div class="observation-links"><a class="text-link" id="open-annotated" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1">Imagen con coordenadas<svg class="icon"><use href="#i-external"/></svg></a><a class="text-link" id="open-screenshot" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1">Captura<svg class="icon"><use href="#i-external"/></svg></a></div></div>
+        </section>
+
+        <section class="panel console-panel" aria-labelledby="console-title">
+          <div class="panel-heading console-heading"><div class="console-title"><svg class="icon"><use href="#i-terminal"/></svg><h2 id="console-title">Consola</h2><span class="subtle-label">API / comandos</span></div><div class="console-actions"><button class="text-button" id="help-toggle" type="button" aria-expanded="false" aria-controls="command-help">Comandos</button><span class="small-separator"></span><button class="text-button muted" id="clear-console" type="button">Limpiar</button></div></div>
+          <div class="command-help" id="command-help" hidden><p>Seleccioná un ejemplo para editarlo en la consola.</p><div class="command-examples"><button type="button" data-example="goto https://example.com">goto URL</button><button type="button" data-example="verify">verify · 3 muestras</button><button type="button" data-example="snapshot">snapshot · captura</button><button type="button" data-example="click b1">click ID</button><button type="button" data-example="click 320 240">click X Y</button><button type="button" data-example="scroll 600">scroll DY [DX]</button><button type="button" data-example="type Hola">type TEXTO</button><button type="button" data-example="press Enter">press TECLA</button><button type="button" data-example="move 320 240">move X Y</button><button type="button" data-example="wait 1000">wait MS</button><button type="button" data-example="resize 1280 720">resize W H</button><button type="button" data-example="tabs">tabs</button><button type="button" data-example="newtab https://example.com">newtab [URL]</button><button type="button" data-example="switch 1">switch ÍNDICE</button><button type="button" data-example="close">close</button><button type="button" data-example="export">export</button></div><p>verify, detect y observe piden la misma verificación: 3 muestras, separadas por 2 s. Navegar o ejecutar una acción sólo actualiza la captura; pedí verify para obtener nuevas coordenadas.</p></div>
+          <div class="console-output" id="console-output" role="log" aria-label="Respuestas de los comandos" aria-live="polite" aria-relevant="additions"><p class="console-welcome"><span class="console-prompt">›</span> La consola está lista. Escribí un comando o explorá los ejemplos.</p></div>
+          <form class="command-form" id="command-form"><span class="console-prompt" aria-hidden="true">❯</span><label class="sr-only" for="command-input">Comando del navegador</label><input id="command-input" type="text" placeholder="goto https://example.com" autocomplete="off" spellcheck="false" autocapitalize="off"><span class="enter-hint" aria-hidden="true">↵</span><button class="button button-primary" id="send-command" type="submit" data-mutation>Ejecutar</button></form>
+        </section>
+      </div>
+
+      <aside class="panel buttons-panel" aria-labelledby="buttons-title">
+        <div class="panel-heading buttons-heading"><div class="panel-title"><span class="eyebrow">OBJETIVOS</span><h2 id="buttons-title">Botones verificados <span class="count-badge" id="button-count">—</span></h2></div><div class="view-switch" role="group" aria-label="Vista de los botones"><button class="icon-button active" id="list-view" type="button" aria-label="Vista de lista" aria-pressed="true" title="Lista"><svg class="icon"><use href="#i-list"/></svg></button><button class="icon-button" id="grid-view" type="button" aria-label="Vista de galería" aria-pressed="false" title="Galería"><svg class="icon"><use href="#i-grid"/></svg></button></div></div>
+        <div class="button-filters"><div class="search-field"><svg class="icon"><use href="#i-search"/></svg><label class="sr-only" for="button-search">Buscar botones</label><input id="button-search" type="search" placeholder="Buscar por texto, ID o fuente…" autocomplete="off"></div><div class="filter-row"><label class="sr-only" for="source-filter">Filtrar por fuente</label><select id="source-filter"><option value="all">Todas las fuentes</option><option value="dom">DOM</option><option value="pixi">Pixi</option><option value="vision">Visual · estimado</option></select><span id="filtered-count" class="subtle-label">Sin observación</span></div></div>
+        <div class="button-results" id="button-results" role="list" aria-label="Botones de la observación actual"></div>
+        <div class="results-empty" id="results-empty"><span class="empty-crosshair" aria-hidden="true">+</span><h3 id="results-empty-title">Todo empieza con una página</h3><p id="results-empty-text">Las coordenadas aparecen después de pedir una verificación y obtener tres muestras estables.</p></div>
+        <div class="export-section"><div class="export-heading"><span class="eyebrow">OBSERVACIÓN</span><span class="subtle-label">JSON + imágenes</span></div><div class="export-actions"><button class="button button-subtle" id="copy-json" type="button" disabled><svg class="icon"><use href="#i-copy"/></svg><span>Copiar JSON</span></button><button class="button button-subtle" id="download-json" type="button" disabled title="Descargar JSON"><svg class="icon"><use href="#i-download"/></svg><span>Descargar</span></button></div><a class="contact-sheet text-link" id="contact-sheet" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1">Ver lámina de todos los botones<svg class="icon"><use href="#i-external"/></svg></a></div>
+      </aside>
+    </main>
+
+    <footer class="app-footer"><span><span class="footer-dot"></span>Chromium · control remoto</span><span>Coordenadas de viewport en píxeles CSS<span class="footer-separator">·</span><span id="last-update">Esperando conexión</span></span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
