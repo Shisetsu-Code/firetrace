@@ -419,5 +419,15 @@
     "responsePath": "responses/000026.json",
     "observationId": "6e61677e-14c5-453b-a626-727cb3b7ddb5",
     "error": null
+  },
+  {
+    "seq": 27,
+    "commandId": "settle-replayed-onboarding-001",
+    "command": {
+      "action": "wait",
+      "ms": 6000
+    },
+    "startedAt": "2026-10-25T21:45:14.027Z",
+    "status": "reserved"
   }
 ]
