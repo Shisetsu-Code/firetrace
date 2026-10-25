@@ -4,14 +4,14 @@
   "outcome": null,
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 148,
+  "observations": 154,
   "clicks": 8,
   "spin_attempts": 5,
-  "network_events": 1266,
+  "network_events": 1293,
   "websocket_connections": 2,
-  "requests_total": 192,
-  "elapsed_seconds": 2377,
+  "requests_total": 194,
+  "elapsed_seconds": 2477,
   "latest_text": "Rd G FEATURE WIN AQ 464.00 iN AM — = ge @ )",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:14:49+00:00"
+  "time": "2026-10-25T19:16:29+00:00"
 }
