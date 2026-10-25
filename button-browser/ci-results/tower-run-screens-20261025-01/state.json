@@ -5,11 +5,56 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40235757252",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 32,
   "lastCommandId": "open-replayed-paytable-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "click",
+      "x": 76.52,
+      "y": 91.5
+    },
+    "observation": {
+      "observationId": "d0e7b270-6176-43d8-b111-8b42a6e4fa11",
+      "timestamp": "2026-10-25T21:46:17.627Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 2430,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/d0e7b270-6176-43d8-b111-8b42a6e4fa11/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/d0e7b270-6176-43d8-b111-8b42a6e4fa11/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/d0e7b270-6176-43d8-b111-8b42a6e4fa11/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/d0e7b270-6176-43d8-b111-8b42a6e4fa11/buttons.json"
+    },
+    "fixedButtons": []
+  },
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -17,7 +62,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:46:13.329Z",
+  "updatedAt": "2026-10-25T21:46:18.296Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -29,9 +74,14 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "d0e7b270-6176-43d8-b111-8b42a6e4fa11",
   "files": {
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
+    "observationId": "d0e7b270-6176-43d8-b111-8b42a6e4fa11",
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
+    "crops": []
   },
   "commands": [
     {
@@ -348,8 +398,11 @@
       "commandId": "open-replayed-paytable-001",
       "fingerprint": "aae9a36639f8e55ac4e417341537c52d8888a830a7755719f46e2d5823fbe878",
       "seq": 32,
-      "status": "reserved",
-      "startedAt": "2026-10-25T21:46:13.326Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T21:46:13.326Z",
+      "completedAt": "2026-10-25T21:46:18.295Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",

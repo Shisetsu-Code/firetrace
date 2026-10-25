@@ -511,6 +511,12 @@
       "y": 91.5
     },
     "startedAt": "2026-10-25T21:46:13.326Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T21:46:18.295Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000032.json",
+    "observationId": "d0e7b270-6176-43d8-b111-8b42a6e4fa11",
+    "error": null
   }
 ]
