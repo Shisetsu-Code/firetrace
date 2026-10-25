@@ -39,6 +39,30 @@
           "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
         ]
       }
+    },
+    {
+      "commandId": "open-paytable-verified-001",
+      "command": {
+        "action": "click",
+        "id": "b2",
+        "observationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b"
+      }
+    },
+    {
+      "commandId": "settle-paytable-001",
+      "command": {
+        "action": "wait",
+        "ms": 1000
+      }
+    },
+    {
+      "commandId": "verify-paytable-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+        ]
+      }
     }
   ]
 }
