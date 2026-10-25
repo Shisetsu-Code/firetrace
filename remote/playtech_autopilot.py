@@ -62,6 +62,17 @@ SPIN = {
     "gpas_aogww_pop": (986, 619),
     "gpas_aogwfot_pop": (1206, 606),
 }
+# Coordinates reviewed against archived 1280x720 FUN screenshots (2026-10-25).
+# The UNTIL FEATURE item is not at the same height in every Playtech UI.
+UNTIL_FEATURE = {
+    "ashadv": (796, 452),
+    "ftsis": (911, 581),
+    "gpas_aogggriffin_pop": (825, 439),
+    "aogmt": (789, 505),
+    "aogroo": (794, 540),
+    "gpas_gstorm2_pop": (835, 505),
+}
+
 SENSITIVE = re.compile(r"(?:token|secret|session|cookie|auth|password|signature|jwt|key|uid|email|nonce|sid|seed|csrf)", re.I)
 FEATURE = re.compile(r"\b(?:FEATURE (?:TRIGGERED|AWARDED|WIN)|BONUS (?:GAME|WON|AWARDED)|FREE (?:SPINS|GAMES) (?:AWARDED|WON|START)|CONGRATULATIONS|YOU HAVE WON \d+ FREE|PICK A|CHOOSE YOUR)\b", re.I)
 END = re.compile(r"\b(?:FEATURE COMPLETE|BONUS COMPLETE|FREE GAMES COMPLETE|TOTAL BONUS WIN|CONGRATULATIONS YOU WON)\b", re.I)
@@ -310,26 +321,33 @@ class Probe:
             if self.game == "gpas_aogww_pop":
                 # Visually verified: until-feature switch at x800,619, play x986,619.
                 await self.click(page, SPIN[self.game], "native_until_feature_start")
-            elif self.game in ("ashadv","ftsis","gpas_aogggriffin_pop","aogmt","aogroo"):
-                # Playtech classic drop-down. The TOP option is "UNTIL FEATURE".
-                # Measured Griffin: AUTOPLAY at (826,575), option at (826,438).
-                ax, ay = AUTOPLAY[self.game]
-                await self.click(page, (ax, ay-137), "select_dropdown_until_feature")
-                await page.wait_for_timeout(850)
+            elif self.game in UNTIL_FEATURE:
+                # Each coordinate is independently verified from the matching
+                # autoplay menu screenshot. A uniform -137px offset accidentally
+                # selected 25/50 spins in classic games and no feature mode.
+                await page.wait_for_timeout(700)
+                await self.shot(page, "pre-until-feature", save=True)
+                await self.click(page, UNTIL_FEATURE[self.game], "select_verified_until_feature")
+                await page.wait_for_timeout(1250)
                 await self.shot(page, "after-until-feature", save=True)
-                # Do not click SPIN: selecting the autoplay option starts the cycle.
-            elif self.game in ("gpas_gstorm2_pop","gpas_agstorm3_pop","gpas_mgaogkol_pop"):
-                # New games render a large "HOLD FOR AUTOPLAY" circle. Short
-                # clicks only produce a single spin. Long-press opens its menu.
+                # Playtech menu selection normally starts native autoplay.
+            elif self.game in ("gpas_agstorm3_pop", "gpas_mgaogkol_pop"):
+                # Screenshots show long-press creates an AUTOPLAY OPTIONS modal.
+                # Previous runner opened that modal but never pressed START.
                 ax, ay = AUTOPLAY[self.game]
-                await page.mouse.move(ax,ay)
+                await page.mouse.move(ax, ay)
                 await page.mouse.down()
-                await page.wait_for_timeout(1100)
+                await page.wait_for_timeout(1300)
                 await self.shot(page, "autoplay-held", save=True)
                 await page.mouse.up()
-                self.note("LONG_PRESS", f"HOLD_FOR_AUTOPLAY at ({ax},{ay})")
                 await page.wait_for_timeout(600)
-                await self.shot(page, "autoplay-held-result", save=True)
+                words, state = await self.shot(page, "autoplay-options", save=True)
+                self.note("LONG_PRESS", f"HOLD_FOR_AUTOPLAY at ({ax},{ay})")
+                # Stable menu action, verified visually in archived FUN screens.
+                target = (640, 424) if self.game == "gpas_agstorm3_pop" else (640, 374)
+                await self.click(page, target, "start_native_autoplay_from_options")
+                await page.wait_for_timeout(1800)
+                await self.shot(page, "after-autoplay-start", save=True)
             else:
                 # Wheel of Olympus has a separate right-side autoplay control.
                 # Observe the menu; if not running, bounded fallback takes over.
@@ -358,6 +376,11 @@ class Probe:
                     await self.checkpoint("feature_complete", force=True)
                     return
                 if self.feature_seen:
+                    # A new board can legitimately show Continue in the same place
+                    # on successive free games. Reset the dedupe key only after a
+                    # significant visual transition has been observed.
+                    if self.visual_delta > 8:
+                        self.last_feature_action = None
                     # Only use a visible, stable and positively identified bonus
                     # Continue/Play control, never guessed coordinates or buys.
                     candidates = [w for w in words if CONTINUE.fullmatch(w["text"])
@@ -420,7 +443,9 @@ class Probe:
                         break
                     await self.checkpoint()
                     continue
-                if state["text"] != previous_screenshot or self.visual_delta > 5:
+                # HUD clocks and balances vary even with stopped reels; they are
+                # not proof that autoplay is active. Track the reel region only.
+                if self.visual_delta > 5:
                     last_activity = time.monotonic()
                     previous_screenshot = state["text"]
                 if time.monotonic()-last_activity > 60:
