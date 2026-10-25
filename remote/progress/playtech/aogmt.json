@@ -4,13 +4,14 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 493,
+  "observations": 290,
   "clicks": 3,
+  "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 3243,
-  "latest_text": "yet PO! TE Not =e MIG) [TY DAS fe | WIN ma ~~ 2 €999.70 16:55:48",
-  "run_id": "40209463248",
-  "time": "2026-10-25T16:55:50+00:00"
+  "elapsed_seconds": 2146,
+  "latest_text": "& UP Not available N ITY Not available OWER oD ? ) a i Z TL AS Rd WIN LINES €0.40 | SPIN INFO || 4Q = Se)! 2 €996.20 [Play for Real 16:56:32",
+  "run_id": "40211170934",
+  "time": "2026-10-25T16:56:36+00:00"
 }
