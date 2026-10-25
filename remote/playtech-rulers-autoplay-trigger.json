@@ -1,0 +1,16 @@
+{
+  "game": "aogroo",
+  "mode": "FUN_OFFLINE_ONLY",
+  "source_run": 40232112481,
+  "source_artifact": 12613457711,
+  "source_screenshot": "aogroo/screenshots/00067-poll.jpg",
+  "source_result": "needs_review, autoplay_repeats=0, spin_attempts=3, no observed play transition",
+  "verified_bug": "Global OCR missed unmistakable modal and sent SPIN behind it",
+  "fix_commit": "92a210c693f15fa313b2f6bfa35a590b46bdde9d",
+  "only_pending_function": "Native FUN autoplay repeat YES after two stable independent modal detections",
+  "forbid_buy": true,
+  "forbid_real_money": true,
+  "forbid_repeat_uncertain_purchase": true,
+  "max_modal_confirms": 4,
+  "exclusive_job": "aogroo; active ftsis and four feature-follow-up titles excluded"
+}
