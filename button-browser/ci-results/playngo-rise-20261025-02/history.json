@@ -126,5 +126,14 @@
     "responsePath": "responses/000008.json",
     "observationId": "d7228a95-93d1-4198-83ec-4f60ac67bf39",
     "error": null
+  },
+  {
+    "seq": 9,
+    "commandId": "verify-info-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T19:27:53.783Z",
+    "status": "reserved"
   }
 ]
