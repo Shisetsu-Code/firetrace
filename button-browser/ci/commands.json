@@ -13,6 +13,32 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "continue-from-current-capture-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 562
+      }
+    },
+    {
+      "commandId": "settle-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
+    },
+    {
+      "commandId": "verify-board-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "BET_DEC",
+          "BET_INC",
+          "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+        ]
+      }
     }
   ]
 }
