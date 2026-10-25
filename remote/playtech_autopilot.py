@@ -154,6 +154,7 @@ class Probe:
         self.network_events = 0
         self.observations = 0
         self.clicks = 0
+        self.spin_attempts = 0
         self.feature_seen = False
         self.feature_finished = False
         self.stage = "starting"
@@ -246,6 +247,7 @@ class Probe:
         d = {"game": self.game, "stage": self.stage, "outcome": outcome,
              "feature_seen": self.feature_seen, "feature_finished": self.feature_finished,
              "observations": self.observations, "clicks": self.clicks,
+             "spin_attempts": self.spin_attempts,
              "network_events": self.network_events, "websocket_connections": self.websockets,
              "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
              "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
@@ -325,30 +327,74 @@ class Probe:
             words, state = await self.shot(page, "run")
             previous_screenshot = state["text"]
             last_activity = time.monotonic()
+            fallback = False
+            failed_inputs = 0
             while time.monotonic()-self.started < seconds:
-                await page.wait_for_timeout(4500)
-                words, state = await self.shot(page, "poll", save=self.observations%6 == 0 or state.get("feature", False))
+                await page.wait_for_timeout(2500 if fallback else 4500)
+                words, state = await self.shot(page, "poll", save=self.observations%6 == 0)
                 if state["feature"]:
                     self.feature_seen = True
                     self.stage = "feature_observed"
                     await self.shot(page, "feature", save=True)
                     self.note("FEATURE", state["text"][:300])
+                    # Never send a base wager while a feature or choice is active.
+                    fallback = False
                 if self.feature_seen and state["finish"]:
                     self.feature_finished = True
                     self.stage = "feature_complete"
                     await self.checkpoint("feature_complete", force=True)
                     return
-                # Never click a buy, bonus or spin based solely on ambiguous OCR.
+                if self.feature_seen:
+                    await self.checkpoint()
+                    continue
+                if fallback:
+                    # We only run manual fallback in the official, explicit FUN/offline game.
+                    if not ("real=0" in page.url or "preferedmode=offline" in page.url):
+                        self.note("BLOCKED", "Offline FUN mode not proven; no further input")
+                        self.stage = "needs_review"
+                        break
+                    if self.spin_attempts >= 750:
+                        self.stage = "action_limit"
+                        break
+                    before_net = self.network_events
+                    previous_signature = self.previous_pixels
+                    await self.click(page, SPIN[self.game], "FUN_spin_fallback")
+                    await page.wait_for_timeout(2400)
+                    _, after = await self.shot(page, "after-fallback", save=self.spin_attempts%8 == 0)
+                    # Additional 2-second observation prevents repeating a still-animating round.
+                    await page.wait_for_timeout(2200)
+                    _, settled = await self.shot(page, "settle-fallback", save=False)
+                    self.spin_attempts += 1
+                    moved = self.network_events > before_net or self.visual_delta > 4
+                    if not moved:
+                        failed_inputs += 1
+                    else:
+                        failed_inputs = 0
+                    if after["feature"] or settled["feature"]:
+                        self.feature_seen = True
+                        self.stage = "feature_observed"
+                        self.note("FEATURE", settled["text"][:300])
+                        await self.shot(page, "feature", save=True)
+                        fallback = False
+                    if failed_inputs >= 3:
+                        self.stage = "needs_review"
+                        self.note("UNVERIFIED_SPINS", "Three inputs without observable gameplay change")
+                        break
+                    await self.checkpoint()
+                    continue
                 if state["text"] != previous_screenshot or self.visual_delta > 5:
                     last_activity = time.monotonic()
                     previous_screenshot = state["text"]
-                if time.monotonic()-last_activity > 80:
-                    self.stage = "needs_review"
-                    self.note("STALLED", "No visible text changes for 80 seconds; do not retry uncertain wagers")
-                    await self.shot(page, "stalled", save=True)
-                    await self.checkpoint("needs_review", force=True)
-                    return
-                await self.checkpoint()
+                if time.monotonic()-last_activity > 60:
+                    # Native autoplay wasn't continuing; revalidated static FUN surface,
+                    # so switch to one explicit spin at a time with network checks.
+                    fallback = True
+                    self.stage = "bounded_base_spin_fallback"
+                    self.note("FALLBACK", "Native autoplay inactive; verify each FUN spin")
+                    await self.shot(page, "fallback-start", save=True)
+                    await self.checkpoint(force=True)
+                else:
+                    await self.checkpoint()
             self.stage = "time_limit"
             await self.checkpoint("time_limit", force=True)
         except Exception as exc:
