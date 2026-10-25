@@ -1,17 +1,17 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "bounded_base_spin_fallback",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 141,
-  "clicks": 6,
-  "spin_attempts": 3,
-  "network_events": 1216,
+  "observations": 148,
+  "clicks": 8,
+  "spin_attempts": 5,
+  "network_events": 1266,
   "websocket_connections": 2,
-  "requests_total": 189,
-  "elapsed_seconds": 2235,
-  "latest_text": "a aw Pad) | We i «i (( NG Ae Ay 2700 Kap 2700 €232.00 €5:00 @ *)",
+  "requests_total": 192,
+  "elapsed_seconds": 2377,
+  "latest_text": "Rd G FEATURE WIN AQ 464.00 iN AM — = ge @ )",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:12:27+00:00"
+  "time": "2026-10-25T19:14:49+00:00"
 }
