@@ -241,5 +241,15 @@
     "responsePath": "responses/000015.json",
     "observationId": "4a1e9029-bc58-424b-81ca-b09a9390f500",
     "error": null
+  },
+  {
+    "seq": 16,
+    "commandId": "settle-fresh-main-board-001",
+    "command": {
+      "action": "wait",
+      "ms": 5000
+    },
+    "startedAt": "2026-10-25T21:39:25.067Z",
+    "status": "reserved"
   }
 ]
