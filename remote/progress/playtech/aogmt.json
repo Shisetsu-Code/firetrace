@@ -4,14 +4,14 @@
   "outcome": null,
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 329,
+  "observations": 341,
   "clicks": 4,
   "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 2190,
-  "latest_text": "») Not available PER WER Not available © NY, IES a IL as \\\\ 4 a> fr 2 €960.10 22112",
+  "elapsed_seconds": 2271,
+  "latest_text": "») ATE Not available PE R Not available RP © SN IES a \\\\ 4 a? WIN 40 2 €960.10 21:22:34",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:21:15+00:00"
+  "time": "2026-10-25T21:22:37+00:00"
 }
