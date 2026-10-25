@@ -1,0 +1,51 @@
+name: Firetrace Remote Browser
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - remote/start.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: firetrace-remote-${{ github.repository }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    if: github.repository == 'Shisetsu-Code/firetrace'
+    runs-on: ubuntu-latest
+    timeout-minutes: 125
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium and Python dependencies
+        run: |
+          python -m pip install -e .
+          python -m playwright install --with-deps chromium
+      - name: Configure commits
+        run: |
+          git config user.name "firetrace-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Run isolated browser and process authorized demo commands
+        env:
+          FIRETRACE_HEADLESS: '1'
+          FIRETRACE_ARTIFACT_DIR: ${{ runner.temp }}/firetrace-artifacts
+          FIRETRACE_HAR_DIR: ${{ runner.temp }}/firetrace-raw
+        run: python -m firetrace.github_remote
+      - name: Upload sanitized session captures, graphs and event logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firetrace-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/firetrace-artifacts/
+          retention-days: 7
+          if-no-files-found: warn
