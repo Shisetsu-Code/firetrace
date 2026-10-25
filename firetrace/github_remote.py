@@ -22,7 +22,7 @@ from .local_browser import LocalBrowserBackend
 ROOT = Path(__file__).resolve().parents[1]
 SESSION_RE = re.compile(r"^[A-Za-z0-9_-]{3,64}$")
 PRIVATE_KEY_RE = re.compile(
-    r"(?:authorization|cookie|password|passwd|secret|access.?token|refresh.?token|"
+    r"(?:authorization|cookie|password|passwd|secret|token|access.?token|refresh.?token|"
     r"session.?id|api.?key|client.?secret|csrf|jwt|signature|credential|"
     r"email|bearer|auth.?token|id.?token)", re.I
 )
