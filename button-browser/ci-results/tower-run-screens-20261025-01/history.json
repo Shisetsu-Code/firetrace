@@ -352,5 +352,17 @@
     "responsePath": "responses/000022.json",
     "observationId": "0bb72b29-2589-49af-939d-4fe95020e457",
     "error": null
+  },
+  {
+    "seq": 23,
+    "commandId": "verify-paytable-filtered-001",
+    "command": {
+      "action": "verify",
+      "excludeLabels": [
+        "49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold "
+      ]
+    },
+    "startedAt": "2026-10-25T21:43:29.178Z",
+    "status": "reserved"
   }
 ]
