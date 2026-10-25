@@ -37,3 +37,7 @@ claim full bonus coverage or replay uncertain commands.
 ## Reintento remoto posterior
 
 La sesión anterior caducó al límite duro de 6900 segundos del workflow (GitHub Actions terminó con exit code 124). Se inició el nuevo workflow `40207205594` y se verificó `connected=true` en el MCP. Se reabrió Wonder Warriors (`gpas_aogww_pop`): permaneció en la misma pantalla de carga estática después de varias comprobaciones separadas y más de 40 segundos. No hubo pantalla de controles ni giros verificables. Las opciones Bonus Buy/Power de los demás juegos observadas como `Not available` no se deben marcar como compras ejecutadas. La cobertura de bonus sigue parcial.
+
+## Reanudación 2026-10-25, runner 40207205594
+
+Conexión MCP verificada. El juego #9 Wonder Warriors avanzó por fin desde la pantalla de carga: se observó el botón START, se pulsó y apareció la pantalla base. Se ejecutaron dos tiradas FUN de €5 cada una. La primera terminó con BIG WIN €80 y saldo €10.075 (desde €10.000, tras apuesta €5). La segunda terminó en saldo €10.070, sin bonus activado. Los cuatro botones Power superiores seguían mostrando Not available. No se observó opción de compra directa ni activación de free games en estas dos tiradas. El juego #9 ya no debe marcarse como bloqueado en carga; *sí* mantiene bonus especiales pendientes de verificar.
