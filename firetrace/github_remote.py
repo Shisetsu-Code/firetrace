@@ -22,7 +22,7 @@ from .local_browser import LocalBrowserBackend
 ROOT = Path(__file__).resolve().parents[1]
 SESSION_RE = re.compile(r"^[A-Za-z0-9_-]{3,64}$")
 PRIVATE_KEY_RE = re.compile(
-    r"(?:authorization|cookie|password|passwd|secret|token|access.?token|refresh.?token|"
+    r"(?:authorization|cookie|password|passwd|secret|token|cf_chl|rt_tk|session|sid|nonce|challenge|access.?token|refresh.?token|"
     r"session.?id|api.?key|client.?secret|csrf|jwt|signature|credential|"
     r"email|bearer|auth.?token|id.?token)", re.I
 )
@@ -64,7 +64,7 @@ def scrub(value, key: str = ""):
             return {**value, "value": "[REDACTED]"}
         return {str(k): scrub(v, str(k)) for k, v in value.items()}
     if isinstance(value, list):
-        return [scrub(item) for item in value[:5000]]
+        return [scrub(item) for item in value]
     if isinstance(value, str):
         if key == "image_base64":
             return value  # Demo screenshot used only as an explicitly requested image.
