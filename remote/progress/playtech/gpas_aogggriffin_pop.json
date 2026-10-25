@@ -1,16 +1,17 @@
 {
   "game": "gpas_aogggriffin_pop",
-  "stage": "needs_review",
-  "outcome": "needs_review",
+  "stage": "running",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 11,
+  "observations": 5,
   "clicks": 3,
-  "network_events": 97,
+  "spin_attempts": 0,
+  "network_events": 26,
   "websocket_connections": 2,
-  "requests_total": 102,
-  "elapsed_seconds": 285,
-  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN, Bo we jot available Not available POWER J K @ — @ J = FREE: AMES 9 @ 9 2 9 i 9 G _ WE f ¥ 7 WAYS? a €9,995.00 @",
-  "run_id": "40209463248",
-  "time": "2026-10-25T16:04:04+00:00"
+  "requests_total": 96,
+  "elapsed_seconds": 29,
+  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN, — Bo Not available Not available POWER K ® K K — KQ KA 9 y J A @ y 9 2 — G ee ART. WE Y TOTAL BET win ‘AUTO PLAY INFO €5.00 TURBO OFF SPIN Uy WAYS: me a €9,995.00 @ #)",
+  "run_id": "40210418678",
+  "time": "2026-10-25T16:11:49+00:00"
 }
