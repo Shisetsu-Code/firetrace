@@ -11,13 +11,13 @@
   "lastCommandId": "verify-go-ultra-intro-filtered-001",
   "lastResponse": null,
   "verification": {
-    "status": "unstable",
-    "currentSample": 3,
+    "status": "checking",
+    "currentSample": 1,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:34:15.199Z",
+  "updatedAt": "2026-10-25T21:34:17.948Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
