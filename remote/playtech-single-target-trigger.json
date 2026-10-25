@@ -1,0 +1,16 @@
+{
+  "run_key": "playtech-midas-amethyst-earned-spins-20261025-2352Z",
+  "game": "aogmt",
+  "mode": "FUN_OFFLINE_ONLY",
+  "source_run": 40231711671,
+  "source_artifact": 12614483502,
+  "source_screenshot": "aogmt/screenshots/00239-after-amethyst-ok.jpg",
+  "verified_bug": "Earned 3 AMETHYST SPINS shows magenta top banner and a green SPIN at (979,559), but the runner waited ~900s without touching this required per-spin control.",
+  "fix_commit": "5615d60aca0c0ba1df4d623f3467d3bdf1e86fe1",
+  "allowed_actions": "Only 3 separately verified earned Amethyst spins in a new FUN/offline session, each with stable UI and observed reel/network transition; stop on uncertainty; observe bonus result; no purchases.",
+  "no_uncertain_purchase_retry": true,
+  "forbid_buy": true,
+  "forbid_real_money": true,
+  "only_pending_function": "Finish earned Amethyst Spins and record observed terminal bonus result",
+  "notes": "A GitHub Actions run starts a new isolated demo context; the old game state cannot be restored merely from a JSON checkpoint."
+}
