@@ -30,5 +30,14 @@
     "responsePath": "responses/000002.json",
     "observationId": "446e5822-b593-44d9-9491-c536c8a64ef7",
     "error": null
+  },
+  {
+    "seq": 3,
+    "commandId": "verify-intro-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T20:36:07.303Z",
+    "status": "reserved"
   }
 ]

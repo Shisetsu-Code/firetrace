@@ -5,54 +5,11 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 2,
-  "lastCommandId": "initial-load-001",
-  "lastResponse": {
-    "ok": true,
-    "result": {
-      "action": "wait"
-    },
-    "observation": {
-      "observationId": "446e5822-b593-44d9-9491-c536c8a64ef7",
-      "timestamp": "2026-10-25T20:35:59.418Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 6134,
-      "canvasCount": 0,
-      "stability": {
-        "status": "unverified",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 0,
-        "reasons": [],
-        "samples": []
-      },
-      "fixedButtons": [],
-      "detection": {
-        "dom": 0,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/446e5822-b593-44d9-9491-c536c8a64ef7/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/446e5822-b593-44d9-9491-c536c8a64ef7/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/446e5822-b593-44d9-9491-c536c8a64ef7/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/446e5822-b593-44d9-9491-c536c8a64ef7/buttons.json"
-    },
-    "fixedButtons": []
-  },
+  "status": "running",
+  "phase": "executing",
+  "seq": 3,
+  "lastCommandId": "verify-intro-001",
+  "lastResponse": null,
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -60,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:36:01.528Z",
+  "updatedAt": "2026-10-25T20:36:07.309Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -72,14 +29,9 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "446e5822-b593-44d9-9491-c536c8a64ef7",
+  "activeObservationId": null,
   "files": {
-    "observationId": "446e5822-b593-44d9-9491-c536c8a64ef7",
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
   },
   "commands": [
     {
@@ -101,6 +53,13 @@
       "completedAt": "2026-10-25T20:36:01.524Z",
       "ok": true,
       "actionExecuted": true
+    },
+    {
+      "commandId": "verify-intro-001",
+      "fingerprint": "4f05c7188ee6138d2b9c542df719900db59f419f8218c8f3bdd665eb52bb9def",
+      "seq": 3,
+      "status": "reserved",
+      "startedAt": "2026-10-25T20:36:07.303Z"
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",
