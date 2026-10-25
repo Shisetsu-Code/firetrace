@@ -1,0 +1,51 @@
+{
+  "seq": 13,
+  "commandId": "continue-fresh-intro-001",
+  "completedAt": "2026-10-25T21:38:22.972Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "click",
+      "x": 640,
+      "y": 608
+    },
+    "observation": {
+      "observationId": "724492f5-3222-41cb-aa04-caae8cb06008",
+      "timestamp": "2026-10-25T21:38:21.986Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 3388,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/724492f5-3222-41cb-aa04-caae8cb06008/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/724492f5-3222-41cb-aa04-caae8cb06008/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/724492f5-3222-41cb-aa04-caae8cb06008/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/724492f5-3222-41cb-aa04-caae8cb06008/buttons.json"
+    },
+    "fixedButtons": []
+  }
+}
