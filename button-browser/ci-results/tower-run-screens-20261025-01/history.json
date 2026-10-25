@@ -175,5 +175,15 @@
     "responsePath": "responses/000011.json",
     "observationId": "52408c37-2fef-4a88-a4fa-eb94aeff265b",
     "error": null
+  },
+  {
+    "seq": 12,
+    "commandId": "load-fresh-demo-001",
+    "command": {
+      "action": "wait",
+      "ms": 25000
+    },
+    "startedAt": "2026-10-25T21:37:16.262Z",
+    "status": "reserved"
   }
 ]
