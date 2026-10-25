@@ -1,17 +1,17 @@
 {
   "game": "gpas_agstorm3_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 34,
+  "observations": 36,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 360,
+  "network_events": 401,
   "websocket_connections": 2,
-  "requests_total": 153,
-  "elapsed_seconds": 1252,
+  "requests_total": 156,
+  "elapsed_seconds": 1404,
   "latest_text": "AGE OF THE GODS™ GOD OF STORMS 3™ PLAYING FOR FUN 4 SBPER | OWER al nA aan Ss id sa = “5: 55 Af = a \\UTOPLAY OPTIONS T a NUMBER OF SPINS is QQ € START a3 Ag | A. (O SSS Bs ak PTT LEED LINES TOTAL BET €10,001.90 @Q«",
   "run_id": "40221846216",
-  "time": "2026-10-25T18:55:25+00:00"
+  "time": "2026-10-25T18:57:56+00:00"
 }
