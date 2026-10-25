@@ -435,5 +435,16 @@
     "responsePath": "responses/000027.json",
     "observationId": "b8cec220-5e45-40c3-a2af-bf3d95623bb4",
     "error": null
+  },
+  {
+    "seq": 28,
+    "commandId": "continue-replayed-go-ultra-001",
+    "command": {
+      "action": "click",
+      "x": 1206,
+      "y": 628
+    },
+    "startedAt": "2026-10-25T21:45:30.437Z",
+    "status": "reserved"
   }
 ]
