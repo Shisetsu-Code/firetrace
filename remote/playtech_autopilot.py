@@ -486,9 +486,14 @@ async def main():
     group = int(os.getenv("PLAYTECH_GROUP", "0"))
     groups = int(os.getenv("PLAYTECH_GROUPS", "4"))
     limit = max(30, min(6000, int(config.get("seconds_per_game", 3600))))
-    assigned = [game for i, game in enumerate(IDS) if i % groups == group]
+    # Honor the allowlist so a subsequent recovery can target only unfinished
+    # games, rather than accidentally restarting all ten after an audit update.
+    requested = config.get("games", IDS)
+    if not isinstance(requested, list) or not all(isinstance(g, str) and g in IDS for g in requested):
+        raise ValueError("Invalid Playtech game allowlist")
+    assigned = [game for i, game in enumerate(IDS) if i % groups == group and game in requested]
     if os.getenv("PLAYTECH_ONLY"):
-        assigned = [game for game in IDS if game == os.environ["PLAYTECH_ONLY"]]
+        assigned = [game for game in IDS if game == os.environ["PLAYTECH_ONLY"] and game in requested]
     print(json.dumps({"runner": RUN, "group": group, "games": assigned}), flush=True)
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=True, args=["--disable-dev-shm-usage"])
