@@ -5,54 +5,11 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40235757252",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 25,
-  "lastCommandId": "load-for-help-001",
-  "lastResponse": {
-    "ok": true,
-    "result": {
-      "action": "wait"
-    },
-    "observation": {
-      "observationId": "889175a0-0bba-430d-a609-eea2a5c9e2c7",
-      "timestamp": "2026-10-25T21:44:55.911Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 2016,
-      "canvasCount": 0,
-      "stability": {
-        "status": "unverified",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 0,
-        "reasons": [],
-        "samples": []
-      },
-      "fixedButtons": [],
-      "detection": {
-        "dom": 0,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/889175a0-0bba-430d-a609-eea2a5c9e2c7/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/889175a0-0bba-430d-a609-eea2a5c9e2c7/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/889175a0-0bba-430d-a609-eea2a5c9e2c7/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/889175a0-0bba-430d-a609-eea2a5c9e2c7/buttons.json"
-    },
-    "fixedButtons": []
-  },
+  "status": "running",
+  "phase": "executing",
+  "seq": 26,
+  "lastCommandId": "continue-replayed-intro-001",
+  "lastResponse": null,
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -60,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:44:56.457Z",
+  "updatedAt": "2026-10-25T21:45:02.104Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -72,14 +29,9 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "889175a0-0bba-430d-a609-eea2a5c9e2c7",
+  "activeObservationId": null,
   "files": {
-    "observationId": "889175a0-0bba-430d-a609-eea2a5c9e2c7",
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
   },
   "commands": [
     {
@@ -331,6 +283,13 @@
       "completedAt": "2026-10-25T21:44:56.456Z",
       "ok": true,
       "actionExecuted": true
+    },
+    {
+      "commandId": "continue-replayed-intro-001",
+      "fingerprint": "04d4236390a538e50e3b765845581b831e03d38c3e8a191051633811f973b7e9",
+      "seq": 26,
+      "status": "reserved",
+      "startedAt": "2026-10-25T21:45:02.103Z"
     }
   ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",

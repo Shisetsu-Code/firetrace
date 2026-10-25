@@ -402,5 +402,16 @@
     "responsePath": "responses/000025.json",
     "observationId": "889175a0-0bba-430d-a609-eea2a5c9e2c7",
     "error": null
+  },
+  {
+    "seq": 26,
+    "commandId": "continue-replayed-intro-001",
+    "command": {
+      "action": "click",
+      "x": 640,
+      "y": 608
+    },
+    "startedAt": "2026-10-25T21:45:02.103Z",
+    "status": "reserved"
   }
 ]
