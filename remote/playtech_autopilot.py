@@ -7,7 +7,9 @@ An input dispatch is not evidence of a completed bonus.
 from __future__ import annotations
 
 import asyncio
+import base64
 import json
+import subprocess
 import os
 import re
 import time
@@ -140,6 +142,8 @@ def record_event(path: Path, event: dict):
 class Probe:
     def __init__(self, game: str):
         self.game = game
+        self.visual_delta = 0.0
+        self.previous_pixels = None
         self.dir = OUT / game
         self.dir.mkdir(parents=True, exist_ok=True)
         self.log = self.dir / "events.jsonl"
@@ -210,6 +214,10 @@ class Probe:
         self.observations += 1
         tmp = self.dir / "_current.png"
         await page.screenshot(path=str(tmp), full_page=False, animations="disabled", timeout=15000)
+        pix = list(Image.open(tmp).crop((270, 115, 1010, 540)).convert("L").resize((32, 20)).getdata())
+        if self.previous_pixels:
+            self.visual_delta = sum(abs(a-b) for a,b in zip(pix, self.previous_pixels)) / len(pix)
+        self.previous_pixels = pix
         # OCR is intentionally run in a thread so multiple Chromium tabs can progress.
         words = await asyncio.to_thread(ocr_words, tmp)
         state = classify(words)
@@ -244,6 +252,27 @@ class Probe:
         self.progress.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
         self.last_publish = now
         print(json.dumps({"checkpoint": d}, ensure_ascii=False), flush=True)
+        if os.getenv("GH_TOKEN"):
+            await asyncio.to_thread(self.publish)
+    
+    def publish(self):
+        # Store only sanitized status in the PUBLIC repository, not network bodies/captures.
+        path = f"remote/progress/playtech/{self.game}.json"
+        encoded = base64.b64encode(self.progress.read_bytes()).decode("ascii")
+        for attempt in range(3):
+            existing = subprocess.run(["gh", "api", f"repos/Shisetsu-Code/firetrace/contents/{path}"],
+                                      capture_output=True, text=True)
+            args = ["gh", "api", f"repos/Shisetsu-Code/firetrace/contents/{path}",
+                    "-X", "PUT", "-f", "branch=main",
+                    "-f", f"message=progress: {self.game} run {RUN} [skip ci]",
+                    "-f", f"content={encoded}"]
+            if existing.returncode == 0:
+                args += ["-f", f"sha={json.loads(existing.stdout)['sha']}"]
+            res = subprocess.run(args, capture_output=True, text=True)
+            if res.returncode == 0:
+                return
+            time.sleep(attempt + 1)
+        self.note("CHECKPOINT_PUBLISH_FAILURE", res.stderr[-150:])
 
     async def run(self, browser, seconds):
         url = f"https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game={self.game}&preferedmode=offline&real=0"
@@ -264,7 +293,7 @@ class Probe:
                        and 100 < w["y"] < 680 for w in words):
                     break
             # Prior knowledge: some canvas titles don't OCR, but explicit intro geometry is verified.
-            if self.game in INTRO:
+            if self.game in INTRO and not any(w["text"].upper() == "SPIN" and w["y"] > 450 for w in words):
                 self.stage = "intro"
                 await self.click(page, INTRO[self.game], "verified_introduction")
                 await page.wait_for_timeout(2500)
@@ -310,7 +339,7 @@ class Probe:
                     await self.checkpoint("feature_complete", force=True)
                     return
                 # Never click a buy, bonus or spin based solely on ambiguous OCR.
-                if state["text"] != previous_screenshot:
+                if state["text"] != previous_screenshot or self.visual_delta > 5:
                     last_activity = time.monotonic()
                     previous_screenshot = state["text"]
                 if time.monotonic()-last_activity > 80:
