@@ -1,7 +1,7 @@
 {
   "game": "gpas_aogww_pop",
-  "stage": "running",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": false,
   "feature_finished": false,
   "observations": 40,
@@ -10,8 +10,8 @@
   "network_events": 1211,
   "websocket_connections": 2,
   "requests_total": 228,
-  "elapsed_seconds": 3608,
+  "elapsed_seconds": 3609,
   "latest_text": "PLAYING FOR FUN pare AGE OF THE GODS™: WONDER WARRIORS™ GB Nl Not =FOWER: ))) Not available RS jot availablePOWER RAV fb 4 My i toh a) ® 4 4 al p 4 eh ~<< €9, 50 Or)",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:46:34+00:00"
+  "time": "2026-10-25T19:46:35+00:00"
 }
