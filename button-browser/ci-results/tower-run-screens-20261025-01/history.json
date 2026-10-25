@@ -257,5 +257,14 @@
     "responsePath": "responses/000016.json",
     "observationId": "16a919d6-daf5-41f6-84bc-e0e003e2ad3f",
     "error": null
+  },
+  {
+    "seq": 17,
+    "commandId": "verify-fresh-main-board-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:39:40.078Z",
+    "status": "reserved"
   }
 ]
