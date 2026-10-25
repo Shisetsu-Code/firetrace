@@ -184,5 +184,16 @@
     "responsePath": "responses/000011.json",
     "observationId": "c7c3f6b5-7dc0-4344-a68b-167b49a4fdc9",
     "error": null
+  },
+  {
+    "seq": 12,
+    "commandId": "close-paytable-current-coordinate-001",
+    "command": {
+      "action": "click",
+      "x": 1197,
+      "y": 83
+    },
+    "startedAt": "2026-10-25T20:42:29.264Z",
+    "status": "reserved"
   }
 ]
