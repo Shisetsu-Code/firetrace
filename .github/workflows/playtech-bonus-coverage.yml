@@ -6,11 +6,11 @@ on:
     paths: ['remote/playtech-bonus-batch.json']
 permissions:
   contents: write
-concurrency:
-  group: playtech-feature-${{ github.ref }}-${{ matrix.group }}
-  cancel-in-progress: false
 jobs:
   feature-explorer:
+    concurrency:
+      group: playtech-feature-${{ github.ref }}-${{ matrix.group }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 115
     strategy:
