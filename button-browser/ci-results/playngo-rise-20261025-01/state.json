@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "runId": "40224538413",
+  "runAttempt": "1",
+  "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40224538413",
+  "branch": "codex/button-browser-playngo-20261025",
+  "sessionId": "playngo-rise-20261025-01",
+  "status": "running",
+  "phase": "starting",
+  "seq": 0,
+  "lastCommandId": null,
+  "lastResponse": null,
+  "verification": {
+    "status": "idle",
+    "currentSample": 0,
+    "requiredSamples": 3,
+    "intervalMs": 2000
+  },
+  "startedAt": "2026-10-25T19:08:19.899Z",
+  "updatedAt": "2026-10-25T19:08:19.901Z",
+  "expiresAt": "2026-10-25T19:33:19.899Z",
+  "gameURL": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+  "stopReason": null,
+  "checkpointError": null,
+  "queueError": null,
+  "activeObservationId": null,
+  "files": null,
+  "commands": [],
+  "index": "button-browser/ci-results/playngo-rise-20261025-01/index.json",
+  "history": "button-browser/ci-results/playngo-rise-20261025-01/history.json"
+}

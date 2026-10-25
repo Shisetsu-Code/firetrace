@@ -1,0 +1,10 @@
+{
+  "sessionId": "playngo-rise-20261025-01",
+  "seq": 0,
+  "status": "running",
+  "activeObservationId": null,
+  "current": null,
+  "responses": [],
+  "state": "button-browser/ci-results/playngo-rise-20261025-01/state.json",
+  "history": "button-browser/ci-results/playngo-rise-20261025-01/history.json"
+}
