@@ -201,5 +201,17 @@
     "responsePath": "responses/000012.json",
     "observationId": "1bd03498-70f8-459d-841b-7099808d7ad3",
     "error": null
+  },
+  {
+    "seq": 13,
+    "commandId": "verify-session-timeout-001",
+    "command": {
+      "action": "verify",
+      "excludeLabels": [
+        "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+      ]
+    },
+    "startedAt": "2026-10-25T20:43:19.762Z",
+    "status": "reserved"
   }
 ]
