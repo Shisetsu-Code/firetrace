@@ -41,3 +41,14 @@ La sesión anterior caducó al límite duro de 6900 segundos del workflow (GitHu
 ## Reanudación 2026-10-25, runner 40207205594
 
 Conexión MCP verificada. El juego #9 Wonder Warriors avanzó por fin desde la pantalla de carga: se observó el botón START, se pulsó y apareció la pantalla base. Se ejecutaron dos tiradas FUN de €5 cada una. La primera terminó con BIG WIN €80 y saldo €10.075 (desde €10.000, tras apuesta €5). La segunda terminó en saldo €10.070, sin bonus activado. Los cuatro botones Power superiores seguían mostrando Not available. No se observó opción de compra directa ni activación de free games en estas dos tiradas. El juego #9 ya no debe marcarse como bloqueado en carga; *sí* mantiene bonus especiales pendientes de verificar.
+
+## BONUS COMPLETADO — Wonder Warriors (MCP remoto, FUN)
+
+- Juego: `gpas_aogww_pop`, ruta oficial Playtech.
+- Estrategia: AutoPlay `UNTIL FEATURE` activado directamente desde el MCP.
+- Modal de elección observada: 3×5/15 Free Games, 4×5/10 Free Games, 5×5/5 Free Games; 6×5/3 Free Games bloqueado.
+- Rama verificada: pulsación de 3×5, 15 tiradas gratis procesadas automáticamente hasta `0 SPINS LEFT`.
+- Pantalla final observada: `TOTAL WIN €1,080.00`; se pulsó `CONTINUE` y se verificó regreso al juego base con `HIT SPIN TO START GAME`.
+- Saldo FUN observado al finalizar: **€11,048.50**.
+- Las opciones 4×5 y 5×5 están siendo exploradas en sesiones aisladas del workflow `Wonder Warriors FUN branch coverage`, sin presentarlas todavía como completadas.
+- Esto confirma un bonus íntegro real con saldo DEMO, no solamente su menú.
