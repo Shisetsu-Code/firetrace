@@ -115,5 +115,15 @@
     "responsePath": "responses/000007.json",
     "observationId": "217451d1-068a-453d-bd20-ab5d585e927b",
     "error": null
+  },
+  {
+    "seq": 8,
+    "commandId": "settle-paytable-001",
+    "command": {
+      "action": "wait",
+      "ms": 1000
+    },
+    "startedAt": "2026-10-25T20:39:33.670Z",
+    "status": "reserved"
   }
 ]
