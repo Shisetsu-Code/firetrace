@@ -1,18 +1,18 @@
 {
   "game": "ashadv",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 43,
+  "observations": 47,
   "clicks": 2,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 198,
-  "latest_text": "©) ACTIVE if O A WZ dN é 2 i a yy an a yy re ) Pe eg ante LS €0.00 2 €998.22 Play for Real 39:03",
+  "elapsed_seconds": 218,
+  "latest_text": "©) jackpot ACTIVE = O WZ a i 0 Sa yy — a yy re i) ‘ ) | yy WIN’ Pe ante LS €0.00 2 €998.22 Play for Real",
   "run_id": "40240882306",
-  "time": "2026-10-25T22:39:05+00:00"
+  "time": "2026-10-25T22:39:25+00:00"
 }
