@@ -3,11 +3,37 @@
   "commands": [
     {
       "commandId": "initial-load-001",
-      "command": {"action": "wait", "ms": 20000}
+      "command": {
+        "action": "wait",
+        "ms": 20000
+      }
     },
     {
       "commandId": "verify-intro-001",
-      "command": {"action": "verify"}
+      "command": {
+        "action": "verify"
+      }
+    },
+    {
+      "commandId": "continue-explicit-capture-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 562
+      }
+    },
+    {
+      "commandId": "settle-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 4000
+      }
+    },
+    {
+      "commandId": "verify-board-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
