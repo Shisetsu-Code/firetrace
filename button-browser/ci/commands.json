@@ -85,6 +85,29 @@
         "x": 1197,
         "y": 83
       }
+    },
+    {
+      "commandId": "verify-session-timeout-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+        ]
+      }
+    },
+    {
+      "commandId": "reopen-demo-for-settings-001",
+      "command": {
+        "action": "goto",
+        "url": "https://released.playngonetwork.com/casino/ContainerLauncher?channel=desktop&demo=2&gid=riseofolympusorigins&lang=en_GB&pid=2&practice=1"
+      }
+    },
+    {
+      "commandId": "load-fresh-settings-session-001",
+      "command": {
+        "action": "wait",
+        "ms": 15000
+      }
     }
   ]
 }
