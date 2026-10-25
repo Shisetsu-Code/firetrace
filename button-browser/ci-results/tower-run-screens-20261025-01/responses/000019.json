@@ -1,0 +1,49 @@
+{
+  "seq": 19,
+  "commandId": "settle-settings-001",
+  "completedAt": "2026-10-25T21:40:37.759Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "wait"
+    },
+    "observation": {
+      "observationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
+      "timestamp": "2026-10-25T21:40:37.156Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 2085,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.json"
+    },
+    "fixedButtons": []
+  }
+}

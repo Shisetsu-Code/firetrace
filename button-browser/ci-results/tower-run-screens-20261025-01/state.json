@@ -5,11 +5,54 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40235757252",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 19,
   "lastCommandId": "settle-settings-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "wait"
+    },
+    "observation": {
+      "observationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
+      "timestamp": "2026-10-25T21:40:37.156Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 2085,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.json"
+    },
+    "fixedButtons": []
+  },
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -17,7 +60,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:40:32.725Z",
+  "updatedAt": "2026-10-25T21:40:37.761Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -29,9 +72,14 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
   "files": {
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
+    "observationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
+    "crops": []
   },
   "commands": [
     {
@@ -218,8 +266,11 @@
       "commandId": "settle-settings-001",
       "fingerprint": "89f71f48d849d42101f638b0765e21441427545f7648a0a9cc23c38b1c837e6b",
       "seq": 19,
-      "status": "reserved",
-      "startedAt": "2026-10-25T21:40:32.719Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T21:40:32.719Z",
+      "completedAt": "2026-10-25T21:40:37.759Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",

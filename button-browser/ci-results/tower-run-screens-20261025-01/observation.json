@@ -1,6 +1,6 @@
 {
-  "observationId": "088542a5-35ed-4098-b81e-202e8d14c93b",
-  "timestamp": "2026-10-25T21:40:26.724Z",
+  "observationId": "f25050f9-76f6-4bff-85ed-efd29433fa3e",
+  "timestamp": "2026-10-25T21:40:37.156Z",
   "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "title": "",
   "viewport": {
@@ -10,7 +10,7 @@
   },
   "coordinateSpace": "viewport-css-px",
   "warnings": [],
-  "timingMs": 2225,
+  "timingMs": 2085,
   "canvasCount": 0,
   "stability": {
     "status": "unverified",
@@ -30,8 +30,8 @@
     "visionRequested": false
   },
   "buttons": [],
-  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/088542a5-35ed-4098-b81e-202e8d14c93b/screenshot.png",
-  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/088542a5-35ed-4098-b81e-202e8d14c93b/annotated.png",
-  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/088542a5-35ed-4098-b81e-202e8d14c93b/buttons.png",
-  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/088542a5-35ed-4098-b81e-202e8d14c93b/buttons.json"
+  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/screenshot.png",
+  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/annotated.png",
+  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.png",
+  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/f25050f9-76f6-4bff-85ed-efd29433fa3e/buttons.json"
 }
