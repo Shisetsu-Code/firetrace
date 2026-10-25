@@ -1,17 +1,17 @@
 {
   "game": "gpas_aogggriffin_pop",
-  "stage": "bounded_base_spin_fallback",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 666,
-  "clicks": 220,
-  "spin_attempts": 217,
-  "network_events": 1517,
+  "observations": 675,
+  "clicks": 223,
+  "spin_attempts": 220,
+  "network_events": 1542,
   "websocket_connections": 2,
-  "requests_total": 154,
-  "elapsed_seconds": 3548,
-  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN, Not available Not available POWER CY 1@ fhe a ie S7 A — A AG @O =4 ant Ms (Gas 2 ()) IG a ART. Dies pes 33 INFO - TOTAL ‘AUTO PLAY SPIN €5.00 TURBO OFF WAYS: me xx oR €9,265.75 @",
+  "requests_total": 155,
+  "elapsed_seconds": 3610,
+  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN Notiavailable: availble OWER x Le. 7 | ~ || a= ce — Zee Des — if 7 WINS €1.25 €7.50 = 4 a! ae & = TOTAL BET LA = €5.00 €7.50 oN ae = ee ud eo, > =. <0 aS ae TX a €9,258.25 @",
   "run_id": "40210418678",
-  "time": "2026-10-25T17:10:28+00:00"
+  "time": "2026-10-25T17:11:30+00:00"
 }
