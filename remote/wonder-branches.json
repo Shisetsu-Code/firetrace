@@ -1,0 +1,12 @@
+{
+  "game": "gpas_aogww_pop",
+  "variants": [
+    "4x5_10_free_games",
+    "5x5_5_free_games"
+  ],
+  "locked": [
+    "6x5_3_free_games"
+  ],
+  "mode": "FUN",
+  "run": "20261025"
+}
