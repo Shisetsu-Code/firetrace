@@ -1,15 +1,23 @@
 {
-  "test": "menu_coordinates",
+  "test": "read_only_bonus_ante_autoplay_menu_inventory",
   "provider": "playtech",
   "mode": "FUN",
   "games": [
+    "ashadv",
     "ftsis",
+    "gpas_aogggriffin_pop",
     "aogmt",
     "aogroo",
     "gpas_gstorm2_pop",
     "gpas_agstorm3_pop",
     "gpas_mgaogkol_pop",
+    "gpas_aogww_pop",
     "gpas_aogwfot_pop"
   ],
-  "retry": 2
+  "retry": 2,
+  "run_key": "playtech-first10-FUN-menu-inventory-20261025-2356Z",
+  "forbid_purchases": true,
+  "forbid_real_money": true,
+  "forbid_ante_toggle": true,
+  "notes": "Screenshots alone provide menu evidence, not completed buys or bonus results. No unverified clicks into pay controls."
 }
