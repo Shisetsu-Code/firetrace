@@ -1,18 +1,18 @@
 {
   "game": "aogroo",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 52,
+  "observations": 63,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 13,
-  "elapsed_seconds": 345,
-  "latest_text": "») AGEm Not availabte SpE Not available EXTRA” Not available ULERS ‘OF. nt », Hy i a & | LAS 10 | K Qa 7, ae oye | 10 ix SSS ae AC BET 25 00 — S PIN Ve = x i 2 €1,000.26 20:49:57",
+  "elapsed_seconds": 433,
+  "latest_text": "A A¢ CODS a TRA OWER OWE DWE COW oli, a ff _ 2bos Vata) 10 ae 10 { y Xs ) <P Ae AI TOTAL BE” Wag €0.25 AUTO /TURBO, axe PLAY /MODE SPIN Ve i we! mA. 2 €1,000.26 20:51:25",
   "run_id": "40232112481",
-  "time": "2026-10-25T20:50:01+00:00"
+  "time": "2026-10-25T20:51:29+00:00"
 }
