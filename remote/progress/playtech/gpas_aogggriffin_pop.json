@@ -1,18 +1,18 @@
 {
   "game": "gpas_aogggriffin_pop",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "feature_complete",
+  "outcome": "feature_complete",
   "feature_seen": true,
-  "feature_finished": false,
-  "observations": 128,
-  "clicks": 5,
+  "feature_finished": true,
+  "observations": 141,
+  "clicks": 6,
   "spin_attempts": 1,
   "autoplay_repeats": 0,
-  "network_events": 615,
+  "network_events": 645,
   "websocket_connections": 2,
-  "requests_total": 111,
-  "elapsed_seconds": 911,
-  "latest_text": "GRIFFIN™ PLAYING FOR FUN GA AES @ @ A 9 10 i @ @ @ 4 Pe. i K ® D> i iS K ¢ @ ©) ee ioe REE GAMES WIN €96.50 Cy Se <a Ke\" ao ra 9: a @ *)",
+  "requests_total": 113,
+  "elapsed_seconds": 1000,
+  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN (Me Notiavailable: =GODS OWER N x ) OES Ry |: 80 | €1 936. K — — = TOTAL’ a! ae INFO - SPI = = = Lee FS €10,226.25",
   "run_id": "40240882306",
-  "time": "2026-10-25T22:51:08+00:00"
+  "time": "2026-10-25T22:52:37+00:00"
 }
