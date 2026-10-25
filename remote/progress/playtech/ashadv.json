@@ -1,18 +1,18 @@
 {
   "game": "ashadv",
-  "stage": "bounded_base_spin_fallback",
-  "outcome": null,
+  "stage": "needs_review",
+  "outcome": "needs_review",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 434,
-  "clicks": 113,
-  "spin_attempts": 111,
+  "observations": 446,
+  "clicks": 117,
+  "spin_attempts": 115,
   "autoplay_repeats": 0,
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 11,
-  "elapsed_seconds": 2256,
-  "latest_text": "% Jackpot > ) /| » 2 SD v4 0; Wm. ¥ é OP > ES i! i €0.00 « €979.89 y for R",
+  "elapsed_seconds": 2320,
+  "latest_text": "©) Fea Surly Horus Select characters to drink tea. v4 The longer they drink, the bigger a prize you'll win! Prize multipliers apply to Total Stake. 2 If an aracters are served sugar yu win the Jackpot! aH MO NFO ART LY = A] LS ae",
   "run_id": "40241535898",
-  "time": "2026-10-25T23:21:50+00:00"
+  "time": "2026-10-25T23:22:55+00:00"
 }
