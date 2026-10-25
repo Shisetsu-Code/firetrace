@@ -62,5 +62,15 @@
     "responsePath": "responses/000004.json",
     "observationId": "bc1833a1-f444-4442-9e33-69ac63f4210d",
     "error": null
+  },
+  {
+    "seq": 5,
+    "commandId": "settle-board-001",
+    "command": {
+      "action": "wait",
+      "ms": 4000
+    },
+    "startedAt": "2026-10-25T19:23:01.371Z",
+    "status": "reserved"
   }
 ]
