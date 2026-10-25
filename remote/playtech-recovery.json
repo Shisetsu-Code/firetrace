@@ -1,0 +1,9 @@
+{
+  "games": [
+    "gpas_agstorm3_pop",
+    "gpas_mgaogkol_pop"
+  ],
+  "mode": "FUN",
+  "retry": 1,
+  "reason": "Native one-click autoplay was not retained; process bounded manual spin fallback with visual/network verification"
+}
