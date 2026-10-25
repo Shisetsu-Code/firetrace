@@ -76,5 +76,16 @@
     "responsePath": "responses/000005.json",
     "observationId": "e326a985-3742-4812-acb6-776c93c79df2",
     "error": null
+  },
+  {
+    "seq": 6,
+    "commandId": "hover-continue-001",
+    "command": {
+      "action": "move",
+      "x": 640,
+      "y": 562
+    },
+    "startedAt": "2026-10-25T19:12:24.283Z",
+    "status": "reserved"
   }
 ]
