@@ -5,27 +5,95 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40224538413",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-rise-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 3,
   "lastCommandId": "verify-intro-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "verify",
+      "status": "unstable",
+      "positionsReady": false
+    },
+    "observation": {
+      "observationId": "56a5ff05-5902-49ec-9b72-ac5cd7bac718",
+      "timestamp": "2026-10-25T19:09:40.486Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 39123,
+      "canvasCount": 1,
+      "stability": {
+        "status": "unstable",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 3,
+        "reasons": [
+          "Cambió la apariencia de un control entre las lecturas 1 y 3."
+        ],
+        "maxGeometryDeltaPx": 0,
+        "maxAppearanceDifference": 0.021689899918300653,
+        "samples": [
+          {
+            "index": 1,
+            "timestamp": "2026-10-25T19:09:14.775Z",
+            "candidateCount": 3
+          },
+          {
+            "index": 2,
+            "timestamp": "2026-10-25T19:09:27.816Z",
+            "candidateCount": 3
+          },
+          {
+            "index": 3,
+            "timestamp": "2026-10-25T19:09:40.486Z",
+            "candidateCount": 3
+          }
+        ]
+      },
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/56a5ff05-5902-49ec-9b72-ac5cd7bac718/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/56a5ff05-5902-49ec-9b72-ac5cd7bac718/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/56a5ff05-5902-49ec-9b72-ac5cd7bac718/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/56a5ff05-5902-49ec-9b72-ac5cd7bac718/buttons.json"
+    }
+  },
   "verification": {
-    "status": "checking",
+    "status": "unstable",
     "currentSample": 3,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T19:08:19.899Z",
-  "updatedAt": "2026-10-25T19:09:29.884Z",
+  "updatedAt": "2026-10-25T19:09:41.946Z",
   "expiresAt": "2026-10-25T19:33:19.899Z",
   "gameURL": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "56a5ff05-5902-49ec-9b72-ac5cd7bac718",
   "files": {
-    "current": "button-browser/ci-results/playngo-rise-20261025-01/current.png"
+    "observationId": "56a5ff05-5902-49ec-9b72-ac5cd7bac718",
+    "current": "button-browser/ci-results/playngo-rise-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/playngo-rise-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-rise-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/playngo-rise-20261025-01/observation.json",
+    "crops": []
   },
   "commands": [
     {
@@ -52,8 +120,11 @@
       "commandId": "verify-intro-001",
       "fingerprint": "4f05c7188ee6138d2b9c542df719900db59f419f8218c8f3bdd665eb52bb9def",
       "seq": 3,
-      "status": "reserved",
-      "startedAt": "2026-10-25T19:09:00.845Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T19:09:00.845Z",
+      "completedAt": "2026-10-25T19:09:41.945Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/playngo-rise-20261025-01/index.json",
