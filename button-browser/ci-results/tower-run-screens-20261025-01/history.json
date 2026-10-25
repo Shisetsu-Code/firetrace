@@ -485,5 +485,15 @@
     "responsePath": "responses/000030.json",
     "observationId": "58b3e4b7-fc19-48fa-bf19-f949c690c684",
     "error": null
+  },
+  {
+    "seq": 31,
+    "commandId": "settle-replayed-settings-001",
+    "command": {
+      "action": "wait",
+      "ms": 1000
+    },
+    "startedAt": "2026-10-25T21:46:02.862Z",
+    "status": "reserved"
   }
 ]
