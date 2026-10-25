@@ -5,11 +5,54 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40235757252",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 27,
   "lastCommandId": "settle-replayed-onboarding-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "wait"
+    },
+    "observation": {
+      "observationId": "b8cec220-5e45-40c3-a2af-bf3d95623bb4",
+      "timestamp": "2026-10-25T21:45:23.855Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 2805,
+      "canvasCount": 0,
+      "stability": {
+        "status": "unverified",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 0,
+        "reasons": [],
+        "samples": []
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 0,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/b8cec220-5e45-40c3-a2af-bf3d95623bb4/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/b8cec220-5e45-40c3-a2af-bf3d95623bb4/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/b8cec220-5e45-40c3-a2af-bf3d95623bb4/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/b8cec220-5e45-40c3-a2af-bf3d95623bb4/buttons.json"
+    },
+    "fixedButtons": []
+  },
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -17,7 +60,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:45:14.033Z",
+  "updatedAt": "2026-10-25T21:45:24.646Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -29,9 +72,14 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "b8cec220-5e45-40c3-a2af-bf3d95623bb4",
   "files": {
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
+    "observationId": "b8cec220-5e45-40c3-a2af-bf3d95623bb4",
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
+    "crops": []
   },
   "commands": [
     {
@@ -298,8 +346,11 @@
       "commandId": "settle-replayed-onboarding-001",
       "fingerprint": "bce5a890f9bcb3bf6e391b92cfded300f2d89b2e9763c8bd4263fda5e31637f7",
       "seq": 27,
-      "status": "reserved",
-      "startedAt": "2026-10-25T21:45:14.027Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T21:45:14.027Z",
+      "completedAt": "2026-10-25T21:45:24.646Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",
