@@ -4,8 +4,12 @@
   "game": "gpas_aogwfot_pop",
   "feature": "DOUBLE CHANCE TO WIN FEATURE (Ante Bet)",
   "source_screenshot": "playtech-run40221846216-group1.zip/gpas_aogwfot_pop/screenshots/00027-autoplay-menu.jpg",
-  "click_policy": "Only one OFF-to-ON toggle after two-stable observation, then at most one spin after ON is verified; stop uncertain",
+  "click_policy": "One OFF-to-ON toggle only after stable independent reading; max one DEMO spin after verified ON; stop on uncertain result",
   "no_purchase": true,
   "no_real_money": true,
-  "no_retry": true
+  "no_retry": true,
+  "recovery_after_run": 40232541630,
+  "previous_result": "needs_review, zero Ante-toggle input (event log BLOCKED: full-panel OCR); no spin",
+  "fix_commit": "93e6bceb59a40f995cd448047d4ebe560b33e5ec",
+  "ocr_evidence": "Artifact 12613613690 screenshot 00027-before-ante-toggle.jpg; isolated grayscale OCR reads DOUBLE CHANCE / OFF"
 }
