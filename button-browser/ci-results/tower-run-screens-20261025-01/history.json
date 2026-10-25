@@ -518,5 +518,15 @@
     "responsePath": "responses/000032.json",
     "observationId": "d0e7b270-6176-43d8-b111-8b42a6e4fa11",
     "error": null
+  },
+  {
+    "seq": 33,
+    "commandId": "settle-replayed-paytable-001",
+    "command": {
+      "action": "wait",
+      "ms": 3000
+    },
+    "startedAt": "2026-10-25T21:46:23.739Z",
+    "status": "reserved"
   }
 ]
