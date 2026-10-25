@@ -8,8 +8,10 @@
   "no_purchase": true,
   "no_real_money": true,
   "no_retry": true,
-  "recovery_after_run": 40232541630,
-  "previous_result": "needs_review, zero Ante-toggle input (event log BLOCKED: full-panel OCR); no spin",
-  "fix_commit": "93e6bceb59a40f995cd448047d4ebe560b33e5ec",
-  "ocr_evidence": "Artifact 12613613690 screenshot 00027-before-ante-toggle.jpg; isolated grayscale OCR reads DOUBLE CHANCE / OFF"
+  "recovery_after_run": 40233117370,
+  "previous_result": "Single DEMO OFF-to-ON toggle visibly successful in screenshots 00029/00030; no spin attempted; OCR misread ON label because its location moves",
+  "fix_commit": "5a13527e0949373eb9c6292003cc095665d062b9",
+  "ocr_evidence": "Artifact 12613902679: 00030-verify-ante-toggle.jpg shows ON at left of slider, OFF formerly right; second capture stable",
+  "recovery_after_artifact": 12613902679,
+  "intent": "In a NEW isolated FUN session, re-establish OFF->ON once then execute at most one demo spin only with stable OCR ON; no repeat or buy"
 }
