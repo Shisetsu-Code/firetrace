@@ -1,0 +1,11 @@
+{
+  "session_id": "firetrace-20261025-01",
+  "minutes": 45,
+  "idle_seconds": 900,
+  "allowed_hosts": [
+    "pragmaticplay.fun",
+    "pragmaticplay.com",
+    "bgaming.com",
+    "playngo.com"
+  ]
+}
