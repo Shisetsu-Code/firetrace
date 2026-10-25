@@ -141,7 +141,13 @@ def ocr_words(png: Path):
 
 def classify(words):
     text = " ".join(x["text"] for x in words)
-    return {"text": text[:1800], "feature": bool(FEATURE.search(text)),
+    # Playtech also announces a true feature with 'YOU WIN 8 FREE GAMES'
+    # or a free-games counter; earlier regex missed both visible screens.
+    free_games = bool(re.search(
+        r"\\b(?:YOU\\s+(?:HAVE\\s+)?(?:WIN|WON)\\s+)?\\d{1,2}\\s+FREE\\s+(?:GAMES|SPINS)\\b",
+        text, re.I,
+    ))
+    return {"text": text[:1800], "feature": bool(FEATURE.search(text) or free_games),
             "finish": bool(END.search(text)),
             "power_unavailable": "Not available" in text or "NOT AVAILABLE" in text.upper()}
 
@@ -376,6 +382,46 @@ class Probe:
                     self.note("FEATURE", state["text"][:300])
                     # Never send a base wager while a feature or choice is active.
                     fallback = False
+                # Two verified modal controls from run 40221846216, NOT purchase buttons.
+                # Midas: screenshot 00160-feature.jpg shows AMETHYST SPINS and
+                # a green OK at (640, 455). Observe twice 2s apart before click.
+                if (self.game == "aogmt" and "AMETHYST SPINS" in state["text"].upper()
+                        and "CONGRATULATIONS" in state["text"].upper()
+                        and self.last_feature_action != "midas_amethyst_ok"):
+                    await page.wait_for_timeout(2000)
+                    _, checked = await self.shot(page, "verify-amethyst-modal", save=True)
+                    if ("AMETHYST SPINS" in checked["text"].upper()
+                            and "CONGRATULATIONS" in checked["text"].upper()):
+                        await self.click(page, (640, 455), "verified_amethyst_spins_ok")
+                        self.last_feature_action = "midas_amethyst_ok"
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, "after-amethyst-ok", save=True)
+                        self.note("BONUS_ACK", "Mighty Midas Amethyst Spins intro acknowledged; awaiting actual bonus completion")
+                        await self.checkpoint(force=True)
+                    continue
+                # King of Olympus: screenshot 00164-feature.jpg shows a terminal
+                # FEATURE WIN screen and a play-arrow at (1175,360). Verify two
+                # observations and require the summary screen to disappear.
+                if (self.game == "gpas_mgaogkol_pop" and "FEATURE WIN" in state["text"].upper()
+                        and self.last_feature_action != "king_feature_win_arrow"):
+                    await page.wait_for_timeout(2000)
+                    _, checked = await self.shot(page, "verify-king-feature-win", save=True)
+                    if "FEATURE WIN" in checked["text"].upper():
+                        self.note("FEATURE_RESULT", "King of Olympus Megaways: FEATURE WIN summary visible")
+                        await self.click(page, (1175, 360), "verified_feature_win_continue")
+                        self.last_feature_action = "king_feature_win_arrow"
+                        await page.wait_for_timeout(2300)
+                        _, after = await self.shot(page, "after-feature-win", save=True)
+                        if "FEATURE WIN" not in after["text"].upper() and self.visual_delta > 5:
+                            self.feature_finished = True
+                            self.stage = "feature_complete"
+                            self.note("FEATURE_COMPLETE", "Visible FEATURE WIN summary acknowledged; FUN board returned")
+                            await self.checkpoint("feature_complete", force=True)
+                            return
+                        self.stage = "needs_review"
+                        self.note("FEATURE_RESULT_UNCERTAIN", "Arrow clicked once; no unambiguous board return")
+                        await self.checkpoint("feature_needs_review", force=True)
+                        return
                 if self.feature_seen and state["finish"]:
                     self.feature_finished = True
                     self.stage = "feature_complete"
@@ -404,9 +450,9 @@ class Probe:
                                 await self.click(page, (target["x"],target["y"]), "confirmed_feature_continue")
                                 self.last_feature_action = key
                                 await self.shot(page, "after-feature-action", save=True)
-                    if self.feature_since and time.monotonic()-self.feature_since > 300:
+                    if self.feature_since and time.monotonic()-self.feature_since > 900:
                         self.stage = "needs_review"
-                        self.note("FEATURE_STALLED", "Bonus did not reach a verified end in 300 seconds")
+                        self.note("FEATURE_STALLED", "Bonus did not reach a verified end in 900 seconds")
                         await self.checkpoint("feature_needs_review", force=True)
                         return
                     await self.checkpoint()
