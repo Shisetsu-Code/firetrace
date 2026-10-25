@@ -1,10 +1,22 @@
 {
   "sessionId": "playngo-screens-20261025-01",
   "seq": 20,
-  "status": "running",
-  "activeObservationId": null,
+  "status": "ready",
+  "activeObservationId": "3f8b13c2-ddac-4e86-993b-0ef720d3e563",
   "current": {
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
+    "observationId": "3f8b13c2-ddac-4e86-993b-0ef720d3e563",
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
+    "crops": [
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b1.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b2.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b3.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b4.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b5.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/3f8b13c2-ddac-4e86-993b-0ef720d3e563/b6.png"
+    ]
   },
   "responses": [
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000001.json",
@@ -25,7 +37,8 @@
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000016.json",
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000017.json",
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000018.json",
-    "button-browser/ci-results/playngo-screens-20261025-01/responses/000019.json"
+    "button-browser/ci-results/playngo-screens-20261025-01/responses/000019.json",
+    "button-browser/ci-results/playngo-screens-20261025-01/responses/000020.json"
   ],
   "fixed": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
