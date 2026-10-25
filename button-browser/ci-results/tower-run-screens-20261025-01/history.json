@@ -208,5 +208,15 @@
     "responsePath": "responses/000013.json",
     "observationId": "724492f5-3222-41cb-aa04-caae8cb06008",
     "error": null
+  },
+  {
+    "seq": 14,
+    "commandId": "settle-fresh-onboarding-001",
+    "command": {
+      "action": "wait",
+      "ms": 5000
+    },
+    "startedAt": "2026-10-25T21:38:28.710Z",
+    "status": "reserved"
   }
 ]
