@@ -8,9 +8,6 @@ permissions:
   contents: write
 jobs:
   feature-explorer:
-    concurrency:
-      group: playtech-feature-${{ github.ref }}-${{ matrix.group }}
-      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 115
     strategy:
@@ -20,8 +17,8 @@ jobs:
     env:
       PLAYTECH_GROUP: ${{ matrix.group }}
       PLAYTECH_GROUPS: '4'
-      PLAYTECH_OUT: ${{ runner.temp }}/playtech-bonus-evidence
-      GH_TOKEN: ${{ github.token }}
+      PLAYTECH_OUT: /tmp/playtech-bonus-evidence
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -42,6 +39,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playtech-bonus-group-${{ matrix.group }}-${{ github.run_id }}
-          path: ${{ runner.temp }}/playtech-bonus-evidence/
+          path: /tmp/playtech-bonus-evidence/
           retention-days: 7
           if-no-files-found: warn
