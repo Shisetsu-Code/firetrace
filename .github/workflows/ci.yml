@@ -4,6 +4,8 @@ on:
   push:
     paths-ignore:
       - "commands/**"
+      - "remote/sessions/**"
+      - "remote/start.json"
       - "Firetrace-Worker.exe"
   pull_request:
 
