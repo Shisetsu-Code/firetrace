@@ -135,6 +135,20 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "open-paytable-verified-001",
+      "command": {
+        "action": "click",
+        "id": "b4",
+        "observationId": "957180af-35cc-4e6b-a43f-878be59b67fc"
+      }
+    },
+    {
+      "commandId": "verify-paytable-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
