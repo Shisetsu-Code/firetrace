@@ -116,6 +116,13 @@
         "x": 640,
         "y": 562
       }
+    },
+    {
+      "commandId": "settle-fresh-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
     }
   ]
 }
