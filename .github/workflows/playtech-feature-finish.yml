@@ -1,0 +1,43 @@
+name: Playtech FUN targeted feature follow-up
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['remote/playtech-feature-finish-trigger.json']
+permissions:
+  contents: write
+jobs:
+  finish-evidenced-feature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    strategy:
+      fail-fast: false
+      matrix:
+        game: [ashadv, gpas_aogggriffin_pop, aogmt, gpas_mgaogkol_pop]
+    env:
+      PLAYTECH_ONLY: ${{ matrix.game }}
+      PLAYTECH_OUT: /tmp/playtech-bonus-evidence
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install headless demo runner and OCR
+        run: |
+          python -m pip install -e . pillow pytesseract
+          python -m playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-eng
+      - name: Validate Python syntax
+        run: python -m py_compile remote/playtech_autopilot.py
+      - name: Continue only verified FUN feature paths
+        run: python -u remote/playtech_autopilot.py
+      - name: Upload all screenshots, progress and redacted network records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playtech-feature-followup-${{ matrix.game }}-${{ github.run_id }}
+          path: /tmp/playtech-bonus-evidence/
+          retention-days: 7
+          if-no-files-found: warn
