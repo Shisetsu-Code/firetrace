@@ -45,5 +45,16 @@
     "responsePath": "responses/000003.json",
     "observationId": "6cf4abcf-5e74-4678-87db-c2e1e204ca44",
     "error": null
+  },
+  {
+    "seq": 4,
+    "commandId": "continue-explicit-capture-001",
+    "command": {
+      "action": "click",
+      "x": 640,
+      "y": 562
+    },
+    "startedAt": "2026-10-25T19:22:48.499Z",
+    "status": "reserved"
   }
 ]
