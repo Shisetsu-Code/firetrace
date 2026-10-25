@@ -1,0 +1,11 @@
+{
+  "source_run": 40221846216,
+  "mode": "FUN_OFFLINE_ONLY",
+  "target_games": [
+    "ftsis",
+    "aogroo"
+  ],
+  "reason": "Observed stable native autoplay stopped/repeat popup; previous fallback inputs were blocked. Confirm YES twice visually before acting, max 4 attempts.",
+  "forbid_purchase": true,
+  "no_uncertain_retry": true
+}
