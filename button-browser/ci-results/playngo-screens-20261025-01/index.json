@@ -1,10 +1,15 @@
 {
   "sessionId": "playngo-screens-20261025-01",
   "seq": 7,
-  "status": "running",
-  "activeObservationId": null,
+  "status": "ready",
+  "activeObservationId": "217451d1-068a-453d-bd20-ab5d585e927b",
   "current": {
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
+    "observationId": "217451d1-068a-453d-bd20-ab5d585e927b",
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
+    "crops": []
   },
   "responses": [
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000001.json",
@@ -12,7 +17,8 @@
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000003.json",
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000004.json",
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000005.json",
-    "button-browser/ci-results/playngo-screens-20261025-01/responses/000006.json"
+    "button-browser/ci-results/playngo-screens-20261025-01/responses/000006.json",
+    "button-browser/ci-results/playngo-screens-20261025-01/responses/000007.json"
   ],
   "fixed": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
