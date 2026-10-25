@@ -77,6 +77,14 @@
       "command": {
         "action": "snapshot"
       }
+    },
+    {
+      "commandId": "close-paytable-current-coordinate-001",
+      "command": {
+        "action": "click",
+        "x": 1197,
+        "y": 83
+      }
     }
   ]
 }
