@@ -390,7 +390,9 @@ class Probe:
                     await page.wait_for_timeout(2200)
                     _, settled = await self.shot(page, "settle-fallback", save=False)
                     self.spin_attempts += 1
-                    changed_from_before = bool(previous_signature and self.previous_pixels and\n                        sum(abs(a-b) for a,b in zip(previous_signature,self.previous_pixels))/len(previous_signature) > 5)\n                    moved = self.network_events > before_net or changed_from_before
+                    changed_from_before = bool(previous_signature and self.previous_pixels and
+                        sum(abs(a-b) for a,b in zip(previous_signature,self.previous_pixels))/len(previous_signature) > 5)
+                    moved = self.network_events > before_net or changed_from_before
                     if not moved:
                         failed_inputs += 1
                     else:
