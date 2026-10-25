@@ -1,21 +1,10 @@
 {
   "sessionId": "tower-run-screens-20261025-01",
-  "seq": 34,
-  "status": "ready",
-  "activeObservationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1",
+  "seq": 35,
+  "status": "running",
+  "activeObservationId": null,
   "current": {
-    "observationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1",
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
-    "crops": [
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b1.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b2.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b3.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b4.png",
-      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b5.png"
-    ]
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
   },
   "responses": [
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000001.json",
