@@ -72,6 +72,7 @@ async def play_variant(browser, variant: str, limit=3600):
                     # Options independently verified from prior real MCP screenshot.
                     await probe.shot(page,"reel-choices",save=True)
                     await page.wait_for_timeout(2000)
+                    await probe.shot(page,"confirm-reel-choices",save=False)
                     verified=await asyncio.to_thread(read_crop,img,(370,135,940,225))
                     if "SELECT" not in verified and "YOUR REELS" not in verified:
                         continue
@@ -96,9 +97,10 @@ async def play_variant(browser, variant: str, limit=3600):
                     probe.stage="verified_complete"
                     await probe.shot(page,"bonus-end",save=True)
                     break
-                if last_spins==0 and time.monotonic()-bonus_started_at>20:
+                base_ui = "HIT SPIN" in state["text"].upper() or "CLICK SPIN TO START" in state["text"].upper()
+                if (last_spins==0 or (base_ui and time.monotonic()-bonus_started_at>40)):
                     # Wait for return-to-base and absence of feature counter.
-                    if not m and any(w["text"].upper() in {"SPIN","AUTOPLAY"} for w in words):
+                    if not m and (base_ui or any(w["text"].upper() in {"SPIN","AUTOPLAY"} for w in words)):
                         base_after_feature+=1
                     if base_after_feature>=3:
                         probe.feature_finished=True
