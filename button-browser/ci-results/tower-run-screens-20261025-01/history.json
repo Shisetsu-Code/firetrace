@@ -128,5 +128,15 @@
     "responsePath": "responses/000008.json",
     "observationId": "b05ac42c-2785-4c2a-b639-c5d95ccbd83b",
     "error": null
+  },
+  {
+    "seq": 9,
+    "commandId": "settle-after-go-ultra-intro-001",
+    "command": {
+      "action": "wait",
+      "ms": 5000
+    },
+    "startedAt": "2026-10-25T21:35:52.283Z",
+    "status": "reserved"
   }
 ]
