@@ -1,0 +1,38 @@
+name: Firetrace MCP Remote Agent
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['remote/mcp-start.json']
+permissions:
+  contents: read
+concurrency:
+  group: firetrace-mcp-remote-agent
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      FIRETRACE_TRANSPORT: cloudflare
+      FIRETRACE_HEADLESS: '1'
+      FIRETRACE_AGENT_ID: firetrace
+      CF_CONTROL_URL: ${{ secrets.CF_CONTROL_URL }}
+      CF_CONTROL_TOKEN: ${{ secrets.CF_CONTROL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check relay credentials
+        run: |
+          if [ -z "$CF_CONTROL_URL" ] || [ -z "$CF_CONTROL_TOKEN" ]; then
+            echo "::error::Configure GitHub Actions secrets CF_CONTROL_URL and CF_CONTROL_TOKEN for the existing Cloudflare control relay."
+            exit 1
+          fi
+      - name: Install Chromium
+        run: |
+          python -m pip install -e .
+          python -m playwright install --with-deps chromium
+      - name: Connect hosted Chromium to Firetrace MCP via Cloudflare WSS
+        run: timeout --signal=TERM --kill-after=20s 6900s python -m firetrace.cloudflare_agent
