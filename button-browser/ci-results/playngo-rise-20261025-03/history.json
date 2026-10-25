@@ -150,5 +150,14 @@
     "responsePath": "responses/000009.json",
     "observationId": "d959e6af-7a26-4b10-af69-e2f22d22ac95",
     "error": null
+  },
+  {
+    "seq": 10,
+    "commandId": "capture-after-spin-001",
+    "command": {
+      "action": "snapshot"
+    },
+    "startedAt": "2026-10-25T19:38:28.430Z",
+    "status": "reserved"
   }
 ]
