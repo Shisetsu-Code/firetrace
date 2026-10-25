@@ -259,6 +259,26 @@ def ash_tea_party_bonus_intro(png: Path) -> bool:
             and "START" in label)
 
 
+def midas_earned_spin_ready(png: Path) -> bool:
+    """Mighty Midas earned Amethyst Spins needs a manual SPIN after OK.
+
+    Archived 40231711671/aogmt/00239-after-amethyst-ok.jpg and 00361-poll.jpg
+    retain a magenta AMETHYST SPINS banner with a green SPIN (979,559).
+    The intro/result modal has no banner and must never be clicked here.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        band = list(rgb.crop((482, 83, 804, 117)).getdata())
+        magenta = sum(
+            1 for r, g, b in band
+            if r > 100 and b > 70 and r > g * 1.3 and b > g * 1.3
+        ) / len(band)
+        button = rgb.crop((930, 514, 1041, 604))
+        button = button.resize((button.width * 4, button.height * 4))
+        label = pytesseract.image_to_string(button, config="--psm 6").upper()
+    return magenta > 0.11 and "SPIN" in label
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -281,6 +301,7 @@ class Probe:
         self.clicks = 0
         self.spin_attempts = 0
         self.autoplay_repeats = 0
+        self.midas_feature_steps = 0
         self.feature_since = None
         self.last_feature_action = None
         self.feature_seen = False
@@ -377,6 +398,7 @@ class Probe:
              "observations": self.observations, "clicks": self.clicks,
              "spin_attempts": self.spin_attempts,
              "autoplay_repeats": self.autoplay_repeats,
+             "midas_feature_steps": self.midas_feature_steps,
              "network_events": self.network_events, "websocket_connections": self.websockets,
              "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
              "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
@@ -556,6 +578,48 @@ class Probe:
                         await self.checkpoint("bonus_needs_review", force=True)
                         return
                     self.note("BONUS_ACK", "Ash Tea Party earned bonus started; observe choices")
+                    await self.checkpoint(force=True)
+                    continue
+                # 40231711671/aogmt: the 3 AMETHYST SPINS intro was
+                # acknowledged, but the earned feature retained green SPIN
+                # for 900s. Its separate spins are not autoplayed. We only
+                # click when both the magenta bonus banner and green SPIN
+                # remain stable in two screenshots; maximum 3 verified steps.
+                if (self.game == "aogmt" and self.feature_seen
+                        and self.midas_feature_steps < 3
+                        and midas_earned_spin_ready(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "revalidate-midas-earned-spin", save=True)
+                    if (not midas_earned_spin_ready(self.dir / "_current.png")
+                            or self.visual_delta > 3):
+                        self.note("AMETHYST_UNSTABLE", "No stable earned bonus spin control")
+                        continue
+                    if not ("real=0" in page.url or "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Cannot prove FUN mode before earned spin")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    before = self.previous_pixels
+                    before_net = self.network_events
+                    await self.click(page, (979, 559), "verified_Midas_earned_amethyst_spin")
+                    await page.wait_for_timeout(1800)
+                    await self.shot(page, "after-amethyst-spin", save=True)
+                    first_delta = self.visual_delta
+                    await page.wait_for_timeout(2200)
+                    await self.shot(page, "settle-amethyst-spin", save=True)
+                    final_delta = (sum(abs(a-b) for a,b in zip(before, self.previous_pixels))
+                                   / len(before)) if before else 0
+                    if max(first_delta, final_delta) <= 5 and self.network_events == before_net:
+                        self.stage = "needs_review"
+                        self.note("AMETHYST_RESULT_UNCERTAIN",
+                                  "One earned spin clicked, no definitive gameplay change; do not retry")
+                        await self.checkpoint("amethyst_uncertain", force=True)
+                        return
+                    self.midas_feature_steps += 1
+                    self.stage = "feature_observed"
+                    self.feature_since = time.monotonic()
+                    self.note("AMETHYST_SPIN",
+                              f"Earned spin #{self.midas_feature_steps} caused observed reel/network change")
                     await self.checkpoint(force=True)
                     continue
                 # Run 40233535136 stopped on an earned Battle for Power
