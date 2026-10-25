@@ -1,0 +1,12 @@
+{
+  "seq": 8,
+  "commandId": "stop-diagnostic-run-001",
+  "completedAt": "2026-10-25T19:14:18.339Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "STOP",
+      "stopped": true
+    }
+  }
+}

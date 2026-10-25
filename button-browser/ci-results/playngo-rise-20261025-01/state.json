@@ -5,88 +5,31 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40224538413",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-rise-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 7,
-  "lastCommandId": "verify-intro-hover-001",
+  "status": "stopped",
+  "phase": "stopped",
+  "seq": 8,
+  "lastCommandId": "stop-diagnostic-run-001",
   "lastResponse": {
     "ok": true,
     "result": {
-      "action": "verify",
-      "status": "unstable",
-      "positionsReady": false
-    },
-    "observation": {
-      "observationId": "f9be0e36-1f4a-4a06-9150-bc8838be97ca",
-      "timestamp": "2026-10-25T19:13:15.748Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 38064,
-      "canvasCount": 1,
-      "stability": {
-        "status": "unstable",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 3,
-        "reasons": [
-          "Cambió la apariencia de un control entre las lecturas 1 y 2."
-        ],
-        "maxGeometryDeltaPx": 0,
-        "maxAppearanceDifference": 0.015372242647058823,
-        "samples": [
-          {
-            "index": 1,
-            "timestamp": "2026-10-25T19:12:50.055Z",
-            "candidateCount": 3
-          },
-          {
-            "index": 2,
-            "timestamp": "2026-10-25T19:13:02.996Z",
-            "candidateCount": 3
-          },
-          {
-            "index": 3,
-            "timestamp": "2026-10-25T19:13:15.748Z",
-            "candidateCount": 3
-          }
-        ]
-      },
-      "detection": {
-        "dom": 0,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/f9be0e36-1f4a-4a06-9150-bc8838be97ca/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/f9be0e36-1f4a-4a06-9150-bc8838be97ca/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/f9be0e36-1f4a-4a06-9150-bc8838be97ca/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-01/observations/f9be0e36-1f4a-4a06-9150-bc8838be97ca/buttons.json"
+      "action": "STOP",
+      "stopped": true
     }
   },
   "verification": {
-    "status": "unstable",
-    "currentSample": 3,
+    "status": "idle",
+    "currentSample": 0,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T19:08:19.899Z",
-  "updatedAt": "2026-10-25T19:13:51.226Z",
+  "updatedAt": "2026-10-25T19:14:18.339Z",
   "expiresAt": "2026-10-25T19:33:19.899Z",
   "gameURL": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-  "stopReason": null,
+  "stopReason": "STOP",
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "f9be0e36-1f4a-4a06-9150-bc8838be97ca",
+  "activeObservationId": null,
   "files": {
     "observationId": "f9be0e36-1f4a-4a06-9150-bc8838be97ca",
     "current": "button-browser/ci-results/playngo-rise-20261025-01/current.png",
@@ -163,6 +106,16 @@
       "status": "finished",
       "startedAt": "2026-10-25T19:12:37.270Z",
       "completedAt": "2026-10-25T19:13:17.081Z",
+      "ok": true,
+      "actionExecuted": true
+    },
+    {
+      "commandId": "stop-diagnostic-run-001",
+      "fingerprint": "4e645b50c9e0a9608b276f2117bec9bfb33089f49d9b287d61a348f0d2a2aaf7",
+      "seq": 8,
+      "status": "finished",
+      "startedAt": "2026-10-25T19:14:18.197Z",
+      "completedAt": "2026-10-25T19:14:18.339Z",
       "ok": true,
       "actionExecuted": true
     }

@@ -108,5 +108,20 @@
     "responsePath": "responses/000007.json",
     "observationId": "f9be0e36-1f4a-4a06-9150-bc8838be97ca",
     "error": null
+  },
+  {
+    "seq": 8,
+    "commandId": "stop-diagnostic-run-001",
+    "command": {
+      "action": "STOP"
+    },
+    "startedAt": "2026-10-25T19:14:18.197Z",
+    "status": "finished",
+    "completedAt": "2026-10-25T19:14:18.339Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000008.json",
+    "observationId": null,
+    "error": null
   }
 ]
