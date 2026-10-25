@@ -4,14 +4,14 @@
   "outcome": null,
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 98,
+  "observations": 110,
   "clicks": 6,
   "spin_attempts": 4,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 580,
+  "elapsed_seconds": 656,
   "latest_text": "& C ons | vy 25 YOU'VE WON! \\\\ €1, 4 ay for",
   "run_id": "40231711671",
-  "time": "2026-10-25T20:48:48+00:00"
+  "time": "2026-10-25T20:50:04+00:00"
 }
