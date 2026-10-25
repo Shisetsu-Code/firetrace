@@ -78,5 +78,14 @@
     "responsePath": "responses/000005.json",
     "observationId": "16380715-f891-4b4b-95cf-6def002913b4",
     "error": null
+  },
+  {
+    "seq": 6,
+    "commandId": "verify-board-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:32:33.417Z",
+    "status": "reserved"
   }
 ]
