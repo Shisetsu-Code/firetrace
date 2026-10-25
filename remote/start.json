@@ -1,14 +1,8 @@
 {
-  "session_id": "firetrace-20261025-02",
-  "minutes": 45,
-  "idle_seconds": 900,
+  "session_id": "playtech-first10-20261025-b",
+  "minutes": 90,
+  "idle_seconds": 1800,
   "allowed_hosts": [
-    "pragmaticplay.fun",
-    "pragmaticplay.com",
-    "pragmaticplay.net",
-    "bgaming.com",
-    "bgaming-network.com",
-    "playngo.com",
-    "playngonetwork.com"
+    "playtechone.com"
   ]
 }
