@@ -149,6 +149,15 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "verify-paytable-filtered-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold "
+        ]
+      }
     }
   ]
 }
