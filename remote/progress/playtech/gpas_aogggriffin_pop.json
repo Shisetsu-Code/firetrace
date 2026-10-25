@@ -1,18 +1,18 @@
 {
   "game": "gpas_aogggriffin_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 104,
+  "observations": 115,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
-  "network_events": 564,
+  "network_events": 584,
   "websocket_connections": 2,
-  "requests_total": 109,
-  "elapsed_seconds": 752,
-  "latest_text": "\\GE OF THE GODS: GLORIOUS GRIFFIN PLAYING FOR FUN Not available: EXTRA Not available ibs US Ay REE] @ GAMES] $6 Cs a om GN W % 0 Bi 9 & & ES You WIN GAMES! J Ow ee TOTAL BET win UNTIL INFO €5.00 ‘STOP AUTOPLAY ‘TO START => A ‘eos — el zk €9,729.75 @ ",
+  "requests_total": 110,
+  "elapsed_seconds": 827,
+  "latest_text": "AGE OF THE GODS: GLORIOUS GRIFFIN™ PLAYING FOR FUN, © Bo Not available Not available POWER I @ G9 A — ry | =4 See) a ——— Oe TOTAL BET win UNTIL 7 INFO €5.00 ‘STOP AUTOPLAY TO START WAYS: ye On €9,729.75 @",
   "run_id": "40240882306",
-  "time": "2026-10-25T22:48:28+00:00"
+  "time": "2026-10-25T22:49:44+00:00"
 }
