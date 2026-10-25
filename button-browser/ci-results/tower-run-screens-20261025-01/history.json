@@ -566,5 +566,14 @@
     "responsePath": "responses/000035.json",
     "observationId": "e48fe5f8-16aa-4564-b39b-3d983dbe454b",
     "error": null
+  },
+  {
+    "seq": 36,
+    "commandId": "verify-rules-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:47:44.729Z",
+    "status": "reserved"
   }
 ]

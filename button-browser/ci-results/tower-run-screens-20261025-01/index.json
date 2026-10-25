@@ -1,15 +1,10 @@
 {
   "sessionId": "tower-run-screens-20261025-01",
-  "seq": 35,
-  "status": "ready",
-  "activeObservationId": "e48fe5f8-16aa-4564-b39b-3d983dbe454b",
+  "seq": 36,
+  "status": "running",
+  "activeObservationId": null,
   "current": {
-    "observationId": "e48fe5f8-16aa-4564-b39b-3d983dbe454b",
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
   },
   "responses": [
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000001.json",
