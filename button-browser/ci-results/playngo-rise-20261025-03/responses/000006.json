@@ -1,0 +1,99 @@
+{
+  "seq": 6,
+  "commandId": "verify-selected-board-001",
+  "completedAt": "2026-10-25T19:36:16.542Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "verify",
+      "status": "unstable",
+      "positionsReady": false
+    },
+    "observation": {
+      "observationId": "02b57838-ed96-47a9-bff6-46af3c73f94f",
+      "timestamp": "2026-10-25T19:36:14.944Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 39097,
+      "canvasCount": 1,
+      "stability": {
+        "status": "unstable",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 3,
+        "reasons": [
+          "Cambió la apariencia del control dom «XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning » entre las lecturas 1 y 2.",
+          "Cambió la apariencia del control dom «XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning » entre las lecturas 2 y 3."
+        ],
+        "maxGeometryDeltaPx": 0,
+        "maxAppearanceDifference": 0.015982434640522875,
+        "scope": {
+          "excludeLabels": [
+            "BET_DEC",
+            "BET_INC"
+          ],
+          "excludedCounts": [
+            2,
+            2,
+            2
+          ]
+        },
+        "samples": [
+          {
+            "index": 1,
+            "timestamp": "2026-10-25T19:35:48.447Z",
+            "candidateCount": 12,
+            "timingsMs": {
+              "dom": 2903,
+              "engine": 4926,
+              "capture": 3404,
+              "vision": 0
+            }
+          },
+          {
+            "index": 2,
+            "timestamp": "2026-10-25T19:36:01.875Z",
+            "candidateCount": 12,
+            "timingsMs": {
+              "dom": 3286,
+              "engine": 4911,
+              "capture": 3230,
+              "vision": 0
+            }
+          },
+          {
+            "index": 3,
+            "timestamp": "2026-10-25T19:36:14.944Z",
+            "candidateCount": 12,
+            "timingsMs": {
+              "dom": 2783,
+              "engine": 4998,
+              "capture": 3288,
+              "vision": 0
+            }
+          }
+        ]
+      },
+      "detection": {
+        "dom": 1,
+        "engine": 11,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-03/observations/02b57838-ed96-47a9-bff6-46af3c73f94f/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-03/observations/02b57838-ed96-47a9-bff6-46af3c73f94f/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-03/observations/02b57838-ed96-47a9-bff6-46af3c73f94f/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-rise-20261025-03/observations/02b57838-ed96-47a9-bff6-46af3c73f94f/buttons.json"
+    }
+  }
+}
