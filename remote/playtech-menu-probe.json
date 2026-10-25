@@ -10,5 +10,6 @@
     "gpas_agstorm3_pop",
     "gpas_mgaogkol_pop",
     "gpas_aogwfot_pop"
-  ]
+  ],
+  "retry": 2
 }
