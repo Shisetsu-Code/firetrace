@@ -1,0 +1,12 @@
+{
+  "seq": 37,
+  "commandId": "stop-tower-walkthrough-001",
+  "completedAt": "2026-10-25T21:48:19.710Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "STOP",
+      "stopped": true
+    }
+  }
+}

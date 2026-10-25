@@ -581,5 +581,20 @@
     "responsePath": "responses/000036.json",
     "observationId": "71c53b15-1034-42de-bafb-642576bf43ef",
     "error": null
+  },
+  {
+    "seq": 37,
+    "commandId": "stop-tower-walkthrough-001",
+    "command": {
+      "action": "STOP"
+    },
+    "startedAt": "2026-10-25T21:48:19.607Z",
+    "status": "finished",
+    "completedAt": "2026-10-25T21:48:19.710Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000037.json",
+    "observationId": null,
+    "error": null
   }
 ]
