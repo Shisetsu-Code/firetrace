@@ -4,13 +4,14 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 34,
+  "observations": 280,
   "clicks": 2,
-  "network_events": 7,
+  "spin_attempts": 0,
+  "network_events": 8,
   "websocket_connections": 1,
-  "requests_total": 18,
-  "elapsed_seconds": 3357,
-  "latest_text": "& Fe available) \\\\ AGE ODS) Not available.. - Not available TERSS POWER _ Not available POWER: is Al ) (A) : | MAX. SPIN a 2 €999.75 16:53:51",
-  "run_id": "40209463248",
-  "time": "2026-10-25T16:55:17+00:00"
+  "requests_total": 19,
+  "elapsed_seconds": 2070,
+  "latest_text": "2 SP PER NZ PO ER ‘Not availab Notiavatianle,. = EXTRA not available POWER FATS Not available POWER: <4 iif ast ni iis u nf is iif i i ni u u i u tif u if y i is i tif i a i u ii d a it nf i i on Autoplay stopped. tif ii 2, «4 if uf I Do you want to ",
+  "run_id": "40211170934",
+  "time": "2026-10-25T16:55:36+00:00"
 }
