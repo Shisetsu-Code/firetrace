@@ -114,6 +114,27 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "open-settings-current-coordinate-001",
+      "command": {
+        "action": "click",
+        "x": 548,
+        "y": 671
+      }
+    },
+    {
+      "commandId": "settle-settings-001",
+      "command": {
+        "action": "wait",
+        "ms": 1000
+      }
+    },
+    {
+      "commandId": "verify-settings-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
