@@ -200,6 +200,25 @@ def known_finished_feature_modal(game: str, png: Path) -> bool:
 
 
 
+
+def rulers_bonus_intro(png: Path) -> bool:
+    """Detect the *earned* Rulers of Olympus Battle for Power intro.
+
+    Archived FUN 40233535136/aogroo/_current.png: text and yellow
+    CONTINUE coexist at 1280x720 after base game rounds, not in the
+    initial startup splash. Global OCR missed the clickable label.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        text_crop = rgb.crop((335, 202, 960, 465))
+        button_crop = rgb.crop((881, 485, 1019, 512)).convert("L")
+        button_crop = button_crop.resize((button_crop.width * 4, button_crop.height * 4))
+        title = pytesseract.image_to_string(text_crop, config="--psm 6").upper()
+        button = pytesseract.image_to_string(button_crop, config="--psm 7").upper()
+    return all(x in title for x in ("BATTLE FOR POWER", "STARTS NOW", "FREE GAMES END")) and "CONTINUE" in button
+
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -432,6 +451,32 @@ class Probe:
                     self.note("FEATURE", state["text"][:300])
                     # Never send a base wager while a feature or choice is active.
                     fallback = False
+                # Run 40233535136 stopped on an earned Battle for Power
+                # intro. It is NOT a bet/purchase; only the yellow CONTINUE
+                # may be acknowledged after two independent observations.
+                if (self.game == "aogroo"
+                        and self.last_feature_action != "rulers_battle_intro_continue"
+                        and rulers_bonus_intro(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-rulers-bonus-intro", save=True)
+                    if not rulers_bonus_intro(self.dir / "_current.png"):
+                        self.note("BONUS_INTRO_UNSTABLE", "Rulers intro vanished before input")
+                        continue
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (950, 500), "verified_FUN_rulers_bonus_continue_once")
+                    self.last_feature_action = "rulers_battle_intro_continue"
+                    await page.wait_for_timeout(2300)
+                    await self.shot(page, "after-rulers-bonus-continue", save=True)
+                    if rulers_bonus_intro(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("BONUS_INTRO_UNCERTAIN", "One CONTINUE input; modal still visible")
+                        await self.checkpoint("bonus_needs_review", force=True)
+                        return
+                    self.note("BONUS_ACK", "Rulers earned bonus intro disappeared; bonus outcome still unverified")
+                    await self.checkpoint(force=True)
+                    continue
                 # Two verified modal controls from run 40221846216, NOT purchase buttons.
                 # Midas: screenshot 00160-feature.jpg shows AMETHYST SPINS and
                 # a green OK at (640, 455). Observe twice 2s apart before click.
