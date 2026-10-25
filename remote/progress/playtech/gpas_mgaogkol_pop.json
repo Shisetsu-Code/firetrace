@@ -1,17 +1,17 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 29,
+  "observations": 38,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 82,
+  "network_events": 98,
   "websocket_connections": 2,
-  "requests_total": 155,
-  "elapsed_seconds": 232,
+  "requests_total": 156,
+  "elapsed_seconds": 296,
   "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN gu No Not available INFO BET IK OR =) iN MPUS @ Si WAYS TOTAL BET 6750 €5.00 €9,995.00 @",
   "run_id": "40210773172",
-  "time": "2026-10-25T16:19:42+00:00"
+  "time": "2026-10-25T16:20:47+00:00"
 }
