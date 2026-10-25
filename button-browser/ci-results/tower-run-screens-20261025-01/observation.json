@@ -1,6 +1,6 @@
 {
-  "observationId": "3271a6bd-fc2d-4763-9bfa-02e7d3eaa104",
-  "timestamp": "2026-10-25T21:41:50.491Z",
+  "observationId": "0bb72b29-2589-49af-939d-4fe95020e457",
+  "timestamp": "2026-10-25T21:42:21.381Z",
   "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "title": "",
   "viewport": {
@@ -10,17 +10,60 @@
   },
   "coordinateSpace": "viewport-css-px",
   "warnings": [],
-  "timingMs": 2328,
-  "canvasCount": 0,
+  "timingMs": 23951,
+  "canvasCount": 1,
   "stability": {
-    "status": "unverified",
+    "status": "unstable",
     "requiredSamples": 3,
     "intervalMs": 2000,
     "geometryTolerancePx": 1,
     "maxCropDifference": 0.015,
-    "completedSamples": 0,
-    "reasons": [],
-    "samples": []
+    "completedSamples": 3,
+    "reasons": [
+      "Cambió la apariencia del control dom «49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold » entre las lecturas 1 y 2.",
+      "Cambió el conjunto de controles entre las lecturas 1 y 3.",
+      "Cambió la identidad o el conjunto de controles entre las lecturas 1 y 3.",
+      "Cambió la apariencia del control dom «49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold » entre las lecturas 1 y 3.",
+      "Cambió el conjunto de controles entre las lecturas 2 y 3.",
+      "Cambió la identidad o el conjunto de controles entre las lecturas 2 y 3."
+    ],
+    "maxGeometryDeltaPx": 0,
+    "maxAppearanceDifference": 0.03357715482026144,
+    "samples": [
+      {
+        "index": 1,
+        "timestamp": "2026-10-25T21:42:05.272Z",
+        "candidateCount": 5,
+        "timingsMs": {
+          "dom": 4066,
+          "engine": 1772,
+          "capture": 1080,
+          "vision": 0
+        }
+      },
+      {
+        "index": 2,
+        "timestamp": "2026-10-25T21:42:14.371Z",
+        "candidateCount": 5,
+        "timingsMs": {
+          "dom": 3915,
+          "engine": 1755,
+          "capture": 1076,
+          "vision": 0
+        }
+      },
+      {
+        "index": 3,
+        "timestamp": "2026-10-25T21:42:21.381Z",
+        "candidateCount": 2,
+        "timingsMs": {
+          "dom": 1961,
+          "engine": 1736,
+          "capture": 1064,
+          "vision": 0
+        }
+      }
+    ]
   },
   "fixedButtons": [],
   "detection": {
@@ -30,8 +73,8 @@
     "visionRequested": false
   },
   "buttons": [],
-  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/3271a6bd-fc2d-4763-9bfa-02e7d3eaa104/screenshot.png",
-  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/3271a6bd-fc2d-4763-9bfa-02e7d3eaa104/annotated.png",
-  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/3271a6bd-fc2d-4763-9bfa-02e7d3eaa104/buttons.png",
-  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/3271a6bd-fc2d-4763-9bfa-02e7d3eaa104/buttons.json"
+  "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0bb72b29-2589-49af-939d-4fe95020e457/screenshot.png",
+  "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0bb72b29-2589-49af-939d-4fe95020e457/annotated.png",
+  "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0bb72b29-2589-49af-939d-4fe95020e457/buttons.png",
+  "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/tower-run-screens-20261025-01/observations/0bb72b29-2589-49af-939d-4fe95020e457/buttons.json"
 }
