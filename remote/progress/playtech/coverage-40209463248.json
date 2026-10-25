@@ -7,15 +7,17 @@
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
-    40240882306,
-    40241233787,
-    40241535898
+    40246246062,
+    40246248235
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
     "Mere 'Not available' power labels do not prove buy/bonus absence in other menus.",
     "All ten are incomplete; this coverage map records evidence, not a verified game outcome.",
-    "Never repeat a purchase when its result is uncertain; new runs so far operate only FUN mode."
+    "Never repeat a purchase when its result is uncertain; new runs so far operate only FUN mode.",
+    "All previously active 40240882306/40241233787/40241535898 are completed technically; current targeted re-runs started from fresh FUN sessions, not restored server state.",
+    "Verified archived crops on 2026-10-25: Rulers terminal FREE GAMES + CONTINUE and Ash Tea Party Bonus + START; guard correction commit abca79ce.",
+    "No new Buy Bonus purchases/Ante bets implied by these targeted recoveries; full completion remains 0/10."
   ],
   "games": {
     "ashadv": {
@@ -32,7 +34,9 @@
         "evidence": "40231711671/12613454975"
       },
       "special_functions": {
-        "status": "not_verified"
+        "status": "EARNED_TEA_PARTY_BONUS_START_MODAL_OBSERVED_NOT_ACKNOWLEDGED",
+        "evidence": "40241535898/12618172019/ashadv/_current.png",
+        "verified_control": "green START (809,494); direct action must be verified in new run"
       },
       "bonus_result": {
         "status": "end_modal_observed_return_not_verified",
@@ -44,12 +48,16 @@
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
       "last_result": {
-        "run": 40240882306,
+        "run": 40241535898,
         "status": "needs_review",
-        "reason": "Autoplay stopped modal blocked fallback; no bonus in this attempt",
-        "artifact": 12616158225
+        "feature_seen": false,
+        "feature_finished": false,
+        "observations": 446,
+        "spin_attempts": 115,
+        "artifact": 12618172019,
+        "reason": "Missed earned Tea Party modal; base spin fallback attempted under modal; no buy claimed"
       },
-      "active_recovery": 40241535898
+      "active_recovery": 40246248235
     },
     "ftsis": {
       "complete": false,
@@ -97,14 +105,22 @@
         "status": "not_verified"
       },
       "bonus_result": {
-        "status": "end_modal_observed_return_not_verified",
-        "evidence": "40231711671/12614024580"
+        "status": "feature_complete_and_FUN_board_return_verified",
+        "evidence": "40240882306/12616049593/gpas_aogggriffin_pop/screenshots/00138-feature.jpg,00140-after-result-continue.jpg,00141-verify-base-return.jpg",
+        "details": "OCR/result dialog acknowledged once; two post-click screenshots; FUN board returned; no purchase or other bonus functionality verified."
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40240882306
+      "last_result": {
+        "run": 40240882306,
+        "status": "feature_complete",
+        "feature_seen": true,
+        "feature_finished": true,
+        "observations": 141,
+        "artifact": 12616049593
+      }
     },
     "aogmt": {
       "complete": false,
@@ -141,21 +157,32 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "BATTLE_FOR_POWER_bonus_intro_observed_not_acknowledged",
-        "evidence": "40233535136/12613919769/aogroo/_current.png"
+        "status": "BATTLE_FOR_POWER_FREE_GAMES_RESULT_SEEN",
+        "evidence": "40241233787/12617529188/aogroo/_current.png",
+        "text": "CONGRATULATIONS! YOU WON €17.15 DURING FREE GAMES; counter shows FREE GAMES 36"
       },
       "special_functions": {
-        "status": "RULERS_bonus_intro_PENDING_2x_guarded_continue",
-        "evidence": "40233535136/12613919769"
+        "status": "EARNED_BATTLE_FOR_POWER_BONUS_RESULT_SCREEN_OBSERVED",
+        "evidence": "40241233787/12617529188/aogroo/_current.png"
       },
       "bonus_result": {
-        "status": "not_verified"
+        "status": "terminal_result_modal_observed_RETURN_NOT_VERIFIED",
+        "evidence": "40241233787/12617529188/aogroo/_current.png",
+        "blocked_control": "yellow CONTINUE (944,500), previously not recognized"
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40241233787
+      "active_recovery": 40246246062,
+      "last_result": {
+        "run": 40241233787,
+        "status": "needs_review",
+        "feature_seen": true,
+        "feature_finished": false,
+        "observations": 333,
+        "artifact": 12617529188
+      }
     },
     "gpas_gstorm2_pop": {
       "complete": false,
@@ -297,5 +324,6 @@
         "artifact": 12614071877
       }
     }
-  }
+  },
+  "last_checked_at_utc": "2026-10-25T23:46:30Z"
 }
