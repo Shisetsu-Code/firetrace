@@ -6,9 +6,9 @@
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-rise-20261025-03",
   "status": "running",
-  "phase": "starting",
-  "seq": 0,
-  "lastCommandId": null,
+  "phase": "executing",
+  "seq": 1,
+  "lastCommandId": "__start__",
   "lastResponse": null,
   "verification": {
     "status": "idle",
@@ -17,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T19:34:16.714Z",
-  "updatedAt": "2026-10-25T19:34:16.717Z",
+  "updatedAt": "2026-10-25T19:34:18.120Z",
   "expiresAt": "2026-10-25T19:59:16.715Z",
   "gameURL": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
   "stopReason": null,
@@ -25,7 +25,15 @@
   "queueError": null,
   "activeObservationId": null,
   "files": null,
-  "commands": [],
+  "commands": [
+    {
+      "commandId": "__start__",
+      "fingerprint": "26e115d3b170894be174b74459e6a1e16ced0e7e4e7095e7144f1e9de3427d7a",
+      "seq": 1,
+      "status": "reserved",
+      "startedAt": "2026-10-25T19:34:18.119Z"
+    }
+  ],
   "index": "button-browser/ci-results/playngo-rise-20261025-03/index.json",
   "history": "button-browser/ci-results/playngo-rise-20261025-03/history.json"
 }
