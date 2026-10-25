@@ -1,7 +1,7 @@
 {
   "game": "aogmt",
   "stage": "needs_review",
-  "outcome": "feature_needs_review",
+  "outcome": "needs_review",
   "feature_seen": true,
   "feature_finished": false,
   "observations": 366,
@@ -10,8 +10,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 2448,
+  "elapsed_seconds": 2450,
   "latest_text": "») ATE Not available PE R Not available RP © SN IES a \\\\ 4 a? WIN 40 2 €960.10 21:25:31",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:25:34+00:00"
+  "time": "2026-10-25T21:25:36+00:00"
 }
