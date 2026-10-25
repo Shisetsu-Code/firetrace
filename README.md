@@ -1,5 +1,14 @@
 # Firetrace
 
+## Firetrace Remote (GitHub-hosted, sin PC)
+
+La variante [Firetrace Remote](docs/github-remote-browser.md) ejecuta Chromium
+en GitHub Actions, sin acceder a la PC. Se inicia creando remote/start.json
+y acepta comandos por archivos JSON de sesión mediante GitHub. Guarda capturas,
+eventos, HTTP, WebSocket y HAR sanitizados. No modifica el MCP local ni requiere
+Cloudflare. Limitada a demos sin login: este repositorio es público y las
+sesiones GitHub Actions son temporales.
+
 ## Chat normal, Electron y memoria del proyecto
 
 La [memoria de integración](docs/aprendizajes-chat-normal-electron.md) documenta la conexión remota Firetrace existente que permitió usar HardFire Electron desde Chat normal, las causas de los fallos y sus límites. [Resume](https://github.com/Shisetsu-Code/Resume) reúne el historial de los tres proyectos y una skill para reconstruir el diagnóstico.
