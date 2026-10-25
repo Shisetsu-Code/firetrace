@@ -1,17 +1,17 @@
 {
   "game": "ftsis",
-  "stage": "bounded_base_spin_fallback",
-  "outcome": null,
+  "stage": "needs_review",
+  "outcome": "needs_review",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 14,
-  "clicks": 4,
-  "spin_attempts": 2,
+  "observations": 17,
+  "clicks": 5,
+  "spin_attempts": 3,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 19,
-  "elapsed_seconds": 2435,
+  "elapsed_seconds": 3051,
   "latest_text": "2 ODS PER NZ PO ER ‘Not availab Notiavatianle,. = EXTRA not available POWER FATS Not available POWER: \\\\ <4 ij ni i) «4 u » i > i u u i u uy} tif ie u if y i tif i a i (5 ‘$ u ii d a it iif i i on U iif y it tif Autoplay stopped. u tif ii 2, iif u if",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:19:37+00:00"
+  "time": "2026-10-25T19:29:53+00:00"
 }
