@@ -501,5 +501,16 @@
     "responsePath": "responses/000031.json",
     "observationId": "90a963aa-779e-4315-b9af-3b7633b62013",
     "error": null
+  },
+  {
+    "seq": 32,
+    "commandId": "open-replayed-paytable-001",
+    "command": {
+      "action": "click",
+      "x": 76.52,
+      "y": 91.5
+    },
+    "startedAt": "2026-10-25T21:46:13.326Z",
+    "status": "reserved"
   }
 ]
