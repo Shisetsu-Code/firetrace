@@ -224,5 +224,16 @@
     "responsePath": "responses/000014.json",
     "observationId": "f9fe399b-5d57-4f92-9803-044dd1b546cd",
     "error": null
+  },
+  {
+    "seq": 15,
+    "commandId": "continue-fresh-go-ultra-001",
+    "command": {
+      "action": "click",
+      "x": 1206,
+      "y": 628
+    },
+    "startedAt": "2026-10-25T21:39:12.932Z",
+    "status": "reserved"
   }
 ]
