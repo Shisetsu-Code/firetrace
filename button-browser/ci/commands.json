@@ -34,6 +34,27 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "open-info-explicit-capture-001",
+      "command": {
+        "action": "click",
+        "x": 205,
+        "y": 662
+      }
+    },
+    {
+      "commandId": "settle-info-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
+    },
+    {
+      "commandId": "verify-info-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
