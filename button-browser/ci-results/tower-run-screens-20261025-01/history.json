@@ -559,6 +559,12 @@
       "observationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1"
     },
     "startedAt": "2026-10-25T21:47:31.744Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T21:47:39.447Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000035.json",
+    "observationId": "e48fe5f8-16aa-4564-b39b-3d983dbe454b",
+    "error": null
   }
 ]
