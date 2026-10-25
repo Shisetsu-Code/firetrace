@@ -34,6 +34,15 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "verify-go-ultra-intro-filtered-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "button 7"
+        ]
+      }
     }
   ]
 }
