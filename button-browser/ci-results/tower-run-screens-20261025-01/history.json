@@ -121,6 +121,12 @@
       "y": 628
     },
     "startedAt": "2026-10-25T21:35:40.706Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T21:35:46.976Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000008.json",
+    "observationId": "b05ac42c-2785-4c2a-b639-c5d95ccbd83b",
+    "error": null
   }
 ]
