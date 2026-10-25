@@ -173,6 +173,7 @@ class Probe:
         self.observations = 0
         self.clicks = 0
         self.spin_attempts = 0
+        self.autoplay_repeats = 0
         self.feature_since = None
         self.last_feature_action = None
         self.feature_seen = False
@@ -268,6 +269,7 @@ class Probe:
              "feature_seen": self.feature_seen, "feature_finished": self.feature_finished,
              "observations": self.observations, "clicks": self.clicks,
              "spin_attempts": self.spin_attempts,
+             "autoplay_repeats": self.autoplay_repeats,
              "network_events": self.network_events, "websocket_connections": self.websockets,
              "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
              "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
@@ -456,6 +458,37 @@ class Probe:
                         await self.checkpoint("feature_needs_review", force=True)
                         return
                     await self.checkpoint()
+                    continue
+                # RUN 40221846216: verified static popup 'Autoplay stopped.'
+                # Green YES at (544,426) resumes FUN autoplay, not a purchase.
+                text_upper = state["text"].upper()
+                if self.game in ("ftsis", "aogroo") and "AUTOPLAY" in text_upper and (
+                    "STOPPED" in text_upper or "REPEAT" in text_upper):
+                    if self.autoplay_repeats >= 4:
+                        self.stage = "needs_review"
+                        self.note("REPEAT_LIMIT", "Four FUN autoplay confirmations reached")
+                        await self.checkpoint("repeat_limit", force=True)
+                        return
+                    await page.wait_for_timeout(2000)
+                    _, verified = await self.shot(page, "revalidate-autoplay-stopped", save=True)
+                    current = verified["text"].upper()
+                    if "AUTOPLAY" not in current or not ("STOPPED" in current or "REPEAT" in current):
+                        self.note("REPEAT_NOT_STABLE", "Popup changed during two-second verification")
+                        continue
+                    await self.click(page, (544, 426), "verified_repeat_FUN_autoplay_yes")
+                    self.autoplay_repeats += 1
+                    await page.wait_for_timeout(2500)
+                    _, confirmed = await self.shot(page, "after-autoplay-repeat", save=True)
+                    if "AUTOPLAY" in confirmed["text"].upper() and "STOPPED" in confirmed["text"].upper():
+                        self.stage = "needs_review"
+                        self.note("REPEAT_UNCERTAIN", "Clicked YES once; popup remains visible")
+                        await self.checkpoint("repeat_uncertain", force=True)
+                        return
+                    self.stage = "running"
+                    fallback = False
+                    last_activity = time.monotonic()
+                    self.note("REPEAT_REQUESTED", "Autoplay YES dismissed; gameplay result awaits evidence")
+                    await self.checkpoint(force=True)
                     continue
                 if fallback:
                     # We only run manual fallback in the official, explicit FUN/offline game.
