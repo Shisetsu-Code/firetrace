@@ -1,17 +1,17 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "running",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 527,
+  "observations": 531,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 1076,
+  "network_events": 1082,
   "websocket_connections": 2,
   "requests_total": 212,
-  "elapsed_seconds": 3572,
-  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN POWE! A Not available | i | | \\ < ¢: >>: \\S dia @ a @ WAYS WIN TOTAL BET 1728 €1.00 €5.00 €10,401.00 @",
+  "elapsed_seconds": 3601,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN G4 A Not available Ci) Ex walKING OF ¥ dia € WAYS WIN TOTAL BET 1728 €1.00 €5.00 €10,401.00 @",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:44:17+00:00"
+  "time": "2026-10-25T21:44:45+00:00"
 }
