@@ -1,17 +1,17 @@
 {
   "game": "aogmt",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "needs_review",
+  "outcome": "feature_needs_review",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 363,
+  "observations": 366,
   "clicks": 4,
   "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 2428,
-  "latest_text": "») ATE Not available PE R Not available RP © SN IES a \\\\ 4 a? WIN 40 2 €960.10 21:25:10",
+  "elapsed_seconds": 2448,
+  "latest_text": "») ATE Not available PE R Not available RP © SN IES a \\\\ 4 a? WIN 40 2 €960.10 21:25:31",
   "run_id": "40231711671",
-  "time": "2026-10-25T21:25:14+00:00"
+  "time": "2026-10-25T21:25:34+00:00"
 }
