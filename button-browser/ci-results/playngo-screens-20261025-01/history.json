@@ -131,5 +131,17 @@
     "responsePath": "responses/000008.json",
     "observationId": "5f5a64de-404d-4a42-b785-ea480a5e4324",
     "error": null
+  },
+  {
+    "seq": 9,
+    "commandId": "verify-paytable-001",
+    "command": {
+      "action": "verify",
+      "excludeLabels": [
+        "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+      ]
+    },
+    "startedAt": "2026-10-25T20:39:47.653Z",
+    "status": "reserved"
   }
 ]
