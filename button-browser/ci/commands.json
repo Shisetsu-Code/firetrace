@@ -26,6 +26,20 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "hover-continue-001",
+      "command": {
+        "action": "move",
+        "x": 640,
+        "y": 562
+      }
+    },
+    {
+      "commandId": "verify-intro-hover-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
