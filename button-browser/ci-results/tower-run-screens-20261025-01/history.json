@@ -144,5 +144,14 @@
     "responsePath": "responses/000009.json",
     "observationId": "03025ad0-a09b-4b81-bf86-c6ba8e46196e",
     "error": null
+  },
+  {
+    "seq": 10,
+    "commandId": "verify-main-board-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:36:07.218Z",
+    "status": "reserved"
   }
 ]
