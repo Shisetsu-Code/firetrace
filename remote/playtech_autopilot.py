@@ -75,7 +75,7 @@ def iso() -> str:
 def safe_url(url: str) -> str:
     parsed = urlsplit(url)
     qs = sorted(set(k for k, _ in parse_qsl(parsed.query)))
-    path = re.sub(r"(/socket\\.io/\\d+/websocket/)[^/]+", r"\\1{session}", parsed.path)
+    path = re.sub(r"(/socket\.io/\d+/websocket/)[^/]+", r"\1{session}", parsed.path)
     return f"{parsed.scheme}://{parsed.hostname}{path}" + ("?" + "&".join(qs) if qs else "")
 
 
