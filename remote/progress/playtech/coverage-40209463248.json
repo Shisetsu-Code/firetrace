@@ -19,7 +19,8 @@
     "All previously active 40240882306/40241233787/40241535898 are completed technically; current targeted re-runs started from fresh FUN sessions, not restored server state.",
     "Verified archived crops on 2026-10-25: Rulers terminal FREE GAMES + CONTINUE and Ash Tea Party Bonus + START; guard correction commit abca79ce.",
     "No new Buy Bonus purchases/Ante bets implied by these targeted recoveries; full completion remains 0/10.",
-    "Isolated Mighty Midas earned-spin workflow 40246749884 (fresh FUN), verified image guard commit 5615d60; no bonus completion yet."
+    "Isolated Mighty Midas earned-spin workflow 40246749884 (fresh FUN), verified image guard commit 5615d60; no bonus completion yet.",
+    "40246996090 inspects screenshots of all ten FUN autoplay menus without buying, toggling Ante, or claiming bonus outcomes; results await classification."
   ],
   "games": {
     "ashadv": {
@@ -336,5 +337,6 @@
       }
     }
   },
-  "last_checked_at_utc": "2026-10-25T23:53:30Z"
+  "last_checked_at_utc": "2026-10-25T23:57:00Z",
+  "read_only_menu_inventory_run": 40246996090
 }
