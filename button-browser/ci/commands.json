@@ -3,11 +3,29 @@
   "commands": [
     {
       "commandId": "initial-load-001",
-      "command": {"action": "wait", "ms": 20000}
+      "command": {
+        "action": "wait",
+        "ms": 20000
+      }
     },
     {
       "commandId": "verify-intro-001",
-      "command": {"action": "verify"}
+      "command": {
+        "action": "verify"
+      }
+    },
+    {
+      "commandId": "wait-intro-animation-001",
+      "command": {
+        "action": "wait",
+        "ms": 1500
+      }
+    },
+    {
+      "commandId": "verify-intro-002",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
