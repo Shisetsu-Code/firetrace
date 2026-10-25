@@ -40,6 +40,10 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "stop-diagnostic-run-001",
+      "command": "STOP"
     }
   ]
 }
