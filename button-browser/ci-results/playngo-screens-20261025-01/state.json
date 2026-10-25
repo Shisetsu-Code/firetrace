@@ -5,56 +5,11 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 4,
-  "lastCommandId": "continue-from-current-capture-001",
-  "lastResponse": {
-    "ok": true,
-    "result": {
-      "action": "click",
-      "x": 640,
-      "y": 562
-    },
-    "observation": {
-      "observationId": "3c10a31f-0502-4c56-8a05-1017374e1815",
-      "timestamp": "2026-10-25T20:37:39.419Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 5969,
-      "canvasCount": 0,
-      "stability": {
-        "status": "unverified",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 0,
-        "reasons": [],
-        "samples": []
-      },
-      "fixedButtons": [],
-      "detection": {
-        "dom": 0,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/3c10a31f-0502-4c56-8a05-1017374e1815/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/3c10a31f-0502-4c56-8a05-1017374e1815/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/3c10a31f-0502-4c56-8a05-1017374e1815/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/3c10a31f-0502-4c56-8a05-1017374e1815/buttons.json"
-    },
-    "fixedButtons": []
-  },
+  "status": "running",
+  "phase": "executing",
+  "seq": 5,
+  "lastCommandId": "settle-board-001",
+  "lastResponse": null,
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -62,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:37:41.435Z",
+  "updatedAt": "2026-10-25T20:37:47.114Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -74,14 +29,9 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "3c10a31f-0502-4c56-8a05-1017374e1815",
+  "activeObservationId": null,
   "files": {
-    "observationId": "3c10a31f-0502-4c56-8a05-1017374e1815",
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
   },
   "commands": [
     {
@@ -123,6 +73,13 @@
       "completedAt": "2026-10-25T20:37:41.434Z",
       "ok": true,
       "actionExecuted": true
+    },
+    {
+      "commandId": "settle-board-001",
+      "fingerprint": "17a03eefb83757e57122e0d44ff977a2d6de8179dad24e63e86beeec48d9dc41",
+      "seq": 5,
+      "status": "reserved",
+      "startedAt": "2026-10-25T20:37:47.109Z"
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",
