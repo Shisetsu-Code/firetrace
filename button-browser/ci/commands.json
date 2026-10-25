@@ -55,6 +55,18 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "exit-expired-demo-verified-001",
+      "command": {
+        "action": "click",
+        "id": "b2",
+        "observationId": "4a7840fe-eb1e-4d7d-97a8-48a72173c12d"
+      }
+    },
+    {
+      "commandId": "stop-diagnostic-run-002",
+      "command": "STOP"
     }
   ]
 }
