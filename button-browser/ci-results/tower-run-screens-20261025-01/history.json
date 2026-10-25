@@ -468,5 +468,16 @@
     "responsePath": "responses/000029.json",
     "observationId": "19552296-5fa3-4764-bef7-11cc0d86001c",
     "error": null
+  },
+  {
+    "seq": 30,
+    "commandId": "open-replayed-settings-001",
+    "command": {
+      "action": "click",
+      "x": 548,
+      "y": 671
+    },
+    "startedAt": "2026-10-25T21:45:53.492Z",
+    "status": "reserved"
   }
 ]
