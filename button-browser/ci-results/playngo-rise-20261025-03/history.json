@@ -117,5 +117,16 @@
     "responsePath": "responses/000007.json",
     "observationId": "11f96dbb-f0a0-48cb-9ca8-d064ae55d262",
     "error": null
+  },
+  {
+    "seq": 8,
+    "commandId": "single-demo-spin-verified-001",
+    "command": {
+      "action": "click",
+      "id": "b1",
+      "observationId": "11f96dbb-f0a0-48cb-9ca8-d064ae55d262"
+    },
+    "startedAt": "2026-10-25T19:37:48.552Z",
+    "status": "reserved"
   }
 ]
