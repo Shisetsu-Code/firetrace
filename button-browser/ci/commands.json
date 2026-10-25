@@ -43,6 +43,27 @@
           "button 7"
         ]
       }
+    },
+    {
+      "commandId": "continue-go-ultra-current-coordinate-001",
+      "command": {
+        "action": "click",
+        "x": 1206,
+        "y": 628
+      }
+    },
+    {
+      "commandId": "settle-after-go-ultra-intro-001",
+      "command": {
+        "action": "wait",
+        "ms": 5000
+      }
+    },
+    {
+      "commandId": "verify-main-board-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
