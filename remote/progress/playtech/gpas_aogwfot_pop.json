@@ -1,17 +1,17 @@
 {
   "game": "gpas_aogwfot_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 29,
+  "observations": 31,
   "clicks": 2,
   "spin_attempts": 0,
-  "network_events": 843,
+  "network_events": 861,
   "websocket_connections": 2,
-  "requests_total": 214,
-  "elapsed_seconds": 3152,
-  "latest_text": "\\GE OF THE GODS™: WHEELS OF OLYMPUS PLAYING FOR FU! X500 Sy © Not available a EXTRA Not avai lable POWER y B tis (iat Bas) | 10.00 &, J =e uv) DOUBI OF \\) 5 SPINS ae J K | 10 SPINS 20 SPINS | \\ JAZ, | 100 SPINS 50 SPINS | & 00 UNTIL TOTAL BET WIN @ (",
+  "requests_total": 215,
+  "elapsed_seconds": 3218,
+  "latest_text": "\\GE OF THE GODS™: WHEELS OF OLYMPUS PLAYING FOR FUN tra pip ® ( ~ 3 Not available’ a TETRA Not available POWER LE tis (ee 10.00 & J =e TOW DOUBLE CHANCE |, ae J \\K 5 SPINS 20 SPINS 10 SPINS 50 SPINS 1. 1 J | 100 SPINS E00 UN @ €10,000.00 ) OF 5.00 TA",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:31:34+00:00"
+  "time": "2026-10-25T19:32:40+00:00"
 }
