@@ -4,8 +4,11 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 from playtech_autopilot import AUTOPLAY, INTRO
 
-GAMES=["ftsis","aogmt","aogroo","gpas_gstorm2_pop","gpas_agstorm3_pop",
-       "gpas_mgaogkol_pop","gpas_aogwfot_pop"]
+# Read-only menu inventory for all ten originally requested Playtech FUN games.
+# Isolated browser contexts; never click any purchase or Ante control here.
+GAMES=["ashadv","ftsis","gpas_aogggriffin_pop","aogmt","aogroo",
+       "gpas_gstorm2_pop","gpas_agstorm3_pop","gpas_mgaogkol_pop",
+       "gpas_aogww_pop","gpas_aogwfot_pop"]
 OUT=Path(os.getenv("MENU_OUT","/tmp/playtech-menu-probe"))
 OUT.mkdir(parents=True,exist_ok=True)
 
