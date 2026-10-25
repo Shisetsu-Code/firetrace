@@ -1,15 +1,10 @@
 {
   "sessionId": "playngo-screens-20261025-01",
-  "seq": 3,
-  "status": "ready",
-  "activeObservationId": "c1e09ae8-91fb-4f49-8fa3-573c7bcbf9b1",
+  "seq": 4,
+  "status": "running",
+  "activeObservationId": null,
   "current": {
-    "observationId": "c1e09ae8-91fb-4f49-8fa3-573c7bcbf9b1",
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
   },
   "responses": [
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000001.json",

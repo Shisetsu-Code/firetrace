@@ -45,5 +45,16 @@
     "responsePath": "responses/000003.json",
     "observationId": "c1e09ae8-91fb-4f49-8fa3-573c7bcbf9b1",
     "error": null
+  },
+  {
+    "seq": 4,
+    "commandId": "continue-from-current-capture-001",
+    "command": {
+      "action": "click",
+      "x": 640,
+      "y": 562
+    },
+    "startedAt": "2026-10-25T20:37:32.918Z",
+    "status": "reserved"
   }
 ]
