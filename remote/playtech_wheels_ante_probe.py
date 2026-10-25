@@ -108,12 +108,12 @@ async def main():
             probe.note("ANTE_VISUAL_DELTA", json.dumps({
                 "changed": round(changed, 2), "stable": round(stable, 2),
                 "before_OFF": "OFF" in before_text,
-                "after_ON": bool(re.search(r"\\bON\\b", after_text)),
+                "after_ON": bool(re.search(r"\bON\b", after_text)),
                 "after_OFF": "OFF" in after_text,
             }))
             # Never spin on a guessed ante state.
             if not (changed > 6 and stable < 8 and
-                    re.search(r"\\bON\\b", after_text) and "OFF" not in after_text):
+                    re.search(r"\bON\b", after_text) and "OFF" not in after_text):
                 probe.stage = "ante_result_uncertain"
                 probe.note("STOP", "One toggle only. Cannot prove ante ON from 2 stable images")
                 return
