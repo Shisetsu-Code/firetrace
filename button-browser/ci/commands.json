@@ -158,6 +158,86 @@
           "49 SETTINGS PAYTABLE GAME RULES Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Win up to 30000x your bet! Treasure Room (Hold "
         ]
       }
+    },
+    {
+      "commandId": "reopen-for-help-001",
+      "command": {
+        "action": "goto",
+        "url": "https://released.playngonetwork.com/casino/ContainerLauncher?channel=desktop&demo=2&gid=towerruntreasuresteps&lang=en_GB&pid=2&practice=1"
+      }
+    },
+    {
+      "commandId": "load-for-help-001",
+      "command": {
+        "action": "wait",
+        "ms": 25000
+      }
+    },
+    {
+      "commandId": "continue-replayed-intro-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 608
+      }
+    },
+    {
+      "commandId": "settle-replayed-onboarding-001",
+      "command": {
+        "action": "wait",
+        "ms": 6000
+      }
+    },
+    {
+      "commandId": "continue-replayed-go-ultra-001",
+      "command": {
+        "action": "click",
+        "x": 1206,
+        "y": 628
+      }
+    },
+    {
+      "commandId": "settle-replayed-board-001",
+      "command": {
+        "action": "wait",
+        "ms": 2000
+      }
+    },
+    {
+      "commandId": "open-replayed-settings-001",
+      "command": {
+        "action": "click",
+        "x": 548,
+        "y": 671
+      }
+    },
+    {
+      "commandId": "settle-replayed-settings-001",
+      "command": {
+        "action": "wait",
+        "ms": 1000
+      }
+    },
+    {
+      "commandId": "open-replayed-paytable-001",
+      "command": {
+        "action": "click",
+        "x": 76.52,
+        "y": 91.5
+      }
+    },
+    {
+      "commandId": "settle-replayed-paytable-001",
+      "command": {
+        "action": "wait",
+        "ms": 3000
+      }
+    },
+    {
+      "commandId": "verify-fresh-paytable-001",
+      "command": {
+        "action": "verify"
+      }
     }
   ]
 }
