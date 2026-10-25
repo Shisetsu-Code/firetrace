@@ -4,14 +4,14 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 314,
+  "observations": 324,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 705,
+  "network_events": 727,
   "websocket_connections": 2,
-  "requests_total": 176,
-  "elapsed_seconds": 2605,
-  "latest_text": "PLAYING FOR FUN AGE OF THE GODS™ GOD OF STORMS 3™ 5 At (TRA ailable OWER {Not available J avi OWER = — iS, =a Pe) a> a iad is a | ci 0.50 AC ee es LINES TOTAL BET €9,999.80 @",
+  "requests_total": 177,
+  "elapsed_seconds": 2687,
+  "latest_text": "AGE OF THE GODS™ GOD OF STORMS 3™ PLAYING FOR FUN Ta PCE 4 Not ER ae = Notiavallable OWER ~> % = a a= G 2 0.50 D =) a sa LINES TOTAL BET €9,999.80 @",
   "run_id": "40210773172",
-  "time": "2026-10-25T16:59:12+00:00"
+  "time": "2026-10-25T17:00:34+00:00"
 }
