@@ -6,9 +6,9 @@
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "tower-run-screens-20261025-01",
   "status": "running",
-  "phase": "starting",
-  "seq": 0,
-  "lastCommandId": null,
+  "phase": "executing",
+  "seq": 1,
+  "lastCommandId": "__start__",
   "lastResponse": null,
   "verification": {
     "status": "idle",
@@ -17,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:30:26.519Z",
+  "updatedAt": "2026-10-25T21:30:27.985Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
@@ -31,7 +31,15 @@
   "queueError": null,
   "activeObservationId": null,
   "files": null,
-  "commands": [],
+  "commands": [
+    {
+      "commandId": "__start__",
+      "fingerprint": "a780454ee71c7a76ee19e9b751983176b153a79d72245c1ba4823fdbeb4f6cee",
+      "seq": 1,
+      "status": "reserved",
+      "startedAt": "2026-10-25T21:30:27.984Z"
+    }
+  ],
   "index": "button-browser/ci-results/tower-run-screens-20261025-01/index.json",
   "history": "button-browser/ci-results/tower-run-screens-20261025-01/history.json"
 }
