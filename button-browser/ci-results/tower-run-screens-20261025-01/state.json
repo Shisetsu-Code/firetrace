@@ -12,12 +12,12 @@
   "lastResponse": null,
   "verification": {
     "status": "checking",
-    "currentSample": 2,
+    "currentSample": 3,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T21:30:26.516Z",
-  "updatedAt": "2026-10-25T21:31:11.134Z",
+  "updatedAt": "2026-10-25T21:31:18.161Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",
