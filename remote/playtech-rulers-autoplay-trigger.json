@@ -1,16 +1,17 @@
 {
   "game": "aogroo",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40232112481,
-  "source_artifact": 12613457711,
-  "source_screenshot": "aogroo/screenshots/00067-poll.jpg",
-  "source_result": "needs_review, autoplay_repeats=0, spin_attempts=3, no observed play transition",
-  "verified_bug": "Global OCR missed unmistakable modal and sent SPIN behind it",
-  "fix_commit": "92a210c693f15fa313b2f6bfa35a590b46bdde9d",
-  "only_pending_function": "Native FUN autoplay repeat YES after two stable independent modal detections",
+  "source_run": 40233535136,
+  "source_artifact": 12613919769,
+  "source_screenshot": "aogroo/_current.png",
+  "source_result": "verified earned BATTLE FOR POWER bonus intro with CONTINUE at (950,500), blocked by fallback attempts at incorrect SPIN target",
+  "verified_bug": "Global OCR failed to classify Battle for Power bonus intro; fallback sent four spins to covered interface without acknowledging CONTINUE",
+  "fix_commit": "8071c21c9ae4d45fdc07016da86711a6ebdfc237",
+  "only_pending_function": "Twice-verify and acknowledge exactly once the earned FUN bonus intro; observe ensuing free games without buys or uncertain input repeats",
   "forbid_buy": true,
   "forbid_real_money": true,
   "forbid_repeat_uncertain_purchase": true,
   "max_modal_confirms": 4,
-  "exclusive_job": "aogroo; active ftsis and four feature-follow-up titles excluded"
+  "exclusive_job": "aogroo only; separate Ash and Griffin recovery 40240882306 not touched",
+  "run_key": "playtech-rulers-earned-bonus-intro-20261025"
 }
