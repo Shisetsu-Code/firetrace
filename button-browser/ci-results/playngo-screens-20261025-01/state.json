@@ -6,9 +6,9 @@
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
   "status": "running",
-  "phase": "starting",
-  "seq": 0,
-  "lastCommandId": null,
+  "phase": "executing",
+  "seq": 1,
+  "lastCommandId": "__start__",
   "lastResponse": null,
   "verification": {
     "status": "idle",
@@ -17,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:35:25.563Z",
+  "updatedAt": "2026-10-25T20:35:27.022Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -31,7 +31,15 @@
   "queueError": null,
   "activeObservationId": null,
   "files": null,
-  "commands": [],
+  "commands": [
+    {
+      "commandId": "__start__",
+      "fingerprint": "26e115d3b170894be174b74459e6a1e16ced0e7e4e7095e7144f1e9de3427d7a",
+      "seq": 1,
+      "status": "reserved",
+      "startedAt": "2026-10-25T20:35:27.022Z"
+    }
+  ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",
   "history": "button-browser/ci-results/playngo-screens-20261025-01/history.json"
 }
