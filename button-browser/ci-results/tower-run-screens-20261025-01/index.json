@@ -1,10 +1,21 @@
 {
   "sessionId": "tower-run-screens-20261025-01",
   "seq": 34,
-  "status": "running",
-  "activeObservationId": null,
+  "status": "ready",
+  "activeObservationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1",
   "current": {
-    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png"
+    "observationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1",
+    "current": "button-browser/ci-results/tower-run-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/tower-run-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/tower-run-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/tower-run-screens-20261025-01/observation.json",
+    "crops": [
+      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b1.png",
+      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b2.png",
+      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b3.png",
+      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b4.png",
+      "button-browser/ci-results/tower-run-screens-20261025-01/crops/782eabee-3a3d-4ace-9958-f45d74f8d6a1/b5.png"
+    ]
   },
   "responses": [
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000001.json",
@@ -39,7 +50,8 @@
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000030.json",
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000031.json",
     "button-browser/ci-results/tower-run-screens-20261025-01/responses/000032.json",
-    "button-browser/ci-results/tower-run-screens-20261025-01/responses/000033.json"
+    "button-browser/ci-results/tower-run-screens-20261025-01/responses/000033.json",
+    "button-browser/ci-results/tower-run-screens-20261025-01/responses/000034.json"
   ],
   "fixed": {
     "index": "button-browser/ci-results/tower-run-screens-20261025-01/fixed/index.json",

@@ -542,6 +542,12 @@
       "action": "verify"
     },
     "startedAt": "2026-10-25T21:46:36.295Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T21:47:03.709Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000034.json",
+    "observationId": "782eabee-3a3d-4ace-9958-f45d74f8d6a1",
+    "error": null
   }
 ]
