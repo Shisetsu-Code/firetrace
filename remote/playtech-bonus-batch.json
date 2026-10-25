@@ -1,6 +1,19 @@
 {
-  "run_key": "playtech-first10-feature-coverage-retry-20261025",
+  "run_key": "playtech-first10-feature-coverage-menu-fixes-20261025-1834utc",
   "mode": "public_FUN_only",
   "seconds_per_game": 3600,
-  "goal": "Enumerate and execute available demo feature paths, while keeping bonus-state evidence and labeling unavailable or unconfirmed controls"
+  "goal": "Resume only unverified demo feature paths; stop at confirmed bonus completion or bounded time. Selecting autoplay is not evidence of a purchase, Ante Bet, Free Spins, or bonus completion.",
+  "games": [
+    "ashadv",
+    "ftsis",
+    "gpas_aogggriffin_pop",
+    "aogmt",
+    "aogroo",
+    "gpas_gstorm2_pop",
+    "gpas_agstorm3_pop",
+    "gpas_mgaogkol_pop",
+    "gpas_aogww_pop",
+    "gpas_aogwfot_pop"
+  ],
+  "skip_uncertain_purchases": true
 }
