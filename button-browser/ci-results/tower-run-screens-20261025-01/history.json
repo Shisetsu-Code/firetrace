@@ -452,5 +452,15 @@
     "responsePath": "responses/000028.json",
     "observationId": "b7f717d5-5e66-4b79-9eed-5569e3f7865d",
     "error": null
+  },
+  {
+    "seq": 29,
+    "commandId": "settle-replayed-board-001",
+    "command": {
+      "action": "wait",
+      "ms": 2000
+    },
+    "startedAt": "2026-10-25T21:45:41.257Z",
+    "status": "reserved"
   }
 ]
