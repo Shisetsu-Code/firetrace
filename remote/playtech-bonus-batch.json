@@ -1,5 +1,5 @@
 {
-  "run_key": "playtech-first10-feature-coverage-20261025",
+  "run_key": "playtech-first10-feature-coverage-retry-20261025",
   "mode": "public_FUN_only",
   "seconds_per_game": 3600,
   "goal": "Enumerate and execute available demo feature paths, while keeping bonus-state evidence and labeling unavailable or unconfirmed controls"
