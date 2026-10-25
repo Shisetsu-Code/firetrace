@@ -21,7 +21,7 @@ async function createService(options={}) {
   const token=options.token??process.env.BUTTON_BROWSER_TOKEN??'';
   if(!['127.0.0.1','localhost','::1'].includes(host)&&token.length<16)throw new Error('Para escuchar en una IP remota, configurá BUTTON_BROWSER_TOKEN con al menos 16 caracteres.');
   const vision=options.vision||(process.env.VISION_BASE_URL&&process.env.VISION_MODEL?{baseURL:process.env.VISION_BASE_URL,model:process.env.VISION_MODEL,apiKey:process.env.VISION_API_KEY}:null);
-  const controller=options.controller||new BrowserController({artifactDir:options.artifactDir,headless:process.env.HEADLESS!=='false',vision});
+  const controller=options.controller||new BrowserController({artifactDir:options.artifactDir,fixedButtonDir:options.fixedButtonDir,headless:process.env.HEADLESS!=='false',vision});
   let chain=Promise.resolve(),pending=0;const cache=new Map();
   const allowedOrigins=(process.env.BUTTON_BROWSER_ORIGINS||'').split(',').map(v=>v.trim()).filter(Boolean);
   function enqueue(command,commandId) {
@@ -55,7 +55,10 @@ async function createService(options={}) {
         if(origin&&!matches)return send(res,403,{ok:false,error:{code:'ORIGIN_REJECTED',message:'Origen de solicitud no permitido.'}});
         if(!token){const hostname=(req.headers.host||'').replace(/:\d+$/,'');if(!['127.0.0.1','localhost','[::1]'].includes(hostname))return send(res,403,{ok:false,error:{code:'HOST_REJECTED',message:'Host no permitido sin token.'}});}
       }
-      if(req.method==='GET'&&url.pathname==='/api/state')return send(res,200,{ok:true,observation:controller.observation,verification:controller.verification,busy:pending>0,visionConfigured:!!vision,requiresToken:!!token});
+      if(req.method==='GET'&&url.pathname==='/api/state') {
+        const fixedButtons=await controller.listFixedButtons?.()||[];
+        return send(res,200,{ok:true,observation:controller.observation,verification:controller.verification,fixedButtons,busy:pending>0,visionConfigured:!!vision,requiresToken:!!token});
+      }
       if(req.method==='GET'&&url.pathname==='/health')return send(res,200,{ok:true,service:'button-browser',busy:pending>0});
       if(req.method==='POST'&&url.pathname==='/api/command') {
         if(!/^application\/json(?:\s*;|$)/i.test(req.headers['content-type']||''))return send(res,415,{ok:false,error:{code:'CONTENT_TYPE',message:'Usá Content-Type: application/json.'}});
@@ -66,6 +69,11 @@ async function createService(options={}) {
         return send(res,200,await enqueue(command,body.commandId));
       }
       if(req.method==='GET') {
+        const fixed=url.pathname.match(/^\/artifacts\/fixed\/(f[1-9]\d{0,5})\.png$/);
+        if(fixed&&controller.fixedStore) {
+          try {const bytes=await controller.fixedStore.template(fixed[1]);res.writeHead(200,{'content-type':'image/png','cache-control':'no-store'});return res.end(bytes);}
+          catch(e){if(!['UNKNOWN_FIXED_BUTTON','FIXED_TEMPLATE_UNAVAILABLE'].includes(e.code))throw e;return send(res,404,{ok:false,error:{code:'NOT_FOUND',message:'Recorte fijo no encontrado.'}});}
+        }
         let file;
         if(url.pathname==='/demo')file=path.join(PUBLIC,'demo.html');
         else if(url.pathname==='/')file=path.join(PUBLIC,'index.html');

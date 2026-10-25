@@ -29,6 +29,12 @@ function parseCommand(input) {
         else if(args.length === 2 && args.every(v=>Number.isFinite(Number(v)))) { c.x=Number(args[0]); c.y=Number(args[1]); }
         else fail('click ID o click X Y: coordenadas numéricas.');
         break;
+      case 'pin': case 'rename': {
+        const saved=rest.match(/^(\S+)(?:\s+([\s\S]*))?$/);
+        if(!saved)fail(`${action} ID${action==='rename'?' Nombre':' [Nombre]'}`);
+        c.id=saved[1];if(saved[2]!=null)c.name=saved[2];break;
+      }
+      case 'unpin': if(args.length!==1)fail('unpin ID_FIJO');c.id=args[0];break;
       case 'move': if(args.length!==2) fail('move X Y'); c.x=args[0]; c.y=args[1]; break;
       case 'scroll': if(args.length<1 || args.length>2) fail('scroll DY [DX]'); c.dy=args[0]; c.dx=args[1]||0; break;
       case 'type': c.text=rest; break;
@@ -45,12 +51,22 @@ function parseCommand(input) {
   c.action = String(c.action || '').toLowerCase();
   if(c.action==='open')c.action='goto';
   if(c.action==='detect'||c.action==='observe')c.action='verify';
-  const known = ['goto','verify','snapshot','click','move','scroll','type','press','wait','resize','back','forward','reload','tabs','newtab','switch','close','export','help'];
+  const known = ['goto','verify','snapshot','click','pin','pins','rename','unpin','move','scroll','type','press','wait','resize','back','forward','reload','tabs','newtab','switch','close','export','help'];
   if(!known.includes(c.action))fail(`Comando desconocido: ${c.action}. Usá help.`);
   if(c.action==='goto' || (c.action==='newtab'&&c.url)) c.url=httpURL(c.url);
   if(c.action==='click') {
-    if(c.id!=null) { if(typeof c.id!=='string'||!/^b\d{1,4}$/.test(c.id))fail('ID de botón inválido.'); if(c.x!=null||c.y!=null)fail('Usá ID o coordenadas, no ambos.'); }
+    if(c.id!=null) { if(typeof c.id!=='string'||!(/^(?:b\d{1,4}|f[1-9]\d{0,5})$/).test(c.id))fail('ID de botón inválido.'); if(c.x!=null||c.y!=null)fail('Usá ID o coordenadas, no ambos.');if(c.id.startsWith('f')&&c.observationId!=null)fail('Un botón fijo no usa observationId.'); }
     else { c.x=num(c.x,'x'); c.y=num(c.y,'y'); }
+  }
+  if(['pin','rename','unpin'].includes(c.action)) {
+    const pattern=c.action==='pin'?/^b\d{1,4}$/:/^f[1-9]\d{0,5}$/;
+    if(typeof c.id!=='string'||!pattern.test(c.id))fail('ID de botón inválido para ese comando.');
+    if(c.x!=null||c.y!=null)fail('Guardá el ID de un botón existente, no coordenadas.');
+    if(c.action==='rename'&&!Object.hasOwn(c,'name'))fail('rename requiere un nombre.');
+  }
+  if(Object.hasOwn(c,'name')) {
+    if(!['pin','rename'].includes(c.action)||typeof c.name!=='string'||!c.name.trim()||c.name.trim().length>80||/[\u0000-\u001f\u007f]/.test(c.name))fail('El nombre debe contener entre 1 y 80 caracteres sin controles.');
+    c.name=c.name.trim();
   }
   if(c.action==='move'){c.x=num(c.x,'x');c.y=num(c.y,'y');}
   if(c.action==='scroll'){c.dy=num(c.dy,'dy');c.dx=num(c.dx??0,'dx');if(Math.abs(c.dx)>10000||Math.abs(c.dy)>10000)fail('Desplazamiento máximo: 10000 px.');}
@@ -77,6 +93,7 @@ function parseCommand(input) {
 const HELP = [
   'goto https://sitio.example','verify','verify vision','{"action":"verify","excludeLabels":["BET_DEC","BET_INC"]}','detect','snapshot','click b1','click 650 420',
   'move 650 420','scroll 500','type texto con espacios','press Enter','wait 1000',
+  'pin b1 Giro','pins','click f1','rename f1 Giro normal','unpin f1',
   'back','forward','reload','resize 1280 720','tabs','newtab https://sitio.example','switch 0','close','export'
 ];
 module.exports={parseCommand,CommandError,httpURL,HELP};

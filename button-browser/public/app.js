@@ -9,7 +9,7 @@
     stage: $('viewport-stage'), boxes: $('bounding-boxes'), results: $('button-results'),
     output: $('console-output'), manual: $('manual-toggle'), overlays: $('overlay-toggle'),
     vision: $('vision-toggle'), size: $('viewport-size'), search: $('button-search'),
-    source: $('source-filter'), token: $('token-input'),
+    source: $('source-filter'), token: $('token-input'), fixedResults: $('fixed-button-results'),
   };
   const state = {
     observation: null, localBusy: false, remoteBusy: false, connected: false,
@@ -19,7 +19,7 @@
     connectionError: '', noticeKind: '', busyLabel: 'Ejecutando…',
     localVerification: false, coordinatesSuspended: false, coordinatesKey: null,
     verification: { status: 'idle', currentSample: 0, requiredSamples: 3, intervalMs: 2000 },
-    lastPollStarted: 0,
+    lastPollStarted: 0, fixedButtons: [], fixedKey: '[]', fixedRevision: 0,
   };
   const artifactCache = new Map();
   let toastTimer;
@@ -156,6 +156,7 @@
 
   function sourceGroup(source) {
     const normalized = String(source || '').toLowerCase();
+    if (normalized === 'fixed') return 'fixed';
     if (/vision|visual|qwen/.test(normalized)) return 'vision';
     if (/pixi/.test(normalized)) return 'pixi';
     if (/dom|aria|html|accessible|shadow|iframe/.test(normalized)) return 'dom';
@@ -163,7 +164,7 @@
   }
 
   function sourceLabel(group) {
-    return { dom: 'DOM', pixi: 'Pixi', vision: 'Visual · est.', other: 'Otra fuente' }[group];
+    return { dom: 'DOM', pixi: 'Pixi', vision: 'Visual · est.', fixed: 'Fijo', other: 'Otra fuente' }[group];
   }
 
   function timeText(value) {
@@ -187,6 +188,23 @@
 
   function visibleButtons() {
     return canShowCoordinates() && Array.isArray(state.observation.buttons) ? state.observation.buttons : [];
+  }
+
+  function visibleFixedButtons() {
+    if (!state.observation || !state.imageReady || !state.connected || state.localBusy || state.remoteBusy || state.coordinatesSuspended || isChecking()) return [];
+    return state.fixedButtons.filter(button => button.available === true);
+  }
+
+  function setFixedButtons(buttons) {
+    if (!Array.isArray(buttons)) return;
+    const key = JSON.stringify(buttons);
+    if (key === state.fixedKey) return;
+    state.fixedButtons = buttons;
+    state.fixedKey = key;
+    state.fixedRevision++;
+    const observation = state.observation;
+    pruneArtifacts([observation?.screenshotUrl, observation?.annotatedUrl, observation?.contactSheetUrl,
+      ...(observation?.buttons || []).map(button => button.cropUrl), ...buttons.map(button => button.cropUrl)]);
   }
 
   function canExportObservation() {
@@ -221,13 +239,14 @@
       }
     } else if (unstable) {
       title = `Sin estabilidad · ${completed} de 3 muestras`;
-      description = 'No se publican coordenadas. Cuando la página deje de cambiar, pedí una nueva verificación.';
+      description = 'No se publican nuevas coordenadas verificadas. Cuando la página deje de cambiar, pedí una nueva verificación.';
     } else if (state.localBusy && state.coordinatesSuspended) {
       title = 'Actualizando captura';
       description = 'Esta acción sólo actualiza la imagen. Pedí verify al terminar para verificar los botones.';
     } else if (state.observation) {
       title = 'Captura sin verificar';
       description = 'Pedí «Verificar estabilidad» o el comando verify. Sólo tres muestras estables habilitan coordenadas.';
+      if (state.fixedButtons.length) description = 'Pedí verify para detectar botones. Los fijos conservan sus posiciones guardadas; se marcan en azul cuando coincide el contexto.';
     }
     setText('verification-title', title);
     setText('verification-description', description);
@@ -266,13 +285,16 @@
   function refreshVerifiedArtifactLinks() {
     setLink($('open-annotated'), null);
     setLink($('contact-sheet'), null);
-    if (!canShowCoordinates()) return;
     const observation = state.observation;
+    if (!observation) return;
+    const canOpenAnnotated = () => canShowCoordinates() || (Array.isArray(observation.fixedButtons) &&
+      observation.fixedButtons.some(saved => visibleFixedButtons().some(current => current.id === saved.id)));
     const generation = state.generation;
     for (const [path, id] of [[observation.annotatedUrl, 'open-annotated'], [observation.contactSheetUrl, 'contact-sheet']]) {
-      if (!path) continue;
+      const allowed = id === 'open-annotated' ? canOpenAnnotated : canShowCoordinates;
+      if (!path || !allowed()) continue;
       artifactURL(path).then((url) => {
-        if (generation === state.generation && canShowCoordinates()) setLink($(id), url);
+        if (generation === state.generation && allowed()) setLink($(id), url);
       }).catch((error) => {
         if (generation === state.generation && error.name !== 'AbortError') $(id).title = error.message;
       });
@@ -301,12 +323,13 @@
 
   function updateStatus() {
     const busy = state.localBusy || state.remoteBusy;
-    const coordinatesKey = `${state.observation?.observationId || ''}:${canShowCoordinates()}:${isChecking()}:${state.observation?.stability?.status || ''}`;
+    const coordinatesKey = `${state.observation?.observationId || ''}:${canShowCoordinates()}:${isChecking()}:${state.observation?.stability?.status || ''}:${state.fixedRevision}:${busy}:${state.imageReady}:${state.connected}:${state.coordinatesSuspended}`;
     if (state.coordinatesKey !== coordinatesKey) {
       state.coordinatesKey = coordinatesKey;
       renderSourceSummary();
       renderBoxes();
       renderButtons();
+      renderFixedButtons();
       refreshVerifiedArtifactLinks();
     }
     const status = $('connection-status');
@@ -315,8 +338,10 @@
     $('busy-overlay').hidden = !busy;
     $('busy-label').textContent = isChecking() ? `Verificando · muestra ${Math.max(1, Math.min(3, Number(state.verification.currentSample) || 1))} de 3 · intervalo 2 s` : (state.localBusy ? state.busyLabel : 'El navegador está ocupado…');
     $('reload-button').classList.toggle('spinning', busy);
-    for (const control of document.querySelectorAll('[data-mutation], [data-text-command], #viewport-size, .click-target')) {
-      control.disabled = busy || (control.dataset.textCommand && !state.observation) || control.dataset.actionable === 'false' || (control.classList.contains('click-target') && !canShowCoordinates());
+    for (const control of document.querySelectorAll('[data-mutation], [data-text-command], #viewport-size, .click-target, .pin-target, [data-pin-name], .fixed-action, .fixed-name')) {
+      const requiresVerification = control.classList.contains('click-target') || control.classList.contains('pin-target') || control.hasAttribute('data-pin-name');
+      control.disabled = busy || (control.dataset.textCommand && !state.observation) || control.dataset.actionable === 'false' ||
+        (requiresVerification && !canShowCoordinates()) || (control.classList.contains('fixed-click') && (!state.connected || control.dataset.available !== 'true'));
     }
     $('apply-token').disabled = state.localBusy;
     $('clear-token').disabled = state.localBusy;
@@ -326,6 +351,7 @@
     $('vision-control').hidden = !state.visionConfigured;
     $('copy-json').disabled = !canExportObservation();
     $('download-json').disabled = !canExportObservation();
+    $('export-fixed-buttons').disabled = busy || !state.fixedButtons.length;
     $('auth-badge').textContent = state.token ? 'Token activo' : 'Sin token';
     renderVerification();
   }
@@ -362,7 +388,7 @@
     $('warnings').hidden = true;
     $('warning-list').replaceChildren();
     if (!observation) {
-      pruneArtifacts();
+      pruneArtifacts(state.fixedButtons.map(button => button.cropUrl));
       $('observation-meta').textContent = 'Sin observación';
       $('last-update').textContent = 'Sin observación';
       document.title = 'Button Browser · Inspector';
@@ -393,7 +419,7 @@
       $('warning-count').textContent = `${observation.warnings.length} ${observation.warnings.length === 1 ? 'aviso' : 'avisos'}`;
       for (const warning of observation.warnings) $('warning-list').append(node('li', '', String(warning)));
     }
-    pruneArtifacts([observation.screenshotUrl, observation.annotatedUrl, observation.contactSheetUrl, ...buttons.map((button) => button.cropUrl)]);
+    pruneArtifacts([observation.screenshotUrl, observation.annotatedUrl, observation.contactSheetUrl, ...buttons.map((button) => button.cropUrl), ...state.fixedButtons.map(button => button.cropUrl)]);
     updateStatus();
     artifactURL(observation.screenshotUrl).then((url) => {
       if (generation !== state.generation) return;
@@ -427,9 +453,10 @@
 
   function renderBoxes() {
     elements.boxes.replaceChildren();
-    elements.boxes.hidden = !elements.overlays.checked || !canShowCoordinates();
+    const buttons = [...visibleButtons(), ...visibleFixedButtons()];
+    elements.boxes.hidden = !elements.overlays.checked || !buttons.length;
     const observation = state.observation;
-    if (!canShowCoordinates()) return;
+    if (!observation || !buttons.length) return;
     const { width, height } = observation.viewport;
     const stageWidth = elements.stage.clientWidth;
     const stageHeight = elements.stage.clientHeight;
@@ -441,7 +468,7 @@
     const fragment = document.createDocumentFragment();
     const labels = [];
     fragment.append(lines);
-    for (const button of visibleButtons()) {
+    for (const button of buttons) {
       const bbox = button.bbox;
       if (!bbox || ![bbox.x, bbox.y, bbox.width, bbox.height].every(Number.isFinite) || bbox.width <= 0 || bbox.height <= 0) continue;
       const point = button.clickPoint || button.center;
@@ -470,10 +497,10 @@
       const label = node('span', `bounding-box-label source-${group}`);
       label.dataset.buttonId = String(button.id);
       label.classList.toggle('selected', String(button.id) === state.selectedId);
-      label.title = `${button.id}: punto de clic x ${number(point.x)}, y ${number(point.y)} CSS px`;
+      label.title = `${button.fixed ? 'Posición fija guardada · ' : ''}${button.id}: punto de clic x ${number(point.x)}, y ${number(point.y)} CSS px`;
       const coordinates = node('span', 'overlay-coordinate-pair');
       coordinates.append(node('span', '', `x ${number(point.x)}`), node('span', '', `y ${number(point.y)}`));
-      label.append(node('strong', '', String(button.id)), coordinates);
+      label.append(node('strong', '', `${button.fixed ? 'Fijo · ' : ''}${button.id}`), coordinates);
       fragment.append(marker, label);
       labels.push({ label, group, left: left / width * stageWidth, right: right / width * stageWidth,
         top: top / height * stageHeight, bottom: bottom / height * stageHeight,
@@ -616,12 +643,104 @@
       click.addEventListener('click', () => runCommand({ action: 'click', id, observationId }, `click ${id}`));
       bottom.append(centerLabel, click);
       details.append(top, title, coordinates, bottom);
-      card.append(crop, details);
+      const pinForm = node('form', 'pin-form');
+      const pinName = node('input', 'pin-name');
+      pinName.type = 'text'; pinName.required = true; pinName.maxLength = 80;
+      pinName.value = label.slice(0, 80);
+      pinName.dataset.pinName = id;
+      pinName.setAttribute('aria-label', `Nombre fijo para ${id}`);
+      pinName.placeholder = 'Nombre del botón fijo';
+      const pin = node('button', 'pin-target', 'Guardar fijo');
+      pin.type = 'submit';
+      pin.dataset.actionable = String(button.actionable !== false);
+      pin.setAttribute('aria-label', `Guardar ${id} como fijo`);
+      pin.title = 'Guardar este recuadro y punto de clic en la lista persistente';
+      pinForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const name = pinName.value.trim();
+        if (!name || !canShowCoordinates()) return;
+        runCommand({ action: 'pin', id, name, observationId }, `pin ${id} ${name}`);
+      });
+      pinForm.append(pinName, pin);
+      card.append(crop, details, pinForm);
       fragment.append(card);
     }
     elements.results.append(fragment);
-    for (const image of elements.results.querySelectorAll('img[data-artifact]')) {
+    for (const image of document.querySelectorAll('#button-results img[data-artifact], #fixed-button-results img[data-artifact]')) {
       // The image is initially hidden; observe its sized container instead.
+      if (cropObserver) cropObserver.observe(image.parentElement);
+      else loadCrop(image);
+    }
+  }
+
+  function renderFixedButtons() {
+    elements.fixedResults.replaceChildren();
+    $('fixed-button-count').textContent = state.fixedButtons.length;
+    $('fixed-buttons-empty').hidden = state.fixedButtons.length > 0;
+    const fragment = document.createDocumentFragment();
+    for (const button of state.fixedButtons) {
+      const id = String(button.id), name = String(button.name || button.label || id);
+      const point = button.clickPoint || button.center || {}, box = button.bbox || {};
+      const card = node('article', 'button-card fixed-button-card');
+      card.setAttribute('role', 'listitem'); card.dataset.buttonId = id;
+      card.classList.toggle('selected', state.selectedId === id);
+      const crop = node('button', 'crop-select');
+      crop.type = 'button';
+      crop.setAttribute('aria-label', `Resaltar fijo ${id}: ${name}`);
+      crop.setAttribute('aria-pressed', String(state.selectedId === id));
+      crop.addEventListener('click', () => selectButton(id));
+      const image = node('img');
+      image.alt = `Recorte guardado de ${name}`; image.hidden = true; image.decoding = 'async';
+      image.dataset.generation = String(state.generation);
+      if (button.cropUrl) image.dataset.artifact = button.cropUrl;
+      crop.append(image, node('span', 'crop-placeholder', button.cropUrl ? 'Cargando…' : 'Sin recorte'));
+      const details = node('div', 'button-card-details');
+      const top = node('div', 'button-card-top');
+      top.append(node('span', 'button-id', id), node('span', 'source-pill source-fixed', 'Fijo guardado'));
+      const title = node('button', 'button-card-label', name);
+      title.type = 'button'; title.title = `Etiqueta original: ${button.label || name}`;
+      title.setAttribute('aria-pressed', String(state.selectedId === id));
+      title.addEventListener('click', () => selectButton(id));
+      const coordinates = node('span', 'button-coordinates', `Clic x ${number(point.x)} · y ${number(point.y)}`);
+      coordinates.title = `Recuadro: ${number(box.x)}, ${number(box.y)}, ${number(box.width)} × ${number(box.height)} CSS px`;
+      const scope = node('span', 'fixed-button-scope', button.scope?.label || 'Contexto guardado');
+      scope.title = `${button.scope?.label || ''} · ${button.scope?.viewport?.width || '—'} × ${button.scope?.viewport?.height || '—'} · scroll ${number(button.scope?.scroll?.x)}, ${number(button.scope?.scroll?.y)}`;
+      const availability = node('p', button.available === true ? 'fixed-button-available' : 'fixed-button-unavailable',
+        button.available === true ? 'Contexto compatible · recorte comprobado al hacer clic' : (button.unavailableReason || 'Disponible al volver al sitio y tamaño guardados.'));
+      details.append(top, title, coordinates, scope, availability);
+      const renameForm = node('form', 'fixed-name-form');
+      const nameInput = node('input', 'fixed-name');
+      nameInput.type = 'text'; nameInput.required = true; nameInput.maxLength = 80; nameInput.value = name;
+      nameInput.setAttribute('aria-label', `Nombre de ${id}`);
+      const rename = node('button', 'fixed-action fixed-rename', 'Renombrar');
+      rename.type = 'submit'; rename.setAttribute('aria-label', `Renombrar ${id}`);
+      renameForm.append(nameInput, rename);
+      renameForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const changedName = nameInput.value.trim();
+        if (changedName) runCommand({ action: 'rename', id, name: changedName }, `rename ${id} ${changedName}`);
+      });
+      const actions = node('div', 'fixed-card-actions');
+      const use = node('button', 'fixed-action fixed-click', 'Usar');
+      use.type = 'button'; use.dataset.available = String(button.available === true);
+      use.setAttribute('aria-label', `Usar ${id}: ${name}`);
+      use.title = 'Usar la posición guardada; comprueba el recorte sin repetir las tres lecturas';
+      use.append(icon('pointer'));
+      use.addEventListener('click', () => runCommand({ action: 'click', id }, `click ${id}`));
+      const copy = node('button', 'fixed-action fixed-copy', 'Copiar ID');
+      copy.type = 'button'; copy.setAttribute('aria-label', `Copiar ID ${id}`);
+      copy.addEventListener('click', async() => {
+        try { await copyText(id); toast(`ID ${id} copiado.`); }
+        catch { showNotice(`No se pudo copiar. El ID es ${id}.`); }
+      });
+      const remove = node('button', 'fixed-action fixed-remove', 'Quitar');
+      remove.type = 'button'; remove.setAttribute('aria-label', `Quitar ${id} de la lista`);
+      remove.addEventListener('click', () => runCommand({ action: 'unpin', id }, `unpin ${id}`));
+      actions.append(use, copy, remove);
+      card.append(crop, details, renameForm, actions); fragment.append(card);
+    }
+    elements.fixedResults.append(fragment);
+    for (const image of elements.fixedResults.querySelectorAll('img[data-artifact]')) {
       if (cropObserver) cropObserver.observe(image.parentElement);
       else loadCrop(image);
     }
@@ -659,6 +778,9 @@
   }
 
   function commandAction(command) {
+    if (typeof command === 'string' && command.trim().startsWith('{')) {
+      try { const parsed = JSON.parse(command); if (parsed && typeof parsed === 'object') return commandAction(parsed); } catch {}
+    }
     const action = String(typeof command === 'string' ? command.trim().split(/\s+/)[0] : command.action || '').toLowerCase();
     return ['verify', 'detect', 'observe'].includes(action) ? 'verify' : action;
   }
@@ -672,7 +794,7 @@
     const log = addConsoleEntry(label, commandId);
     state.localBusy = true;
     state.localVerification = verificationRequested;
-    if (!['help', 'tabs', 'export'].includes(action)) {
+    if (!['help', 'tabs', 'export', 'pin', 'pins', 'rename', 'unpin'].includes(action)) {
       state.coordinatesSuspended = true;
       state.selectedId = null;
     }
@@ -689,6 +811,7 @@
       state.connected = true;
       state.connectionError = '';
       state.localVerification = false;
+      setFixedButtons(response.fixedButtons);
       if (response.result?.observationError) {
         state.verification = { status: 'idle', currentSample: 0, requiredSamples: 3, intervalMs: 2000 };
         setObservation(null);
@@ -743,6 +866,7 @@
         if (response.verification?.status === 'checking') state.verification = response.verification;
       } else {
         state.verification = response.verification || { status: 'idle', currentSample: 0, requiredSamples: 3, intervalMs: 2000 };
+        setFixedButtons(response.fixedButtons);
         if ('observation' in response) setObservation(response.observation);
         if (!response.observation) $('last-update').textContent = 'Sin observación';
       }
@@ -778,6 +902,7 @@
     state.verification = { status: 'idle', currentSample: 0, requiredSamples: 3, intervalMs: 2000 };
     state.connected = false;
     state.connectionError = '';
+    setFixedButtons([]);
     setObservation(null);
     pruneArtifacts();
     clearNotice();
@@ -807,22 +932,23 @@
     renderButtons();
   }
 
+  async function copyText(value) {
+    if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
+    const textarea = node('textarea');
+    textarea.value = value;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-10000px';
+    document.body.append(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    if (!copied) throw new Error('El portapapeles no está disponible.');
+  }
+
   async function copyJSON() {
     if (!canExportObservation()) return;
-    const value = JSON.stringify(state.observation, null, 2);
     try {
-      if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(value);
-      else {
-        const textarea = node('textarea');
-        textarea.value = value;
-        textarea.style.position = 'fixed';
-        textarea.style.left = '-10000px';
-        document.body.append(textarea);
-        textarea.select();
-        const copied = document.execCommand('copy');
-        textarea.remove();
-        if (!copied) throw new Error('El portapapeles no está disponible.');
-      }
+      await copyText(JSON.stringify(state.observation, null, 2));
       toast('JSON de la observación copiado.');
     } catch { showNotice('No se pudo acceder al portapapeles. Podés descargar el JSON.'); }
   }
@@ -834,6 +960,19 @@
     const link = node('a');
     link.href = url;
     link.download = `button-browser-${String(state.observation.observationId).replace(/[^a-zA-Z0-9_-]/g, '_')}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function downloadFixedButtons() {
+    if (!state.fixedButtons.length || state.localBusy || state.remoteBusy) return;
+    const blob = new Blob([JSON.stringify({ fixedButtons: state.fixedButtons }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = node('a');
+    link.href = url;
+    link.download = 'button-browser-fixed-buttons.json';
     document.body.append(link);
     link.click();
     link.remove();
@@ -869,7 +1008,7 @@
     $('interaction-hint').textContent = elements.manual.checked ? 'Clic manual activo · no verifica el objetivo.' : 'Activá «Interactuar» para hacer clic en la captura.';
   });
   elements.stage.addEventListener('pointermove', (event) => {
-    const point = canShowCoordinates() || elements.manual.checked ? viewportPoint(event) : null;
+    const point = canShowCoordinates() || visibleFixedButtons().length || elements.manual.checked ? viewportPoint(event) : null;
     $('pointer-position').textContent = point ? `x ${number(point.x)}   y ${number(point.y)}` : 'x —   y —';
   });
   elements.stage.addEventListener('pointerleave', () => { $('pointer-position').textContent = 'x —   y —'; });
@@ -885,6 +1024,7 @@
   $('grid-view').addEventListener('click', () => setLayout('gallery'));
   $('copy-json').addEventListener('click', copyJSON);
   $('download-json').addEventListener('click', downloadJSON);
+  $('export-fixed-buttons').addEventListener('click', downloadFixedButtons);
   $('dismiss-notice').addEventListener('click', () => clearNotice());
   $('token-form').addEventListener('submit', (event) => { event.preventDefault(); updateToken(elements.token.value); });
   $('clear-token').addEventListener('click', () => updateToken(''));
@@ -914,7 +1054,10 @@
     const verification = /^(verify|detect|observe)(?:\s+(vision))?$/i.exec(text);
     if (verification) command = { action: 'verify', vision: Boolean(verification[2]) || (elements.vision.checked && state.visionConfigured) };
     const idClick = /^click\s+(\S+)$/i.exec(text);
-    if (idClick && state.observation) command = { action: 'click', id: idClick[1], observationId: state.observation.observationId };
+    if (idClick && /^f\d{1,6}$/.test(idClick[1])) command = { action: 'click', id: idClick[1] };
+    else if (idClick && state.observation) command = { action: 'click', id: idClick[1], observationId: state.observation.observationId };
+    const pin = /^pin\s+(b\d{1,4})(?:\s+([\s\S]+))?$/i.exec(text);
+    if (pin && state.observation) command = { action: 'pin', id: pin[1], ...(pin[2] ? { name: pin[2].trim() } : {}), observationId: state.observation.observationId };
     if (/^(goto|back|forward|reload|switch|newtab|close)(\s|$)/i.test(text)) state.addressDirty = false;
     elements.command.value = '';
     runCommand(command, text);

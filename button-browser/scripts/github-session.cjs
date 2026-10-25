@@ -4,6 +4,7 @@
 // One explicit-command browser session. This script never chooses an action,
 // invokes verification from a timer, or retries a browser command.
 const fs = require('node:fs/promises');
+const { constants: fsConstants } = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const crypto = require('node:crypto');
@@ -18,6 +19,10 @@ const COMMANDS_PATH = 'button-browser/ci/commands.json';
 const POLL_MS = 3000;
 const MAX_SESSION_MS = 25 * 60 * 1000;
 const BOOTSTRAP_ID = '__start__';
+const SESSION_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/;
+const FIXED_ID = /^f[1-9]\d{0,5}$/;
+const MAX_FIXED_INDEX_BYTES = 2 * 1024 * 1024;
+const MAX_FIXED_PNG_BYTES = 16 * 1024 * 1024;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const jsonBytes = value => Buffer.from(`${JSON.stringify(value, null, 2)}\n`);
 const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
@@ -76,9 +81,82 @@ function safeError(error, sanitize) {
 }
 
 function validateStart(value) {
-  if (!value || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(value.sessionId || '')) throw failure('INVALID_START', 'start.json necesita un sessionId nuevo, de 1 a 80 caracteres seguros.');
+  if (!value || typeof value.sessionId !== 'string' || !SESSION_ID.test(value.sessionId)) throw failure('INVALID_START', 'start.json necesita un sessionId nuevo, de 1 a 80 caracteres seguros.');
   const command = parseCommand({ action: 'goto', url: value.gameURL });
-  return { sessionId: value.sessionId, gameURL: command.url };
+  const config = { sessionId: value.sessionId, gameURL: command.url };
+  if (Object.hasOwn(value, 'fixedButtonsFrom')) {
+    if (typeof value.fixedButtonsFrom !== 'string' || !SESSION_ID.test(value.fixedButtonsFrom) || value.fixedButtonsFrom === value.sessionId) {
+      throw failure('INVALID_START', 'fixedButtonsFrom debe indicar otra sesión previa con un identificador seguro.');
+    }
+    config.fixedButtonsFrom = value.fixedButtonsFrom;
+  }
+  return config;
+}
+
+async function regularFile(file, limit) {
+  let handle;
+  try {
+    handle = await fs.open(file, fsConstants.O_RDONLY | fsConstants.O_NOFOLLOW);
+    const stat = await handle.stat();
+    if (!stat.isFile() || stat.size > limit) throw failure('INVALID_FIXED_SOURCE', 'El catálogo o sus recortes contienen un archivo inválido o demasiado grande.');
+    const bytes = await handle.readFile();
+    if (bytes.length > limit) throw failure('INVALID_FIXED_SOURCE', 'El archivo de botones fijos excede el límite permitido.');
+    return bytes;
+  } finally { await handle?.close(); }
+}
+
+function fixedIndex(bytes) {
+  let index;
+  try { index = JSON.parse(bytes.toString('utf8')); }
+  catch { throw failure('INVALID_FIXED_SOURCE', 'El catálogo de botones fijos no contiene JSON válido.'); }
+  if (index?.version !== 1 || !Number.isInteger(index.nextId) || index.nextId < 1 || index.nextId > 1000000 ||
+      !Array.isArray(index.buttons) || index.buttons.length > 200) throw failure('INVALID_FIXED_SOURCE', 'El catálogo de botones fijos tiene un formato inválido.');
+  const ids = new Set();
+  for (const button of index.buttons) {
+    if (!FIXED_ID.test(button?.id || '') || ids.has(button.id) || Number(button.id.slice(1)) >= index.nextId) {
+      throw failure('INVALID_FIXED_SOURCE', 'El catálogo de botones fijos contiene identificadores inválidos.');
+    }
+    ids.add(button.id);
+  }
+  return index;
+}
+
+/** Restore only explicitly selected catalog files from the checked-out repository.
+ * Validation is completed in staging before a controller or browser is created.
+ * This does not broaden GitHubReader or GitPublisher's allowed paths. */
+async function restoreFixedButtons({ repositoryRoot, sourceSessionId, targetDirectory }) {
+  if (typeof sourceSessionId !== 'string' || !SESSION_ID.test(sourceSessionId)) throw failure('INVALID_FIXED_SOURCE', 'La sesión de origen de los botones fijos es inválida.');
+  const target = path.resolve(targetDirectory);
+  try { await fs.lstat(target); throw failure('FIXED_RESTORE_DESTINATION_EXISTS', 'El catálogo de destino ya existe; no se reemplazará.'); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  let staging;
+  try {
+    let source = await fs.realpath(repositoryRoot);
+    for (const part of ['button-browser', 'ci-results', sourceSessionId, 'fixed']) {
+      source = path.join(source, part);
+      const stat = await fs.lstat(source);
+      if (stat.isSymbolicLink() || !stat.isDirectory()) throw failure('INVALID_FIXED_SOURCE', 'La ruta del catálogo de origen debe contener directorios normales.');
+    }
+    const bytes = await regularFile(path.join(source, 'index.json'), MAX_FIXED_INDEX_BYTES);
+    const index = fixedIndex(bytes);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    staging = await fs.mkdtemp(path.join(path.dirname(target), '.fixed-restore-'));
+    await fs.writeFile(path.join(staging, 'index.json'), bytes);
+    for (const button of index.buttons) {
+      const png = await regularFile(path.join(source, `${button.id}.png`), MAX_FIXED_PNG_BYTES);
+      await fs.writeFile(path.join(staging, `${button.id}.png`), png);
+    }
+    const { FixedButtonStore } = require('../src/fixed-buttons.cjs');
+    const store = new FixedButtonStore(staging);
+    const restored = await store.list();
+    for (const button of restored) await store.template(button.id);
+    await fs.rename(staging, target);
+    staging = null;
+    return { count: restored.length, sourceSessionId };
+  } catch (error) {
+    if (error.code === 'INVALID_FIXED_SOURCE' || error.code === 'FIXED_RESTORE_DESTINATION_EXISTS') throw error;
+    throw failure('INVALID_FIXED_SOURCE', 'No se pudo restaurar un catálogo válido y completo de la sesión indicada.');
+  } finally { if (staging) await fs.rm(staging, { recursive: true, force: true }); }
 }
 
 function validateQueue(value, sessionId) {
@@ -216,8 +294,25 @@ class SessionRunner {
     this.status = 'running'; this.phase = 'starting'; this.stopReason = null;
     this.pendingCheckpoint = null; this.lastHeartbeat = 0; this.checkpointError = null; this.queueError = null;
     this.claimed = false; this.currentAction = null;
+    this.fixedFiles = null;
   }
   rawURL(relative) { return `https://raw.githubusercontent.com/${REPOSITORY}/refs/heads/${BRANCH}/${this.prefix}/${relative}`; }
+  rewriteFixedReferences(value) {
+    if (Array.isArray(value)) { for (const item of value) this.rewriteFixedReferences(item); }
+    else if (value && typeof value === 'object') {
+      if (FIXED_ID.test(value.id || '') && (value.fixed === true || value.source === 'fixed')) value.cropUrl = this.rawURL(`fixed/${value.id}.png`);
+      for (const item of Object.values(value)) this.rewriteFixedReferences(item);
+    }
+    return value;
+  }
+  publicFixedButtons() {
+    const buttons = this.rewriteFixedReferences(this.sanitize(this.controller.fixedButtons || []));
+    if (this.status !== 'ready' || this.controller.verification?.status === 'checking') {
+      const unavailableReason = this.status === 'stopped' || this.status === 'error' ? 'La sesión está cerrada.' : 'Hay una acción en curso.';
+      for (const button of buttons) { button.available = false; button.unavailableReason = unavailableReason; }
+    }
+    return buttons;
+  }
   async writeLocal(relative, bytes) {
     const target = path.join(this.evidenceRoot, relative);
     await fs.mkdir(path.dirname(target), { recursive: true });
@@ -229,6 +324,7 @@ class SessionRunner {
       runURL: this.owner.runURL, branch: BRANCH, sessionId: this.config.sessionId, status: this.status, phase: this.phase,
       seq: this.seq, lastCommandId: this.lastCommandId, lastResponse: publishResult ? this.lastResponse : null,
       verification: verificationState(this.controller), startedAt: this.startedAt, updatedAt: new Date().toISOString(),
+      fixedButtons: this.publicFixedButtons(), fixedCatalog: this.fixedFiles, fixedButtonsFrom: this.config.fixedButtonsFrom || null,
       expiresAt: new Date(this.expiresAt).toISOString(), gameURL: this.config.gameURL,
       stopReason: this.stopReason, checkpointError: this.checkpointError, queueError: this.queueError,
       activeObservationId: publishResult && this.status === 'ready' ? this.controller.observation?.observationId || null : null,
@@ -236,13 +332,42 @@ class SessionRunner {
       commands: [...this.ledger.values()], index: `${this.prefix}/index.json`, history: `${this.prefix}/history.json` });
   }
   async buildCheckpoint(assets = new Map()) {
+    const fixedAssets = await this.saveFixedCatalog();
     const snapshot = this.snapshot();
     const index = { sessionId: this.config.sessionId, seq: this.seq, status: this.status,
       activeObservationId: snapshot.activeObservationId, current: snapshot.files,
-      responses: [...this.responseFiles.keys()], state: `${this.prefix}/state.json`, history: `${this.prefix}/history.json` };
+      responses: [...this.responseFiles.keys()], fixed: this.fixedFiles, state: `${this.prefix}/state.json`, history: `${this.prefix}/history.json` };
     const local = new Map([['state.json', jsonBytes(snapshot)], ['index.json', jsonBytes(index)], ['history.json', jsonBytes(this.history)]]);
     for (const [file, bytes] of local) await this.writeLocal(file, bytes);
-    return new Map([...assets, ...[...local].map(([file, bytes]) => [`${this.prefix}/${file}`, bytes]), ...this.responseFiles]);
+    return new Map([...assets, ...fixedAssets, ...[...local].map(([file, bytes]) => [`${this.prefix}/${file}`, bytes]), ...this.responseFiles]);
+  }
+  async saveFixedCatalog() {
+    const store = this.controller.fixedStore;
+    if (!store) return new Map();
+    const buttons = await store.list();
+    let index;
+    try { index = fixedIndex(await regularFile(path.join(store.directory, 'index.json'), MAX_FIXED_INDEX_BYTES)); }
+    catch (error) {
+      if (error.code !== 'ENOENT' || buttons.length) throw error;
+      index = { version: 1, nextId: 1, buttons: [] };
+    }
+    // Store.list validates all fields. Preserve that exact catalog for future
+    // sessions: applying the output sanitizer would alter scope labels/metadata.
+    if (JSON.stringify(canonical(index.buttons)) !== JSON.stringify(canonical(buttons))) throw failure('FIXED_CATALOG_CHANGED', 'El catálogo cambió durante la preparación del checkpoint.');
+    const assets = new Map(), crops = [];
+    const catalog = jsonBytes({ version: 1, nextId: index.nextId, buttons });
+    assets.set(`${this.prefix}/fixed/index.json`, catalog);
+    await this.writeLocal('fixed/index.json', catalog);
+    for (const button of buttons) {
+      const file = `${button.id}.png`, stat = await fs.lstat(path.join(store.directory, file));
+      if (stat.isSymbolicLink() || !stat.isFile() || stat.size > MAX_FIXED_PNG_BYTES) throw failure('INVALID_FIXED_SOURCE', 'El recorte fijo debe ser un archivo PNG normal.');
+      const bytes = await store.template(button.id);
+      assets.set(`${this.prefix}/fixed/${file}`, bytes);
+      await this.writeLocal(`fixed/${file}`, bytes);
+      crops.push(`${this.prefix}/fixed/${file}`);
+    }
+    this.fixedFiles = { index: `${this.prefix}/fixed/index.json`, crops };
+    return assets;
   }
   async checkpoint(assets = new Map()) {
     const bundle = await this.buildCheckpoint(assets);
@@ -282,7 +407,7 @@ class SessionRunner {
     if (!/^[a-f0-9-]{36}$/.test(observation.observationId || '')) throw failure('INVALID_OBSERVATION', 'Identificador de observación inválido.');
     const id = observation.observationId;
     const directory = path.join(this.controller.artifactDir, id);
-    const publicObservation = this.sanitize(observation);
+    const publicObservation = this.rewriteFixedReferences(this.sanitize(observation));
     const assets = new Map();
     const mapping = { 'screenshot.png': 'current.png', 'annotated.png': 'annotated.png', 'buttons.png': 'buttons.png' };
     const names = (await fs.readdir(directory)).filter(file => /^(screenshot|annotated|buttons)\.png$|^b\d{1,4}\.png$/.test(file)).sort();
@@ -371,7 +496,7 @@ class SessionRunner {
     }
     record.status = 'finished'; record.completedAt = new Date().toISOString();
     record.ok = Boolean(response.ok); record.actionExecuted = response.actionExecuted ?? response.result?.actionExecuted ?? response.ok;
-    this.lastResponse = this.sanitize(response);
+    this.lastResponse = this.rewriteFixedReferences(this.sanitize(response));
     const relative = `responses/${String(this.seq).padStart(6, '0')}.json`;
     const responseBytes = jsonBytes({ seq: this.seq, commandId: entry.commandId, completedAt: record.completedAt, response: this.lastResponse });
     await this.writeLocal(relative, responseBytes);
@@ -446,10 +571,14 @@ async function main() {
   const input = await reader.readJSON(START_PATH);
   const config = validateStart(input.data);
   const projectRoot = path.resolve(__dirname, '..');
+  const repositoryRoot = process.env.GITHUB_WORKSPACE || path.resolve(projectRoot, '..');
+  const runtimeRoot = path.join(projectRoot, '.session-runtime', config.sessionId);
+  const fixedButtonDir = path.join(runtimeRoot, 'fixed');
+  if (config.fixedButtonsFrom) await restoreFixedButtons({ repositoryRoot, sourceSessionId: config.fixedButtonsFrom, targetDirectory: fixedButtonDir });
   const owner = { sessionId: config.sessionId, runId: process.env.GITHUB_RUN_ID || 'unknown', runAttempt: process.env.GITHUB_RUN_ATTEMPT || '1',
     runURL: `https://github.com/${REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID || ''}`, nonce: crypto.randomUUID() };
-  const publisher = new GitPublisher({ repositoryRoot: process.env.GITHUB_WORKSPACE || path.resolve(projectRoot, '..'), token, prefix: `button-browser/ci-results/${config.sessionId}`, owner });
-  const controller = new BrowserController({ headless: true, artifactDir: path.join(projectRoot, '.session-runtime', config.sessionId, 'observations') });
+  const publisher = new GitPublisher({ repositoryRoot, token, prefix: `button-browser/ci-results/${config.sessionId}`, owner });
+  const controller = new BrowserController({ headless: true, artifactDir: path.join(runtimeRoot, 'observations'), fixedButtonDir });
   const runner = new SessionRunner({ config, controller, reader, publisher, evidenceRoot: path.join(projectRoot, 'evidence', config.sessionId), sanitize, owner });
   console.log(`[button-browser] Sesión ${config.sessionId}; espera órdenes explícitas durante un máximo de 25 minutos.`);
   return runner.run();
@@ -463,4 +592,4 @@ if (require.main === module) main().then(code => { process.exitCode = code; }).c
 
 module.exports = { REPOSITORY, BRANCH, START_PATH, COMMANDS_PATH, POLL_MS, MAX_SESSION_MS,
   canonical, commandFingerprint, isStop, redactURL, makeSanitizer, safeError, validateStart, validateQueue,
-  verificationState, GitHubReader, GitPublisher, SessionRunner };
+  verificationState, restoreFixedButtons, GitHubReader, GitPublisher, SessionRunner };

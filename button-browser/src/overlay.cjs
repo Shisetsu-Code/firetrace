@@ -26,9 +26,10 @@ function normalizedButtons(buttons, viewport) {
     if (!point || point.x < 0 || point.y < 0 || point.x > width || point.y > height) continue;
     result.push({
       id: String(button.id ?? `b${result.length + 1}`).toWellFormed().slice(0, 80),
+      fixed:button.fixed===true,
       bbox: { x: rounded(x), y: rounded(y), width: rounded(right - x), height: rounded(bottom - y) },
       point: { x: rounded(point.x), y: rounded(point.y) },
-      color: button.estimated ? '#fbbf24' : '#33e1bb'
+      color: button.fixed ? '#7cb7ff' : button.estimated ? '#fbbf24' : '#33e1bb'
     });
   }
   return result;
@@ -39,7 +40,7 @@ function labelPlacement(button, viewport, occupied) {
   const margin = Math.min(3, viewport.width / 8, viewport.height / 8);
   const availableWidth = Math.max(1, viewport.width - margin * 2);
   const coordinates = `x ${point.x} · y ${point.y}`;
-  const text = `${id} · ${coordinates}`;
+  const text = `${button.fixed?'Fijo · ':''}${id} · ${coordinates}`;
   const padding = Math.min(7, availableWidth / 8);
   let lines = [text], fontSize = 12;
   const length = line => Array.from(line).length;
@@ -92,7 +93,7 @@ function buildCoordinateSVG(buttons, viewport) {
   };
 }
 
-/** Render only the supplied, verified report; this function performs no detection. */
+/** Render supplied dynamic or explicitly saved coordinates without detection. */
 function createCoordinateSVG(buttons, viewport) {
   return buildCoordinateSVG(buttons, viewport).svg;
 }

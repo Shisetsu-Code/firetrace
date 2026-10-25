@@ -40,3 +40,15 @@ test('excludeLabels rejects invalid arrays and commands other than verify', () =
     assert.throws(()=>parseCommand({...command,excludeLabels:['BET_DEC']}), /excludeLabels/);
   }
 });
+
+test('fixed button commands use permanent IDs and preserve a chosen name',()=>{
+  assert.deepEqual(parseCommand('pin b3 Giro normal'),{action:'pin',id:'b3',name:'Giro normal'});
+  assert.deepEqual(parseCommand('pin b3'),{action:'pin',id:'b3'});
+  assert.deepEqual(parseCommand('pins'),{action:'pins'});
+  assert.deepEqual(parseCommand('rename f12 Información'),{action:'rename',id:'f12',name:'Información'});
+  assert.deepEqual(parseCommand('unpin f12'),{action:'unpin',id:'f12'});
+  assert.deepEqual(parseCommand('click f12'),{action:'click',id:'f12'});
+  assert.deepEqual(parseCommand({action:'pin',id:'b3',name:'  Giro  ',observationId:'current'}),{action:'pin',id:'b3',name:'Giro',observationId:'current'});
+  for(const bad of ['pin f1','pin','unpin b1','unpin f1 extra','pins extra','rename f1','click f0','click f1000000'])assert.throws(()=>parseCommand(bad),e=>e.code==='INVALID_COMMAND');
+  for(const bad of [{action:'pin',id:'b1',name:''},{action:'pin',id:'b1',name:'x'.repeat(81)},{action:'rename',id:'f1',name:9},{action:'click',id:'f1',observationId:'old'},{action:'pin',id:'b1',x:1,y:2}])assert.throws(()=>parseCommand(bad),e=>e.code==='INVALID_COMMAND');
+});

@@ -1,4 +1,4 @@
-# Button Browser 1.1
+# Button Browser 1.2
 
 Navegador Chromium controlable con comandos. Devuelve los botones visibles como **recortes PNG**, rectángulos y puntos de clic en **coordenadas del área visible del navegador**. Incluye panel web, consola, CLI y API HTTP.
 
@@ -12,6 +12,7 @@ Navegador Chromium controlable con comandos. Devuelve los botones visibles como 
 - Clic por ID o coordenadas; mover ratón, escribir texto, pulsar teclas, desplazar y redimensionar.
 - Verificación únicamente por orden explícita de la IA: tres lecturas con pausas de 2 segundos. Sólo publica posiciones cuando las tres coinciden.
 - Coordenadas x/y y marcador visibles sobre cada botón, en el panel, el navegador controlado y la captura anotada.
+- Lista persistente de botones fijos, con nombre, ID permanente, recorte y coordenadas guardadas; uso por comando sin repetir la detección.
 - Validación de vigencia y del punto previamente autorizado antes del clic por ID, sin recalcular posiciones ni volver a ejecutar el detector. Los `commandId` repetidos devuelven el resultado anterior sin repetir la acción mientras permanezcan en la caché del proceso.
 
 ## Ejecutar en un servidor con Docker
@@ -47,8 +48,13 @@ Se pueden enviar desde la consola del panel, CLI o API.
 | `goto https://example.com` | Abrir una URL |
 | `verify` / `detect` / `observe` | Verificar tres lecturas y publicar sólo posiciones estables |
 | `verify vision` | Verificar tres lecturas con reconocimiento visual configurado |
-| `snapshot` | Actualizar sólo la captura, sin detectar ni devolver coordenadas |
+| `snapshot` | Actualizar la captura sin detectar; conserva los fijos compatibles |
 | `click b3` | Clic en el objetivo de la observación vigente |
+| `pin b3 Giro normal` | Guardar un botón verificado en la lista de fijos |
+| `pins` | Listar los botones fijos y su disponibilidad |
+| `click f1` | Usar la posición guardada de un botón fijo |
+| `rename f1 Giro principal` | Cambiar el nombre de un fijo |
+| `unpin f1` | Quitar un botón de la lista de fijos |
 | `click 1060 620` | Clic directo en píxeles CSS del viewport |
 | `move 1060 620` | Mover el ratón |
 | `scroll 500` | Desplazar 500 px hacia abajo |
@@ -63,7 +69,7 @@ Se pueden enviar desde la consola del panel, CLI o API.
 | `switch 0` / `close` | Seleccionar índice desde cero o cerrar pestaña |
 | `export` | Obtener enlaces al JSON y la lámina de recortes |
 
-Las acciones actualizan una captura sin posiciones y dejan el estado `unverified`. No disparan detección ni consultas al modelo. Si un sitio tarda en cargar, la IA puede esperar con `wait 1500` y solicitar `verify` cuando corresponda. El panel muestra capturas; no es una transmisión de video continua. Para clic directo sobre la captura, activá el modo de interacción; la interfaz convierte la escala de la imagen a coordenadas del viewport.
+Las acciones actualizan una captura sin posiciones dinámicas y dejan el estado `unverified`. Los fijos compatibles permanecen identificados como coordenadas guardadas. No se disparan detecciones ni consultas al modelo. Si un sitio tarda en cargar, la IA puede esperar con `wait 1500` y solicitar `verify` cuando corresponda. El panel muestra capturas; no es una transmisión de video continua. Para clic directo sobre la captura, activá el modo de interacción; la interfaz convierte la escala de la imagen a coordenadas del viewport.
 
 ### Verificación explícita de estabilidad
 
@@ -72,8 +78,10 @@ La IA manda `verify` cuando decide que corresponde leer los controles. `detect` 
 Se compara el conjunto completo de controles, su identidad, texto, estado, rectángulo, punto de clic y apariencia del recorte. Deben coincidir las tres parejas de muestras: 1–2, 1–3 y 2–3. La tolerancia geométrica es 1 píxel CSS; la diferencia media máxima de apariencia es 0,015 en escala 0–1. Los cambios del fondo fuera de los botones no bloquean controles que siguen iguales.
 
 - `stable`: tres lecturas coincidentes. Publica las coordenadas de la tercera lectura, los recortes y el overlay con ID, x/y y marcador.
-- `unstable`: alguna lectura cambió o falló. Devuelve `buttons: []`, las razones y una captura sin coordenadas. La IA decide cuándo volver a verificar.
-- `unverified`: sólo hay una captura. Se usa después de navegar, hacer clic, escribir, desplazar o pedir `snapshot`. No contiene posiciones y no permite clic por ID.
+- `unstable`: alguna lectura cambió o falló. Devuelve `buttons: []`, las razones y una captura sin coordenadas dinámicas. La IA decide cuándo volver a verificar.
+- `unverified`: sólo hay una captura. Se usa después de navegar, hacer clic, escribir, desplazar o pedir `snapshot`. No contiene posiciones dinámicas y no permite clic por ID `bN`.
+
+Los botones fijos se publican por separado en `fixedButtons`, con `verification: "user-fixed"`; no alteran el estado anterior ni se presentan como una verificación nueva.
 
 Las muestras intermedias no se publican ni se escriben como recortes. `GET /api/state` muestra progreso, pero no hace detecciones. La ausencia de cambios en tres instantes no garantiza que el sitio no cambie después; un clic por ID conserva guardas de vigencia y puede rechazar un punto cambiado. Esas guardas no llaman a un modelo ni ejecutan otra detección y nunca sustituyen el punto por uno nuevo.
 
@@ -97,6 +105,30 @@ Si un control animado impide verificar el conjunto completo, la IA puede solicit
 La orden anterior omite esas dos etiquetas de su resultado. Cada control incluido debe superar las mismas tres lecturas, tolerancia de 1 píxel y comparación de apariencia. No se excluye automáticamente ningún control que falle. Los detectores inspeccionan primero la escena completa, de modo que un elemento excluido sigue contando como oclusor de otro control.
 
 `observation.stability.scope` registra las etiquetas excluidas y cuántos candidatos se omitieron en cada muestra. El panel identifica el resultado como **Selección estable**, y no muestra posiciones de los controles excluidos. `verify` sin esta opción mantiene la verificación estricta del conjunto completo.
+
+### Lista de botones fijos
+
+Para los controles que no cambian, verificá una vez y guardalos con un nombre:
+
+```text
+verify
+pin b1 Giro normal
+pin b2 Información
+pins
+click f1
+rename f1 Giro principal
+unpin f2
+```
+
+`pin` devuelve el ID permanente asignado: usá ese valor, ya que `f1` y `f2` son ejemplos de un catálogo nuevo. En el panel, cada control verificado ofrece **Guardar fijo**. La sección **Botones fijos** permite usar, renombrar, quitar y exportar la lista. Se dibujan en azul con la marca **Fijo**.
+
+El catálogo conserva recuadro, punto de clic exacto, nombre y una miniatura propia. Sobrevive al reinicio y al borrado de observaciones antiguas. `pin`, `pins`, `rename` y `unpin` no detectan, no capturan y no invalidan la observación dinámica. Sólo se puede guardar desde una observación estable vigente; por API se recomienda indicar su `observationId`.
+
+`click f1` reutiliza la posición sin tres lecturas ni llamada al modelo. Comprueba que coincidan juego/página, viewport, DPR y scroll, y compara una captura del recorte guardado antes de enviar el clic. Si cambió, rechaza la acción sin buscar otra posición. No admite `observationId`, porque el ID fijo pertenece al catálogo. Los parámetros de identidad del juego, como `gid`, distinguen juegos que comparten `ContainerLauncher`.
+
+Las respuestas de comandos y `GET /api/state` incluyen el catálogo en `fixedButtons`, con `available` indicando contexto compatible. `observation.fixedButtons` contiene los que corresponden al contexto de esa captura. Esta disponibilidad no afirma que el botón esté visible: el recorte se comprueba sólo al pedir el clic. La verificación dinámica sigue funcionando de forma independiente.
+
+Por defecto se guarda en `data/observations/fixed-buttons/`. Podés configurar `BUTTON_BROWSER_FIXED_DATA` para otra ubicación persistente. Admite hasta 200 registros; las miniaturas tienen la misma autenticación que los demás artefactos. En Actions se guarda en la evidencia de la sesión y se restaura explícitamente mediante `fixedButtonsFrom`: ver [uso y persistencia de botones fijos](docs/fixed-buttons.md).
 
 ### CLI
 
@@ -125,7 +157,7 @@ Authorization: Bearer TU_TOKEN
 }
 ```
 
-Para coordenadas directas, usá `{"action":"click","x":1060,"y":620}`. Para verificar: `{"action":"verify"}`. La respuesta incluye `observation.stability`; únicamente su estado `stable` contiene botones con coordenadas. `GET /api/state` devuelve la observación actual, estado ocupado y disponibilidad de visión. Los recursos `/artifacts/…` usan la misma autorización.
+Para coordenadas directas, usá `{"action":"click","x":1060,"y":620}`. Para verificar: `{"action":"verify"}`. La respuesta incluye `observation.stability`; únicamente su estado `stable` contiene posiciones dinámicas en `buttons`. Los fijos se devuelven por separado en `fixedButtons`. `GET /api/state` devuelve la observación actual, catálogo fijo, estado ocupado y disponibilidad de visión. Los recursos `/artifacts/…` usan la misma autorización.
 
 ### Forma de salida
 
@@ -186,8 +218,8 @@ El array contiene exclusivamente los comandos solicitados. La salida por línea 
 
 ## Vigencia, datos y límites operativos
 
-- Las coordenadas sobre la pantalla se dibujan con código a partir de la muestra verificada; no dependen de que el modelo escriba o explique sus posiciones. El overlay no captura eventos del mouse y se quita al invalidar la verificación.
-- Un ID corresponde a una observación; no es permanente entre capturas. Para automatización, enviá siempre `observationId` junto al ID.
+- Las coordenadas se dibujan con código: las dinámicas vienen de la muestra verificada y las fijas del catálogo guardado. No dependen de que el modelo escriba sus posiciones. El overlay no captura eventos del mouse; las posiciones dinámicas se quitan al invalidar la verificación.
+- Un ID `bN` corresponde a una observación; no es permanente entre capturas. Para automatización, enviá `observationId` junto al ID dinámico. Los IDs `fN` son permanentes en su catálogo y no usan `observationId`.
 - Vigencia máxima de referencia: 120 segundos, además de comprobar navegación, estado y ubicación al hacer clic. Las coordenadas directas ejecutan lo solicitado sin vincularse a un botón.
 - Los comandos se serializan por servicio. La caché conserva hasta 256 `commandId`; no sobrevive al reinicio. En caso de pérdida de conexión, consultá el estado y reutilizá el mismo ID mientras la instancia siga viva. No se promete exactamente una vez después de reinicios.
 - Los artefactos se guardan en `data/observations/`. Se conservan las últimas 12 observaciones creadas durante cada ejecución; los archivos de ejecuciones anteriores no se borran automáticamente.
@@ -203,11 +235,13 @@ npx playwright install --with-deps chromium
 npm test
 ```
 
+La versión 1.2 pasó **97/97 pruebas**, incluyendo catálogo fijo, persistencia, cambios de contexto, panel y runner. Se comprobó también el recorrido real del panel a Chromium: guardar, capturar y usar un fijo sin nuevas lecturas. Ver [verificación de la versión 1.2](docs/verification-1.2.md).
+
 Pruebas con Chromium real: HTML, Shadow DOM, iframes con escala, ocultamiento, controles Pixi, recortes, validación de objetivos, API y reintentos. El transporte de visión se prueba con un endpoint de prueba local; no incluye evaluación de calidad de un modelo de visión externo. Ver `docs/verification.md` para el resultado de la entrega inicial.
 
 ### Juego real en GitHub Actions
 
-El 25 de octubre de 2026 se probó la demo oficial de **Rise of Olympus Origins**: se superó la introducción, se verificaron **11 controles en tres lecturas** y se ejecutó un giro de demo por ID. La suite local actual pasó **67/67 pruebas**. La verificación de esa selección excluyó explícitamente dos flechas animadas y un contenedor HTML; no acredita todos los controles del juego. Tardó **39,492 s** en el runner: las pausas entre lecturas son de 2 s y el procesamiento añade tiempo.
+El 25 de octubre de 2026 se probó la demo oficial de **Rise of Olympus Origins**: se superó la introducción, se verificaron **11 controles en tres lecturas** y se ejecutó un giro de demo por ID. La suite local de esa versión pasó **67/67 pruebas**. La verificación de esa selección excluyó explícitamente dos flechas animadas y un contenedor HTML; no acredita todos los controles del juego. Tardó **39,492 s** en el runner: las pausas entre lecturas son de 2 s y el procesamiento añade tiempo.
 
 El [informe de la prueba real](docs/playngo-actions-test.md) contiene la ejecución de Actions, capturas, recortes, coordenadas, comandos, resultados y límites observados. La sesión terminó con `STOP`.
 

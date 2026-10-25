@@ -27,7 +27,7 @@ async function saveObservation({directory,png,observation,candidates}) {
       normalized:{x:Number((c.bbox.x/width).toFixed(6)),y:Number((c.bbox.y/height).toFixed(6)),width:Number((c.bbox.width/width).toFixed(6)),height:Number((c.bbox.height/height).toFixed(6))},
       cropUrl:`${base}/${id}.png`});
   }
-  const overlay=Buffer.from(createCoordinateSVG(buttons,observation.viewport));
+  const overlay=Buffer.from(createCoordinateSVG([...(observation.fixedButtons||[]),...buttons],observation.viewport));
   await sharp(png).composite([{input:overlay}]).png().toFile(path.join(directory,'annotated.png'));
   const columns=4,cellW=260,cellH=130,sheetW=columns*cellW,sheetH=Math.max(cellH,Math.ceil(crops.length/columns)*cellH);
   const pieces=[];
