@@ -219,6 +219,46 @@ def rulers_bonus_intro(png: Path) -> bool:
 
 
 
+def rulers_finished_bonus_result(png: Path) -> bool:
+    """Identify the earned Rulers of Olympus terminal FREE GAMES modal.
+
+    Visual proof: 40241233787/aogroo/_current.png, text CONGRATULATIONS,
+    YOU WON, DURING FREE GAMES; yellow CONTINUE at (944, 500).
+    The button is stylized, so OCR needs a fourfold enlargement.
+    This is a result acknowledgement, never a wager or purchase.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        title = pytesseract.image_to_string(
+            rgb.crop((340, 130, 960, 465)), config="--psm 6",
+        ).upper()
+        button = rgb.crop((846, 467, 1039, 533))
+        button = button.resize((button.width * 4, button.height * 4))
+        label = pytesseract.image_to_string(button, config="--psm 7").upper()
+    return (all(x in title for x in ("CONGRATULATIONS", "YOU WON", "DURING FREE GAMES"))
+            and "CONTINUE" in label)
+
+
+def ash_tea_party_bonus_intro(png: Path) -> bool:
+    """Recognize the earned Ash Advantage Tea Party Bonus START overlay.
+
+    Visual proof: 40241535898/ashadv/_current.png; repeated base spins were
+    sent to this blocking modal. Starting an earned FUN bonus is not a buy.
+    Avoid guessing subsequent character-choice coordinates.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        title = pytesseract.image_to_string(
+            rgb.crop((275, 160, 1030, 445)), config="--psm 6",
+        ).upper()
+        button = rgb.crop((659, 465, 966, 526))
+        button = button.resize((button.width * 4, button.height * 4))
+        label = pytesseract.image_to_string(button, config="--psm 7").upper()
+    return (all(x in title for x in ("SELECT CHARACTERS TO DRINK TEA",
+                                      "THE LONGER THEY DRINK", "JACKPOT"))
+            and "START" in label)
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -451,6 +491,73 @@ class Probe:
                     self.note("FEATURE", state["text"][:300])
                     # Never send a base wager while a feature or choice is active.
                     fallback = False
+                # 40241233787 reached an earned Battle for Power FINAL
+                # result (€17.15 during Free Games) but never clicked CONTINUE.
+                # Require two 2-second-separated observations before one
+                # result acknowledgement, then prove return to the FUN board.
+                if (self.game == "aogroo"
+                        and rulers_finished_bonus_result(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-rulers-finished-result", save=True)
+                    if not rulers_finished_bonus_result(self.dir / "_current.png"):
+                        self.note("RESULT_UNSTABLE", "Rulers result vanished before acknowledgement")
+                        continue
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.note("FEATURE_RESULT", "Rulers earned FREE GAMES result observed twice; no buy")
+                    await self.click(page, (944, 500), "verified_rulers_finished_bonus_continue_once")
+                    self.last_feature_action = "rulers_result_continue"
+                    confirmed_return = False
+                    for i in range(3):
+                        await page.wait_for_timeout(2400)
+                        _, back = await self.shot(page, f"rulers-result-return-{i}", save=True)
+                        result_still_visible = rulers_finished_bonus_result(self.dir / "_current.png")
+                        hud = back["text"].upper()
+                        if (not result_still_visible and
+                                any(word in hud for word in
+                                    ("TOTAL BET", "AUTOPLAY", "UNTIL FEATURE", "SPIN"))):
+                            confirmed_return = True
+                            break
+                    if confirmed_return:
+                        self.feature_finished = True
+                        self.stage = "feature_complete"
+                        self.note("FEATURE_COMPLETE",
+                                  "Rulers result acknowledged exactly once and FUN board returned")
+                        await self.checkpoint("feature_complete", force=True)
+                        return
+                    self.stage = "needs_review"
+                    self.note("RESULT_RETURN_UNCERTAIN",
+                              "One Rulers result acknowledgement; no verified FUN board return")
+                    await self.checkpoint("result_needs_review", force=True)
+                    return
+                # 40241535898 stopped on a real Tea Party Bonus START modal.
+                # Do NOT keep wagering into it: verify twice and START the
+                # already-earned feature exactly once. Character picks require
+                # new visual evidence, never guessed coordinates.
+                if (self.game == "ashadv"
+                        and self.last_feature_action != "ash_tea_party_start"
+                        and ash_tea_party_bonus_intro(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-ash-tea-party-intro", save=True)
+                    if not ash_tea_party_bonus_intro(self.dir / "_current.png"):
+                        self.note("BONUS_INTRO_UNSTABLE", "Ash bonus START vanished")
+                        continue
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (809, 494), "verified_FUN_ash_tea_party_start_once")
+                    self.last_feature_action = "ash_tea_party_start"
+                    fallback = False
+                    await page.wait_for_timeout(2300)
+                    await self.shot(page, "after-ash-tea-party-start", save=True)
+                    if ash_tea_party_bonus_intro(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("BONUS_START_UNCERTAIN", "Ash START clicked once; intro still visible")
+                        await self.checkpoint("bonus_needs_review", force=True)
+                        return
+                    self.note("BONUS_ACK", "Ash Tea Party earned bonus started; observe choices")
+                    await self.checkpoint(force=True)
+                    continue
                 # Run 40233535136 stopped on an earned Battle for Power
                 # intro. It is NOT a bet/purchase; only the yellow CONTINUE
                 # may be acknowledged after two independent observations.
