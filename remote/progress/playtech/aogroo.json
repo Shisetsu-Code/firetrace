@@ -4,15 +4,15 @@
   "outcome": null,
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 281,
+  "observations": 297,
   "clicks": 7,
   "spin_attempts": 1,
   "autoplay_repeats": 2,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 14,
-  "elapsed_seconds": 2065,
-  "latest_text": "») CONGRATULATIONS! YOU WON: €17.15 DURING FREE GAMES —, 2 €1,004.30 23:14:45",
+  "elapsed_seconds": 2147,
+  "latest_text": "») CONGRATULATIONS! YOU WON: €17.15 DURING FREE GAMES —, 2 €1,004.30 23:16:06",
   "run_id": "40241233787",
-  "time": "2026-10-25T23:14:48+00:00"
+  "time": "2026-10-25T23:16:09+00:00"
 }
