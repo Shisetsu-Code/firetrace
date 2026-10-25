@@ -68,7 +68,7 @@ def scrub(value, key: str = ""):
     if isinstance(value, str):
         if key == "image_base64":
             return value  # Demo screenshot used only as an explicitly requested image.
-        if key.lower() in {"url", "href", "documenturl", "frameid"}:
+        if key.lower() in {"url", "href", "documenturl", "frameid", "location", "redirecturl"} or re.match(r"^(?:https?|wss?)://", value):
             return safe_url(value)
         if key.lower() in {"text", "postdata", "payloaddata", "responsebody", "body"}:
             if len(value) > 16384:
@@ -140,8 +140,15 @@ def summarize_har(har: dict) -> dict:
         frames = entry.get("_webSocketFrames") or []
         ws_count += len(frames)
         route["websocket_frames"] += len(frames)
+    def rank(route):
+        path = route["path"].lower()
+        api = any(word in path for word in ("/api/", "/spin", "/session", "/init", "/wallet", "/bet", "/game", "/launch"))
+        static = bool(re.search(r"\.(?:png|jpg|jpeg|webp|gif|woff2?|ttf|css|js|svg|mp3|ogg)(?:$|/)", path))
+        return (0 if route["method"] not in {"GET", "HEAD"} else
+                1 if route["websocket_frames"] or api else
+                3 if static else 2, -route["count"], route["host"] or "", path)
     return {"http_entries": len(har.get("log", {}).get("entries", [])),
-            "ws_frames": ws_count, "endpoints": list(routes.values())}
+            "ws_frames": ws_count, "endpoints": sorted(routes.values(), key=rank)}
 
 
 def git(*args: str, check: bool = True):
