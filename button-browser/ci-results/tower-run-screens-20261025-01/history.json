@@ -45,5 +45,16 @@
     "responsePath": "responses/000003.json",
     "observationId": "2b4d9cfa-49b7-45cf-ae82-3f8158b87300",
     "error": null
+  },
+  {
+    "seq": 4,
+    "commandId": "continue-current-intro-001",
+    "command": {
+      "action": "click",
+      "x": 640,
+      "y": 608
+    },
+    "startedAt": "2026-10-25T21:32:09.327Z",
+    "status": "reserved"
   }
 ]
