@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "seq": 1,
+    "commandId": "__start__",
+    "command": {
+      "action": "goto",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]"
+    },
+    "startedAt": "2026-10-25T19:08:21.492Z",
+    "status": "reserved"
+  }
+]
