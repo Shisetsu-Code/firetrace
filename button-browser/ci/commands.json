@@ -70,6 +70,10 @@
       "command": {
         "action": "snapshot"
       }
+    },
+    {
+      "commandId": "stop-completed-real-game-test-001",
+      "command": "STOP"
     }
   ]
 }
