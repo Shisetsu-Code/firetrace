@@ -272,5 +272,16 @@
     "responsePath": "responses/000017.json",
     "observationId": "25c8f8f9-e97e-4595-a579-a0684b3580dd",
     "error": null
+  },
+  {
+    "seq": 18,
+    "commandId": "open-settings-current-coordinate-001",
+    "command": {
+      "action": "click",
+      "x": 548,
+      "y": 671
+    },
+    "startedAt": "2026-10-25T21:40:21.261Z",
+    "status": "reserved"
   }
 ]
