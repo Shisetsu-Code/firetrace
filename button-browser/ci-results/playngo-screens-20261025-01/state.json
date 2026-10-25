@@ -5,19 +5,443 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 6,
   "lastCommandId": "verify-board-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": true,
+    "result": {
+      "action": "verify",
+      "status": "stable",
+      "positionsReady": true
+    },
+    "observation": {
+      "observationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b",
+      "timestamp": "2026-10-25T20:38:45.076Z",
+      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
+      "title": "",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "deviceScaleFactor": 1
+      },
+      "coordinateSpace": "viewport-css-px",
+      "warnings": [],
+      "timingMs": 42979,
+      "canvasCount": 1,
+      "stability": {
+        "status": "stable",
+        "requiredSamples": 3,
+        "intervalMs": 2000,
+        "geometryTolerancePx": 1,
+        "maxCropDifference": 0.015,
+        "completedSamples": 3,
+        "reasons": [],
+        "maxGeometryDeltaPx": 0,
+        "maxAppearanceDifference": 0.0074308108660130715,
+        "scope": {
+          "excludeLabels": [
+            "BET_DEC",
+            "BET_INC",
+            "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+          ],
+          "excludedCounts": [
+            3,
+            3,
+            3
+          ]
+        },
+        "samples": [
+          {
+            "index": 1,
+            "timestamp": "2026-10-25T20:38:16.381Z",
+            "candidateCount": 11,
+            "timingsMs": {
+              "dom": 3391,
+              "engine": 4995,
+              "capture": 3416,
+              "vision": 0
+            }
+          },
+          {
+            "index": 2,
+            "timestamp": "2026-10-25T20:38:30.478Z",
+            "candidateCount": 11,
+            "timingsMs": {
+              "dom": 3300,
+              "engine": 4716,
+              "capture": 3286,
+              "vision": 0
+            }
+          },
+          {
+            "index": 3,
+            "timestamp": "2026-10-25T20:38:45.076Z",
+            "candidateCount": 11,
+            "timingsMs": {
+              "dom": 3260,
+              "engine": 4913,
+              "capture": 3574,
+              "vision": 0
+            }
+          }
+        ]
+      },
+      "fixedButtons": [],
+      "detection": {
+        "dom": 0,
+        "engine": 11,
+        "vision": 0,
+        "visionRequested": false
+      },
+      "buttons": [
+        {
+          "id": "b1",
+          "label": "spinBtn",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 941.61,
+            "y": 593.6,
+            "width": 100,
+            "height": 100
+          },
+          "center": {
+            "x": 991.61,
+            "y": 643.6
+          },
+          "clickPoint": {
+            "x": 991.61,
+            "y": 643.6
+          },
+          "normalized": {
+            "x": 0.735633,
+            "y": 0.824444,
+            "width": 0.078121,
+            "height": 0.138889
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b1.png"
+        },
+        {
+          "id": "b2",
+          "label": "PAYTABLE",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 171.37,
+            "y": 629.64,
+            "width": 68,
+            "height": 68
+          },
+          "center": {
+            "x": 205.37,
+            "y": 663.64
+          },
+          "clickPoint": {
+            "x": 205.37,
+            "y": 663.64
+          },
+          "normalized": {
+            "x": 0.133881,
+            "y": 0.8745,
+            "width": 0.053122,
+            "height": 0.094444
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b2.png"
+        },
+        {
+          "id": "b3",
+          "label": "AUTOPLAY",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 1043.16,
+            "y": 629.6,
+            "width": 64,
+            "height": 64
+          },
+          "center": {
+            "x": 1075.16,
+            "y": 661.6
+          },
+          "clickPoint": {
+            "x": 1075.16,
+            "y": 661.6
+          },
+          "normalized": {
+            "x": 0.814972,
+            "y": 0.874444,
+            "width": 0.049998,
+            "height": 0.088889
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b3.png"
+        },
+        {
+          "id": "b4",
+          "label": "BET_1ST",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 478.79,
+            "y": 653.68,
+            "width": 68,
+            "height": 44
+          },
+          "center": {
+            "x": 512.79,
+            "y": 675.68
+          },
+          "clickPoint": {
+            "x": 512.79,
+            "y": 675.68
+          },
+          "normalized": {
+            "x": 0.374056,
+            "y": 0.907889,
+            "width": 0.053122,
+            "height": 0.061111
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b4.png"
+        },
+        {
+          "id": "b5",
+          "label": "BET_2ND",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 542.79,
+            "y": 653.68,
+            "width": 68,
+            "height": 44
+          },
+          "center": {
+            "x": 576.79,
+            "y": 675.68
+          },
+          "clickPoint": {
+            "x": 576.79,
+            "y": 675.68
+          },
+          "normalized": {
+            "x": 0.424054,
+            "y": 0.907889,
+            "width": 0.053122,
+            "height": 0.061111
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b5.png"
+        },
+        {
+          "id": "b6",
+          "label": "BET_4TH",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 670.78,
+            "y": 653.68,
+            "width": 68,
+            "height": 44
+          },
+          "center": {
+            "x": 704.78,
+            "y": 675.68
+          },
+          "clickPoint": {
+            "x": 704.78,
+            "y": 675.68
+          },
+          "normalized": {
+            "x": 0.524049,
+            "y": 0.907889,
+            "width": 0.053122,
+            "height": 0.061111
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b6.png"
+        },
+        {
+          "id": "b7",
+          "label": "BET_5TH",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 734.78,
+            "y": 653.68,
+            "width": 68,
+            "height": 44
+          },
+          "center": {
+            "x": 768.78,
+            "y": 675.68
+          },
+          "clickPoint": {
+            "x": 768.78,
+            "y": 675.68
+          },
+          "normalized": {
+            "x": 0.574047,
+            "y": 0.907889,
+            "width": 0.053122,
+            "height": 0.061111
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b7.png"
+        },
+        {
+          "id": "b8",
+          "label": "MENU",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 10.42,
+            "y": 701.6,
+            "width": 20,
+            "height": 16
+          },
+          "center": {
+            "x": 20.41,
+            "y": 709.6
+          },
+          "clickPoint": {
+            "x": 20.41,
+            "y": 709.6
+          },
+          "normalized": {
+            "x": 0.008137,
+            "y": 0.974444,
+            "width": 0.015624,
+            "height": 0.022222
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b8.png"
+        },
+        {
+          "id": "b9",
+          "label": "SOUND",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 49.61,
+            "y": 700.8,
+            "width": 20,
+            "height": 16
+          },
+          "center": {
+            "x": 59.61,
+            "y": 708.8
+          },
+          "clickPoint": {
+            "x": 59.61,
+            "y": 708.8
+          },
+          "normalized": {
+            "x": 0.03876,
+            "y": 0.973333,
+            "width": 0.015624,
+            "height": 0.022222
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b9.png"
+        },
+        {
+          "id": "b10",
+          "label": "FASTPLAY",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 82.01,
+            "y": 698.4,
+            "width": 12,
+            "height": 20
+          },
+          "center": {
+            "x": 88.01,
+            "y": 708.4
+          },
+          "clickPoint": {
+            "x": 88.01,
+            "y": 708.4
+          },
+          "normalized": {
+            "x": 0.064072,
+            "y": 0.97,
+            "width": 0.009375,
+            "height": 0.027778
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b10.png"
+        },
+        {
+          "id": "b11",
+          "label": "HELP",
+          "kind": "button",
+          "source": "pixi",
+          "confidence": 0.99,
+          "actionable": true,
+          "estimated": false,
+          "bbox": {
+            "x": 106.81,
+            "y": 702,
+            "width": 8,
+            "height": 16
+          },
+          "center": {
+            "x": 110.81,
+            "y": 710
+          },
+          "clickPoint": {
+            "x": 110.81,
+            "y": 710
+          },
+          "normalized": {
+            "x": 0.083446,
+            "y": 0.975,
+            "width": 0.00625,
+            "height": 0.022222
+          },
+          "cropUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b11.png"
+        }
+      ],
+      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/screenshot.png",
+      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/annotated.png",
+      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/buttons.png",
+      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/buttons.json"
+    },
+    "fixedButtons": []
+  },
   "verification": {
-    "status": "checking",
+    "status": "stable",
     "currentSample": 3,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:38:33.230Z",
+  "updatedAt": "2026-10-25T20:38:47.725Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -29,9 +453,26 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": null,
+  "activeObservationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b",
   "files": {
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
+    "observationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b",
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
+    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
+    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
+    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
+    "crops": [
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b1.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b10.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b11.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b2.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b3.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b4.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b5.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b6.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b7.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b8.png",
+      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b9.png"
+    ]
   },
   "commands": [
     {
@@ -88,8 +529,11 @@
       "commandId": "verify-board-001",
       "fingerprint": "e7daf5815d431c33adcb08aeb3c3c4d4d56345a31efb5f0a69fef01520caa657",
       "seq": 6,
-      "status": "reserved",
-      "startedAt": "2026-10-25T20:38:02.443Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T20:38:02.443Z",
+      "completedAt": "2026-10-25T20:38:47.721Z",
+      "ok": true,
+      "actionExecuted": true
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",
