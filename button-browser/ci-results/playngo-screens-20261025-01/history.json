@@ -23,6 +23,12 @@
       "ms": 20000
     },
     "startedAt": "2026-10-25T20:35:33.960Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T20:36:01.524Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000002.json",
+    "observationId": "446e5822-b593-44d9-9491-c536c8a64ef7",
+    "error": null
   }
 ]
