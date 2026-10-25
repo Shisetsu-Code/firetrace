@@ -1,15 +1,18 @@
 {
-  "run_key": "playtech-ash-autoplay-repeat-after-40240882306",
+  "run_key": "playtech-ash-tea-party-start-guard-20261025-2345Z",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40240882306,
+  "source_run": 40241535898,
   "target_games": [
     "ashadv"
   ],
   "source_artifacts": [
-    12616158225
+    12618172019
   ],
-  "allowed_actions": "Only FUN/offline native autoplay repeat YES after 2 observed screenshots at most 4 confirmations, proceed through earned feature, ack visually verified final result once, never buy or repeat uncertain purchase",
+  "allowed_actions": "Only fresh DEMO FUN/offline; twice-verify Tea Party Bonus START, click once, observe bonus choices, no guess or repeat of uncertain purchases; no real money",
   "no_uncertain_purchase_retry": true,
   "not_complete_until_response_and_visual_confirm": true,
-  "purpose": "Recover the archived Ash autoplay stopped modal missed by previous title allowlist; targeted retry without touching Griffin currently in progress"
+  "purpose": "Guard earned Ash Tea Party START and prevent further fallback wagers into modal. New DEMO not persisted old session.",
+  "source_screenshot": "ashadv/_current.png",
+  "verified_bug": "Earned Tea Party Bonus modal contained green START (809,494); runner did not recognize feature and issued base SPIN into blocking modal 115 times.",
+  "fix_commit": "abca79ce5b0e88b59a1a13b3859e068bcb48f41b"
 }
