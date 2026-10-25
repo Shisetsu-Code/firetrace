@@ -212,6 +212,12 @@
       ]
     },
     "startedAt": "2026-10-25T20:43:19.762Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T20:44:14.809Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000013.json",
+    "observationId": "dc60d529-2125-4afc-8a01-2ab5b963cbcc",
+    "error": null
   }
 ]
