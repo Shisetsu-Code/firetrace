@@ -12,12 +12,12 @@
   "lastResponse": null,
   "verification": {
     "status": "checking",
-    "currentSample": 1,
+    "currentSample": 2,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:47:15.474Z",
+  "updatedAt": "2026-10-25T20:47:34.453Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
