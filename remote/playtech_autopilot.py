@@ -304,26 +304,35 @@ class Probe:
                 words, state = await self.shot(page, "after-intro")
             self.stage = "autoplay_setup"
             await self.click(page, AUTOPLAY[self.game], "open_native_autoplay")
-            await page.wait_for_timeout(600)
+            await page.wait_for_timeout(650)
             words, state = await self.shot(page, "autoplay-menu")
             if self.game == "gpas_aogww_pop":
-                # Observed UI: "UNTIL FEATURE" slider, then large yellow PLAY.
-                if "UNTIL" in state["text"].upper() and "FEATURE" in state["text"].upper():
-                    await self.click(page, SPIN[self.game], "native_until_feature_start")
-                else:
-                    self.note("REVIEW", "Unable to verify Until Feature option in current screenshot")
+                # Visually verified: until-feature switch at x800,619, play x986,619.
+                await self.click(page, SPIN[self.game], "native_until_feature_start")
+            elif self.game in ("ashadv","ftsis","gpas_aogggriffin_pop","aogmt","aogroo"):
+                # Playtech classic drop-down. The TOP option is "UNTIL FEATURE".
+                # Measured Griffin: AUTOPLAY at (826,575), option at (826,438).
+                ax, ay = AUTOPLAY[self.game]
+                await self.click(page, (ax, ay-137), "select_dropdown_until_feature")
+                await page.wait_for_timeout(850)
+                await self.shot(page, "after-until-feature", save=True)
+                # Do not click SPIN: selecting the autoplay option starts the cycle.
+            elif self.game in ("gpas_gstorm2_pop","gpas_agstorm3_pop","gpas_mgaogkol_pop"):
+                # New games render a large "HOLD FOR AUTOPLAY" circle. Short
+                # clicks only produce a single spin. Long-press opens its menu.
+                ax, ay = AUTOPLAY[self.game]
+                await page.mouse.move(ax,ay)
+                await page.mouse.down()
+                await page.wait_for_timeout(1100)
+                await self.shot(page, "autoplay-held", save=True)
+                await page.mouse.up()
+                self.note("LONG_PRESS", f"HOLD_FOR_AUTOPLAY at ({ax},{ay})")
+                await page.wait_for_timeout(600)
+                await self.shot(page, "autoplay-held-result", save=True)
             else:
-                # Prefer explicit Until Feature if OCR sees it; else select displayed 100 spins.
-                lines = state["text"].upper()
-                if "UNTIL FEATURE" in lines or ("UNTIL" in lines and "FEATURE" in lines):
-                    await self.click(page, SPIN[self.game], "start_until_feature")
-                else:
-                    hundred = next((w for w in words if w["text"].strip() in ("100", "∞", "500")
-                                    and 150 < w["y"] < 615), None)
-                    if hundred:
-                        await self.click(page, (hundred["x"],hundred["y"]), "choose_autoplay_limit")
-                        await page.wait_for_timeout(400)
-                    await self.click(page, SPIN[self.game], "start_native_autoplay_if_available")
+                # Wheel of Olympus has a separate right-side autoplay control.
+                # Observe the menu; if not running, bounded fallback takes over.
+                self.note("REVIEW", "Autoplay menu inspected; avoid an unverified buy or double spin")
             await page.wait_for_timeout(2200)
             self.stage = "running"
             words, state = await self.shot(page, "run")
