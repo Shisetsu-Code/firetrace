@@ -534,5 +534,14 @@
     "responsePath": "responses/000033.json",
     "observationId": "cf58ab69-abc0-43d6-9cc5-89005d336d5b",
     "error": null
+  },
+  {
+    "seq": 34,
+    "commandId": "verify-fresh-paytable-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:46:36.295Z",
+    "status": "reserved"
   }
 ]
