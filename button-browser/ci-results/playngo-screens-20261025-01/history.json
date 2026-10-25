@@ -149,5 +149,16 @@
     "responsePath": "responses/000009.json",
     "observationId": "faccc576-9d03-44be-8bb0-4e7f899a1647",
     "error": null
+  },
+  {
+    "seq": 10,
+    "commandId": "close-paytable-verified-001",
+    "command": {
+      "action": "click",
+      "id": "b2",
+      "observationId": "faccc576-9d03-44be-8bb0-4e7f899a1647"
+    },
+    "startedAt": "2026-10-25T20:41:52.216Z",
+    "status": "reserved"
   }
 ]
