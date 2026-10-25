@@ -1,0 +1,354 @@
+"""Bounded parallel Playtech FUN feature explorer for GitHub Actions.
+
+Uses actual native autoplay controls, optional OCR, and network metadata.
+Raw cookies/authentication and response bodies are never persisted.
+An input dispatch is not evidence of a completed bonus.
+"""
+from __future__ import annotations
+
+import asyncio
+import json
+import os
+import re
+import time
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import urlsplit, parse_qsl
+
+from PIL import Image
+import pytesseract
+from playwright.async_api import async_playwright
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = Path(os.getenv("PLAYTECH_OUT", "/tmp/playtech-bonus-evidence"))
+OUT.mkdir(parents=True, exist_ok=True)
+RUN = os.getenv("GITHUB_RUN_ID", "local")
+IDS = [
+    "ashadv", "ftsis", "gpas_aogggriffin_pop", "aogmt", "aogroo",
+    "gpas_gstorm2_pop", "gpas_agstorm3_pop", "gpas_mgaogkol_pop",
+    "gpas_aogww_pop", "gpas_aogwfot_pop",
+]
+# Coordinates are based on verified 1280 x 720 screenshots; reobserve every action.
+INTRO = {
+    "gpas_aogggriffin_pop": (640, 458),
+    "aogmt": (640, 585), "aogroo": (640, 590),
+    "gpas_gstorm2_pop": (640, 552), "gpas_agstorm3_pop": (640, 641),
+    "gpas_mgaogkol_pop": (1175, 358),
+    "gpas_aogww_pop": (640, 530),
+    "gpas_aogwfot_pop": (640, 631),
+}
+AUTOPLAY = {
+    "ashadv": (797, 630),
+    "ftsis": (912, 624),
+    "gpas_aogggriffin_pop": (826, 575),
+    "aogmt": (789, 558),
+    "aogroo": (776, 589),
+    "gpas_gstorm2_pop": (836, 615),
+    "gpas_agstorm3_pop": (1155, 404),
+    "gpas_mgaogkol_pop": (1160, 393),
+    "gpas_aogww_pop": (801, 619),
+    "gpas_aogwfot_pop": (1035, 631),
+}
+SPIN = {
+    "ashadv": (997, 631), "ftsis": (1044, 638),
+    "gpas_aogggriffin_pop": (960, 585),
+    "aogmt": (979, 559), "aogroo": (971, 590),
+    "gpas_gstorm2_pop": (1063, 618),
+    "gpas_agstorm3_pop": (1148, 406),
+    "gpas_mgaogkol_pop": (1156, 398),
+    "gpas_aogww_pop": (986, 619),
+    "gpas_aogwfot_pop": (1206, 606),
+}
+SENSITIVE = re.compile(r"(?:token|secret|session|cookie|auth|password|signature|jwt|key|uid|email|nonce|sid|seed|csrf)", re.I)
+FEATURE = re.compile(r"\b(?:FEATURE (?:TRIGGERED|AWARDED|WIN)|BONUS (?:GAME|WON|AWARDED)|FREE (?:SPINS|GAMES) (?:AWARDED|WON|START)|CONGRATULATIONS|YOU HAVE WON \d+ FREE|PICK A|CHOOSE YOUR)\b", re.I)
+END = re.compile(r"\b(?:TOTAL WIN|FEATURE COMPLETE|BONUS COMPLETE|FREE GAMES COMPLETE|CONGRATULATIONS YOU WON)\b", re.I)
+CONTINUE = re.compile(r"^(?:CONTINUE|PLAY|START|NEXT|COLLECT|OK|CLOSE)$", re.I)
+
+
+def iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def safe_url(url: str) -> str:
+    parsed = urlsplit(url)
+    qs = sorted(set(k for k, _ in parse_qsl(parsed.query)))
+    return f"{parsed.scheme}://{parsed.hostname}{parsed.path}" + ("?" + "&".join(qs) if qs else "")
+
+
+def sanitize_payload(body: str, content_type: str):
+    if not body or len(body) > 30000:
+        return {"omitted": True, "size": len(body or "")}
+    try:
+        if "json" in content_type or body.lstrip().startswith(("{", "[")):
+            return sanitize_json(json.loads(body))
+        if "=" in body:
+            return {k: "[REDACTED]" if SENSITIVE.search(k) else v[:200]
+                    for k, v in parse_qsl(body, keep_blank_values=True)[:100]}
+    except (ValueError, TypeError):
+        pass
+    return {"body_type": "opaque", "size": len(body)}
+
+
+def sanitize_json(v, key=""):
+    if SENSITIVE.search(str(key)):
+        return "[REDACTED]"
+    if isinstance(v, dict):
+        return {str(k)[:80]: sanitize_json(z, str(k)) for k, z in list(v.items())[:100]}
+    if isinstance(v, list):
+        return [sanitize_json(z) for z in v[:50]]
+    if isinstance(v, str):
+        return v[:200] if len(v) < 200 and not re.search(r"(?i)(bearer |eyJ[a-zA-Z0-9_-]{15})", v) else "[REDACTED/OMITTED]"
+    return v
+
+
+def ocr_words(png: Path):
+    # Read words and their centers; OCR is an observation, not action proof.
+    data = pytesseract.image_to_data(Image.open(png), config="--psm 11",
+                                    output_type=pytesseract.Output.DICT)
+    words = []
+    for i, text in enumerate(data["text"]):
+        w = str(text or "").strip()
+        if not w:
+            continue
+        try:
+            confidence = float(data["conf"][i])
+        except (ValueError, TypeError):
+            continue
+        if confidence < 35:
+            continue
+        words.append({
+            "text": w,
+            "x": int(data["left"][i] + data["width"][i] / 2),
+            "y": int(data["top"][i] + data["height"][i] / 2),
+        })
+    return words
+
+
+def classify(words):
+    text = " ".join(x["text"] for x in words)
+    return {"text": text[:1800], "feature": bool(FEATURE.search(text)),
+            "finish": bool(END.search(text)),
+            "power_unavailable": "Not available" in text or "NOT AVAILABLE" in text.upper()}
+
+
+def record_event(path: Path, event: dict):
+    with path.open("a", encoding="utf-8") as fp:
+        fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
+
+
+class Probe:
+    def __init__(self, game: str):
+        self.game = game
+        self.dir = OUT / game
+        self.dir.mkdir(parents=True, exist_ok=True)
+        self.log = self.dir / "events.jsonl"
+        self.net = self.dir / "network.jsonl"
+        self.progress = self.dir / "progress.json"
+        self.requests = Counter()
+        self.websockets = 0
+        self.network_events = 0
+        self.observations = 0
+        self.clicks = 0
+        self.feature_seen = False
+        self.feature_finished = False
+        self.stage = "starting"
+        self.last_text = ""
+        self.recorded_frames = 0
+        self.started = time.monotonic()
+        self.last_publish = 0
+        self.note("INIT", "Initializes a distinct isolated browser context")
+
+    def note(self, kind, msg):
+        record_event(self.log, {"event": kind, "detail": str(msg)[:350]})
+
+    def on_request(self, request):
+        try:
+            url = urlsplit(request.url)
+            if not url.hostname:
+                return
+            # Skip static assets and third-party telemetry; retain game protocol calls.
+            req_method = request.method
+            path = url.path
+            if req_method == "GET" and not any(x in path.lower() for x in ("api", "game", "session", "play", "spin")):
+                return
+            if req_method != "GET" or "playtechone.com" in url.hostname:
+                self.requests[(req_method, url.hostname, path)] += 1
+                if req_method != "GET":
+                    headers = request.headers
+                    payload = sanitize_payload(request.post_data or "", headers.get("content-type", ""))
+                    record_event(self.net, {
+                        "direction": "request", "method": req_method, "endpoint": safe_url(request.url),
+                        "payload": payload,
+                    })
+                    self.network_events += 1
+        except Exception as exc:
+            self.note("REQUEST_CAPTURE_ERROR", type(exc).__name__)
+
+    def on_response(self, response):
+        try:
+            req = response.request
+            if req.method != "GET":
+                record_event(self.net, {"direction": "response", "method": req.method,
+                                        "endpoint": safe_url(response.url), "status": response.status})
+        except Exception:
+            pass
+
+    def on_socket(self, ws):
+        self.websockets += 1
+        record_event(self.net, {"direction": "websocket_open", "endpoint": safe_url(ws.url)})
+        def store(direction, payload):
+            # Record structure only, never raw opaque binary or session credentials.
+            data = payload if isinstance(payload, str) else ""
+            record_event(self.net, {"direction": direction, "endpoint": safe_url(ws.url),
+                                    "payload": sanitize_payload(data, "application/json") if data else {"binary": True}})
+            self.network_events += 1
+        ws.on("framesent", lambda p: store("ws_sent", p))
+        ws.on("framereceived", lambda p: store("ws_received", p))
+
+    async def shot(self, page, label: str, save: bool = True):
+        self.observations += 1
+        tmp = self.dir / "_current.png"
+        await page.screenshot(path=str(tmp), full_page=False, animations="disabled", timeout=15000)
+        # OCR is intentionally run in a thread so multiple Chromium tabs can progress.
+        words = await asyncio.to_thread(ocr_words, tmp)
+        state = classify(words)
+        self.last_text = state["text"]
+        if save:
+            fname = f"{self.observations:05}-{label}.jpg"
+            (self.dir / "screenshots").mkdir(exist_ok=True)
+            await page.screenshot(path=str(self.dir / "screenshots" / fname), type="jpeg", quality=45)
+            self.recorded_frames += 1
+            record_event(self.log, {"event": "OBSERVE", "image": fname,
+                                    "text": state["text"][:400], "feature": state["feature"]})
+        return words, state
+
+    async def click(self, page, xy, role, words=None):
+        x, y = xy
+        if x < 0 or x > 1280 or y < 0 or y > 720:
+            raise ValueError("Out-of-bounds input")
+        await page.mouse.click(x, y, delay=60)
+        self.clicks += 1
+        self.note("CLICK", f"{role} @({x},{y})")
+
+    async def checkpoint(self, outcome=None, force=False):
+        now = time.monotonic()
+        if not force and now - self.last_publish < 75:
+            return
+        d = {"game": self.game, "stage": self.stage, "outcome": outcome,
+             "feature_seen": self.feature_seen, "feature_finished": self.feature_finished,
+             "observations": self.observations, "clicks": self.clicks,
+             "network_events": self.network_events, "websocket_connections": self.websockets,
+             "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
+             "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
+        self.progress.write_text(json.dumps(d, indent=2, ensure_ascii=False), encoding="utf-8")
+        self.last_publish = now
+        print(json.dumps({"checkpoint": d}, ensure_ascii=False), flush=True)
+
+    async def run(self, browser, seconds):
+        url = f"https://cachedownload.playtechone.com/ngmdesktop/casinoclient.html?game={self.game}&preferedmode=offline&real=0"
+        context = await browser.new_context(viewport={"width":1280,"height":720},
+                                            accept_downloads=False, ignore_https_errors=False)
+        page = await context.new_page()
+        page.on("request", self.on_request)
+        page.on("response", self.on_response)
+        page.on("websocket", self.on_socket)
+        try:
+            self.stage = "loading"
+            await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            words = []
+            for load_try in range(25):
+                await page.wait_for_timeout(3000)
+                words, state = await self.shot(page, "load", save=load_try in (0, 5, 12, 24))
+                if any(re.search(r"^(?:SPIN|AUTOPLAY|AUTO|START|PLAY|CONTINUE)$", w["text"], re.I)
+                       and 100 < w["y"] < 680 for w in words):
+                    break
+            # Prior knowledge: some canvas titles don't OCR, but explicit intro geometry is verified.
+            if self.game in INTRO:
+                self.stage = "intro"
+                await self.click(page, INTRO[self.game], "verified_introduction")
+                await page.wait_for_timeout(2500)
+                words, state = await self.shot(page, "after-intro")
+            self.stage = "autoplay_setup"
+            await self.click(page, AUTOPLAY[self.game], "open_native_autoplay")
+            await page.wait_for_timeout(600)
+            words, state = await self.shot(page, "autoplay-menu")
+            if self.game == "gpas_aogww_pop":
+                # Observed UI: "UNTIL FEATURE" slider, then large yellow PLAY.
+                if "UNTIL" in state["text"].upper() and "FEATURE" in state["text"].upper():
+                    await self.click(page, SPIN[self.game], "native_until_feature_start")
+                else:
+                    self.note("REVIEW", "Unable to verify Until Feature option in current screenshot")
+            else:
+                # Prefer explicit Until Feature if OCR sees it; else select displayed 100 spins.
+                lines = state["text"].upper()
+                if "UNTIL FEATURE" in lines or ("UNTIL" in lines and "FEATURE" in lines):
+                    await self.click(page, SPIN[self.game], "start_until_feature")
+                else:
+                    hundred = next((w for w in words if w["text"].strip() in ("100", "∞", "500")
+                                    and 150 < w["y"] < 615), None)
+                    if hundred:
+                        await self.click(page, (hundred["x"],hundred["y"]), "choose_autoplay_limit")
+                        await page.wait_for_timeout(400)
+                    await self.click(page, SPIN[self.game], "start_native_autoplay_if_available")
+            await page.wait_for_timeout(2200)
+            self.stage = "running"
+            words, state = await self.shot(page, "run")
+            previous_screenshot = state["text"]
+            last_activity = time.monotonic()
+            while time.monotonic()-self.started < seconds:
+                await page.wait_for_timeout(4500)
+                words, state = await self.shot(page, "poll", save=self.observations%6 == 0 or state.get("feature", False))
+                if state["feature"]:
+                    self.feature_seen = True
+                    self.stage = "feature_observed"
+                    await self.shot(page, "feature", save=True)
+                    self.note("FEATURE", state["text"][:300])
+                if self.feature_seen and state["finish"]:
+                    self.feature_finished = True
+                    self.stage = "feature_complete"
+                    await self.checkpoint("feature_complete", force=True)
+                    return
+                # Never click a buy, bonus or spin based solely on ambiguous OCR.
+                if state["text"] != previous_screenshot:
+                    last_activity = time.monotonic()
+                    previous_screenshot = state["text"]
+                if time.monotonic()-last_activity > 80:
+                    self.stage = "needs_review"
+                    self.note("STALLED", "No visible text changes for 80 seconds; do not retry uncertain wagers")
+                    await self.shot(page, "stalled", save=True)
+                    await self.checkpoint("needs_review", force=True)
+                    return
+                await self.checkpoint()
+            self.stage = "time_limit"
+            await self.checkpoint("time_limit", force=True)
+        except Exception as exc:
+            self.stage = "error"
+            self.note("EXCEPTION", f"{type(exc).__name__}: {str(exc)[:180]}")
+            try:
+                await self.shot(page, "error", save=True)
+            except Exception:
+                pass
+            await self.checkpoint("error", force=True)
+        finally:
+            await self.checkpoint(self.stage, force=True)
+            await context.close()
+
+
+async def main():
+    config_path = ROOT / "remote" / "playtech-bonus-batch.json"
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    group = int(os.getenv("PLAYTECH_GROUP", "0"))
+    groups = int(os.getenv("PLAYTECH_GROUPS", "4"))
+    limit = max(30, min(6000, int(config.get("seconds_per_game", 3600))))
+    assigned = [game for i, game in enumerate(IDS) if i % groups == group]
+    print(json.dumps({"runner": RUN, "group": group, "games": assigned}), flush=True)
+    async with async_playwright() as pw:
+        browser = await pw.chromium.launch(headless=True, args=["--disable-dev-shm-usage"])
+        tasks = [asyncio.create_task(Probe(game).run(browser, limit)) for game in assigned]
+        await asyncio.gather(*tasks)
+        await browser.close()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
