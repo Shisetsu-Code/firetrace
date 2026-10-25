@@ -144,7 +144,7 @@ def classify(words):
     # Playtech also announces a true feature with 'YOU WIN 8 FREE GAMES'
     # or a free-games counter; earlier regex missed both visible screens.
     free_games = bool(re.search(
-        r"\\b(?:YOU\\s+(?:HAVE\\s+)?(?:WIN|WON)\\s+)?\\d{1,2}\\s+FREE\\s+(?:GAMES|SPINS)\\b",
+        r"\b(?:YOU\s+(?:HAVE\s+)?(?:WIN|WON)\s+)?\d{1,2}\s+FREE\s+(?:GAMES|SPINS)\b",
         text, re.I,
     ))
     return {"text": text[:1800], "feature": bool(FEATURE.search(text) or free_games),
