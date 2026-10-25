@@ -1,17 +1,17 @@
 {
   "game": "ashadv",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "running",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 58,
-  "clicks": 4,
-  "spin_attempts": 2,
+  "observations": 30,
+  "clicks": 2,
+  "spin_attempts": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 3606,
-  "latest_text": "% Jackpot 2 CS K. 0 > A ff Al OF KING A aN i +) ff €0.20 €0.00 €2.65 ante 2d €994.49 Play for Ri",
-  "run_id": "40221846216",
-  "time": "2026-10-25T19:46:32+00:00"
+  "elapsed_seconds": 160,
+  "latest_text": "©) (OT ACTIVE = | SA 1G yy v4 > fa % a YAS Lu! if) if) if) 1% gi ( A Wm Pe ES » i) +. €0.: WIN’ > AUTOPTAKON LS €0.00 2 €999.55 Play for Real",
+  "run_id": "40231711671",
+  "time": "2026-10-25T20:41:48+00:00"
 }
