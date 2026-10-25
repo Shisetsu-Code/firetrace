@@ -11,13 +11,13 @@
   "lastCommandId": "verify-settings-001",
   "lastResponse": null,
   "verification": {
-    "status": "idle",
-    "currentSample": 0,
+    "status": "checking",
+    "currentSample": 1,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:47:13.221Z",
+  "updatedAt": "2026-10-25T20:47:15.474Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
