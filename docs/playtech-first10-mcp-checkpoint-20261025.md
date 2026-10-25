@@ -52,3 +52,13 @@ Conexión MCP verificada. El juego #9 Wonder Warriors avanzó por fin desde la p
 - Saldo FUN observado al finalizar: **€11,048.50**.
 - Las opciones 4×5 y 5×5 están siendo exploradas en sesiones aisladas del workflow `Wonder Warriors FUN branch coverage`, sin presentarlas todavía como completadas.
 - Esto confirma un bonus íntegro real con saldo DEMO, no solamente su menú.
+
+## BONUS COMPLETADO — Adventures in Wonderland Deluxe (MCP remoto, FUN)
+
+- Juego: `ashadv`, Jackpot progresivo visible como `NOT ACTIVE` fuera del bonus.
+- Autoplay nativo: clic `AUTO PLAY` x796,y630; selección `UNTIL FEATURE` x797,y452. Verificados giros con variaciones de saldo.
+- Primer evento secundario: símbolo puerta/Alice `CLICK TO START`, premio `TOTAL €4.04`. Autoplay preguntó `repeat?`, se pulsó `Yes`.
+- Activación principal: tres símbolos Mad Hatter Bonus en la fila central, se pulsó `CLICK TO START`. Ventana `Tea Party Bonus` explicó seleccionar personajes, multiplicadores del total stake y posibilidad de azúcar/jackpot.
+- `START` pulsado. Se observó `PICK A CHARACTER`; se seleccionaron Alice, Hare, Cheshire Cat y Mad Hatter en decisiones sucesivas, esperando resultado entre ellas. Pantalla final `Congratulations! YOU'VE WON €6.76`, pulsado `CONTINUE`.
+- Retorno al juego base y premio acreditado: saldo final capturado **€1,008.82 FUN**. Apareció además secuencia visual `Big Win` del total acreditado.
+- Confirmación: **Tea Party Bonus completado**, no inferido de capturas de menú.
