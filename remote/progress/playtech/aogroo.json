@@ -1,7 +1,7 @@
 {
   "game": "aogroo",
   "stage": "needs_review",
-  "outcome": "feature_needs_review",
+  "outcome": "needs_review",
   "feature_seen": true,
   "feature_finished": false,
   "observations": 333,
@@ -11,8 +11,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 14,
-  "elapsed_seconds": 2336,
+  "elapsed_seconds": 2337,
   "latest_text": "») CONGRATULATIONS! YOU WON: €17.15 DURING FREE GAMES —, 2 €1,004.30 23:19:15",
   "run_id": "40241233787",
-  "time": "2026-10-25T23:19:19+00:00"
+  "time": "2026-10-25T23:19:20+00:00"
 }
