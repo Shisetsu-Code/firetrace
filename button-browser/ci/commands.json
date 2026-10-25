@@ -64,6 +64,20 @@
       "command": {
         "action": "verify"
       }
+    },
+    {
+      "commandId": "reopen-demo-001",
+      "command": {
+        "action": "goto",
+        "url": "https://released.playngonetwork.com/casino/ContainerLauncher?channel=desktop&demo=2&gid=towerruntreasuresteps&lang=en_GB&pid=2&practice=1"
+      }
+    },
+    {
+      "commandId": "load-fresh-demo-001",
+      "command": {
+        "action": "wait",
+        "ms": 25000
+      }
     }
   ]
 }
