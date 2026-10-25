@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qsl
 
-from PIL import Image
+from PIL import Image, ImageStat
 import pytesseract
 from playwright.async_api import async_playwright
 
@@ -150,6 +150,25 @@ def classify(words):
     return {"text": text[:1800], "feature": bool(FEATURE.search(text) or free_games),
             "finish": bool(END.search(text)),
             "power_unavailable": "Not available" in text or "NOT AVAILABLE" in text.upper()}
+
+
+def autoplay_stopped_popup(png: Path) -> bool:
+    """Verify a real legacy autoplay-repeat modal in the fixed 1280x720 viewport.
+
+    Archive 40232112481/aogroo/00067-poll.jpg shows that global --psm 11
+    skipped the modal text, despite an unmistakable stopped/repeat prompt.
+    This tight crop --psm 6 and paired green YES/red NO guard prevents
+    confusing a game HUD's 'AUTOPLAY' text with a dismissible dialog.
+    """
+    with Image.open(png) as im:
+        rgb = im.convert("RGB")
+        caption = rgb.crop((445, 275, 842, 365))
+        label = pytesseract.image_to_string(caption, config="--psm 6").upper()
+        yes = ImageStat.Stat(rgb.crop((470, 411, 628, 443))).mean
+        no = ImageStat.Stat(rgb.crop((660, 411, 817, 443))).mean
+    return (all(word in label for word in ("AUTOPLAY", "STOPPED", "REPEAT"))
+            and yes[1] > yes[0] * 1.25 and yes[1] > yes[2] * 1.1
+            and no[0] > no[1] * 1.4 and no[0] > no[2] * 1.4)
 
 
 def record_event(path: Path, event: dict):
@@ -459,35 +478,33 @@ class Probe:
                         return
                     await self.checkpoint()
                     continue
-                # RUN 40221846216: verified static popup 'Autoplay stopped.'
-                # Green YES at (544,426) resumes FUN autoplay, not a purchase.
-                text_upper = state["text"].upper()
-                if self.game in ("ftsis", "aogroo") and "AUTOPLAY" in text_upper and (
-                    "STOPPED" in text_upper or "REPEAT" in text_upper):
+                # Click only the twice-verified stopped/repeat modal.
+                # Global screenshot OCR omits the dialog in aogroo; a dedicated
+                # crop and green YES / red NO guard is required before input.
+                if self.game in ("ftsis", "aogroo") and autoplay_stopped_popup(self.dir / "_current.png"):
                     if self.autoplay_repeats >= 4:
                         self.stage = "needs_review"
                         self.note("REPEAT_LIMIT", "Four FUN autoplay confirmations reached")
                         await self.checkpoint("repeat_limit", force=True)
                         return
                     await page.wait_for_timeout(2000)
-                    _, verified = await self.shot(page, "revalidate-autoplay-stopped", save=True)
-                    current = verified["text"].upper()
-                    if "AUTOPLAY" not in current or not ("STOPPED" in current or "REPEAT" in current):
-                        self.note("REPEAT_NOT_STABLE", "Popup changed during two-second verification")
+                    await self.shot(page, "revalidate-autoplay-stopped", save=True)
+                    if not autoplay_stopped_popup(self.dir / "_current.png"):
+                        self.note("REPEAT_NOT_STABLE", "Modal did not survive two-second independent verification")
                         continue
                     await self.click(page, (544, 426), "verified_repeat_FUN_autoplay_yes")
                     self.autoplay_repeats += 1
                     await page.wait_for_timeout(2500)
-                    _, confirmed = await self.shot(page, "after-autoplay-repeat", save=True)
-                    if "AUTOPLAY" in confirmed["text"].upper() and "STOPPED" in confirmed["text"].upper():
+                    await self.shot(page, "after-autoplay-repeat", save=True)
+                    if autoplay_stopped_popup(self.dir / "_current.png"):
                         self.stage = "needs_review"
-                        self.note("REPEAT_UNCERTAIN", "Clicked YES once; popup remains visible")
+                        self.note("REPEAT_UNCERTAIN", "Clicked YES once; modal remains visible")
                         await self.checkpoint("repeat_uncertain", force=True)
                         return
                     self.stage = "running"
                     fallback = False
                     last_activity = time.monotonic()
-                    self.note("REPEAT_REQUESTED", "Autoplay YES dismissed; gameplay result awaits evidence")
+                    self.note("REPEAT_REQUESTED", "Verified FUN repeat dialog dismissed; round outcome still unverified")
                     await self.checkpoint(force=True)
                     continue
                 if fallback:
