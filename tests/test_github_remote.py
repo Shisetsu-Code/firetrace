@@ -35,6 +35,7 @@ def test_scrub_observations_and_nested_har():
         "postData": {"text": '{"balance":12,"access_token":"abc"}'},
         "frames": [{"opcode": 2, "payloadData": "encoded-binary"}],
         "body": {"encoding": "base64", "text": "raw-binary"},
+        "location": "https://demo.example/play?launch_token=private5&bet=2",
     }
     cleaned = scrub(item)
     encoded = json.dumps(cleaned)
@@ -42,6 +43,7 @@ def test_scrub_observations_and_nested_har():
     assert "private" not in encoded
     assert "raw-binary" not in encoded
     assert "encoded-binary" not in encoded
+    assert "private5" not in encoded
     assert cleaned["headers"][1]["value"] == "application/json"
     assert cleaned["postData"]["text"] == '{"balance": 12, "access_token": "[REDACTED]"}'
     assert "level=4" in cleaned["url"]
@@ -98,3 +100,15 @@ def test_remote_capture_never_publishes_raw_har(monkeypatch, tmp_path):
     for value in ["private1","private2","private3","private4"]:
         assert value not in saved
     assert "bet" in saved and "win" in saved
+
+
+def test_dynamic_api_entries_are_ranked_before_static_assets():
+    har = {"log":{"entries":[
+      {"request":{"method":"GET","url":"https://demo.example/assets/big.jpg"},
+       "response":{"status":200}},
+      {"request":{"method":"POST","url":"https://demo.example/api/spin",
+                  "postData":{"text":"bet=1"}},"response":{"status":200}}
+    ]}}
+    report = summarize_har(har)
+    assert report["endpoints"][0]["method"] == "POST"
+    assert report["endpoints"][0]["path"] == "/api/spin"
