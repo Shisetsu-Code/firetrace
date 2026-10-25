@@ -1,0 +1,12 @@
+{
+  "seq": 22,
+  "commandId": "stop-screen-walk-001",
+  "completedAt": "2026-10-25T20:49:01.244Z",
+  "response": {
+    "ok": true,
+    "result": {
+      "action": "STOP",
+      "stopped": true
+    }
+  }
+}

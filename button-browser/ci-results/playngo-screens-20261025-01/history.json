@@ -352,5 +352,20 @@
     "responsePath": "responses/000021.json",
     "observationId": "39064448-af63-4b29-94e4-69dd50a87835",
     "error": null
+  },
+  {
+    "seq": 22,
+    "commandId": "stop-screen-walk-001",
+    "command": {
+      "action": "STOP"
+    },
+    "startedAt": "2026-10-25T20:49:01.115Z",
+    "status": "finished",
+    "completedAt": "2026-10-25T20:49:01.244Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000022.json",
+    "observationId": null,
+    "error": null
   }
 ]
