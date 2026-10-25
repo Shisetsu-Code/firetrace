@@ -108,6 +108,14 @@
         "action": "wait",
         "ms": 15000
       }
+    },
+    {
+      "commandId": "continue-fresh-intro-current-coordinate-001",
+      "command": {
+        "action": "click",
+        "x": 640,
+        "y": 562
+      }
     }
   ]
 }
