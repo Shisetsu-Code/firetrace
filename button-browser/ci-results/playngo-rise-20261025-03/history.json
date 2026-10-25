@@ -38,6 +38,12 @@
       "action": "snapshot"
     },
     "startedAt": "2026-10-25T19:34:54.478Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T19:35:00.996Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000003.json",
+    "observationId": "8eb94e59-766c-46bc-9f83-bd17a141284f",
+    "error": null
   }
 ]
