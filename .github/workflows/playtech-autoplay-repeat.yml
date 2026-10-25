@@ -1,0 +1,43 @@
+name: Playtech FUN legacy-autoplay recovery
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['remote/playtech-autoplay-repeat-trigger.json']
+permissions:
+  contents: write
+jobs:
+  verify-autoplay-repeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    strategy:
+      fail-fast: false
+      matrix:
+        game: [ftsis, aogroo]
+    env:
+      PLAYTECH_ONLY: ${{ matrix.game }}
+      PLAYTECH_OUT: /tmp/playtech-bonus-evidence
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium and OCR
+        run: |
+          python -m pip install -e . pillow pytesseract
+          python -m playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-eng
+      - name: Check safe FUN runner
+        run: python -m py_compile remote/playtech_autopilot.py
+      - name: Probe verified popup and resume native FUN autoplay only
+        run: python -u remote/playtech_autopilot.py
+      - name: Persist redacted protocol observations and screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playtech-autoplay-repeat-${{ matrix.game }}-${{ github.run_id }}
+          path: /tmp/playtech-bonus-evidence/
+          retention-days: 7
+          if-no-files-found: warn
