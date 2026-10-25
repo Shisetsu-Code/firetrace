@@ -64,7 +64,7 @@ SPIN = {
 }
 SENSITIVE = re.compile(r"(?:token|secret|session|cookie|auth|password|signature|jwt|key|uid|email|nonce|sid|seed|csrf)", re.I)
 FEATURE = re.compile(r"\b(?:FEATURE (?:TRIGGERED|AWARDED|WIN)|BONUS (?:GAME|WON|AWARDED)|FREE (?:SPINS|GAMES) (?:AWARDED|WON|START)|CONGRATULATIONS|YOU HAVE WON \d+ FREE|PICK A|CHOOSE YOUR)\b", re.I)
-END = re.compile(r"\b(?:TOTAL WIN|FEATURE COMPLETE|BONUS COMPLETE|FREE GAMES COMPLETE|CONGRATULATIONS YOU WON)\b", re.I)
+END = re.compile(r"\b(?:FEATURE COMPLETE|BONUS COMPLETE|FREE GAMES COMPLETE|TOTAL BONUS WIN|CONGRATULATIONS YOU WON)\b", re.I)
 CONTINUE = re.compile(r"^(?:CONTINUE|PLAY|START|NEXT|COLLECT|OK|CLOSE)$", re.I)
 
 
@@ -365,7 +365,7 @@ class Probe:
                     await page.wait_for_timeout(2200)
                     _, settled = await self.shot(page, "settle-fallback", save=False)
                     self.spin_attempts += 1
-                    moved = self.network_events > before_net or self.visual_delta > 4
+                    changed_from_before = bool(previous_signature and self.previous_pixels and\n                        sum(abs(a-b) for a,b in zip(previous_signature,self.previous_pixels))/len(previous_signature) > 5)\n                    moved = self.network_events > before_net or changed_from_before
                     if not moved:
                         failed_inputs += 1
                     else:
