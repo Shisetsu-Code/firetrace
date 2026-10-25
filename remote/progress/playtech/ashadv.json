@@ -4,14 +4,14 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 55,
-  "clicks": 3,
-  "spin_attempts": 1,
+  "observations": 58,
+  "clicks": 4,
+  "spin_attempts": 2,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 3243,
-  "latest_text": "% Jackpot > 2 | 2 K J) » » v4 A | Qi) +) WILD ® ® ® Ne i! i! ye) €0.20 €0.00 = de €991.84 Play for Ri",
+  "elapsed_seconds": 3602,
+  "latest_text": "% Jackpot 2 CS K. 0 > A ff Al OF KING A aN i +) ff €0.20 €0.00 €2.65 ante 2d €994.49 Play for Ri",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:40:29+00:00"
+  "time": "2026-10-25T19:46:28+00:00"
 }
