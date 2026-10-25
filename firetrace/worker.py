@@ -86,6 +86,18 @@ class Worker:
             data = self.backend.network_clear()
         elif action == "network_events":
             data = self.backend.network_events()
+        elif action == "record_start":
+            data = self.backend.record_start()
+        elif action == "record_status":
+            data = self.backend.record_status()
+        elif action == "record_save":
+            data = self.backend.record_save()
+        elif action == "inspect":
+            data = {"frames": [
+                {"url": frame.url, "text": frame.evaluate(
+                    "() => document.body?.innerText?.slice(0,2000)||''")}
+                for frame in self.backend.page.frames[:20]
+            ]}
         elif action == "trigger_and_capture":
             data = self.backend.trigger_and_capture(**args)
         elif action == "sequence":
