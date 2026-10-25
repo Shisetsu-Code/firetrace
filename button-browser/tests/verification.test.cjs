@@ -72,3 +72,62 @@ test('observe and detect are explicit aliases, while navigation never requests v
   await browser.execute('resize 800 600');
   assert.equal(verifications,1);assert.equal(browser.observation.stability.status,'unverified');
 });
+
+test('explicit exclusions verify selected mixed controls while excluded occluders still hide controls beneath them',async(t)=>{
+  const {browser,directory}=await fixture(t);
+  const pixiPath=path.resolve(path.dirname(require.resolve('pixi.js')),'../browser/pixi.js');
+  await browser.page.addScriptTag({path:pixiPath});
+  await browser.page.evaluate(()=>{
+    const P=window.PIXI,renderer=new P.Renderer({width:140,height:50,backgroundAlpha:0,antialias:false});
+    renderer.view.style.cssText='position:absolute;left:240px;top:40px;width:140px;height:50px';
+    document.body.appendChild(renderer.view);
+    const root=new P.Container();
+    const button=(label,color)=>{
+      const node=new P.Graphics().beginFill(color).drawRect(0,0,140,50).endFill();
+      node.name=label;node.interactive=true;node.buttonMode=true;node.on('pointertap',()=>{});
+      root.addChild(node);return node;
+    };
+    button('Occluded',0x336699);
+    const animated=button('BET_DEC',0x112233);
+    window.paintAnimatedControl=color=>{
+      animated.clear().beginFill(color).drawRect(0,0,140,50).endFill();
+      renderer.render(root);
+    };
+    window.paintAnimatedControl(0x112233);window.PIXI=undefined;
+  });
+  let reads=0;const collect=browser.collectVerificationSample.bind(browser);
+  browser.collectVerificationSample=async(...args)=>{
+    await browser.page.evaluate(color=>window.paintAnimatedControl(color),reads%3===1?0xeeddcc:0x112233);
+    reads++;return collect(...args);
+  };
+  const global=await browser.execute({action:'verify'});
+  assert.equal(reads,3);
+  assert.equal(global.observation.stability.status,'unstable');
+  assert.deepEqual(global.observation.buttons,[]);
+  assert.equal(global.observation.stability.scope,undefined,'default verification still covers every detected control');
+  assert.deepEqual(global.observation.stability.samples.map(sample=>sample.candidateCount),[2,2,2]);
+  assert(global.observation.stability.reasons.some(reason=>reason.includes('BET_DEC')&&reason.includes('apariencia')));
+
+  const scoped=await browser.execute({action:'verify',excludeLabels:['BET_DEC']});
+  const observation=scoped.observation;
+  assert.equal(reads,6,'selection still requires three full detector readings');
+  assert.equal(observation.stability.status,'stable');
+  assert.equal(observation.stability.requiredSamples,3);
+  assert.equal(observation.stability.geometryTolerancePx,1);
+  assert.equal(observation.stability.maxCropDifference,0.015);
+  assert.deepEqual(observation.stability.scope,{excludeLabels:['BET_DEC'],excludedCounts:[1,1,1]});
+  assert.deepEqual(observation.stability.samples.map(sample=>sample.candidateCount),[1,1,1]);
+  assert.deepEqual(observation.detection,{dom:1,engine:0,vision:0,visionRequested:false});
+  assert.deepEqual(observation.buttons.map(button=>button.label),['Verifiable']);
+  assert.deepEqual(browser.snapshot.candidates.map(button=>button.label),['Verifiable']);
+  const persisted=JSON.parse(await fs.readFile(path.join(directory,observation.observationId,'buttons.json'),'utf8'));
+  assert.deepEqual(persisted.buttons.map(button=>button.label),['Verifiable']);
+  assert.deepEqual(persisted.stability.scope,{excludeLabels:['BET_DEC'],excludedCounts:[1,1,1]});
+  assert.equal((await fs.readdir(path.join(directory,observation.observationId))).filter(name=>/^b\d+\.png$/.test(name)).length,1);
+  for (const excludeLabels of [['bet_dec'],['BET_.*']]) {
+    const sample=await collect(browser.page,{excludeLabels});
+    assert.deepEqual(sample.candidates.map(button=>button.label).sort(),['BET_DEC','Verifiable']);
+    assert.equal(sample.excludedCount,0,'labels are case-sensitive literals');
+    assert.deepEqual(sample.detection,{dom:1,engine:1,vision:0,visionRequested:false});
+  }
+});

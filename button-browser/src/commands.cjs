@@ -64,11 +64,18 @@ function parseCommand(input) {
   if(c.action==='switch'){c.index=num(c.index,'index');if(!Number.isInteger(c.index)||c.index<0)fail('Índice de pestaña inválido.');}
   if(c.vision!=null && typeof c.vision!=='boolean')fail('vision debe ser booleano.');
   if(c.vision&&c.action!=='verify')fail('La visión sólo se activa mediante verify vision.');
+  if(Object.hasOwn(c,'excludeLabels')) {
+    if(c.action!=='verify')fail('excludeLabels sólo se permite en verify.');
+    if(!Array.isArray(c.excludeLabels)||c.excludeLabels.length>50)fail('excludeLabels debe ser un array de hasta 50 etiquetas exactas.');
+    const labels=[...c.excludeLabels];
+    if(labels.some(label=>typeof label!=='string'||!label.trim()||label.length>160))fail('excludeLabels requiere etiquetas de texto no vacías de hasta 160 caracteres.');
+    c.excludeLabels=labels;
+  }
   if(c.observationId!=null&&(typeof c.observationId!=='string'||c.observationId.length>100))fail('observationId inválido.');
   return c;
 }
 const HELP = [
-  'goto https://sitio.example','verify','verify vision','detect','snapshot','click b1','click 650 420',
+  'goto https://sitio.example','verify','verify vision','{"action":"verify","excludeLabels":["BET_DEC","BET_INC"]}','detect','snapshot','click b1','click 650 420',
   'move 650 420','scroll 500','type texto con espacios','press Enter','wait 1000',
   'back','forward','reload','resize 1280 720','tabs','newtab https://sitio.example','switch 0','close','export'
 ];

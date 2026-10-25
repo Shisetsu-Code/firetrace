@@ -77,6 +77,128 @@ function nearBox(actual, expected) {
   }
 }
 
+// Megaton Zr installs press/hover bridges even when their dispatchers have no
+// subscribers. This reproduces that event structure without invoking its API.
+async function makeMegatonContainerFixture(page, mode = 'passive') {
+  await page.setContent('<style>html,body{margin:0}</style>');
+  await page.addScriptTag({ path: pixiPath });
+  await page.evaluate(mode => {
+    const P = window.PIXI;
+    const renderer = new P.Renderer({ width: 300, height: 200 });
+    document.body.append(renderer.view);
+    let calls = 0;
+    const components = {};
+    const root = new P.Graphics().beginFill(0x123456).drawRect(0, 0, 300, 200).endFill();
+    const dispatcher = () => {
+      const sentinel = {};
+      sentinel.next = sentinel.prev = sentinel;
+      return { _children: sentinel, hasListener() { throw new Error('Dispatcher method was called'); } };
+    };
+    const subscribe = (component, type) => {
+      const sentinel = (component._dispatchers[type] ||= dispatcher())._children;
+      sentinel.next = { next: sentinel, prev: sentinel };
+    };
+    const attach = (node, label, click) => {
+      node.interactive = true;
+      node.name = label;
+      node._sceneNode = { priority: 0 };
+      const component = {
+        _node: node._sceneNode, _name: label, _onClick() { calls++; },
+        _onPress() { calls++; }, _onHover() { calls++; }, _onMove() { calls++; },
+        _clickEvent: { type: 'button_click' }, _mouseDownEvent: { type: 'button_mouse_down' },
+        _mouseUpEvent: { type: 'button_mouse_up' }, _mouseMoveEvent: { type: 'button_mouse_move' },
+        _dispatchers: { '': dispatcher() },
+        getDispatcher() { throw new Error('Component method was called'); }
+      };
+      const handler = node._buttonHandler = {
+        _node: node, _enabled: true, _clickHandler: click ? component._onClick : null,
+        _pressHandler: component._onPress, _hoverHandler: component._onHover, _moveHandler: null,
+        _onButton() { calls++; }
+      };
+      for (const type of ['mousedown', 'mouseup', 'mouseupoutside', 'touchstart', 'touchend', 'touchendoutside', 'mouseout']) node.on(type, handler._onButton);
+      if (click) subscribe(component, 'button_click');
+      components[label + '$button'] = component;
+      return component;
+    };
+    const container = attach(root, 'featurePreview', false);
+    const child = new P.Graphics().beginFill(0x44cc88).drawRect(0, 0, 100, 30).endFill();
+    child.position.set(100, 150);
+    root.addChild(child);
+    attach(child, 'Continue', true);
+    if (mode === 'press') subscribe(container, 'button_mouse_down');
+    if (mode === 'release') subscribe(container, 'button_mouse_up');
+    if (mode === 'general') subscribe(container, '');
+    if (mode === 'move') root._buttonHandler._moveHandler = container._onMove;
+    if (mode === 'direct') container._node = {};
+    if (mode === 'external') root.on('mousedown', () => { calls++; });
+    if (mode === 'external-move') root.on('pointermove', () => { calls++; });
+    if (mode === 'non-input') root.on('added', () => { calls++; }).on('mouseover', () => { calls++; });
+    if (mode === 'unknown-dispatcher') Object.defineProperty(container._dispatchers['']._children, 'next', { get() { throw new Error('Dispatcher getter was called'); } });
+    if (mode === 'disabled') {
+      root.interactive = false;
+      child.interactive = false;
+      child._buttonHandler._enabled = false;
+    }
+    if (mode === 'occluded') {
+      const cover = new P.Graphics().beginFill(0x552277).drawRect(0, 0, 100, 30).endFill();
+      cover.position.copyFrom(child.position);
+      root.addChild(cover);
+      attach(cover, 'passiveCover', false);
+    }
+    root._resourceManager = { _entityManager: { _root: { _components: components } } };
+    renderer.render(root);
+    window.fixtureEvents = () => calls;
+    window.PIXI = undefined;
+  }, mode);
+}
+
+test('excludes a full-screen Megaton container with only internal press listeners and keeps its real Continue child', async () => {
+  const page = await browser.newPage({ viewport: { width: 800, height: 600 } });
+  try {
+    await makeMegatonContainerFixture(page);
+    const result = await detectEngineButtons(page);
+    assert.deepEqual(result.buttons.map(button => button.label), ['Continue']);
+    nearBox(result.buttons[0].bbox, { x: 100, y: 150, width: 100, height: 30 });
+    assert.equal(await page.evaluate(() => window.fixtureEvents()), 0);
+  } finally { await page.close(); }
+});
+
+test('preserves Megaton press, release, general, move, external and unidentified handlers', async () => {
+  for (const mode of ['press', 'release', 'general', 'move', 'external', 'external-move', 'direct', 'unknown-dispatcher']) {
+    const page = await browser.newPage();
+    try {
+      await makeMegatonContainerFixture(page, mode);
+      const result = await detectEngineButtons(page);
+      assert.deepEqual(result.buttons.map(button => button.label).sort(), ['Continue', 'featurePreview'], mode);
+      assert.equal(await page.evaluate(() => window.fixtureEvents()), 0, mode);
+    } finally { await page.close(); }
+  }
+});
+
+test('does not mistake Megaton lifecycle or hover-only listeners for an input action', async () => {
+  const page = await browser.newPage();
+  try {
+    await makeMegatonContainerFixture(page, 'non-input');
+    const result = await detectEngineButtons(page);
+    assert.deepEqual(result.buttons.map(button => button.label), ['Continue']);
+    assert.equal(await page.evaluate(() => window.fixtureEvents()), 0);
+  } finally { await page.close(); }
+});
+
+test('preserves disabled Megaton controls and occlusion by an internal-only container', async () => {
+  const page = await browser.newPage();
+  try {
+    await makeMegatonContainerFixture(page, 'disabled');
+    const disabled = await detectEngineButtons(page, { includeDisabled: true });
+    assert.deepEqual(disabled.buttons.map(button => button.label), ['Continue']);
+    assert.equal(disabled.buttons[0].actionable, false);
+    await makeMegatonContainerFixture(page, 'occluded');
+    const occluded = await detectEngineButtons(page);
+    assert.deepEqual(occluded.buttons, [], 'an excluded interactive wrapper must still block controls behind it');
+    assert.equal(await page.evaluate(() => window.fixtureEvents()), 0);
+  } finally { await page.close(); }
+});
+
 // Removing bound-listener recovery, resolution conversion, scene filtering, or
 // z-order checks must break this test. Expectations are hand-derived CSS pixels.
 test('recovers a private Pixi scene without clicking and returns visible topmost buttons in CSS pixels', async () => {

@@ -215,6 +215,10 @@
     } else if (stable) {
       title = 'Estable · 3 de 3 muestras';
       description = 'Coordenadas verificadas sobre la imagen. Podés anotarlas sin abrir el JSON.';
+      if (stability.scope?.excludeLabels?.length) {
+        title = 'Selección estable · 3 de 3 muestras';
+        description = `Se verificaron los controles seleccionados. Excluidos por la orden: ${stability.scope.excludeLabels.join(', ').slice(0, 200)}.`;
+      }
     } else if (unstable) {
       title = `Sin estabilidad · ${completed} de 3 muestras`;
       description = 'No se publican coordenadas. Cuando la página deje de cambiar, pedí una nueva verificación.';

@@ -1,72 +1,13 @@
 {
-  "sessionId": "playngo-rise-20261025-02",
+  "sessionId": "playngo-rise-20261025-03",
   "commands": [
     {
       "commandId": "initial-load-001",
-      "command": {
-        "action": "wait",
-        "ms": 20000
-      }
+      "command": {"action": "wait", "ms": 20000}
     },
     {
-      "commandId": "verify-intro-001",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "continue-explicit-capture-001",
-      "command": {
-        "action": "click",
-        "x": 640,
-        "y": 562
-      }
-    },
-    {
-      "commandId": "settle-board-001",
-      "command": {
-        "action": "wait",
-        "ms": 4000
-      }
-    },
-    {
-      "commandId": "verify-board-001",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "open-info-explicit-capture-001",
-      "command": {
-        "action": "click",
-        "x": 205,
-        "y": 662
-      }
-    },
-    {
-      "commandId": "settle-info-001",
-      "command": {
-        "action": "wait",
-        "ms": 2000
-      }
-    },
-    {
-      "commandId": "verify-info-001",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "exit-expired-demo-verified-001",
-      "command": {
-        "action": "click",
-        "id": "b2",
-        "observationId": "4a7840fe-eb1e-4d7d-97a8-48a72173c12d"
-      }
-    },
-    {
-      "commandId": "stop-diagnostic-run-002",
-      "command": "STOP"
+      "commandId": "capture-intro-001",
+      "command": {"action": "snapshot"}
     }
   ]
 }

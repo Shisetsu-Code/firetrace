@@ -86,6 +86,18 @@ verify
 
 `verify vision` usa el endpoint de visión configurado en cada una de las tres muestras; supone tres solicitudes al modelo. La verificación DOM/Pixi no necesita IA de visión.
 
+### Verificar una selección explícita
+
+Si un control animado impide verificar el conjunto completo, la IA puede solicitar una selección por etiqueta exacta:
+
+```json
+{"action":"verify","excludeLabels":["BET_DEC","BET_INC"]}
+```
+
+La orden anterior omite esas dos etiquetas de su resultado. Cada control incluido debe superar las mismas tres lecturas, tolerancia de 1 píxel y comparación de apariencia. No se excluye automáticamente ningún control que falle. Los detectores inspeccionan primero la escena completa, de modo que un elemento excluido sigue contando como oclusor de otro control.
+
+`observation.stability.scope` registra las etiquetas excluidas y cuántos candidatos se omitieron en cada muestra. El panel identifica el resultado como **Selección estable**, y no muestra posiciones de los controles excluidos. `verify` sin esta opción mantiene la verificación estricta del conjunto completo.
+
 ### CLI
 
 ```bash

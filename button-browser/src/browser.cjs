@@ -64,15 +64,16 @@ class BrowserController {
   }
   async collectVerificationSample(page,options={}) {
     const viewport=page.viewportSize(),epoch=this.epoch,url=page.url(),warnings=[];
+    const hasScope=Object.hasOwn(options,'excludeLabels'),{excludeLabels,...detectionOptions}=options;
     let complete=true,phaseStarted=Date.now();
     const timingsMs={};
     await clearCoordinateOverlay(page);
-    const dom=await detectDOMButtons(page,options);warnings.push(...dom.warnings);
+    const dom=await detectDOMButtons(page,detectionOptions);warnings.push(...dom.warnings);
     timingsMs.dom=Date.now()-phaseStarted;phaseStarted=Date.now();
     if(dom.warnings.length)complete=false;
     let engine={buttons:[],warnings:[],canvasCount:0};
     try {
-      engine=await require('./engine-detector.cjs').detectEngineButtons(page,options);warnings.push(...engine.warnings);
+      engine=await require('./engine-detector.cjs').detectEngineButtons(page,detectionOptions);warnings.push(...engine.warnings);
       if(engine.warnings.some(message=>/cambió|tiempo|completar|límite de recorrido|límite de iframes|límite de canvas/.test(message)))complete=false;
     }catch(e){complete=false;warnings.push(`Detector de canvas: ${e.message.split('\n')[0].slice(0,180)}`);}
     timingsMs.engine=Date.now()-phaseStarted;phaseStarted=Date.now();
@@ -86,9 +87,17 @@ class BrowserController {
     }
     timingsMs.vision=Date.now()-phaseStarted;
     if(this.epoch!==epoch||this.page!==page||page.url()!==url)complete=false;
-    const candidates=mergeCandidates([dom.buttons,engine.buttons.map(button=>({...button,clickPoint:button.clickPoint||button.center})),visual.buttons],viewport);
+    const merged=mergeCandidates([dom.buttons,engine.buttons.map(button=>({...button,clickPoint:button.clickPoint||button.center})),visual.buttons],viewport);
+    // Keep all scene/DOM occlusion checks intact; selection happens only after
+    // the complete detectors and merge have finished.
+    const excluded=hasScope?new Set(excludeLabels):null,candidates=excluded?merged.filter(button=>!excluded.has(button.label)):merged;
+    const detection=hasScope?{
+      dom:candidates.filter(button=>button.source==='dom').length,
+      engine:candidates.filter(button=>button.source!=='dom'&&button.source!=='vision').length,
+      vision:candidates.filter(button=>button.source==='vision').length,visionRequested:!!options.vision
+    }:{dom:dom.buttons.length,engine:engine.buttons.length,vision:visual.buttons.length,visionRequested:!!options.vision};
     return {page,png,candidates,viewport,epoch,url,timestamp,capturedAt,complete,warnings,timingsMs,canvasCount:engine.canvasCount||0,
-      detection:{dom:dom.buttons.length,engine:engine.buttons.length,vision:visual.buttons.length,visionRequested:!!options.vision}};
+      excludedCount:merged.length-candidates.length,detection};
   }
   async publish(sample,{stability,started,warnings=[],verified=false}) {
     const {page,png,viewport}=sample,candidates=verified?sample.candidates:[];
@@ -106,7 +115,7 @@ class BrowserController {
       observation={observationId,timestamp:sample.timestamp,url:safeURL(sample.url),title:await page.title(),
         viewport:{...viewport,deviceScaleFactor:await page.evaluate(()=>devicePixelRatio)},coordinateSpace:'viewport-css-px',
         warnings:[...new Set(warnings)],timingMs:Date.now()-started,canvasCount:sample.canvasCount||0,stability,
-        detection:verified?sample.detection:{dom:0,engine:0,vision:0,visionRequested:false}};
+        detection:(verified||stability.scope)&&sample.detection?sample.detection:{dom:0,engine:0,vision:0,visionRequested:false}};
       await saveObservation({directory:staging,png,observation,candidates});
       if(verified) {
         if(!this.isSampleCurrent(sample))return discardStale();
@@ -143,6 +152,8 @@ class BrowserController {
   async observe(options={}) {return this.verify(options);}
   async verify(options={}) {
     if(this.verification.status==='checking')throw new CommandError('VERIFICATION_BUSY','Ya hay una verificación en curso.');
+    const hasScope=Object.hasOwn(options,'excludeLabels');
+    if(hasScope)options={...options,excludeLabels:parseCommand({action:'verify',excludeLabels:options.excludeLabels}).excludeLabels};
     const started=Date.now(),page=await this.getPage();await this.invalidate();
     if(options.vision&&(!this.vision?.baseURL||!this.vision?.model))throw new CommandError('VISION_NOT_CONFIGURED','Configurá VISION_BASE_URL y VISION_MODEL antes de verify vision.');
     const samples=[],warnings=this.notices.splice(0);
@@ -162,6 +173,7 @@ class BrowserController {
       }
       const stability={status:verdict.stable?'stable':'unstable',...STABILITY_RULES,completedSamples:samples.length,
         reasons:[...new Set(verdict.reasons)],maxGeometryDeltaPx:verdict.maxGeometryDeltaPx,maxAppearanceDifference:verdict.maxAppearanceDifference,
+        ...(hasScope?{scope:{excludeLabels:[...options.excludeLabels],excludedCounts:samples.map(sample=>sample.excludedCount||0)}}:{}),
         samples:samples.map((sample,index)=>({index:index+1,timestamp:sample.timestamp,candidateCount:sample.candidates?.length||0,...(sample.timingsMs?{timingsMs:sample.timingsMs}:{})}))};
       if(!last.png||this.page!==page||page.isClosed()||last.epoch!==this.epoch||last.url!==page.url())last=await this.rawSample(await this.getPage());
       const observation=await this.publish(last,{stability,started,warnings,verified:verdict.stable});

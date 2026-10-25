@@ -204,6 +204,7 @@ function inspectPixiScene(options, canvas) {
   };
   const names = new WeakMap();
   const componentNames = new WeakMap();
+  const megatonButtons = new WeakMap();
   const entities = read(read(read(root, '_resourceManager'), '_entityManager'), '_root');
   const entityStack = entities ? [{ entity: entities, prefix: '' }] : [];
   const entitySeen = new Set();
@@ -217,6 +218,15 @@ function inspectPixiScene(options, canvas) {
     for (const key of Object.keys(components).slice(0, 1000)) {
       const component = read(components, key);
       const componentNode = read(component, '_node');
+      if (componentNode && typeof componentNode === 'object' && typeof read(component, '_onPress') === 'function' &&
+          read(read(component, '_clickEvent'), 'type') === 'button_click' &&
+          read(read(component, '_mouseDownEvent'), 'type') === 'button_mouse_down' &&
+          read(read(component, '_mouseUpEvent'), 'type') === 'button_mouse_up' &&
+          read(read(component, '_mouseMoveEvent'), 'type') === 'button_mouse_move') {
+        const buttons = megatonButtons.get(componentNode) || [];
+        if (!buttons.includes(component)) buttons.push(component);
+        megatonButtons.set(componentNode, buttons);
+      }
       if (componentNode && key.includes('$')) {
         const label = read(component, '_name') || key.split('$')[0];
         if (typeof label === 'string' && label) componentNames.set(componentNode, label);
@@ -225,6 +235,46 @@ function inspectPixiScene(options, canvas) {
       if (items) for (const label of Object.keys(items).slice(0, 1000)) entityStack.push({ entity: read(items, label), prefix: prefix ? prefix + '.' + label : label });
     }
   }
+  const clickEventTypes = ['click', 'tap', 'pointertap', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'touchstart', 'touchend'];
+  const actionEventTypes = new Set([...clickEventTypes, 'mouseupoutside', 'touchendoutside', 'pointerupoutside', 'mousemove', 'pointermove', 'touchmove']);
+  const isPassiveMegaton = (node, scene, handler, events) => {
+    // Zr.updateHandlers always installs press/hover bridges, including on a
+    // full-scene wrapper with no action. Do not mistake those bridges for a
+    // button. Unknown adapters, independent Pixi listeners and real controls
+    // retain their existing behavior; no engine method or getter is invoked.
+    if (read(handler, '_node') !== node || read(handler, '_clickHandler') !== null || read(handler, '_moveHandler') !== null) return false;
+    const internal = read(handler, '_onButton');
+    if (typeof internal !== 'function') return false;
+    const components = (megatonButtons.get(scene) || []).filter(component => read(component, '_onPress') === read(handler, '_pressHandler'));
+    if (!components.length) return false;
+    for (const component of components) {
+      const dispatchers = read(component, '_dispatchers');
+      if (!dispatchers || typeof dispatchers !== 'object') return false;
+      for (const type of ['', 'button_click', 'button_mouse_down', 'button_mouse_up', 'button_mouse_move']) {
+        const descriptor = Object.getOwnPropertyDescriptor(dispatchers, type);
+        if (!descriptor) { if (type === '') return false; continue; }
+        if (!Object.prototype.hasOwnProperty.call(descriptor, 'value')) return false;
+        const sentinel = read(descriptor.value, '_children');
+        // A missing/unreadable list is unknown, not evidence of no action.
+        if (!sentinel || read(sentinel, 'next') !== sentinel) return false;
+      }
+    }
+    if (!events || typeof events !== 'object') return false;
+    const types = Object.keys(events);
+    if (types.length > 1000) return false;
+    for (const type of types) {
+      // Lifecycle and hover listeners alone are not click/press/drag actions.
+      if (!actionEventTypes.has(type)) continue;
+      const entry = read(events, type);
+      const listeners = Array.isArray(entry) ? entry : [entry];
+      if (listeners.length > 1000) return false;
+      for (let i = 0; i < listeners.length; i++) {
+        const listener = read(listeners, i);
+        if ((typeof listener === 'function' ? listener : read(listener, 'fn')) !== internal) return false;
+      }
+    }
+    return true;
+  };
   const stack = [{ node: root, parent: null, path: '0', visible: true, interactiveChildren: true, depth: 0 }];
   const records = [], seen = new Set();
   let truncated = false, unknownMask = false;
@@ -259,14 +309,14 @@ function inspectPixiScene(options, canvas) {
     }
     const handler = read(node, '_buttonHandler');
     const events = read(node, '_events', {});
-    const clickEvents = ['click', 'tap', 'pointertap', 'mousedown', 'mouseup', 'pointerdown', 'pointerup', 'touchstart', 'touchend'].some(key => read(events, key));
+    const clickEvents = clickEventTypes.some(key => read(events, key));
     const explicitClick = typeof read(handler, '_clickHandler') === 'function';
     const interactive = read(node, 'interactive') === true || ['static', 'dynamic'].includes(read(node, '_eventMode', read(node, 'eventMode')));
     const actionable = interactive && entry.interactiveChildren && read(handler, '_enabled', true) !== false;
     const name = componentNames.get(scene) || read(node, 'label') || read(node, 'name') || names.get(scene) || '';
     const button = explicitClick || clickEvents || read(node, 'cursor') === 'pointer' || /(?:btn|button)(?:$|[._])/i.test(name);
     const controlHandler = typeof read(handler, '_pressHandler') === 'function' || typeof read(handler, '_moveHandler') === 'function';
-    const eligible = entry.interactiveChildren && (button || controlHandler) && (interactive || (options.includeDisabled && (clickEvents || explicitClick || controlHandler)));
+    const eligible = entry.interactiveChildren && (button || controlHandler) && (interactive || (options.includeDisabled && (clickEvents || explicitClick || controlHandler))) && !isPassiveMegaton(node, scene, handler, events);
     const record = { node, parent: entry.parent, path: entry.path, matrix, hit, own, masks, unknownMask: !!maskObject && !masks.length, children: [], name: typeof name === 'string' ? name.slice(0, 180) : '', button, eligible, actionable, interactive, explicitClick, clickEvents, bounds: own.reduce((box, s) => union(box, s.bounds), null) };
     if (!record.bounds && hit) record.bounds = hit.bounds;
     records.push(record);

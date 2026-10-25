@@ -19,3 +19,24 @@ test('commands preserve URL queries and text, parse coordinates, reject missing 
   assert.throws(() => parseCommand('goto javascript:alert(1)'), /HTTP/);
   assert.throws(() => parseCommand({action:'click',x:Infinity,y:2}), /finito/);
 });
+
+test('verify accepts explicit exact labels without treating them as patterns', () => {
+  const labels = ['BET_DEC', 'bet_inc', 'BET_.*'];
+  const parsed = parseCommand({action:'verify',excludeLabels:labels});
+  assert.deepEqual(parsed.excludeLabels, ['BET_DEC', 'bet_inc', 'BET_.*']);
+  labels.push('Changed later');
+  assert.deepEqual(parsed.excludeLabels, ['BET_DEC', 'bet_inc', 'BET_.*']);
+  assert.deepEqual(parseCommand('{"action":"verify","excludeLabels":["BET_DEC","BET_INC"]}').excludeLabels, ['BET_DEC', 'BET_INC']);
+  assert.deepEqual(parseCommand({action:'verify',excludeLabels:[]}).excludeLabels, []);
+  assert.equal(parseCommand({action:'verify',excludeLabels:['a'.repeat(160)]}).excludeLabels[0].length, 160);
+  assert.equal(parseCommand({action:'verify',excludeLabels:Array.from({length:50},(_,index)=>`Control ${index}`)}).excludeLabels.length, 50);
+});
+
+test('excludeLabels rejects invalid arrays and commands other than verify', () => {
+  for (const excludeLabels of [undefined,null,'BET_DEC',{},[null],[1],[{}],[/BET/],[''],['   '],['a'.repeat(161)],Array(51).fill('BET_DEC')]) {
+    assert.throws(()=>parseCommand({action:'verify',excludeLabels}), /excludeLabels/);
+  }
+  for (const command of [{action:'snapshot'},{action:'click',x:1,y:2},{action:'goto',url:'https://example.test/'},{action:'wait',ms:0}]) {
+    assert.throws(()=>parseCommand({...command,excludeLabels:['BET_DEC']}), /excludeLabels/);
+  }
+});
