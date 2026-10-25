@@ -33,3 +33,7 @@ a per-spin correlated HAR from the direct MCP bridge. The earlier batch
 
 Next processing must start from **freshly inspected game state**; do not
 claim full bonus coverage or replay uncertain commands.
+
+## Reintento remoto posterior
+
+La sesión anterior caducó al límite duro de 6900 segundos del workflow (GitHub Actions terminó con exit code 124). Se inició el nuevo workflow `40207205594` y se verificó `connected=true` en el MCP. Se reabrió Wonder Warriors (`gpas_aogww_pop`): permaneció en la misma pantalla de carga estática después de varias comprobaciones separadas y más de 40 segundos. No hubo pantalla de controles ni giros verificables. Las opciones Bonus Buy/Power de los demás juegos observadas como `Not available` no se deben marcar como compras ejecutadas. La cobertura de bonus sigue parcial.
