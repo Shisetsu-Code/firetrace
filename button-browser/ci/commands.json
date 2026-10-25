@@ -38,6 +38,17 @@
           "BET_INC"
         ]
       }
+    },
+    {
+      "commandId": "verify-pixi-board-001",
+      "command": {
+        "action": "verify",
+        "excludeLabels": [
+          "BET_DEC",
+          "BET_INC",
+          "XWins are achieved with 3 or more matching symbols in a row, horizontally or vertically. The same symbol can be used in different winning combinations. Winning "
+        ]
+      }
     }
   ]
 }
