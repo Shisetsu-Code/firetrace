@@ -1,0 +1,5 @@
+{
+  "game": "gpas_aogggriffin_pop",
+  "reason": "Native autoplay stalled after 3 actions. Resume with bounded FUN spin fallback and verified network/visual changes.",
+  "retry": 1
+}
