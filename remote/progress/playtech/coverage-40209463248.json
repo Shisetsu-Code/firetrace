@@ -8,7 +8,8 @@
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
     40246246062,
-    40246248235
+    40246248235,
+    40246749884
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
@@ -17,7 +18,8 @@
     "Never repeat a purchase when its result is uncertain; new runs so far operate only FUN mode.",
     "All previously active 40240882306/40241233787/40241535898 are completed technically; current targeted re-runs started from fresh FUN sessions, not restored server state.",
     "Verified archived crops on 2026-10-25: Rulers terminal FREE GAMES + CONTINUE and Ash Tea Party Bonus + START; guard correction commit abca79ce.",
-    "No new Buy Bonus purchases/Ante bets implied by these targeted recoveries; full completion remains 0/10."
+    "No new Buy Bonus purchases/Ante bets implied by these targeted recoveries; full completion remains 0/10.",
+    "Isolated Mighty Midas earned-spin workflow 40246749884 (fresh FUN), verified image guard commit 5615d60; no bonus completion yet."
   ],
   "games": {
     "ashadv": {
@@ -135,8 +137,9 @@
         "status": "not_verified"
       },
       "special_functions": {
-        "status": "3_AMETHYST_SPINS_intro_acknowledged_not_finished",
-        "evidence": "40231711671/12614483502"
+        "status": "EARNED_3_AMETHYST_SPINS_INTRO_ACKNOWLEDGED_SPINS_NOT_VERIFIED",
+        "evidence": "40231711671/12614483502/aogmt/screenshots/00237-feature.jpg,00239-after-amethyst-ok.jpg,00361-poll.jpg",
+        "details": "Green SPIN visibly awaiting next earned Amethyst Spin at (979,559), banner remains 3 AMETHYST SPINS; old runner waited without clicking."
       },
       "bonus_result": {
         "status": "stalled_no_end_observed",
@@ -145,6 +148,14 @@
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+      },
+      "active_recovery": 40246749884,
+      "last_result": {
+        "run": 40231711671,
+        "status": "needs_review",
+        "feature_seen": true,
+        "feature_finished": false,
+        "artifact": 12614483502
       }
     },
     "aogroo": {
@@ -325,5 +336,5 @@
       }
     }
   },
-  "last_checked_at_utc": "2026-10-25T23:46:30Z"
+  "last_checked_at_utc": "2026-10-25T23:53:30Z"
 }
