@@ -1,17 +1,15 @@
 {
-  "run_key": "playtech-20261025-finished-modal-recovery-2",
+  "run_key": "playtech-ash-autoplay-repeat-after-40240882306",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40231711671,
+  "source_run": 40240882306,
   "target_games": [
-    "ashadv",
-    "gpas_aogggriffin_pop"
+    "ashadv"
   ],
   "source_artifacts": [
-    12613454975,
-    12614024580
+    12616158225
   ],
-  "allowed_actions": "new isolated FUN-only game session, verified native autoplay/DEMO spins and exactly one twice-observed CONTINUE per recognized finished-bonus result; no Buy Bonus, purchases or Ante Bet",
+  "allowed_actions": "Only FUN/offline native autoplay repeat YES after 2 observed screenshots at most 4 confirmations, proceed through earned feature, ack visually verified final result once, never buy or repeat uncertain purchase",
   "no_uncertain_purchase_retry": true,
   "not_complete_until_response_and_visual_confirm": true,
-  "purpose": "Validate return to base board after visible bonus result screens not recognized in the previous run"
+  "purpose": "Recover the archived Ash autoplay stopped modal missed by previous title allowlist; targeted retry without touching Griffin currently in progress"
 }
