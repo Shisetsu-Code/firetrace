@@ -1,0 +1,11 @@
+{
+  "source_run": 40221846216,
+  "mode": "FUN_OFFLINE_ONLY",
+  "game": "gpas_aogwfot_pop",
+  "feature": "DOUBLE CHANCE TO WIN FEATURE (Ante Bet)",
+  "source_screenshot": "playtech-run40221846216-group1.zip/gpas_aogwfot_pop/screenshots/00027-autoplay-menu.jpg",
+  "click_policy": "Only one OFF-to-ON toggle after two-stable observation, then at most one spin after ON is verified; stop uncertain",
+  "no_purchase": true,
+  "no_real_money": true,
+  "no_retry": true
+}
