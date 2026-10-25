@@ -1,5 +1,5 @@
 {
-  "session": "remote-mcp-20261025",
+  "session": "remote-mcp-20261025-retry",
   "purpose": "Browser controlled directly from ChatGPT via the existing Firetrace Cloudflare MCP",
   "duration_minutes": 115
 }
