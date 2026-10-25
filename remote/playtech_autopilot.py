@@ -330,7 +330,13 @@ class Probe:
                 await self.click(page, UNTIL_FEATURE[self.game], "select_verified_until_feature")
                 await page.wait_for_timeout(1250)
                 await self.shot(page, "after-until-feature", save=True)
-                # Playtech menu selection normally starts native autoplay.
+                # God of Storms 2 uses a separate play-arrow to begin the
+                # chosen until-feature mode; classic menus auto-start on select.
+                # Never click a purchase control or a second play-arrow here.
+                if self.game == "gpas_gstorm2_pop" and self.visual_delta < 5:
+                    await self.click(page, SPIN[self.game], "start_selected_until_feature")
+                    await page.wait_for_timeout(1400)
+                    await self.shot(page, "after-autoplay-start", save=True)
             elif self.game in ("gpas_agstorm3_pop", "gpas_mgaogkol_pop"):
                 # Screenshots show long-press creates an AUTOPLAY OPTIONS modal.
                 # Previous runner opened that modal but never pressed START.
