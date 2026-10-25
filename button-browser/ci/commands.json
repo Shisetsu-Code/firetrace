@@ -71,6 +71,12 @@
         "id": "b2",
         "observationId": "faccc576-9d03-44be-8bb0-4e7f899a1647"
       }
+    },
+    {
+      "commandId": "snapshot-paytable-close-check-001",
+      "command": {
+        "action": "snapshot"
+      }
     }
   ]
 }
