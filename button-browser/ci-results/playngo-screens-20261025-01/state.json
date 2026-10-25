@@ -5,54 +5,11 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "ready",
-  "phase": "waiting",
-  "seq": 14,
-  "lastCommandId": "reopen-demo-for-settings-001",
-  "lastResponse": {
-    "ok": true,
-    "result": {
-      "action": "goto"
-    },
-    "observation": {
-      "observationId": "e9dc3ef4-6061-4fed-a155-592425bf1fa1",
-      "timestamp": "2026-10-25T20:44:24.168Z",
-      "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]",
-      "title": "",
-      "viewport": {
-        "width": 1280,
-        "height": 720,
-        "deviceScaleFactor": 1
-      },
-      "coordinateSpace": "viewport-css-px",
-      "warnings": [],
-      "timingMs": 207,
-      "canvasCount": 0,
-      "stability": {
-        "status": "unverified",
-        "requiredSamples": 3,
-        "intervalMs": 2000,
-        "geometryTolerancePx": 1,
-        "maxCropDifference": 0.015,
-        "completedSamples": 0,
-        "reasons": [],
-        "samples": []
-      },
-      "fixedButtons": [],
-      "detection": {
-        "dom": 0,
-        "engine": 0,
-        "vision": 0,
-        "visionRequested": false
-      },
-      "buttons": [],
-      "screenshotUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/e9dc3ef4-6061-4fed-a155-592425bf1fa1/screenshot.png",
-      "annotatedUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/e9dc3ef4-6061-4fed-a155-592425bf1fa1/annotated.png",
-      "contactSheetUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/e9dc3ef4-6061-4fed-a155-592425bf1fa1/buttons.png",
-      "jsonUrl": "https://raw.githubusercontent.com/Shisetsu-Code/firetrace/refs/heads/codex/button-browser-playngo-20261025/button-browser/ci-results/playngo-screens-20261025-01/observations/e9dc3ef4-6061-4fed-a155-592425bf1fa1/buttons.json"
-    },
-    "fixedButtons": []
-  },
+  "status": "running",
+  "phase": "executing",
+  "seq": 15,
+  "lastCommandId": "load-fresh-settings-session-001",
+  "lastResponse": null,
   "verification": {
     "status": "idle",
     "currentSample": 0,
@@ -60,7 +17,7 @@
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:44:24.237Z",
+  "updatedAt": "2026-10-25T20:44:29.373Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -72,14 +29,9 @@
   "stopReason": null,
   "checkpointError": null,
   "queueError": null,
-  "activeObservationId": "e9dc3ef4-6061-4fed-a155-592425bf1fa1",
+  "activeObservationId": null,
   "files": {
-    "observationId": "e9dc3ef4-6061-4fed-a155-592425bf1fa1",
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
-    "crops": []
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
   },
   "commands": [
     {
@@ -221,6 +173,13 @@
       "completedAt": "2026-10-25T20:44:24.235Z",
       "ok": true,
       "actionExecuted": true
+    },
+    {
+      "commandId": "load-fresh-settings-session-001",
+      "fingerprint": "61fcaacc5fa3297d3730fa782f76a843bec0e463d2176c9bd6f3cdc9eb687a5f",
+      "seq": 15,
+      "status": "reserved",
+      "startedAt": "2026-10-25T20:44:29.368Z"
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",

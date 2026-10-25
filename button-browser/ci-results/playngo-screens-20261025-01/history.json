@@ -235,5 +235,15 @@
     "responsePath": "responses/000014.json",
     "observationId": "e9dc3ef4-6061-4fed-a155-592425bf1fa1",
     "error": null
+  },
+  {
+    "seq": 15,
+    "commandId": "load-fresh-settings-session-001",
+    "command": {
+      "action": "wait",
+      "ms": 15000
+    },
+    "startedAt": "2026-10-25T20:44:29.368Z",
+    "status": "reserved"
   }
 ]
