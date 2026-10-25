@@ -159,6 +159,15 @@
       "observationId": "faccc576-9d03-44be-8bb0-4e7f899a1647"
     },
     "startedAt": "2026-10-25T20:41:52.216Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T20:41:55.345Z",
+    "ok": false,
+    "actionExecuted": "unknown",
+    "responsePath": "responses/000010.json",
+    "observationId": null,
+    "error": {
+      "code": "TARGET_CHANGED",
+      "message": "El punto verificado dejó de alcanzar el botón. Solicitá verify; no se recalcula la posición al hacer clic."
+    }
   }
 ]

@@ -1,0 +1,13 @@
+{
+  "seq": 10,
+  "commandId": "close-paytable-verified-001",
+  "completedAt": "2026-10-25T20:41:55.345Z",
+  "response": {
+    "ok": false,
+    "actionExecuted": "unknown",
+    "error": {
+      "code": "TARGET_CHANGED",
+      "message": "El punto verificado dejó de alcanzar el botón. Solicitá verify; no se recalcula la posición al hacer clic."
+    }
+  }
+}

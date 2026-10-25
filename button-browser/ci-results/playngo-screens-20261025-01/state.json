@@ -5,19 +5,26 @@
   "runURL": "https://github.com/Shisetsu-Code/firetrace/actions/runs/40231409619",
   "branch": "codex/button-browser-playngo-20261025",
   "sessionId": "playngo-screens-20261025-01",
-  "status": "running",
-  "phase": "executing",
+  "status": "ready",
+  "phase": "waiting",
   "seq": 10,
   "lastCommandId": "close-paytable-verified-001",
-  "lastResponse": null,
+  "lastResponse": {
+    "ok": false,
+    "actionExecuted": "unknown",
+    "error": {
+      "code": "TARGET_CHANGED",
+      "message": "El punto verificado dejó de alcanzar el botón. Solicitá verify; no se recalcula la posición al hacer clic."
+    }
+  },
   "verification": {
-    "status": "stable",
-    "currentSample": 3,
+    "status": "idle",
+    "currentSample": 0,
     "requiredSamples": 3,
     "intervalMs": 2000
   },
   "startedAt": "2026-10-25T20:35:25.559Z",
-  "updatedAt": "2026-10-25T20:41:52.221Z",
+  "updatedAt": "2026-10-25T20:41:55.348Z",
   "fixedButtons": [],
   "fixedCatalog": {
     "index": "button-browser/ci-results/playngo-screens-20261025-01/fixed/index.json",
@@ -30,9 +37,7 @@
   "checkpointError": null,
   "queueError": null,
   "activeObservationId": null,
-  "files": {
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
-  },
+  "files": null,
   "commands": [
     {
       "commandId": "__start__",
@@ -128,8 +133,11 @@
       "commandId": "close-paytable-verified-001",
       "fingerprint": "391cedb2f37bcfc7e38558a02c170621f5774f80040406fedef9698eb0b266b7",
       "seq": 10,
-      "status": "reserved",
-      "startedAt": "2026-10-25T20:41:52.216Z"
+      "status": "finished",
+      "startedAt": "2026-10-25T20:41:52.216Z",
+      "completedAt": "2026-10-25T20:41:55.345Z",
+      "ok": false,
+      "actionExecuted": "unknown"
     }
   ],
   "index": "button-browser/ci-results/playngo-screens-20261025-01/index.json",
