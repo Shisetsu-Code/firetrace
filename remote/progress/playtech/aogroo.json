@@ -1,18 +1,18 @@
 {
   "game": "aogroo",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 139,
+  "observations": 149,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 1,
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 13,
-  "elapsed_seconds": 1076,
-  "latest_text": "Not available WER jot available, RULERS. \"OE ae £5 IK = AI iN ff ni Al SS | €0., NFO EN €0.00 SPIN Ve 9\" ey 2 €981.33 21:20:33",
+  "elapsed_seconds": 1156,
+  "latest_text": "Not available TRI A Not available, RULERS OF OLYMPUS NZ fe J J 10 9 J fe 9 1 9 K © y | TINES TOTAL BET €0.25 INFO 25 EN €0.00 MODE A) 4\" 2 €981.08 21:21:53",
   "run_id": "40233535136",
-  "time": "2026-10-25T21:20:37+00:00"
+  "time": "2026-10-25T21:21:56+00:00"
 }
