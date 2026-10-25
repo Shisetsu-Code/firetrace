@@ -171,6 +171,35 @@ def autoplay_stopped_popup(png: Path) -> bool:
             and no[0] > no[1] * 1.4 and no[0] > no[2] * 1.4)
 
 
+
+def known_finished_feature_modal(game: str, png: Path) -> bool:
+    """Verify archived FUN result modal (not just a free-games introduction).
+
+    Evidence: 40231711671/ashadv/00199-poll.jpg and
+    gpas_aogggriffin_pop/00422-feature.jpg. Buttons were missed by OCR.
+    """
+    if game not in ("ashadv", "gpas_aogggriffin_pop"):
+        return False
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        if game == "ashadv":
+            title_crop = rgb.crop((390, 115, 895, 555))
+            button_crop = rgb.crop((560, 470, 720, 548))
+        else:
+            title_crop = rgb.crop((290, 160, 997, 512))
+            button_crop = rgb.crop((545, 470, 735, 507))
+        title = pytesseract.image_to_string(title_crop, config="--psm 11").upper()
+        button = pytesseract.image_to_string(button_crop, config="--psm 7").upper()
+    if "CONTINUE" not in button:
+        return False
+    if game == "ashadv":
+        return ("YOU'VE WON" in title or "YOUVE WON" in title) and (
+            "CONGRAT" in title or "CONGRAL" in title
+        )
+    return all(x in title for x in ("CONGRATULATIONS", "YOU WON", "FREE GAMES"))
+
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -443,6 +472,39 @@ class Probe:
                         self.note("FEATURE_RESULT_UNCERTAIN", "Arrow clicked once; no unambiguous board return")
                         await self.checkpoint("feature_needs_review", force=True)
                         return
+                # Previously captured FUN bonus result dialog, not a new wager.
+                # Check two independently acquired screenshots 2 seconds apart.
+                if (self.feature_seen and self.last_feature_action != "known_result_continue"
+                        and self.game in ("ashadv", "gpas_aogggriffin_pop")
+                        and known_finished_feature_modal(self.game, self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-result-modal", save=True)
+                    if not known_finished_feature_modal(self.game, self.dir / "_current.png"):
+                        self.note("FEATURE_RESULT_UNSTABLE", "Modal not identical on second observation")
+                        continue
+                    target = (640, 507) if self.game == "ashadv" else (640, 489)
+                    self.note("FEATURE_RESULT", "Finished FUN bonus result and CONTINUE verified twice")
+                    await self.click(page, target, "acknowledge_finished_FUN_feature_once")
+                    self.last_feature_action = "known_result_continue"
+                    await page.wait_for_timeout(2500)
+                    _, returned1 = await self.shot(page, "after-result-continue", save=True)
+                    await page.wait_for_timeout(2300)
+                    _, returned2 = await self.shot(page, "verify-base-return", save=True)
+                    still_modal = known_finished_feature_modal(self.game, self.dir / "_current.png")
+                    on_board = (("SPIN" in returned1["text"].upper() or "SPIN" in returned2["text"].upper())
+                                if self.game == "ashadv" else
+                                ("PLAYING FOR FUN" in returned1["text"].upper()
+                                 or "PLAYING FOR FUN" in returned2["text"].upper()))
+                    if not still_modal and on_board:
+                        self.feature_finished = True
+                        self.stage = "feature_complete"
+                        self.note("FEATURE_COMPLETE", "Result acknowledged once and returned to observed FUN board")
+                        await self.checkpoint("feature_complete", force=True)
+                        return
+                    self.stage = "needs_review"
+                    self.note("FEATURE_RESULT_UNCERTAIN", "One CONTINUE input; no unambiguous board return")
+                    await self.checkpoint("feature_needs_review", force=True)
+                    return
                 if self.feature_seen and state["finish"]:
                     self.feature_finished = True
                     self.stage = "feature_complete"
