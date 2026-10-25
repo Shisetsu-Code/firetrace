@@ -588,7 +588,7 @@ class Probe:
                 # Click only the twice-verified stopped/repeat modal.
                 # Global screenshot OCR omits the dialog in aogroo; a dedicated
                 # crop and green YES / red NO guard is required before input.
-                if self.game in ("ftsis", "aogroo") and autoplay_stopped_popup(self.dir / "_current.png"):
+                if self.game in ("ftsis", "aogroo", "ashadv") and autoplay_stopped_popup(self.dir / "_current.png"):
                     if self.autoplay_repeats >= 4:
                         self.stage = "needs_review"
                         self.note("REPEAT_LIMIT", "Four FUN autoplay confirmations reached")
