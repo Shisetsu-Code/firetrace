@@ -1,17 +1,17 @@
 {
   "game": "gpas_gstorm2_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 32,
+  "observations": 37,
   "clicks": 4,
   "spin_attempts": 0,
-  "network_events": 910,
+  "network_events": 930,
   "websocket_connections": 3,
-  "requests_total": 155,
-  "elapsed_seconds": 3388,
+  "requests_total": 156,
+  "elapsed_seconds": 3473,
   "latest_text": "\\GE OF THE GODS™ GOD OF STORMS PLAYING FOR Dosa —— Not available POWER 7 A J se bir Mh PY Ey | a 10/4 KA J A\\ ) | am NY | A | Bin = a al = | €9. — — NZ, €10,004.00 @",
   "run_id": "40221846216",
-  "time": "2026-10-25T19:35:30+00:00"
+  "time": "2026-10-25T19:36:55+00:00"
 }
