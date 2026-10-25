@@ -87,6 +87,24 @@ test('changed button pixels invalidate unchanged geometry even when the third ma
   assert.ok(result.reasons.some(reason => /apariencia/i.test(reason)));
 });
 
+test('geometry and appearance reasons name the responsible control without exposing positions', async () => {
+  const before = control({ targetKey: 'pixi:continue', source: 'pixi', label: 'Continue', bbox: { x: 43, y: 27, width: 14, height: 12 } });
+  const after = { ...before, bbox: { x: 45, y: 27, width: 14, height: 12 } };
+  const beforePNG = await image(240, [{ x: 43, y: 27, width: 14, height: 12, color: 40 }]);
+  const afterPNG = await image(240, [{ x: 45, y: 27, width: 14, height: 12, color: 80 }]);
+  const result = await compareSamples([sample([before], beforePNG), sample([after], afterPNG), sample([before], beforePNG)]);
+  assert.equal(result.stable, false);
+  assert.equal(result.maxGeometryDeltaPx, 2);
+  for (const kind of ['geometría', 'apariencia']) {
+    const reasons = result.reasons.filter(reason => reason.includes(kind));
+    assert.ok(reasons.length > 0);
+    assert.ok(reasons.every(reason => reason.includes('pixi') && reason.includes('Continue')));
+  }
+  const reasons = result.reasons.join(' ');
+  assert.doesNotMatch(reasons, /bbox|clickPoint|positions?|coordinates?|coordenadas|\bx\s*[:=]|\by\s*[:=]|width|height/i);
+  assert.doesNotMatch(reasons, /\b(?:43|45|27|14|12)\b/);
+});
+
 test('appearance drift must satisfy the threshold between the first and third readings too', async () => {
   const samples = await Promise.all([100, 102, 104].map(async color => sample([control()], await image(240, [{ x: 8, y: 8, width: 20, height: 16, color }]))));
   const result = await compareSamples(samples);

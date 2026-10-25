@@ -1,49 +1,13 @@
 {
-  "sessionId": "playngo-rise-20261025-01",
+  "sessionId": "playngo-rise-20261025-02",
   "commands": [
     {
       "commandId": "initial-load-001",
-      "command": {
-        "action": "wait",
-        "ms": 20000
-      }
+      "command": {"action": "wait", "ms": 20000}
     },
     {
       "commandId": "verify-intro-001",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "wait-intro-animation-001",
-      "command": {
-        "action": "wait",
-        "ms": 1500
-      }
-    },
-    {
-      "commandId": "verify-intro-002",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "hover-continue-001",
-      "command": {
-        "action": "move",
-        "x": 640,
-        "y": 562
-      }
-    },
-    {
-      "commandId": "verify-intro-hover-001",
-      "command": {
-        "action": "verify"
-      }
-    },
-    {
-      "commandId": "stop-diagnostic-run-001",
-      "command": "STOP"
+      "command": {"action": "verify"}
     }
   ]
 }

@@ -64,25 +64,30 @@ class BrowserController {
   }
   async collectVerificationSample(page,options={}) {
     const viewport=page.viewportSize(),epoch=this.epoch,url=page.url(),warnings=[];
-    let complete=true;
+    let complete=true,phaseStarted=Date.now();
+    const timingsMs={};
     await clearCoordinateOverlay(page);
     const dom=await detectDOMButtons(page,options);warnings.push(...dom.warnings);
+    timingsMs.dom=Date.now()-phaseStarted;phaseStarted=Date.now();
     if(dom.warnings.length)complete=false;
     let engine={buttons:[],warnings:[],canvasCount:0};
     try {
       engine=await require('./engine-detector.cjs').detectEngineButtons(page,options);warnings.push(...engine.warnings);
       if(engine.warnings.some(message=>/cambió|tiempo|completar|límite de recorrido|límite de iframes|límite de canvas/.test(message)))complete=false;
     }catch(e){complete=false;warnings.push(`Detector de canvas: ${e.message.split('\n')[0].slice(0,180)}`);}
+    timingsMs.engine=Date.now()-phaseStarted;phaseStarted=Date.now();
     const png=await page.screenshot({type:'png',scale:'css',timeout:10000});
+    timingsMs.capture=Date.now()-phaseStarted;phaseStarted=Date.now();
     const capturedAt=Date.now(),timestamp=new Date(capturedAt).toISOString();
     let visual={buttons:[],warnings:[]};
     if(options.vision) {
       try {visual=await require('./vision.cjs').detectVisionButtons({png,viewport,...this.vision});warnings.push(...visual.warnings);}
       catch(e){complete=false;warnings.push(`Visión: ${e.message.slice(0,200)}`);}
     }
+    timingsMs.vision=Date.now()-phaseStarted;
     if(this.epoch!==epoch||this.page!==page||page.url()!==url)complete=false;
     const candidates=mergeCandidates([dom.buttons,engine.buttons.map(button=>({...button,clickPoint:button.clickPoint||button.center})),visual.buttons],viewport);
-    return {page,png,candidates,viewport,epoch,url,timestamp,capturedAt,complete,warnings,canvasCount:engine.canvasCount||0,
+    return {page,png,candidates,viewport,epoch,url,timestamp,capturedAt,complete,warnings,timingsMs,canvasCount:engine.canvasCount||0,
       detection:{dom:dom.buttons.length,engine:engine.buttons.length,vision:visual.buttons.length,visionRequested:!!options.vision}};
   }
   async publish(sample,{stability,started,warnings=[],verified=false}) {
@@ -157,7 +162,7 @@ class BrowserController {
       }
       const stability={status:verdict.stable?'stable':'unstable',...STABILITY_RULES,completedSamples:samples.length,
         reasons:[...new Set(verdict.reasons)],maxGeometryDeltaPx:verdict.maxGeometryDeltaPx,maxAppearanceDifference:verdict.maxAppearanceDifference,
-        samples:samples.map((sample,index)=>({index:index+1,timestamp:sample.timestamp,candidateCount:sample.candidates?.length||0}))};
+        samples:samples.map((sample,index)=>({index:index+1,timestamp:sample.timestamp,candidateCount:sample.candidates?.length||0,...(sample.timingsMs?{timingsMs:sample.timingsMs}:{})}))};
       if(!last.png||this.page!==page||page.isClosed()||last.epoch!==this.epoch||last.url!==page.url())last=await this.rawSample(await this.getPage());
       const observation=await this.publish(last,{stability,started,warnings,verified:verdict.stable});
       this.verification={status:observation.stability.status,currentSample:3,requiredSamples:3,intervalMs:2000};

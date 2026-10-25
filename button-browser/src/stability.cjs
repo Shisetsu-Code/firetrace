@@ -197,12 +197,13 @@ async function compareSamples(samples) {
       if (left.sample.url !== right.sample.url || left.sample.epoch !== right.sample.epoch) reject('Cambió la página o su navegación');
       if (left.sample.viewport.width !== right.sample.viewport.width || left.sample.viewport.height !== right.sample.viewport.height) reject('Cambió el viewport');
       for (const [a, b] of pairControls(left.candidates, right.candidates, reject)) {
+        const caption = `${a.source} «${a.label || 'sin etiqueta'}»`;
         const delta = geometryDelta(a, b);
         result.maxGeometryDeltaPx = Math.max(result.maxGeometryDeltaPx, delta);
-        if (delta > STABILITY_RULES.geometryTolerancePx) reject('Cambió la geometría de un control');
+        if (delta > STABILITY_RULES.geometryTolerancePx) reject(`Cambió la geometría del control ${caption}`);
         const difference = appearanceDifference(a.pixels, b.pixels);
         result.maxAppearanceDifference = Math.max(result.maxAppearanceDifference, difference);
-        if (difference > STABILITY_RULES.maxCropDifference) reject('Cambió la apariencia de un control');
+        if (difference > STABILITY_RULES.maxCropDifference) reject(`Cambió la apariencia del control ${caption}`);
       }
     }
   } catch {
