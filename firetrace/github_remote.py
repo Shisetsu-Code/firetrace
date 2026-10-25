@@ -55,6 +55,10 @@ def scrub(value, key: str = ""):
     if PRIVATE_KEY_RE.search(key):
         return "[REDACTED]"
     if isinstance(value, dict):
+        if value.get("encoding") == "base64" and "text" in value:
+            return {**{str(k): scrub(v, str(k)) for k, v in value.items() if k != "text"}, "text":"[BINARY BASE64 OMITTED]"}
+        if value.get("opcode") == 2 and "payloadData" in value:
+            return {**{str(k): scrub(v, str(k)) for k, v in value.items() if k != "payloadData"}, "payloadData":"[BINARY FRAME OMITTED]"}
         # HAR headers are name/value records, not dictionaries keyed by header.
         if "name" in value and "value" in value and PRIVATE_KEY_RE.search(str(value["name"])):
             return {**value, "value": "[REDACTED]"}
@@ -62,6 +66,8 @@ def scrub(value, key: str = ""):
     if isinstance(value, list):
         return [scrub(item) for item in value[:5000]]
     if isinstance(value, str):
+        if key == "image_base64":
+            return value  # Demo screenshot used only as an explicitly requested image.
         if key.lower() in {"url", "href", "documenturl", "frameid"}:
             return safe_url(value)
         if key.lower() in {"text", "postdata", "payloaddata", "responsebody", "body"}:
