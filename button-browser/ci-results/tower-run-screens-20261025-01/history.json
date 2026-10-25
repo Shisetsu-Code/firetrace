@@ -337,5 +337,14 @@
     "responsePath": "responses/000021.json",
     "observationId": "3271a6bd-fc2d-4763-9bfa-02e7d3eaa104",
     "error": null
+  },
+  {
+    "seq": 22,
+    "commandId": "verify-paytable-001",
+    "command": {
+      "action": "verify"
+    },
+    "startedAt": "2026-10-25T21:41:56.262Z",
+    "status": "reserved"
   }
 ]
