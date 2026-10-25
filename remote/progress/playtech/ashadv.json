@@ -1,17 +1,17 @@
 {
   "game": "ashadv",
-  "stage": "bounded_base_spin_fallback",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 46,
-  "clicks": 2,
-  "spin_attempts": 0,
+  "observations": 62,
+  "clicks": 6,
+  "spin_attempts": 4,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 268,
-  "latest_text": "©) > ¢! /| v4 =f ¢ =f iS. A, A, W W W i ES ae | OS €0.05 STIL FEATURE 2d €999.:19",
+  "elapsed_seconds": 347,
+  "latest_text": "% 3 TREE ACTIVE 5 | > | ~~ a ‘ 1 v4 a a i + > + > » Wil 1D) I} q +) Ne €0.35 1D) mya’ ID) i ay of €0.20 €2.79 3d €1,002.32 53",
   "run_id": "40231711671",
-  "time": "2026-10-25T20:43:36+00:00"
+  "time": "2026-10-25T20:44:56+00:00"
 }
