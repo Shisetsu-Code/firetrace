@@ -4,13 +4,13 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 84,
+  "observations": 96,
   "clicks": 3,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 741,
-  "latest_text": "ULTIMAT PO! ER. Not =e MIG) [TY VS | ma €0.10 ~~ 2 €999.70 16:14:05",
+  "elapsed_seconds": 817,
+  "latest_text": "ULTIMAT PO! ER. Not =e MIG) [TY VS | ma €0.10 ~~ 2 €999.70 16:15:21",
   "run_id": "40209463248",
-  "time": "2026-10-25T16:14:08+00:00"
+  "time": "2026-10-25T16:15:24+00:00"
 }
