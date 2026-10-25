@@ -1,27 +1,10 @@
 {
   "sessionId": "playngo-screens-20261025-01",
-  "seq": 6,
-  "status": "ready",
-  "activeObservationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b",
+  "seq": 7,
+  "status": "running",
+  "activeObservationId": null,
   "current": {
-    "observationId": "94a1ea1a-00f2-4129-9e9d-222e146b8c1b",
-    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png",
-    "annotated": "button-browser/ci-results/playngo-screens-20261025-01/annotated.png",
-    "buttons": "button-browser/ci-results/playngo-screens-20261025-01/buttons.png",
-    "observation": "button-browser/ci-results/playngo-screens-20261025-01/observation.json",
-    "crops": [
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b1.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b10.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b11.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b2.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b3.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b4.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b5.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b6.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b7.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b8.png",
-      "button-browser/ci-results/playngo-screens-20261025-01/crops/94a1ea1a-00f2-4129-9e9d-222e146b8c1b/b9.png"
-    ]
+    "current": "button-browser/ci-results/playngo-screens-20261025-01/current.png"
   },
   "responses": [
     "button-browser/ci-results/playngo-screens-20261025-01/responses/000001.json",
