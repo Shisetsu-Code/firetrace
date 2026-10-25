@@ -110,5 +110,15 @@
     "responsePath": "responses/000007.json",
     "observationId": "a24071b2-793b-42d8-8dd4-192c29c201f0",
     "error": null
+  },
+  {
+    "seq": 8,
+    "commandId": "settle-info-001",
+    "command": {
+      "action": "wait",
+      "ms": 2000
+    },
+    "startedAt": "2026-10-25T19:27:40.574Z",
+    "status": "reserved"
   }
 ]
