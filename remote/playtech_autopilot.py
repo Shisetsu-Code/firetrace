@@ -75,7 +75,8 @@ def iso() -> str:
 def safe_url(url: str) -> str:
     parsed = urlsplit(url)
     qs = sorted(set(k for k, _ in parse_qsl(parsed.query)))
-    return f"{parsed.scheme}://{parsed.hostname}{parsed.path}" + ("?" + "&".join(qs) if qs else "")
+    path = re.sub(r"(/socket\\.io/\\d+/websocket/)[^/]+", r"\\1{session}", parsed.path)
+    return f"{parsed.scheme}://{parsed.hostname}{path}" + ("?" + "&".join(qs) if qs else "")
 
 
 def sanitize_payload(body: str, content_type: str):
@@ -432,8 +433,9 @@ class Probe:
                     await self.checkpoint(force=True)
                 else:
                     await self.checkpoint()
-            self.stage = "time_limit"
-            await self.checkpoint("time_limit", force=True)
+            if self.stage not in ("needs_review", "action_limit"):
+                self.stage = "time_limit"
+            await self.checkpoint(self.stage, force=True)
         except Exception as exc:
             self.stage = "error"
             self.note("EXCEPTION", f"{type(exc).__name__}: {str(exc)[:180]}")
