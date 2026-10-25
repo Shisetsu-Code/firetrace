@@ -7,6 +7,12 @@
       "url": "https://released.playngonetwork.com/casino/ContainerLauncher?[redacted]"
     },
     "startedAt": "2026-10-25T21:30:27.984Z",
-    "status": "reserved"
+    "status": "finished",
+    "completedAt": "2026-10-25T21:30:30.916Z",
+    "ok": true,
+    "actionExecuted": true,
+    "responsePath": "responses/000001.json",
+    "observationId": "d08daae8-0fbb-4536-bf24-543a96f23121",
+    "error": null
   }
 ]
