@@ -1,21 +1,14 @@
 {
   "game": "ftsis",
-  "temple": "lachesis",
-  "source_run": 40287108951,
-  "source_artifact": 12635328447,
-  "only_pending_function": "Fortune of the Gods: Sisters earned Lachesis Temple 10 Free Games only. Atropos was already selected once in FUN run 40287108951: countdown observed 14->9->0 and base returned; terminal payout not captured. Do not repeat Atropos. Clotho remains independently pending.",
-  "run_key": "playtech-ftsis-lachesis-portal-only-20261026-0859utc",
+  "temple": "clotho",
+  "source_run": 40295931557,
+  "source_artifact": 12639842901,
+  "run_key": "playtech-ftsis-clotho-earned-fun-only-20261026-1030utc",
   "mode": "FUN_OFFLINE_ONLY",
-  "context": "Fresh independent FUN demo, not restoring previous server state; re-earn earned three-temple portal, select exactly one verified Lachesis card, observe countdown and terminal/base. Never treat earlier Atropos return as semantic payout or repeat purchases.",
-  "allowed_actions": "Official public FUN URL real=0 preferedmode=offline. Observe earned 3-temple portal three times separated 2s; click Lachesis once only when all guards pass; capture ALL earned bonus frames. If native Autoplay stopped appears after selected temple, verify 3 frames and stop without repeating. No Buy Bonus, Ante, purchased features or uncertain purchases.",
-  "patch_commits": [
-    "a601be669c6147f569566cce87a1af4c08e59c57",
-    "14ecddabcee32017c2874926e2590c7029199ce5",
-    "07a83589f1ada65c040a7b6690f29bc7ef29d56d",
-    "bf26a1066ade1f1a073877eb127cd1e077d74181"
-  ],
-  "ci_run": 40286971291,
-  "no_uncertain_purchase_retry": true,
+  "only_pending_function": "Fortune of the Gods: Sisters earned Clotho Temple 8 Free Games, previously unverified. Atropos 15 (40287108951) and Lachesis 10 (40295931557) were selected in separate earned FUN sessions; do not repeat those selections. Require one verified earned three-temple portal and a single Clotho click.",
+  "context": "New isolated public FUN demo, offline real=0, fake funds only. No restored server state and no purchased rounds.",
+  "allowed_actions": "Observe earned portal in three spaced stable observations; select ONLY Clotho once; capture entire earned free-games count, terminal result and base return. Do not click any BUY, Ante Bet, real money or uncertain result. No duplicate actions.",
+  "forbid_real_money": true,
   "forbid_buy": true,
-  "forbid_real_money": true
+  "no_uncertain_purchase_retry": true
 }
