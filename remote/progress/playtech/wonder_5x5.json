@@ -1,19 +1,19 @@
 {
   "game": "wonder_5x5",
-  "stage": "await_feature",
+  "stage": "bonus_in_progress",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 87,
-  "clicks": 3,
+  "observations": 92,
+  "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 849,
+  "network_events": 880,
   "websocket_connections": 2,
-  "requests_total": 216,
-  "elapsed_seconds": 2733,
-  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare > SS PO Not available Notavailable: SS —— ‘EXTRA Not available OW! R WER NN} SS kK AN (2) @) @) @) & | [Si Mim ~ a ce Y i> >, | 243 WAYS | Ss €9,927.50 @ *)",
+  "requests_total": 218,
+  "elapsed_seconds": 2842,
+  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN < SS SN yyy . \\< Ww SS 4 —— + = Sas 3x5 REELS 4x5 REELS. REELS | REELS. OUT Vd 54 ore — 243 1024 7776 WAYS WY SG €5.00 ToT! €9,936.50 @ *)",
   "run_id": "40280174612",
-  "time": "2026-10-26T07:16:29+00:00"
+  "time": "2026-10-26T07:18:17+00:00"
 }
