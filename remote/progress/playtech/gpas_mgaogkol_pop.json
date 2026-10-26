@@ -1,19 +1,19 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 72,
+  "observations": 82,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 338,
+  "network_events": 353,
   "websocket_connections": 2,
-  "requests_total": 161,
-  "elapsed_seconds": 507,
-  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN NO Hable OWE! TR A Not available x2 © We iN SS WAYS WIN TOTAL BET 9600 €9.00 €5.00 €9,749.00 @",
+  "requests_total": 162,
+  "elapsed_seconds": 578,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS' PLAYING FOR FUN vs il POWE! A Woe available hk IK — @ a: \\< Ay iN >> WAYS WIN TOTAL BET 2430 €5.00 €9,748.00 @",
   "run_id": "40274595606",
-  "time": "2026-10-26T05:39:39+00:00"
+  "time": "2026-10-26T05:40:51+00:00"
 }
