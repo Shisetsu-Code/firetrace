@@ -1,17 +1,19 @@
 {
   "game": "wonder_4x5",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "await_feature",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 113,
+  "observations": 16,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 1124,
+  "autoplay_repeats": 0,
+  "midas_feature_steps": 0,
+  "network_events": 158,
   "websocket_connections": 2,
-  "requests_total": 232,
-  "elapsed_seconds": 3618,
-  "latest_text": "GE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare ged Gp S XTRA Not available ID Not ER yi i =) », Go A > a ® ® ( ( ALD) ad ad fy a ( ~<< => Ea oa ~ €9, 00 Or)",
-  "run_id": "40211505961",
-  "time": "2026-10-25T17:25:21+00:00"
+  "requests_total": 107,
+  "elapsed_seconds": 528,
+  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare aS Gp [4 Not le’ “POWER, XTR OWE! Not available ee ORS Was SY a ZN Gy ® fy jas} aot wh Ar. | ~<< ae €9,995.00 fom)",
+  "run_id": "40280174612",
+  "time": "2026-10-26T06:39:43+00:00"
 }
