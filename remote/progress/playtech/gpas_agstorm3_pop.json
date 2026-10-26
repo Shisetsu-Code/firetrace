@@ -1,19 +1,19 @@
 {
   "game": "gpas_agstorm3_pop",
-  "stage": "intro",
+  "stage": "running",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 30,
-  "clicks": 2,
+  "observations": 41,
+  "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 73,
+  "network_events": 113,
   "websocket_connections": 2,
-  "requests_total": 135,
-  "elapsed_seconds": 221,
-  "latest_text": "PLAYING FOR FUN AGE OF THE GODS™ GOD OF STORMS 3™ ys ap) 4, PER wi ER x WER Not Te er 0.50 “iG A WwW F — = d. 00 J —s A OF A. Pi a me LINES WIN TOTAL BET €10,000.00 @",
+  "requests_total": 137,
+  "elapsed_seconds": 299,
+  "latest_text": "AGE OF THE GODS™ GOD OF STORMS 3™ PLAYING FOR FUN 4 SBPER —= | XTRA OWER al ER aan sa aS ) \\UTOPLAY a NUMBER OF S| 1G / is a ¥ ‘ A Ww € START a3 [: a o~ 0 LINES WIN TOTAL BET €9,997.60 @ *)",
   "run_id": "40261288969",
-  "time": "2026-10-26T02:57:26+00:00"
+  "time": "2026-10-26T02:58:43+00:00"
 }
