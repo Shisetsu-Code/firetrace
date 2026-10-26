@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_key": "wonder-5x5-terminal-guarded-green-continue-20261026-0912utc",
+  "mode": "FUN_OFFLINE_ONLY",
+  "game": "gpas_aogww_pop",
+  "only_variant": "5x5",
+  "source_run": 40295892992,
+  "source_artifact": 12637919613,
+  "reason": "Earned 5x5 5 Free Games reached visually verified TOTAL WIN €31.50 FUN modal (00044/00045), with green CONTINUE at (640,500), but OCR missed the target and no acknowledgement/base return was performed. Re-run ONLY this still incomplete earned FUN branch, 3 stable observations plus localized green control. Never repeat purchased bonus or real stakes.",
+  "code_fix": "4ffc52bfb5561c22ca2884251441902a4b7306bc",
+  "forbid_buy": true,
+  "forbid_real_money": true,
+  "no_uncertain_purchase_retry": true,
+  "do_not_run": [
+    "3x5",
+    "4x5",
+    "6x5",
+    "ante_bet",
+    "bonus_buy"
+  ],
+  "no_automatic_retry_on_uncertain_result": true
+}
