@@ -1,17 +1,19 @@
 {
   "game": "wonder_5x5",
-  "stage": "time_limit",
-  "outcome": "time_limit",
+  "stage": "await_feature",
+  "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 111,
+  "observations": 17,
   "clicks": 3,
   "spin_attempts": 0,
-  "network_events": 1107,
+  "autoplay_repeats": 0,
+  "midas_feature_steps": 0,
+  "network_events": 171,
   "websocket_connections": 2,
-  "requests_total": 230,
-  "elapsed_seconds": 3606,
-  "latest_text": "GE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare pir Not available Not available sWOND JER’ NN PC, SS Q A Lap Y OI \\) os @) & | Y — bi i> gu | 243 WAYS | roy) 2 = €9,951.00 @ *)",
-  "run_id": "40211505961",
-  "time": "2026-10-25T17:25:09+00:00"
+  "requests_total": 109,
+  "elapsed_seconds": 563,
+  "latest_text": "\\GE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare ue = Sp Not ER: )) S$ XTRA Not available EVO! ay Not availablePOWER’ @ y SQV ie) My aN » ( “> G \\\\ > 10 SS | 10 vA ( od ad ~<< > eek €10,000.00",
+  "run_id": "40280174612",
+  "time": "2026-10-26T06:40:18+00:00"
 }
