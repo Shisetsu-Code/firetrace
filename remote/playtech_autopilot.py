@@ -194,7 +194,7 @@ def known_finished_feature_modal(game: str, png: Path) -> bool:
         return False
     if game == "ashadv":
         return ("YOU'VE WON" in title or "YOUVE WON" in title) and (
-            "CONGRAT" in title or "CONGRAL" in title
+            "CONGRAT" in title or "CONGAT" in title or "CONGRAL" in title
         )
     return all(x in title for x in ("CONGRATULATIONS", "YOU WON", "FREE GAMES"))
 
@@ -690,8 +690,8 @@ class Probe:
                         return
                 # Previously captured FUN bonus result dialog, not a new wager.
                 # Check two independently acquired screenshots 2 seconds apart.
-                if (self.feature_seen and self.last_feature_action != "known_result_continue"
-                        and self.game in ("ashadv", "gpas_aogggriffin_pop")
+                if (self.game in ("ashadv", "gpas_aogggriffin_pop")
+                        and self.last_feature_action != "known_result_continue"
                         and known_finished_feature_modal(self.game, self.dir / "_current.png")):
                     await page.wait_for_timeout(2000)
                     await self.shot(page, "verify-result-modal", save=True)
@@ -699,6 +699,8 @@ class Probe:
                         self.note("FEATURE_RESULT_UNSTABLE", "Modal not identical on second observation")
                         continue
                     target = (640, 507) if self.game == "ashadv" else (640, 489)
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
                     self.note("FEATURE_RESULT", "Finished FUN bonus result and CONTINUE verified twice")
                     await self.click(page, target, "acknowledge_finished_FUN_feature_once")
                     self.last_feature_action = "known_result_continue"
