@@ -1,7 +1,7 @@
 {
   "game": "aogmt",
   "stage": "needs_review",
-  "outcome": "feature_needs_review",
+  "outcome": "needs_review",
   "feature_seen": true,
   "feature_finished": false,
   "observations": 309,
@@ -12,8 +12,8 @@
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 19,
-  "elapsed_seconds": 2056,
+  "elapsed_seconds": 2057,
   "latest_text": "UE TE Not available MIGH (TY | Mi) IDAS= CONGRATULATIONS! EMERALD BONUS Reveal a value and a multiplier for a cash prize! WIN MODE 2 €1,007.80 LST? 00:28:06",
   "run_id": "40246749884",
-  "time": "2026-10-26T00:28:11+00:00"
+  "time": "2026-10-26T00:28:13+00:00"
 }
