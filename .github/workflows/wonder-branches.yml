@@ -13,7 +13,7 @@ jobs:
     env:
       PLAYTECH_OUT: /tmp/wonder-evidence
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      VARIANT_SECONDS: '3600'
+      VARIANT_SECONDS: '5600'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
