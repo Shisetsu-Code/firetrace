@@ -599,6 +599,37 @@ class Probe:
                     self.note("BONUS_ACK", "Ash Tea Party earned bonus started; observe choices")
                     await self.checkpoint(force=True)
                     continue
+                # 40246749884 stalled on a positively identified, earned
+                # Emerald Bonus OK overlay. Two screenshots guard this
+                # non-purchase acknowledgement; never repeat uncertain OK.
+                if (self.game == "aogmt"
+                        and self.last_feature_action != "midas_emerald_ok"
+                        and midas_earned_emerald_intro(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-midas-emerald-intro", save=True)
+                    if not midas_earned_emerald_intro(self.dir / "_current.png"):
+                        self.note("EMERALD_UNSTABLE", "Earned modal not stable on second screenshot")
+                        continue
+                    if not ("real=0" in page.url or "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Cannot prove FUN before bonus OK")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (640, 454), "verified_earned_FUN_midas_emerald_OK_once")
+                    self.last_feature_action = "midas_emerald_ok"
+                    await page.wait_for_timeout(2400)
+                    await self.shot(page, "after-midas-emerald-OK", save=True)
+                    if midas_earned_emerald_intro(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("EMERALD_ACK_UNCERTAIN", "Clicked earned OK once; modal remains")
+                        await self.checkpoint("emerald_uncertain", force=True)
+                        return
+                    self.note("EMERALD_ACK", "Earned bonus intro dismissed; choices/payout not yet verified")
+                    await self.checkpoint(force=True)
+                    continue
                 # 40231711671/aogmt: the 3 AMETHYST SPINS intro was
                 # acknowledged, but the earned feature retained green SPIN
                 # for 900s. Its separate spins are not autoplayed. We only
