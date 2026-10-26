@@ -1,22 +1,22 @@
 {
-  "run_key": "playtech-gstorm3-native-bet-modal-close-20261026-0250Z",
-  "game": "gpas_agstorm3_pop",
+  "run_key": "playtech-king-native-bet-modal-close-20261026-0254Z",
+  "game": "gpas_mgaogkol_pop",
   "mode": "FUN_OFFLINE_ONLY",
   "source_run": 40246996090,
-  "source_artifact": 12619375952,
+  "source_artifact": 12618998264,
   "source_screenshots": [
-    "gpas_agstorm3_pop/01-loaded.jpg",
-    "gpas_agstorm3_pop/02-main.jpg"
+    "gpas_mgaogkol_pop/01-loaded.jpg",
+    "gpas_mgaogkol_pop/02-main.jpg"
   ],
-  "verified_bug": "After valid CONTINUE intro, native BET OPTIONS overlay masks autoplay (02-main.jpg). Title recognized by OCR; X at 828,160. No stake must be modified.",
+  "verified_bug": "After native play-arrow intro, BET OPTIONS overlay obscures main game and autoplay. X control at (749,248), independently OCR-confirmed in archived screenshot.",
   "fix_commits": [
     "2151ab64d01997d86b52fa0968f75f5bc77ef2f1",
     "07c9e56e71f447534e6cd4c15738a3884888d918"
   ],
-  "allowed_actions": "FUN/offline only; three observations separated by 2 seconds if BET OPTIONS shown; close existing X once, verify dismissal; then exercise only native autoplay and earned features. No purchases.",
+  "allowed_actions": "FUN/offline only. On verified BET OPTIONS, three screenshots at 2s intervals, close X once; verify dismissal, then native autoplay and earned bonus only. No buy or ante changes.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "only_pending_function": "Unblock native autoplay in God of Storms 3, then seek and verify a previously uncompleted earned demo bonus. No Buy Bonus or Ante actions in this run.",
-  "notes": "Separate fresh DEMO browser context; not session restoration. Job success not proof of bonus completion. Preserve network metadata and screenshots."
+  "only_pending_function": "Clear observed start-modal blocker and verify King of Olympus earned feature/win result plus FUN board return if it occurs.",
+  "notes": "Separate fresh DEMO session; not recovery of previous server state or a repeat purchase. A complete GitHub job alone never proves game function."
 }
