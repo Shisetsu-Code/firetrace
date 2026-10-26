@@ -1,19 +1,19 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "intro",
+  "stage": "running",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 30,
-  "clicks": 2,
+  "observations": 42,
+  "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 70,
+  "network_events": 140,
   "websocket_connections": 2,
-  "requests_total": 156,
-  "elapsed_seconds": 198,
-  "latest_text": "\\WAYS PLAYING FOR FUN 6 Not available es SA iL IK E IK i oF IK ER SS a © TOTAL BET 7056 €5.00 @",
+  "requests_total": 157,
+  "elapsed_seconds": 275,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN i) Not available TE EF \" 1? if \\ wy CON} i i\" WAYS WIN TOT: A €9,915.00 @ *)",
   "run_id": "40274595606",
-  "time": "2026-10-26T05:34:31+00:00"
+  "time": "2026-10-26T05:35:47+00:00"
 }
