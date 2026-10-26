@@ -73,6 +73,12 @@ UNTIL_FEATURE = {
     "gpas_gstorm2_pop": (835, 505),
 }
 
+FTSIS_TEMPLES = {
+    "atropos": (219, 473),
+    "lachesis": (644, 473),
+    "clotho": (1066, 473),
+}
+
 SENSITIVE = re.compile(r"(?:token|secret|session|cookie|auth|password|signature|jwt|key|uid|email|nonce|sid|seed|csrf)", re.I)
 FEATURE = re.compile(r"\b(?:FEATURE (?:TRIGGERED|AWARDED|WIN)|BONUS (?:GAME|WON|AWARDED)|FREE (?:SPINS|GAMES) (?:AWARDED|WON|START)|CONGRATULATIONS|YOU HAVE WON \d+ FREE|PICK A|CHOOSE YOUR)\b", re.I)
 END = re.compile(r"\b(?:FEATURE COMPLETE|BONUS COMPLETE|FREE GAMES COMPLETE|TOTAL BONUS WIN|CONGRATULATIONS YOU WON)\b", re.I)
@@ -384,6 +390,33 @@ def king_earned_free_games_intro(png: Path, text: str) -> bool:
     return bright > 0.25
 
 
+def ftsis_earned_temple_portal(png: Path) -> bool:
+    """Verify the three earned free-games choices; NEVER a bonus purchase.
+
+    Seen in 40280332708 / artifact 12632717773 / ftsis/_current.png:
+    THE PORTAL IS OPEN! CHOOSE A FREE GAMES MODE. Three temple panels
+    offer Atropos 15, Lachesis 10, Clotho 8; generic OCR missed choice.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        banner = pytesseract.image_to_string(
+            rgb.crop((115, 20, 1157, 110)), config="--psm 6",
+        ).upper()
+        left = pytesseract.image_to_string(
+            rgb.crop((29, 329, 415, 642)), config="--psm 6",
+        ).upper()
+        middle = pytesseract.image_to_string(
+            rgb.crop((451, 330, 826, 642)), config="--psm 6",
+        ).upper()
+        right = pytesseract.image_to_string(
+            rgb.crop((873, 331, 1260, 645)), config="--psm 6",
+        ).upper()
+    return (all(q in banner for q in ("PORTAL", "OPEN", "FREE GAMES MODE"))
+            and all(q in left for q in ("ATROPOS", "MULTIPLIER"))
+            and all(q in middle for q in ("LACHESIS", "10 FREE GAMES", "LOCKING"))
+            and all(q in right for q in ("CLOTHO", "8 FREE GAMES", "RANDOM")))
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -675,6 +708,52 @@ class Probe:
                     self.note("FEATURE", state["text"][:300])
                     # Never send a base wager while a feature or choice is active.
                     fallback = False
+                # Verify earned Sisters portal three times, two seconds apart, then
+                # click exactly one of the three known temple cards (NEVER a purchase).
+                if (self.game == "ftsis"
+                        and ftsis_earned_temple_portal(self.dir / "_current.png")):
+                    choice = os.getenv("PLAYTECH_FTSIS_TEMPLE", "atropos").lower()
+                    if choice not in FTSIS_TEMPLES:
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Invalid FTSIS temple; refusing choice")
+                        await self.checkpoint("invalid_temple", force=True)
+                        return
+                    if self.last_feature_action == "ftsis_portal_choice":
+                        self.stage = "needs_review"
+                        self.note("FTSIS_CHOICE_UNCERTAIN", "Already clicked this portal once")
+                        await self.checkpoint("temple_choice_uncertain", force=True)
+                        return
+                    stable = True
+                    for check_number in (2, 3):
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, f"verify-ftsis-portal-{check_number}", save=True)
+                        if not ftsis_earned_temple_portal(self.dir / "_current.png"):
+                            stable = False
+                            self.note("FTSIS_PORTAL_UNSTABLE", "Portal changed; no input")
+                            break
+                    if not stable:
+                        continue
+                    if not ("real=0" in page.url and "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Not proven FUN mode; no temple input")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    await self.click(page, FTSIS_TEMPLES[choice],
+                                     f"verified_earned_FUN_ftsis_{choice}_temple_choice_once")
+                    self.last_feature_action = "ftsis_portal_choice"
+                    await page.wait_for_timeout(3400)
+                    await self.shot(page, f"after-ftsis-{choice}-choice", save=True)
+                    if ftsis_earned_temple_portal(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("FTSIS_CHOICE_UNCERTAIN", "Portal remained after one click; no retry")
+                        await self.checkpoint("temple_choice_uncertain", force=True)
+                        return
+                    self.note("FTSIS_CHOICE", f"Earned {choice} temple selected once; "
+                              "portal dismissed. Feature completion and payout still unverified.")
+                    await self.checkpoint(force=True)
+                    continue
                 # 40241233787 reached an earned Battle for Power FINAL
                 # result (€17.15 during Free Games) but never clicked CONTINUE.
                 # Require two 2-second-separated observations before one
