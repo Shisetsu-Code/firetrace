@@ -31,7 +31,8 @@
     "2026-10-26T05:21Z: King 40268935164 still in_progress, checkpoint 496 observations, 4 clicks, 0 fallback-spin attempts, feature_seen=false. No artifact yet; do not claim feature completion nor restart overlapping job.",
     "2026-10-26T05:24Z: Latest Mighty Midas 40268966021 artifact network.jsonl: 2 sent/2 received opaque frames on redacted oapi.playtechhorizon.com WS, POST cachedownload.playtechone.com/cdn-cgi/rum 204 x3, KeepAlive.php 200 x1. Neither HTTP status confirms a game result. Cleared stale completed Ash active_recovery pointer.",
     "2026-10-26T05:27Z: King single FUN 40268935164 completed success but game time_limit; ZIP 12629367546: one verified fallback spin at 05:24:48 triggered earned 10 FREE GAMES; arrow clicked ONCE 05:25:19 after 3 stable images; screenshots 00540/00541 show bonus running, spins left 8 to 7, NOT finished. No purchase or Ante.",
-    "2026-10-26T05:27Z: 73 archived static King reel screenshots (obs 100..531) had layout 640-bit hash deltas ≤82 while original luminance delta >5 repeatedly restarted fallback 55min. Code 7468d296: use reel-layout hamming >120 to signal actual movement, and grant up to 900s beyond base deadline for already observed earned bonus, max 4500s. Source trigger c7d0cb46 targets only unfinished King with FUN/no-buy flags; new workflow run ID not yet available via linked API; check next checkpoint and do not assert success."
+    "2026-10-26T05:27Z: 73 archived static King reel screenshots (obs 100..531) had layout 640-bit hash deltas ≤82 while original luminance delta >5 repeatedly restarted fallback 55min. Code 7468d296: use reel-layout hamming >120 to signal actual movement, and grant up to 900s beyond base deadline for already observed earned bonus, max 4500s. Source trigger c7d0cb46 targets only unfinished King with FUN/no-buy flags; new workflow run ID not yet available via linked API; check next checkpoint and do not assert success.",
+    "2026-10-26T06:23:36.816Z: resolved previously unknown King trigger c7d0cb46 as Actions run 40274595606 (completed/success), artifact 12629764217. Independently examined original 00109 (7 spins left), 00117 (terminal FEATURE WIN €32.50), 00118 (FUN base returned beneath Autoplay Options). One earned arrow start and one terminal acknowledgement. King earned 10 Free Games feature now VISUALLY COMPLETE; semantic WebSocket frames opaque, no Buy Bonus/Ante verified. GitHub filtered active/queued workflow lists both empty. Still 0/10 all-function audits."
   ],
   "games": {
     "ashadv": {
@@ -353,19 +354,23 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "EARNED_10_FREE_GAMES_STARTED_NOT_FINISHED",
-        "evidence": "40268935164/12629367546/gpas_mgaogkol_pop/screenshots/00533-after-fallback.jpg,00535-feature.jpg,00539-verify-king-10-free-games-3.jpg,00540-after-king-10-free-games-start.jpg,00541-poll.jpg",
-        "verified_actions": "One guarded arrow click; bonus progressed to SPINS LEFT 7",
-        "pending": "At least seven remaining spins plus terminal result and board return; prior session closed, cannot resume."
+        "status": "EARNED_10_FREE_GAMES_STARTED_TERMINAL_FEATURE_WIN_AND_FUN_BASE_RETURN_VERIFIED",
+        "evidence": "40274595606/12629764217/gpas_mgaogkol_pop/screenshots/00084-after-fallback.jpg,00106-verify-king-10-free-games-3.jpg,00107-after-king-10-free-games-start.jpg,00109-poll.jpg,00116-feature.jpg,00117-verify-king-feature-win.jpg,00118-after-feature-win.jpg",
+        "verified_actions": "One earned feature arrow press at 05:43:02Z, one terminal CONTINUE at 05:44:13Z, UI returned to base with Autoplay Options panel",
+        "terminal_result_fictitious": "€32.50",
+        "server_wager_and_result_response_verified": false
       },
       "special_functions": {
-        "status": "EARNED_KING_10_FREE_GAMES_ACTIVE_AT_RUN_TIMEOUT",
-        "artifact": 12629367546,
-        "reason": "Stale reel layout prevented fallback until 05:24; earned bonus started at 05:25 but base run deadline was 3600sec."
+        "status": "EARNED_KING_10_FREE_GAMES_FLOW_VISUALLY_COMPLETE",
+        "artifact": 12629764217,
+        "notes": "Terminal FEATURE WIN and base return recorded in same fresh FUN session. Earlier 40268935164 was partial and not resumed."
       },
       "bonus_result": {
-        "status": "FEATURE_WIN_464_end_screen_previously_observed_no_return",
-        "evidence": "40221846216/12610852689/gpas_mgaogkol_pop/screenshots/00164-feature.jpg"
+        "status": "FEATURE_WIN_TERMINAL_AND_FUN_BOARD_RETURN_VISUALLY_VERIFIED",
+        "amount_on_screen": "€32.50 ficticios",
+        "evidence": "40274595606/12629764217/gpas_mgaogkol_pop/screenshots/00117-verify-king-feature-win.jpg,00118-after-feature-win.jpg",
+        "acknowledgement": "verified_feature_win_continue @(1175,360) at 2026-10-26T05:44:13Z (one click)",
+        "server_response_decoded": false
       },
       "server_game_response": {
         "status": "not_decoded",
@@ -388,15 +393,16 @@
         "explanation": "Opaque WebSocket frame bodies; HTTP 200 only telemetry, not win/buy proof"
       },
       "last_result": {
-        "run": 40268935164,
-        "status": "time_limit",
+        "run": 40274595606,
+        "status": "feature_complete",
         "feature_seen": true,
-        "feature_finished": false,
-        "observations": 541,
-        "clicks": 6,
+        "feature_finished": true,
+        "observations": 118,
+        "clicks": 7,
         "spin_attempts": 1,
-        "artifact": 12629367546,
-        "independently_verified": "After one FUN spin fallback, 10 FREE GAMES earned; stable blue arrow clicked once at 05:25:19 UTC. Screenshots 00540 and 00541 show active bonus counter SPINS LEFT 8→7 at 05:25. Global 3600s deadline elapsed during bonus. No terminal result or return to FUN base."
+        "artifact": 12629764217,
+        "elapsed_seconds": 787,
+        "verified": "Earned 10 FREE GAMES started at 05:43:02 UTC after three consistent observations; counter SPINS LEFT 7 in screenshot 00109; terminal FEATURE WIN €32.50 independently visible in screenshot 00117; single CONTINUE/arrow click at 05:44:13 UTC and base reels returned under Autoplay Options in screenshot 00118. All in PLAYING FOR FUN, no purchase or Ante."
       },
       "active_recovery": null,
       "initial_bet_options_overlay": {
@@ -474,17 +480,9 @@
       }
     }
   },
-  "last_checked_at_utc": "2026-10-26T01:15:00Z",
+  "last_checked_at_utc": "2026-10-26T06:23:36.816Z",
   "read_only_menu_inventory_run": 40246996090,
   "last_reviewed_utc": "2026-10-26T02:55:00Z",
-  "last_review_utc": "2026-10-26T04:25:30Z",
-  "pending_or_unresolved_workflow_dispatches": [
-    {
-      "game": "gpas_mgaogkol_pop",
-      "trigger_commit": "c7d0cb46f45f1ef36a9c9daa2f7bf7a3d8f22d17",
-      "workflow": "playtech-single-fun.yml",
-      "run_id": "await_new_run_checkpoint",
-      "mode": "FUN_OFFLINE_ONLY"
-    }
-  ]
+  "last_review_utc": "2026-10-26T06:23:36.816Z",
+  "pending_or_unresolved_workflow_dispatches": []
 }
