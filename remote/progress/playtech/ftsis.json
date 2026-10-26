@@ -1,10 +1,10 @@
 {
   "game": "ftsis",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 87,
+  "observations": 100,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 1,
@@ -12,8 +12,8 @@
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 18,
-  "elapsed_seconds": 567,
-  "latest_text": "~~ ODS) Notavailable AES. R Not available AN ST WER ne available Not available POWER: ees le le ul ae ie i — Be ~ SPIN ee 2 €987.45 [Play for Real 06:41:38",
+  "elapsed_seconds": 647,
+  "latest_text": "=) ODS) Notavailable R Not available AN ST WER M RA Not available a. _ Not available POWE: Gee =] | on ARS ARS | FREE © \\ hi ‘als — ee Be ee | 2 €987.70 [Play for Real 06:42:58",
   "run_id": "40280332708",
-  "time": "2026-10-26T06:41:40+00:00"
+  "time": "2026-10-26T06:43:00+00:00"
 }
