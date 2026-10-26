@@ -63,8 +63,11 @@ async def play_variant(browser, variant: str, limit=3600):
         probe.stage="await_feature"
         await page.wait_for_timeout(2200)
         while time.monotonic()-started < limit:
-            await page.wait_for_timeout(5500)
-            words,state=await probe.shot(page,"watch",save=probe.observations%4==0)
+            # Isolated GitHub runner keeps the active FUN page in the foreground.
+            # The prior two-tab run left bonus counters stalled for many minutes.
+            await page.bring_to_front()
+            await page.wait_for_timeout(2500 if selected else 5500)
+            words,state=await probe.shot(page,"watch",save=selected or probe.observations%4==0)
             img=probe.dir/"_current.png"
             # Hard guard: no actions if the current screen is not explicitly FUN.
             if ("PLAYING FOR FUN" not in state["text"].upper() and not
@@ -72,6 +75,22 @@ async def play_variant(browser, variant: str, limit=3600):
                 probe.stage="needs_review"
                 probe.note("FUN_GUARD","Neither screen nor live URL independently establishes FUN/offline; stop")
                 break
+            # 40280174612/12635431364: Wonder 4x5 showed a persistent
+            # first-party "Connection Lost" modal. Never click a spin or
+            # reopen autoplay while disconnected; capture 3 stable images.
+            if "CONNECTION LOST" in state["text"].upper():
+                persistent=True
+                for check in (2,3):
+                    await page.wait_for_timeout(2000)
+                    _, verified=await probe.shot(page,f"verify-connection-lost-{check}",save=True)
+                    if "CONNECTION LOST" not in verified["text"].upper():
+                        persistent=False
+                        break
+                if persistent:
+                    probe.stage="connection_lost_external"
+                    probe.note("CONNECTION_LOST_EXTERNAL",
+                        f"{variant}: first-party session disconnected; no input or purchase attempted")
+                    break
             if not selected:
                 choice_text=await asyncio.to_thread(read_crop,img,(370,135,940,225))
                 if "SELECT" in choice_text or "YOUR REELS" in choice_text:
@@ -165,9 +184,9 @@ async def play_variant(browser, variant: str, limit=3600):
                         probe.stage="verified_return_to_base"
                         await probe.shot(page,"bonus-end",save=True)
                         break
-                if time.monotonic()-bonus_started_at>1200:
+                if time.monotonic()-bonus_started_at>1800:
                     probe.stage="bonus_needs_review"
-                    probe.note("BLOCKER","Feature did not finish after 20 minutes")
+                    probe.note("BLOCKER","Earned feature not terminally verified after 30 minutes; avoid new inputs")
                     break
             await probe.checkpoint()
         else:
@@ -184,9 +203,13 @@ async def play_variant(browser, variant: str, limit=3600):
 
 async def main():
     limit=max(120,min(6000,int(os.getenv("VARIANT_SECONDS","3600"))))
+    only=os.getenv("WONDER_ONLY_VARIANT")
+    if only and only not in OPTIONS:
+        raise ValueError("Invalid Wonder FUN variant, refusing run")
+    variants=[only] if only else list(OPTIONS)
     async with async_playwright() as playwright:
         browser=await playwright.chromium.launch(headless=True,args=["--disable-dev-shm-usage"])
-        await asyncio.gather(*(play_variant(browser,v,limit) for v in OPTIONS))
+        await asyncio.gather(*(play_variant(browser,v,limit) for v in variants))
         await browser.close()
 
 
