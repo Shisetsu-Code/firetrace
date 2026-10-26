@@ -4,9 +4,24 @@
     "4x5_10_free_games",
     "5x5_5_free_games"
   ],
+  "already_verified_not_repeated": [
+    "3x5_15_free_games"
+  ],
   "locked": [
     "6x5_3_free_games"
   ],
-  "mode": "FUN",
-  "run": "20261025"
+  "mode": "FUN_OFFLINE_ONLY",
+  "run_key": "wonder-pending-4x5-5x5-bounded-20261026-0630utc",
+  "source_run": 40211505961,
+  "source_artifact": 12607631700,
+  "reason": "Original two isolated branches 40211505961 made no feature selection before 3600s; existing native UNTIL FEATURE was visibly running. Retry only the two unverified branches with 5600s bounded limit and guarded terminal CONTINUE; do not replay 3x5 already completed.",
+  "fix_commits": [
+    "4a66c39597f053aa412a2654a8982cb0590fd4ec",
+    "308356552bbc6abcd00a1fba820a80900aaa27b9",
+    "34ba80a32da5af78570021d4db3b6da2b170f7d4"
+  ],
+  "no_uncertain_purchase_retry": true,
+  "forbid_buy": true,
+  "forbid_real_money": true,
+  "allow_cash": false
 }
