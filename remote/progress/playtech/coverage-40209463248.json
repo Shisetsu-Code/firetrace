@@ -7,9 +7,8 @@
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
-    40246246062,
-    40246248235,
-    40246749884
+    40253238501,
+    40253255839
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
@@ -20,7 +19,10 @@
     "Verified archived crops on 2026-10-25: Rulers terminal FREE GAMES + CONTINUE and Ash Tea Party Bonus + START; guard correction commit abca79ce.",
     "No new Buy Bonus purchases/Ante bets implied by these targeted recoveries; full completion remains 0/10.",
     "Isolated Mighty Midas earned-spin workflow 40246749884 (fresh FUN), verified image guard commit 5615d60; no bonus completion yet.",
-    "40246996090 inspects screenshots of all ten FUN autoplay menus without buying, toggling Ante, or claiming bonus outcomes; results await classification."
+    "40246996090 inspects screenshots of all ten FUN autoplay menus without buying, toggling Ante, or claiming bonus outcomes; results await classification.",
+    "2026-10-26T01:14Z: 40246246062 completed earned Rulers Free Games result/return, but full-game coverage remains false. 40246248235 Ash reached terminal €2.38 CONTINUE not clicked due heading OCR missing R & feature_seen guard. 40246749884 Midas stalled on earned Emerald Bonus green OK; no feature steps. Artifacts 12620120243/12619922530/12619273713.",
+    "Verified fixes fae9661, 368876d, ce7aca1; CI checks 40253126090/40253148039/40253173122 successful. Isolated no-buy DEMO-only recoveries 40253255839 Ash and 40253238501 Midas now active. Their success != full game completion.",
+    "Network metadata in latest artifacts: redacted wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}; https://cachedownload.playtechone.com/cdn-cgi/rum HTTP 204. WebSocket frames opaque; no semantic win/buy/payout response verified."
   ],
   "games": {
     "ashadv": {
@@ -42,25 +44,26 @@
         "verified_control": "green START (809,494); direct action must be verified in new run"
       },
       "bonus_result": {
-        "status": "end_modal_observed_return_not_verified",
-        "evidence": "40231711671/12613454975/ashadv/screenshots/00199-poll.jpg",
-        "text": "YOU'VE WON €4.28; CONTINUE"
+        "status": "earned_terminal_result_modal_observed_return_not_verified",
+        "evidence": "40246248235/12619922530/ashadv/_current.png",
+        "text": "Congatulations / YOU'VE WON €2.38 / CONTINUE",
+        "verified_control": "CONTINUE at (640,507) visible in finished FUN bonus; no repeat or click verified yet"
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
       "last_result": {
-        "run": 40241535898,
+        "run": 40246248235,
         "status": "needs_review",
         "feature_seen": false,
         "feature_finished": false,
-        "observations": 446,
-        "spin_attempts": 115,
-        "artifact": 12618172019,
-        "reason": "Missed earned Tea Party modal; base spin fallback attempted under modal; no buy claimed"
+        "observations": 259,
+        "spin_attempts": 11,
+        "artifact": 12619922530,
+        "reason": "EARNED RESULT modal €2.38 remained onscreen; global OCR missed heading (CONGATULATIONS) and feature_seen gate prevented verified CONTINUE"
       },
-      "active_recovery": 40246248235
+      "active_recovery": 40253255839
     },
     "ftsis": {
       "complete": false,
@@ -138,9 +141,9 @@
         "status": "not_verified"
       },
       "special_functions": {
-        "status": "EARNED_3_AMETHYST_SPINS_INTRO_ACKNOWLEDGED_SPINS_NOT_VERIFIED",
-        "evidence": "40231711671/12614483502/aogmt/screenshots/00237-feature.jpg,00239-after-amethyst-ok.jpg,00361-poll.jpg",
-        "details": "Green SPIN visibly awaiting next earned Amethyst Spin at (979,559), banner remains 3 AMETHYST SPINS; old runner waited without clicking."
+        "status": "EARNED_EMERALD_BONUS_INTRO_OBSERVED_NOT_ACKNOWLEDGED;_PRIOR_AMETHYST_SPINS_NOT_COMPLETED",
+        "evidence": "40246749884/12619273713/aogmt/_current.png",
+        "verified_control": "Green OK center (640,454), guarded in follow-up"
       },
       "bonus_result": {
         "status": "stalled_no_end_observed",
@@ -150,13 +153,16 @@
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40246749884,
+      "active_recovery": 40253238501,
       "last_result": {
-        "run": 40231711671,
+        "run": 40246749884,
         "status": "needs_review",
         "feature_seen": true,
         "feature_finished": false,
-        "artifact": 12614483502
+        "midas_feature_steps": 0,
+        "observations": 309,
+        "artifact": 12619273713,
+        "reason": "EARNED Emerald Bonus intro and green OK, old OCR missed control. No Amethyst spins or Emerald payout verified in this run."
       }
     },
     "aogroo": {
@@ -178,22 +184,24 @@
         "evidence": "40241233787/12617529188/aogroo/_current.png"
       },
       "bonus_result": {
-        "status": "terminal_result_modal_observed_RETURN_NOT_VERIFIED",
-        "evidence": "40241233787/12617529188/aogroo/_current.png",
-        "blocked_control": "yellow CONTINUE (944,500), previously not recognized"
+        "status": "feature_complete_and_FUN_board_return_verified",
+        "evidence": "40246246062/12620120243/aogroo/screenshots and events.jsonl",
+        "details": "Earned Battle for Power Free Games result observed twice, continued once, returned to FUN base. No Buy Bonus/Ante/menu inventory or semantic game response proved."
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40246246062,
+      "active_recovery": null,
       "last_result": {
-        "run": 40241233787,
-        "status": "needs_review",
+        "run": 40246246062,
+        "status": "feature_complete",
         "feature_seen": true,
-        "feature_finished": false,
-        "observations": 333,
-        "artifact": 12617529188
+        "feature_finished": true,
+        "observations": 179,
+        "clicks": 7,
+        "artifact": 12620120243,
+        "evidence": "aogroo/events.jsonl & screenshots: two result observations, single CONTINUE at (944,500), verified FUN base board return"
       }
     },
     "gpas_gstorm2_pop": {
@@ -337,6 +345,6 @@
       }
     }
   },
-  "last_checked_at_utc": "2026-10-25T23:57:00Z",
+  "last_checked_at_utc": "2026-10-26T01:15:00Z",
   "read_only_menu_inventory_run": 40246996090
 }
