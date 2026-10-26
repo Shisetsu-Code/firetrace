@@ -1,0 +1,48 @@
+name: Wonder Warriors 4x5 earned FUN terminal recovery
+on:
+  push:
+    branches: [main]
+    paths: ['remote/wonder-4x5-recovery.json']
+permissions:
+  contents: write
+jobs:
+  earned-4x5-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    env:
+      PLAYTECH_OUT: /tmp/wonder-4x5-evidence
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      VARIANT_SECONDS: '5600'
+      WONDER_ONLY_VARIANT: '4x5'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium and text detector
+        run: |
+          python -m pip install -e . pillow pytesseract
+          python -m playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-eng
+      - name: Check script syntax and strict FUN recovery allowlist
+        run: |
+          python -m py_compile remote/wonder_warriors_branches.py remote/playtech_autopilot.py
+          python - <<'PY'
+          import json, os
+          request = json.load(open("remote/wonder-4x5-recovery.json", encoding="utf-8"))
+          assert request["mode"] == "FUN_OFFLINE_ONLY"
+          assert request["only_variant"] == os.environ["WONDER_ONLY_VARIANT"] == "4x5"
+          assert request["forbid_buy"] is True and request["forbid_real_money"] is True
+          assert request["no_uncertain_purchase_retry"] is True
+          PY
+      - name: Observe earned 4x5 result and guarded CONTINUE
+        run: python -u remote/wonder_warriors_branches.py
+      - name: Save evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wonder-warriors-4x5-terminal-${{ github.run_id }}
+          path: /tmp/wonder-4x5-evidence/
+          retention-days: 7
+          if-no-files-found: warn
