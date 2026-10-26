@@ -8,12 +8,17 @@ permissions:
   contents: write
 jobs:
   branches:
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: ['4x5', '5x5']
     runs-on: ubuntu-latest
     timeout-minutes: 115
     env:
       PLAYTECH_OUT: /tmp/wonder-evidence
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       VARIANT_SECONDS: '5600'
+      WONDER_ONLY_VARIANT: ${{ matrix.variant }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,13 +32,13 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-eng
       - name: Check script syntax
         run: python -m py_compile remote/wonder_warriors_branches.py remote/playtech_autopilot.py
-      - name: Run two independently isolated reel features
+      - name: Run only the pending ${{ matrix.variant }} FUN reel feature
         run: python -u remote/wonder_warriors_branches.py
       - name: Save evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wonder-warriors-branches-${{ github.run_id }}
+          name: wonder-warriors-${{ matrix.variant }}-${{ github.run_id }}
           path: /tmp/wonder-evidence/
           retention-days: 7
           if-no-files-found: warn
