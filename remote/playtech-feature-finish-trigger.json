@@ -1,18 +1,18 @@
 {
-  "run_key": "playtech-ash-tea-party-start-guard-20261025-2345Z",
+  "run_key": "playtech-ash-earned-terminal-result-guard-20261026-0110Z",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40241535898,
+  "source_run": 40246248235,
   "target_games": [
     "ashadv"
   ],
   "source_artifacts": [
-    12618172019
+    12619922530
   ],
-  "allowed_actions": "Only fresh DEMO FUN/offline; twice-verify Tea Party Bonus START, click once, observe bonus choices, no guess or repeat of uncertain purchases; no real money",
+  "allowed_actions": "Only isolated FUN/offline new session; stable OCR crop twice of earned terminal result and CONTINUE, acknowledge once then verify board; earned Tea Party START only when visual guard matches. No Buy Bonus or uncertain purchase repeats.",
   "no_uncertain_purchase_retry": true,
   "not_complete_until_response_and_visual_confirm": true,
-  "purpose": "Guard earned Ash Tea Party START and prevent further fallback wagers into modal. New DEMO not persisted old session.",
+  "purpose": "Recover known Ash earned bonus result acknowledgment, without false repeated spins. A prior session is not recoverable by JSON.",
   "source_screenshot": "ashadv/_current.png",
-  "verified_bug": "Earned Tea Party Bonus modal contained green START (809,494); runner did not recognize feature and issued base SPIN into blocking modal 115 times.",
-  "fix_commit": "abca79ce5b0e88b59a1a13b3859e068bcb48f41b"
+  "verified_bug": "Run 40246248235 shows an earned terminal CONGATULATIONS / YOU'VE WON €2.38 with CONTINUE at (640,507), but global OCR did not mark feature_seen and cropped heading dropped letter R. Result guard was never evaluated; runner attempted base spins against blocking result modal.",
+  "fix_commit": "fae9661600e23d069ddde436ebf7e42dfc7fb1f0"
 }
