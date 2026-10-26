@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_key": "wonder-4x5-earned-67-euro-terminal-guarded-20261026-1031utc",
+  "mode": "FUN_OFFLINE_ONLY",
+  "game": "gpas_aogww_pop",
+  "only_variant": "4x5",
+  "source_run": 40295892992,
+  "source_artifact": 12639885363,
+  "reason": "Real earned 4x5 10 Free Games plus 3 retrigger finished at TOTAL WIN €67.00 virtual FUN, CONTINUE visible at (640,500), no acknowledgement in run 40295892992. Retry only this unfinished earned FUN branch on isolated session, 3 verified stable modal observations and exactly one safe CONTINUE, then 3 visual base checks.",
+  "code_fix": "2289b53465e39a577c2aaa7a3c4eb668e58bb068",
+  "forbid_buy": true,
+  "forbid_real_money": true,
+  "no_uncertain_purchase_retry": true,
+  "no_automatic_retry_on_uncertain_result": true,
+  "do_not_run": [
+    "3x5",
+    "5x5",
+    "6x5",
+    "ante_bet",
+    "bonus_buy"
+  ]
+}
