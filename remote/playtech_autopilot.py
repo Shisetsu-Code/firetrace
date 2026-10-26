@@ -362,7 +362,7 @@ def midas_earned_sapphire_intro(png: Path) -> bool:
             1 for r, g, b in pixels
             if g > 65 and g > r * 1.24 and g > b * 1.10
         ) / len(pixels)
-    return bool(re.search(r"\\b\\d{1,2}\\s+SAPPHIRE\\s+SPINS\\b", title) and green > 0.35)
+    return bool(re.search(r"\b\d{1,2}\s+SAPPHIRE\s+SPINS\b", title) and green > 0.35)
 
 
 def record_event(path: Path, event: dict):
