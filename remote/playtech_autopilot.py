@@ -345,6 +345,26 @@ def bet_options_modal(game: str, png: Path) -> bool:
     return bool(re.search(r"BET\s+OPTIONS", label))
 
 
+def midas_earned_sapphire_intro(png: Path) -> bool:
+    """Guard for earned SAPPHIRE SPINS (run 40260131442 observed 5).
+
+    This is a bonus introduction, not a purchase. Require the earned-spin
+    caption AND a visible green confirmation button at the same modal
+    geometry as independently verified Ruby/Emerald examples.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        title = pytesseract.image_to_string(
+            rgb.crop((290, 130, 985, 401)), config="--psm 6",
+        ).upper()
+        pixels = list(rgb.crop((606, 426, 670, 478)).getdata())
+        green = sum(
+            1 for r, g, b in pixels
+            if g > 65 and g > r * 1.24 and g > b * 1.10
+        ) / len(pixels)
+    return bool(re.search(r"\\b\\d{1,2}\\s+SAPPHIRE\\s+SPINS\\b", title) and green > 0.35)
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -678,6 +698,44 @@ class Probe:
                         await self.checkpoint("bonus_needs_review", force=True)
                         return
                     self.note("BONUS_ACK", "Ash Tea Party earned bonus started; observe choices")
+                    await self.checkpoint(force=True)
+                    continue
+                # 40260131442 newly observed earned 5 SAPPHIRE SPINS.
+                # The live workflow was started before this guard existed.
+                # Future runs may acknowledge only after three stable visual
+                # observations (the initial frame plus two separated by 2s).
+                if (self.game == "aogmt"
+                        and self.last_feature_action != "midas_sapphire_ok"
+                        and midas_earned_sapphire_intro(self.dir / "_current.png")):
+                    stable = True
+                    for check_number in (2, 3):
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, f"verify-midas-sapphire-{check_number}", save=True)
+                        if not midas_earned_sapphire_intro(self.dir / "_current.png"):
+                            stable = False
+                            self.note("SAPPHIRE_UNSTABLE", "Earned Sapphire intro changed; no input")
+                            break
+                    if not stable:
+                        continue
+                    if not ("real=0" in page.url and "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "FUN mode not proven before earned Sapphire confirmation")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (640, 455), "verified_earned_FUN_midas_sapphire_OK_once")
+                    self.last_feature_action = "midas_sapphire_ok"
+                    await page.wait_for_timeout(2300)
+                    await self.shot(page, "after-midas-sapphire-OK", save=True)
+                    if midas_earned_sapphire_intro(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("SAPPHIRE_ACK_UNCERTAIN", "One earned Sapphire OK input; modal still visible")
+                        await self.checkpoint("sapphire_uncertain", force=True)
+                        return
+                    self.note("SAPPHIRE_ACK",
+                              "Earned Sapphire intro dismissed; special spins/result still require proof")
                     await self.checkpoint(force=True)
                     continue
                 # 40253238501 produced a different earned Midas intro:
