@@ -1,18 +1,18 @@
 {
   "game": "aogroo",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 153,
+  "observations": 157,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 1,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 14,
-  "elapsed_seconds": 1217,
-  "latest_text": "») TRI Not available WER A Not available, RULERS OF OLYMPUS 3 ~ eX Wa) \\K 9 | A, TINES TOTAL BET €0.25 CLICK INFO 25 €0.35 sur oy Ve A) N 9\" 2 €97913 00:07:05",
+  "elapsed_seconds": 1246,
+  "latest_text": "») Not available AGEm TRI A Not available, RULER: OLYMPUS ee cue Ai Pm» ly 10 fe fe fe S 9 \\K 9 | Ae. TINES TOTAL BET €0.25 INFO 25 EN €0.35 MODE A) ~ 9\" ey 2 €97913 00:07:37",
   "run_id": "40246246062",
-  "time": "2026-10-26T00:07:11+00:00"
+  "time": "2026-10-26T00:07:40+00:00"
 }
