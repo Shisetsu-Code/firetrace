@@ -1,19 +1,19 @@
 {
   "game": "wonder_4x5",
-  "stage": "await_feature",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 233,
+  "observations": 237,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 1235,
+  "network_events": 1242,
   "websocket_connections": 2,
-  "requests_total": 262,
-  "elapsed_seconds": 5555,
+  "requests_total": 263,
+  "elapsed_seconds": 5614,
   "latest_text": "AGE OF THE GODS™: JONDER WARRIORS™ PLAYING FOR FUN SS Ew abi IDWER XTRA OWER Not available ' vA © Connection Lost bs 10) 6 WAYS 1024 WAYS €5.00 €30.00 ‘TOTAL WIN ao _TOTAL BET S@ 3s €10,025.00",
   "run_id": "40280174612",
-  "time": "2026-10-26T08:03:30+00:00"
+  "time": "2026-10-26T08:04:29+00:00"
 }
