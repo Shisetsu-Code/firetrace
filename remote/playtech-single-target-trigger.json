@@ -1,24 +1,12 @@
 {
-  "run_key": "playtech-king-earned-freegames-timeout-safe-20261026-0527z",
-  "game": "gpas_mgaogkol_pop",
+  "game": "ftsis",
+  "source_run": 40232112481,
+  "only_pending_function": "Fortune of the Gods: Sisters earned Free Games/bonus, post-feature payout and return to FUN base; native autoplay repeat had been the only confirmed action.",
+  "run_key": "playtech-ftsis-pending-feature-20261026-0631z",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40268935164,
-  "source_artifact": 12629367546,
-  "source_screenshots": [
-    "gpas_mgaogkol_pop/screenshots/00533-after-fallback.jpg",
-    "gpas_mgaogkol_pop/screenshots/00535-feature.jpg",
-    "gpas_mgaogkol_pop/screenshots/00539-verify-king-10-free-games-3.jpg",
-    "gpas_mgaogkol_pop/screenshots/00540-after-king-10-free-games-start.jpg",
-    "gpas_mgaogkol_pop/screenshots/00541-poll.jpg"
-  ],
-  "verified_bug": "The native autoplay path stayed on an unchanging base reel arrangement for >50 minutes. Only a late FUN fallback spin at 05:24:48Z won 10 FREE GAMES. Guarded arrow at 05:25:19Z started the earned feature but the 3600s global deadline exited after 3 screenshots with SPINS LEFT 7. Previously 73 consecutive idle reel screenshot layout-hash gaps <=82/640; flashing luminance falsely reset inactivity.",
-  "fix_commits": [
-    "7468d29623b9b0295c16dcf358ea9536d8c51d85"
-  ],
-  "allowed_actions": "Only FUN/offline public demo. Detect static reel SYMBOL layout (not flashing luminance), use bounded verified FUN spin fallback; when an earned 10 FREE GAMES overlay appears, check 3 observations at 2s spacing then click existing blue arrow ONCE. Continue earned bonus with 900s conditional grace period. No buy-bonus or Ante requests; no retry of uncertain purchases.",
+  "context": "Pending earned feature only; fresh independent session. Previous completed bonuses must not be replayed. No Buy Bonus/Ante transactions.",
+  "allowed_actions": "Only official public FUN demo URL real=0 preferedmode=offline; native autoplay UNTIL FEATURE or bounded verified base spin fallback, finish actually earned Free Games and record endpoint metadata, terminal and return. No purchases, no money wagers.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
-  "forbid_real_money": true,
-  "only_pending_function": "King of Olympus earned 10 Free Games continuation, terminal summary and confirmed return to FUN base in fresh isolated session. Previous run's 7 remaining free spins belong to a closed session and cannot be claimed recovered.",
-  "notes": "A new isolated FUN session cannot restore bonus state from run 40268935164. This is a new attempt only for unverified earned-feature completion."
+  "forbid_real_money": true
 }
