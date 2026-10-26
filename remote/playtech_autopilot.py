@@ -298,6 +298,26 @@ def midas_earned_emerald_intro(png: Path) -> bool:
     return (all(s in title for s in ("CONGRATULATIONS", "EMERALD", "BONUS", "REVEAL"))
             and green > 0.35)
 
+
+def midas_earned_ruby_intro(png: Path) -> bool:
+    """Recognize won RUBY SPINS modal; never an offer to purchase.
+
+    Proven screenshot: 40253238501/12622422192/aogmt/_current.png.
+    The cropped text reads '7 RUBY SPINS' and green OK is at (640,455).
+    Global OCR misses OK, so confirm color in its exact button crop.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        title = pytesseract.image_to_string(
+            rgb.crop((290, 130, 985, 401)), config="--psm 6",
+        ).upper()
+        pixels = list(rgb.crop((606, 426, 670, 478)).getdata())
+        green = sum(
+            1 for r, g, b in pixels
+            if g > 65 and g > r * 1.24 and g > b * 1.10
+        ) / len(pixels)
+    return bool(re.search(r"\\b7\\s+RUBY\\s+SPINS\\b", title) and green > 0.35)
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -599,6 +619,38 @@ class Probe:
                     self.note("BONUS_ACK", "Ash Tea Party earned bonus started; observe choices")
                     await self.checkpoint(force=True)
                     continue
+                # 40253238501 produced a different earned Midas intro:
+                # 7 RUBY SPINS with a green OK. The former Emerald-only
+                # guard left this modal untouched for 15 minutes.
+                # Two independent observations, one OK, verify disappearance.
+                if (self.game == "aogmt"
+                        and self.last_feature_action != "midas_ruby_ok"
+                        and midas_earned_ruby_intro(self.dir / "_current.png")):
+                    await page.wait_for_timeout(2000)
+                    await self.shot(page, "verify-midas-ruby-intro", save=True)
+                    if not midas_earned_ruby_intro(self.dir / "_current.png"):
+                        self.note("RUBY_UNSTABLE", "Earned RUBY SPINS modal changed before OK")
+                        continue
+                    if not ("real=0" in page.url or "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Cannot prove FUN mode before Ruby OK")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (640, 455), "verified_earned_FUN_midas_ruby_OK_once")
+                    self.last_feature_action = "midas_ruby_ok"
+                    await page.wait_for_timeout(2300)
+                    await self.shot(page, "after-midas-ruby-OK", save=True)
+                    if midas_earned_ruby_intro(self.dir / "_current.png"):
+                        self.stage = "needs_review"
+                        self.note("RUBY_ACK_UNCERTAIN", "One Ruby OK input; modal still visible")
+                        await self.checkpoint("ruby_uncertain", force=True)
+                        return
+                    self.note("RUBY_ACK", "Earned Ruby intro dismissed; Ruby spins remain to be verified")
+                    await self.checkpoint(force=True)
+                    continue
                 # 40246749884 stalled on a positively identified, earned
                 # Emerald Bonus OK overlay. Two screenshots guard this
                 # non-purchase acknowledgement; never repeat uncertain OK.
@@ -759,7 +811,15 @@ class Probe:
                     await page.wait_for_timeout(2300)
                     _, returned2 = await self.shot(page, "verify-base-return", save=True)
                     still_modal = known_finished_feature_modal(self.game, self.dir / "_current.png")
-                    on_board = (("SPIN" in returned1["text"].upper() or "SPIN" in returned2["text"].upper())
+                    # Result modal can return to the FUN reels and then show
+                    # the native 'Autoplay stopped' dialog. Screenshot
+                    # 40253255839/12622146101/00094 shows SPIN on the reel
+                    # board and 00095 shows repeat dialog over those same reels.
+                    # Global OCR omitted 'SPIN' on both; the crop+color
+                    # autoplay guard proves that the result modal is gone.
+                    on_board = (("SPIN" in returned1["text"].upper()
+                                 or "SPIN" in returned2["text"].upper()
+                                 or autoplay_stopped_popup(self.dir / "_current.png"))
                                 if self.game == "ashadv" else
                                 ("PLAYING FOR FUN" in returned1["text"].upper()
                                  or "PLAYING FOR FUN" in returned2["text"].upper()))
