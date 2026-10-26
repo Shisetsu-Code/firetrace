@@ -7,8 +7,7 @@
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
-    40268935164,
-    40268966021
+    40268935164
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
@@ -29,7 +28,9 @@
     "2026-10-26T02:53Z: Active DEMO runner 40260131442 reached earned 5 SAPPHIRE SPINS intro but no steps/end; future visual guard afacc812 (not injected into active checkout) added. Two separate one-game FUN recoveries 40261288969/40261354023 launched only for proven BET OPTIONS overlay blocking autoplay in GStorm3/King. No purchases attempted by these runners.",
     "2026-10-26T04:24Z: All targeted workflows 40260131442/40261288969/40261354023 completed technically. Actual artifacts 12624548546/12626412973/12625895888 and latest published checkpoints checked. Midas earned Sapphire OK never acknowledged; King earned 10 FREE GAMES startup arrow (1175,360) never clicked; GStorm3 had 199 FUN fallback spin attempts but no feature. None is complete.",
     "2026-10-26T04:24Z: Added three-observation, FUN-only King earned 10 Free Games blue arrow guard in code commit 3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8. No new bought bonus or Ante executed; WS bodies remain opaque and no semantic game response verified.",
-    "2026-10-26T04:25Z: King isolated new DEMO run 40268935164 started after verified King earned 10 FREE GAMES blue PLAY arrow (1175,360) guard commit 3d5a4fbd; Midas isolated new DEMO run 40268966021 started with already committed earned Sapphire guard afacc812. Neither repeats or purchases uncertain bonus; both must prove earned special transition and completion independently. 0/10 full audits."
+    "2026-10-26T04:25Z: King isolated new DEMO run 40268935164 started after verified King earned 10 FREE GAMES blue PLAY arrow (1175,360) guard commit 3d5a4fbd; Midas isolated new DEMO run 40268966021 started with already committed earned Sapphire guard afacc812. Neither repeats or purchases uncertain bonus; both must prove earned special transition and completion independently. 0/10 full audits.",
+    "2026-10-26T05:21Z: run 40268966021 completed success but machine ended needs_review; independent artifact 12628141971 shows earned 3 AMETHYST SPINS intro/OK, exactly 3 actual spin events with reel changes and numbered banner 3→2→1, then base MIGHTY MIDAS board and Autoplay stopped overlay (00119/00121). No purchased bonus, no ante, no semantic payout; full-game still incomplete. Runner visual no-input base-return guard patched fc8c3ba.",
+    "2026-10-26T05:21Z: King 40268935164 still in_progress, checkpoint 496 observations, 4 clicks, 0 fallback-spin attempts, feature_seen=false. No artifact yet; do not claim feature completion nor restart overlapping job."
   ],
   "games": {
     "ashadv": {
@@ -150,32 +151,36 @@
         "status": "not_verified"
       },
       "special_functions": {
-        "status": "EARNED_5_SAPPHIRE_SPINS_INTRO_STALLED_NOT_ACKNOWLEDGED",
-        "evidence": "40260131442/12624548546/aogmt/_current.png",
+        "status": "EARNED_3_AMETHYST_SPINS_EXECUTED_AND_FUN_BOARD_RETURN_VISUALLY_VERIFIED",
+        "evidence": "40268966021/12628141971/aogmt/screenshots/00101-feature.jpg,00102-verify-amethyst-modal.jpg,00103-after-amethyst-ok.jpg,00106-after-amethyst-spin.jpg,00107-settle-amethyst-spin.jpg,00114-after-amethyst-spin.jpg,00115-settle-amethyst-spin.jpg,00118-after-amethyst-spin.jpg,00119-settle-amethyst-spin.jpg,00121-poll.jpg",
         "verified_control": "earned RUBY modal green OK (640,455), double-view guard dc2be900; new DEMO-only recovery 40260131442",
-        "note": "No 7 Ruby spins or payout verified, and no bonus purchase was attempted."
+        "note": "No 7 Ruby spins or payout verified, and no bonus purchase was attempted.",
+        "observed_steps": 3,
+        "outstanding": "Other earned bonus types (Ruby/Sapphire/Emerald), Buy Bonus availability, Ante Bet, semantic game responses remain unverified."
       },
       "bonus_result": {
-        "status": "stalled_no_end_observed",
-        "evidence": "40231711671/12614483502"
+        "status": "EARNED_3_AMETHYST_SPINS_EXHAUSTED_FUN_BASE_RETURN_VERIFIED_NOT_SERVER_CONFIRMED",
+        "evidence": "40268966021/12628141971/aogmt/screenshots/00118-after-amethyst-spin.jpg,00119-settle-amethyst-spin.jpg,00121-poll.jpg",
+        "interpretation": "Visual reel/network changes on 3 separate earned spin actions, Amethyst banner removed after #3 and normal MIGHTY MIDAS base HUD then native Autoplay stopped prompt. No explicit terminal payout modal or semantic server payout proof."
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40268966021,
+      "active_recovery": null,
       "last_result": {
-        "run": 40260131442,
+        "run": 40268966021,
         "status": "needs_review",
         "feature_seen": true,
         "feature_finished": false,
-        "observations": 202,
-        "clicks": 3,
+        "observations": 223,
+        "clicks": 7,
         "spin_attempts": 0,
-        "midas_feature_steps": 0,
-        "artifact": 12624548546,
+        "midas_feature_steps": 3,
+        "artifact": 12628141971,
         "observed": "5 SAPPHIRE SPINS earned intro with green OK, NOT clicked, no special spins completed",
-        "reason": "Code at run start lacked Sapphire guard; unchanged overlay persisted 25 minutes."
+        "reason": "Code at run start lacked Sapphire guard; unchanged overlay persisted 25 minutes.",
+        "note": "Machine checkpoint incorrectly remains needs_review after three observed earned Amethyst spins. Visual evidence independently confirms 3/3 earned actions and base return. Runner correction fc8c3ba is for future sessions; this finished job was not retroactively altered."
       },
       "latest_observation": {
         "run": 40260131442,
@@ -188,6 +193,14 @@
         "verified_result": false,
         "evidence": "12624548546/aogmt/_current.png",
         "note": "Checked actual artifact image; button OK centered (640,455). Code now contains guard afacc812, not used by completed runner."
+      },
+      "visual_reassessment": {
+        "artifact": 12628141971,
+        "run": 40268966021,
+        "verified_earned_amethyst_spins": 3,
+        "fun_board_return": true,
+        "semantic_payout": false,
+        "full_game_complete": false
       }
     },
     "aogroo": {
