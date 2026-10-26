@@ -860,6 +860,29 @@ class Probe:
                     self.feature_since = time.monotonic()
                     self.note("AMETHYST_SPIN",
                               f"Earned spin #{self.midas_feature_steps} caused observed reel/network change")
+                    # Artifact 40268966021 confirms the third earned Amethyst spin
+                    # leaves the bonus banner and returns to MIGHTY MIDAS reels;
+                    # a native Autoplay-stopped prompt can then cover the base HUD.
+                    # This is a read-only outcome check: no new spin or buy.
+                    if self.midas_feature_steps == 3:
+                        first_base = ("MIGHTY MIDAS" in self.last_text.upper()
+                                      and not midas_earned_spin_ready(self.dir / "_current.png"))
+                        await page.wait_for_timeout(2300)
+                        _, verify = await self.shot(page, "verify-3-amethyst-return", save=True)
+                        second_base = (not midas_earned_spin_ready(self.dir / "_current.png")
+                                       and ("MIGHTY MIDAS" in verify["text"].upper()
+                                            or autoplay_stopped_popup(self.dir / "_current.png")))
+                        if first_base and second_base:
+                            self.feature_finished = True
+                            self.stage = "feature_complete"
+                            self.note("FEATURE_COMPLETE",
+                                      "All three earned Amethyst spins visually changed reels; "
+                                      "bonus banner retired and FUN base returned in two observations. "
+                                      "No semantic server payout verified.")
+                            await self.checkpoint("feature_complete", force=True)
+                            return
+                        self.note("AMETHYST_END_UNVERIFIED",
+                                  "3 observed spins, but two independent FUN-base observations unavailable")
                     await self.checkpoint(force=True)
                     continue
                 # Run 40233535136 stopped on an earned Battle for Power
