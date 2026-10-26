@@ -11,11 +11,10 @@
       "run": 40295892992,
       "game": "gpas_aogww_pop",
       "variants": [
-        "4x5_10_free_games",
-        "5x5_5_free_games"
+        "4x5_10_free_games"
       ],
-      "scope": "Two parallel isolated GitHub runner matrix jobs (one browser/page each), solely unverified earned FUN variants; do not re-run 3x5 or purchased features",
-      "status": "in_progress_verified_by_GitHub_job_steps",
+      "scope": "Only remaining active 4x5 matrix job; 5x5 job completed with terminal modal not yet acknowledged",
+      "status": "4x5_in_progress; 5x5_completed_technically_terminal_unacknowledged",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
     },
@@ -59,7 +58,9 @@
     "2026-10-26T07:41:16.315Z: Source run 40209463248 remains completed/success only technically. Recovered FTSIS 40280332708/12632717773: clear 3-temple earned FUN portal Atropos 15/Lachesis 10/Clotho 8, no choice, 900s stall; corrected detector/one-click guard a601be6, target validation 14ecdda, non-repeat/checkpoint 07a83589; CI 40286971291 success. Isolated Atropos FUN run 40287108951 in_progress, other two choices pending.",
     "2026-10-26T07:41:16.315Z: God of Storms 2 run 40280336714/12633864169 completed technically but ended time_limit after 206 fallback FUN spins, no special seen. Wonder 40280174612 and Wheels 40280344330 still active; Wonder 5x5 reached bonus_needs_review, NOT verified complete. No buys, no semantic WS response.",
     "2026-10-26T08:58:59.230Z: All four formerly active FUN runs 40287108951 (FTSIS), 40280174612 (Wonder), 40280344330 (Wheels), 40280336714 (Storms2) are completed technically. Actual ZIPs 12635328447/12635431364/12635096599 inspected. FTSIS Atropos earned selection once and countdown 14->9->0 then FUN base under Autoplay stopped; terminal payout unseen. Wonder 4x5 first-party Connection Lost, Wonder 5x5 selected 5 free games but still 3 left at 20min. Wheels 212 and Storms2 206 FUN spin attempts with no feature observed. Full games 0/10; no buys or semantic server results verified.",
-    "2026-10-26T08:58:59.230Z: Verified code corrections f63d40d (Wonder connection loss detection and focus), 691d715 (two independent GitHub matrix runners), bf26a10 (capture each feature frame, stop on earned Sisters base return). CI 40295687220 and 40295740197 success; f63d40d CI 40295654058 still running at check. Launched only pending FUN branches 40295892992 (Wonder 4x5/5x5 distinct jobs), 40295931557 (Sisters Lachesis, Atropos not repeated). Neither is completion evidence."
+    "2026-10-26T08:58:59.230Z: Verified code corrections f63d40d (Wonder connection loss detection and focus), 691d715 (two independent GitHub matrix runners), bf26a10 (capture each feature frame, stop on earned Sisters base return). CI 40295687220 and 40295740197 success; f63d40d CI 40295654058 still running at check. Launched only pending FUN branches 40295892992 (Wonder 4x5/5x5 distinct jobs), 40295931557 (Sisters Lachesis, Atropos not repeated). Neither is completion evidence.",
+    "2026-10-26T09:12Z: 40295892992 matrix: 5x5 branch technically success, artifact 12637919613 visually shows earned 5x5 reels selection once, 0 SPINS LEFT, central TOTAL WIN €31.50 FUN, green CONTINUE visible at (640,500), but OCR missed it. No CONTINUE input or post-terminal FUN return; do NOT count complete. 4x5 still in_progress; FTSIS Lachesis 40295931557 in_progress. All websocket payloads opaque and server payout unverified.",
+    "2026-10-26T09:12Z: Tested green pixel discriminator on all archive frames: terminal 00044/00045 green fraction 0.621 in ROI (530,470)-(750,528), nonterminal <=0.300; guard requires center TOTAL WIN, green >0.50 in 3 observations 2.2s apart and one click. Patch 4ffc52bf. Wrote targeted DEMO-only trigger 8878410e with one-off workflow fcb75c17; new Actions run ID not yet verified. No purchases/Ante attempted, 0/10 full."
   ],
   "games": {
     "ashadv": {
@@ -578,8 +579,8 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "3x5_previously_verified; 4x5_CONNECTION_LOST_IN_EXTERNAL_FIRST_PARTY_SERVER; 5x5_EARNED_5_GAMES_SELECTED_PROGRESS_5_TO_3_TERMINAL_NOT_CAPTURED",
-        "evidence": "40280174612/12635431364/wonder_4x5/screenshots/00237-watch.jpg and wonder_5x5/screenshots/00090-reel-choices.jpg,00092-selected.jpg,00121-watch.jpg",
+        "status": "3x5_PREVIOUSLY_VERIFIED; 4x5_SECOND_RECOVERY_ACTIVE_NO_FEATURE_YET; 5x5_EARNED_5_GAMES_TERMINAL_TOTAL_WIN_VISUALLY_VERIFIED_NO_ACK_BASE_RETURN",
+        "evidence": "40295892992/12637919613/wonder_5x5/screenshots/00037-reel-choices.jpg,00039-selected.jpg,00044-watch.jpg,00045-terminal-no-confirmed-continue.jpg",
         "verified_total": false,
         "variants": {
           "4x5": {
@@ -587,10 +588,22 @@
             "no_bonus_end": true
           },
           "5x5": {
-            "status": "selected_once_in_FUN_then_bonus_needs_review",
+            "status": "earned_5_free_games_terminal_total_win_observed_NO_CONTINUE_ACK",
             "initial_free_games": 5,
-            "latest_visible_spins_left": 3,
-            "terminal_seen": false
+            "selected_once": true,
+            "terminal_seen": true,
+            "terminal_display_amount": "€31.50 FUN virtual; not server verified",
+            "acknowledged": false,
+            "base_return_confirmed": false,
+            "evidence_run": 40295892992,
+            "evidence_artifact": 12637919613,
+            "evidence": [
+              "wonder_5x5/screenshots/00037-reel-choices.jpg",
+              "wonder_5x5/screenshots/00039-selected.jpg",
+              "wonder_5x5/screenshots/00044-watch.jpg",
+              "wonder_5x5/screenshots/00045-terminal-no-confirmed-continue.jpg"
+            ],
+            "pending": "One guarded CONTINUE and 3 stable post-click FUN base checks in fresh isolated earned-demo run; cannot resume closed browser"
           },
           "3x5": {
             "status": "previously_verified_do_not_repeat"
@@ -604,51 +617,59 @@
         "status": "not_verified"
       },
       "bonus_result": {
-        "status": "not_verified",
-        "note": "Neither 4x5 nor 5x5 terminal reward or FUN board return verified by last artifacts"
+        "status": "5x5_EARNED_TERMINAL_WIN_VISUALLY_CONFIRMED_NOT_ACKNOWLEDGED_OR_RETURNED",
+        "evidence": "40295892992/12637919613/00044-watch.jpg and 00045-terminal-no-confirmed-continue.jpg",
+        "amount": "€31.50 FUN virtual",
+        "verified_semantic_payout": false,
+        "terminal_acknowledged": false,
+        "board_return": false,
+        "code_guard_commit": "4ffc52bfb5561c22ca2884251441902a4b7306bc",
+        "repeat_limit": "Only fresh 5x5 earned FUN feature pending; never repeat purchased feature"
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
       "last_result": {
-        "run": 40280174612,
+        "run": 40295892992,
         "artifact": 12635431364,
         "mode": "FUN_OFFLINE_ONLY",
         "branch_4x5": {
-          "stage": "time_limit",
-          "observations": 237,
+          "stage": "await_feature",
+          "observations": 45,
           "clicks": 3,
-          "spin_attempts": 0,
-          "elapsed_seconds": 5615,
-          "last_screen": "Connection Lost / You have been disconnected from game server. This can be caused by prolonged inactivity."
+          "run": 40295892992,
+          "checkpoint_time_utc": "2026-10-26T09:09:00Z",
+          "active": true
         },
         "branch_5x5": {
-          "stage": "bonus_needs_review",
-          "observations": 122,
+          "stage": "terminal_needs_review",
+          "observations": 45,
           "clicks": 4,
           "spin_attempts": 0,
-          "elapsed_seconds": 4065,
-          "choice_executed": "5x5 5 FREE GAMES",
-          "latest_counter": 3,
-          "feature_finished": false
-        }
+          "selection": "5x5 5 earned Free Games (exactly once)",
+          "terminal_total_win": "€31.50 FUN",
+          "acknowledged": false,
+          "base_return": false
+        },
+        "artifact_5x5": 12637919613
       },
       "active_recovery": {
         "run": 40295892992,
         "variants": [
-          "4x5",
-          "5x5"
+          "4x5"
         ],
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
-        "last_known_status": "in_progress",
+        "last_known_status": "in_progress_4x5_only",
         "source_run": 40280174612,
         "source_artifact": 12635431364,
         "fixes": [
           "f63d40d",
           "691d715"
-        ]
+        ],
+        "status": "4x5_job_in_progress__5x5_job_complete_terminal_unacknowledged",
+        "other_pending_trigger": "8878410ee1b9c467a6e54d99f84d6fe212e1f555"
       }
     },
     "gpas_aogwfot_pop": {
@@ -694,5 +715,18 @@
   "read_only_menu_inventory_run": 40246996090,
   "last_reviewed_utc": "2026-10-26T08:58:59.230Z",
   "last_review_utc": "2026-10-26T08:58:59.230Z",
-  "pending_or_unresolved_workflow_dispatches": []
+  "pending_or_unresolved_workflow_dispatches": [],
+  "pending_unverified_triggers": [
+    {
+      "commit": "8878410ee1b9c467a6e54d99f84d6fe212e1f555",
+      "workflow": ".github/workflows/wonder-5x5-recover.yml",
+      "only_variant": "5x5",
+      "source_run": 40295892992,
+      "source_artifact": 12637919613,
+      "github_run_id": null,
+      "status": "trigger_commit_written_run_not_yet_confirmed",
+      "mode": "FUN_OFFLINE_ONLY",
+      "forbid_buy": true
+    }
+  ]
 }
