@@ -1,16 +1,22 @@
 {
-  "run_key": "playtech-midas-earned-ruby-modal-guard-20261026-0234Z",
-  "game": "aogmt",
+  "run_key": "playtech-gstorm3-native-bet-modal-close-20261026-0250Z",
+  "game": "gpas_agstorm3_pop",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40253238501,
-  "source_artifact": 12622422192,
-  "source_screenshot": "aogmt/_current.png",
-  "verified_bug": "FUN Ruby Spins earned: latest run stopped on 'CONGRATULATIONS! 7 RUBY SPINS' with a green OK (640,455) but Emerald-only guard never acknowledged it; 156 observations without one Ruby spin.",
-  "fix_commit": "dc2be9003b7e273c386e019d0091050fae8682ae",
-  "allowed_actions": "FUN/offline only. Verify Ruby intro and green OK in 2 screenshots 2s apart; acknowledge once, observe next state. Handle earned Emerald/Amethyst only when stable matching guard; no buy, real bets, or guessed coordinates.",
+  "source_run": 40246996090,
+  "source_artifact": 12619375952,
+  "source_screenshots": [
+    "gpas_agstorm3_pop/01-loaded.jpg",
+    "gpas_agstorm3_pop/02-main.jpg"
+  ],
+  "verified_bug": "After valid CONTINUE intro, native BET OPTIONS overlay masks autoplay (02-main.jpg). Title recognized by OCR; X at 828,160. No stake must be modified.",
+  "fix_commits": [
+    "2151ab64d01997d86b52fa0968f75f5bc77ef2f1",
+    "07c9e56e71f447534e6cd4c15738a3884888d918"
+  ],
+  "allowed_actions": "FUN/offline only; three observations separated by 2 seconds if BET OPTIONS shown; close existing X once, verify dismissal; then exercise only native autoplay and earned features. No purchases.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "only_pending_function": "Acknowledge earned Ruby bonus introduction, inspect and complete previously earned special spins if UI and outcome verifiable. Do not repeat any uncertain action.",
-  "notes": "New DEMO browser context with virtual FUN funds, not recovered server game state. A successful job does not prove spins completed."
+  "only_pending_function": "Unblock native autoplay in God of Storms 3, then seek and verify a previously uncompleted earned demo bonus. No Buy Bonus or Ante actions in this run.",
+  "notes": "Separate fresh DEMO browser context; not session restoration. Job success not proof of bonus completion. Preserve network metadata and screenshots."
 }
