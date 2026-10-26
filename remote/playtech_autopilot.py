@@ -394,6 +394,8 @@ class Probe:
         self.game = game
         self.visual_delta = 0.0
         self.previous_pixels = None
+        self.previous_reel_layout = None
+        self.reel_layout_delta = 0
         self.dir = OUT / game
         self.dir.mkdir(parents=True, exist_ok=True)
         self.log = self.dir / "events.jsonl"
@@ -473,6 +475,21 @@ class Probe:
         if self.previous_pixels:
             self.visual_delta = sum(abs(a-b) for a,b in zip(pix, self.previous_pixels)) / len(pix)
         self.previous_pixels = pix
+        # Compare SYMBOL LAYOUT rather than luminance of flashing wins/glows.
+        # In archived King 40268935164, 73 consecutive idle screenshots had
+        # layout hamming <=82/640 while gray-level delta routinely exceeded 5.
+        # Legitimate reel transitions differ by >300/640 in the same evidence.
+        # This avoids waiting ~55 minutes to learn that autoplay did not start.
+        with Image.open(tmp) as im:
+            layout = list(im.convert("L").crop((430, 130, 1050, 550))
+                          .resize((33, 20)).getdata())
+        signature = 0
+        for row in range(20):
+            for col in range(32):
+                signature = (signature << 1) | int(layout[row * 33 + col] > layout[row * 33 + col + 1])
+        if self.previous_reel_layout is not None:
+            self.reel_layout_delta = (signature ^ self.previous_reel_layout).bit_count()
+        self.previous_reel_layout = signature
         # OCR is intentionally run in a thread so multiple Chromium tabs can progress.
         words = await asyncio.to_thread(ocr_words, tmp)
         state = classify(words)
@@ -641,7 +658,13 @@ class Probe:
             last_activity = time.monotonic()
             fallback = False
             failed_inputs = 0
-            while time.monotonic()-self.started < seconds:
+            # A bonus won at the wall-clock boundary must still be played out.
+            # Allow up to 900 additional seconds only for a VERIFIED observed
+            # feature; the outer cap prevents perpetual sessions (85-min job).
+            while (time.monotonic() - self.started < seconds or
+                   (self.feature_seen and self.feature_since is not None
+                    and time.monotonic() - self.feature_since < 900
+                    and time.monotonic() - self.started < seconds + 900)):
                 await page.wait_for_timeout(2500 if fallback else 4500)
                 words, state = await self.shot(page, "poll", save=self.observations%6 == 0)
                 if state["feature"]:
@@ -1134,7 +1157,7 @@ class Probe:
                     continue
                 # HUD clocks and balances vary even with stopped reels; they are
                 # not proof that autoplay is active. Track the reel region only.
-                if self.visual_delta > 5:
+                if self.reel_layout_delta > 120:
                     last_activity = time.monotonic()
                     previous_screenshot = state["text"]
                 if time.monotonic()-last_activity > 60:
