@@ -1,7 +1,7 @@
 {
   "game": "aogmt",
   "stage": "needs_review",
-  "outcome": "feature_needs_review",
+  "outcome": "needs_review",
   "feature_seen": true,
   "feature_finished": false,
   "observations": 202,
@@ -12,8 +12,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 1485,
+  "elapsed_seconds": 1487,
   "latest_text": "») EXTRA Not available GHTY | CONGRATULATIONS! 5 SAPPHIRE SPINS Wild stacks added to reels 2 5 Lox INI WIN 2 €1,007.00 03:04:19",
   "run_id": "40260131442",
-  "time": "2026-10-26T03:04:24+00:00"
+  "time": "2026-10-26T03:04:25+00:00"
 }
