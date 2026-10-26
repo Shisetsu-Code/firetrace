@@ -1,10 +1,10 @@
 {
   "game": "ftsis",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 33,
+  "observations": 35,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 1,
@@ -14,8 +14,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 19,
-  "elapsed_seconds": 345,
-  "latest_text": "») JX AGE mGO Notavailable (A R Not available AN ST WER RA Not available Not available POWER |i lit FREE FREE =] HH ARS id © — START 2 €1,002.25 10:35:24",
+  "elapsed_seconds": 357,
+  "latest_text": "JX AGE mGO Notavailable gD R Not available AN ST RA Not available Not available POWER: |i lit FREE FREE =] HH ARS id © — START 2 €1,002.25 10:35:40",
   "run_id": "40307760694",
-  "time": "2026-10-26T10:35:30+00:00"
+  "time": "2026-10-26T10:35:42+00:00"
 }
