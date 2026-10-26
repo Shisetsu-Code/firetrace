@@ -4,16 +4,16 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 19,
-  "clicks": 2,
+  "observations": 30,
+  "clicks": 3,
   "spin_attempts": 0,
-  "autoplay_repeats": 0,
+  "autoplay_repeats": 1,
   "midas_feature_steps": 0,
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 18,
-  "elapsed_seconds": 104,
-  "latest_text": "\\ AGE ODS)\" \\ Wy available) \\\\ RSS ak XTRA Not available Not available POWER’ q 4 ak el Xx @) >2 S) Cy So Os Bi 4. STOP. el 2 €998.40 [Play for Real 06:33:54",
+  "elapsed_seconds": 176,
+  "latest_text": "©) & AGE ODS) Notavailable (AS WZ XTR, ISTERSS © “Powe A Not available _ Not available >) i Wee 1QA ys Ms OV Ri LINES STOP. el 2 €997.55 [Play for Real 06:35:05",
   "run_id": "40280332708",
-  "time": "2026-10-26T06:33:57+00:00"
+  "time": "2026-10-26T06:35:09+00:00"
 }
