@@ -1,10 +1,10 @@
 {
   "game": "ashadv",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 68,
+  "observations": 71,
   "clicks": 2,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
@@ -12,8 +12,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 550,
-  "latest_text": "©) T ACTIVE Lal of > { WZ Li yi del i MW 0 0 ar ie ys on * a A 1D) 4 Will WIN’ © AUTOPTAKON i €0.20 €0.04 dR €9918 Play for Real 1:24:33",
+  "elapsed_seconds": 577,
+  "latest_text": "©) T ACTIVE Lal of > { WZ Li yi del i MW 0 0 ar ie ys on * a A 1D) 4 Will WIN’ © AUTOPTAKON i €0.20 €0.04 dR €9918 Play for Real",
   "run_id": "40253255839",
-  "time": "2026-10-26T01:24:37+00:00"
+  "time": "2026-10-26T01:25:04+00:00"
 }
