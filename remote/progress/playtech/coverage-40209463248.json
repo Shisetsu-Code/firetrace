@@ -30,7 +30,8 @@
     "2026-10-26T04:24Z: Added three-observation, FUN-only King earned 10 Free Games blue arrow guard in code commit 3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8. No new bought bonus or Ante executed; WS bodies remain opaque and no semantic game response verified.",
     "2026-10-26T04:25Z: King isolated new DEMO run 40268935164 started after verified King earned 10 FREE GAMES blue PLAY arrow (1175,360) guard commit 3d5a4fbd; Midas isolated new DEMO run 40268966021 started with already committed earned Sapphire guard afacc812. Neither repeats or purchases uncertain bonus; both must prove earned special transition and completion independently. 0/10 full audits.",
     "2026-10-26T05:21Z: run 40268966021 completed success but machine ended needs_review; independent artifact 12628141971 shows earned 3 AMETHYST SPINS intro/OK, exactly 3 actual spin events with reel changes and numbered banner 3→2→1, then base MIGHTY MIDAS board and Autoplay stopped overlay (00119/00121). No purchased bonus, no ante, no semantic payout; full-game still incomplete. Runner visual no-input base-return guard patched fc8c3ba.",
-    "2026-10-26T05:21Z: King 40268935164 still in_progress, checkpoint 496 observations, 4 clicks, 0 fallback-spin attempts, feature_seen=false. No artifact yet; do not claim feature completion nor restart overlapping job."
+    "2026-10-26T05:21Z: King 40268935164 still in_progress, checkpoint 496 observations, 4 clicks, 0 fallback-spin attempts, feature_seen=false. No artifact yet; do not claim feature completion nor restart overlapping job.",
+    "2026-10-26T05:24Z: Latest Mighty Midas 40268966021 artifact network.jsonl: 2 sent/2 received opaque frames on redacted oapi.playtechhorizon.com WS, POST cachedownload.playtechone.com/cdn-cgi/rum 204 x3, KeepAlive.php 200 x1. Neither HTTP status confirms a game result. Cleared stale completed Ash active_recovery pointer."
   ],
   "games": {
     "ashadv": {
@@ -73,7 +74,7 @@
         "artifact": 12622146101,
         "technical_reason": "Runner's OCR failed to recognize base SPIN behind native 'Autoplay stopped' dialog; checkpoint erroneously leaves feature_finished=false although visually verified screens show board return."
       },
-      "active_recovery": 40253255839
+      "active_recovery": null
     },
     "ftsis": {
       "complete": false,
@@ -165,7 +166,28 @@
       },
       "server_game_response": {
         "status": "not_decoded",
-        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive",
+        "latest_artifact": 12628141971,
+        "network_metadata": {
+          "wss": "wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}",
+          "websocket_frames_sent": 2,
+          "websocket_frames_received": 2,
+          "http_responses": [
+            {
+              "method": "POST",
+              "endpoint": "https://cachedownload.playtechone.com/cdn-cgi/rum",
+              "status": 204,
+              "count": 3
+            },
+            {
+              "method": "POST",
+              "endpoint": "https://login.playtechone.com/KeepAlive.php",
+              "status": 200,
+              "count": 1
+            }
+          ],
+          "game_semantics": "not_decoded"
+        }
       },
       "active_recovery": null,
       "last_result": {
