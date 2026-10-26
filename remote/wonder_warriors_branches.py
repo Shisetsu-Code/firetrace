@@ -43,6 +43,27 @@ def visual_continue_button(path: Path) -> bool:
         return green > crop.width * crop.height * 0.50
 
 
+def visual_base_spin_control(path: Path) -> bool:
+    """Check for the resting FUN spin control after a single earned-bonus acknowledgement.
+
+    Offline validated against Actions 40297713925 / artifact 12639834981:
+    base images 00085-00087 have mean RGB >= 45 and little yellow in
+    ROI 1100,550..1260,695; terminal modal is very dark, and live earned
+    free games show a gold numbered counter with high yellow fraction.
+    This is only a secondary cue: caller also needs three post-click FUN
+    observations, disappearance of central TOTAL WIN and SPINS LEFT.
+    """
+    with Image.open(path) as original:
+        if original.size != (1280, 720):
+            return False
+        region = original.convert("RGB").crop((1100, 550, 1260, 695))
+        pixels = list(region.getdata())
+        mean_rgb = sum(r + g + b for r, g, b in pixels) / (3 * len(pixels))
+        gold = sum(1 for r, g, b in pixels
+                   if r > 110 and g > 85 and r > g * 1.10 and b < g * .80)
+        return mean_rgb >= 45 and gold / len(pixels) <= .09
+
+
 async def play_variant(browser, variant: str, limit=3600):
     probe=Probe("gpas_aogww_pop")
     probe.game="wonder_"+variant
@@ -180,7 +201,9 @@ async def play_variant(browser, variant: str, limit=3600):
                         if ("PLAYING FOR FUN" in base_text and
                             "TOTAL" not in central3 and "SPINS LEFT" not in base_text and
                             ("HIT SPIN" in base_text or
-                             any(w["text"].upper() in {"SPIN","AUTOPLAY"} for w in words3))):
+                             any(w["text"].upper() in {"SPIN","AUTOPLAY"} for w in words3) or
+                             await asyncio.to_thread(visual_base_spin_control,
+                                                     probe.dir/"_current.png"))):
                             base_ok+=1
                         if check!=2:
                             await page.wait_for_timeout(2200)
