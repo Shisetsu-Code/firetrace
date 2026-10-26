@@ -1,10 +1,10 @@
 {
   "game": "aogmt",
-  "stage": "running",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 31,
+  "observations": 42,
   "clicks": 3,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
@@ -12,8 +12,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 148,
-  "latest_text": "0) & UP a Ty Not bi Not available AIC I ak ca AS) = At iL “a 92 LINES WIN AUTOPLAY ON €0.40 FEATURE 40 2 €999.60 [Play for Real 01:26:15",
+  "elapsed_seconds": 226,
+  "latest_text": "ULTIMATE Not available MIGHTY MIDAS CONGRAT ULATI TONS! 7 RUBY SPINS Multipliers added to every Golden Wild! i fr it MODE _ >» > 2 €999.60 01:27:32",
   "run_id": "40253238501",
-  "time": "2026-10-26T01:26:17+00:00"
+  "time": "2026-10-26T01:27:35+00:00"
 }
