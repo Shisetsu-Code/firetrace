@@ -1,11 +1,19 @@
 {
-  "game": "gpas_aogwfot_pop",
-  "source_run": 40233694420,
-  "only_pending_function": "Wheels of Olympus: earned Free Games/feature wheel, terminal and FUN base return; Ante ON spin already visually checked in earlier run and is not to be repeated as evidence here.",
-  "run_key": "playtech-wheels-pending-freegames-20261026-0631z",
+  "game": "ftsis",
+  "temple": "atropos",
+  "source_run": 40280332708,
+  "source_artifact": 12632717773,
+  "only_pending_function": "Fortune of the Gods: Sisters earned triple-temple Free Games portal. Attempt Atropos 15 earned FREE GAMES only, finish if actually observed. Lachesis 10 and Clotho 8 remain independent unverified branches.",
+  "run_key": "playtech-ftsis-atropos-portal-choice-20261026-0739z",
   "mode": "FUN_OFFLINE_ONLY",
-  "context": "Pending earned feature only; fresh independent session. Previous completed bonuses must not be replayed. No Buy Bonus/Ante transactions.",
-  "allowed_actions": "Only official public FUN demo URL real=0 preferedmode=offline; native autoplay UNTIL FEATURE or bounded verified base spin fallback, finish actually earned Free Games and record endpoint metadata, terminal and return. No purchases, no money wagers.",
+  "context": "New independent FUN demo; original portal screenshot left untouched and job ended needs_review. Re-earn portal if possible; never claim restored server state or any bonus purchase.",
+  "allowed_actions": "Official public FUN URL real=0 preferedmode=offline. Observe portal three times spaced 2s; choose only the visually verified Atropos temple card exactly once; observe 15 earned Free Games and terminal if available. No purchased/free money features, Buy Bonus, Ante Bet or uncertain repeats.",
+  "patch_commits": [
+    "a601be669c6147f569566cce87a1af4c08e59c57",
+    "14ecddabcee32017c2874926e2590c7029199ce5",
+    "07a83589f1ada65c040a7b6690f29bc7ef29d56d"
+  ],
+  "ci_run": 40286971291,
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true
