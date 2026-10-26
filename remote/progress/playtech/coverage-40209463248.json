@@ -13,7 +13,7 @@
       "variants": [
         "4x5_10_free_games"
       ],
-      "scope": "Only remaining active 4x5 matrix job; 5x5 job completed with terminal modal not yet acknowledged",
+      "scope": "Only 4x5 pending earned bonus in progress; 5x5 branch technically finished at unacknowledged terminal modal.",
       "status": "4x5_in_progress; 5x5_completed_technically_terminal_unacknowledged",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
@@ -60,7 +60,8 @@
     "2026-10-26T08:58:59.230Z: All four formerly active FUN runs 40287108951 (FTSIS), 40280174612 (Wonder), 40280344330 (Wheels), 40280336714 (Storms2) are completed technically. Actual ZIPs 12635328447/12635431364/12635096599 inspected. FTSIS Atropos earned selection once and countdown 14->9->0 then FUN base under Autoplay stopped; terminal payout unseen. Wonder 4x5 first-party Connection Lost, Wonder 5x5 selected 5 free games but still 3 left at 20min. Wheels 212 and Storms2 206 FUN spin attempts with no feature observed. Full games 0/10; no buys or semantic server results verified.",
     "2026-10-26T08:58:59.230Z: Verified code corrections f63d40d (Wonder connection loss detection and focus), 691d715 (two independent GitHub matrix runners), bf26a10 (capture each feature frame, stop on earned Sisters base return). CI 40295687220 and 40295740197 success; f63d40d CI 40295654058 still running at check. Launched only pending FUN branches 40295892992 (Wonder 4x5/5x5 distinct jobs), 40295931557 (Sisters Lachesis, Atropos not repeated). Neither is completion evidence.",
     "2026-10-26T09:12Z: 40295892992 matrix: 5x5 branch technically success, artifact 12637919613 visually shows earned 5x5 reels selection once, 0 SPINS LEFT, central TOTAL WIN €31.50 FUN, green CONTINUE visible at (640,500), but OCR missed it. No CONTINUE input or post-terminal FUN return; do NOT count complete. 4x5 still in_progress; FTSIS Lachesis 40295931557 in_progress. All websocket payloads opaque and server payout unverified.",
-    "2026-10-26T09:12Z: Tested green pixel discriminator on all archive frames: terminal 00044/00045 green fraction 0.621 in ROI (530,470)-(750,528), nonterminal <=0.300; guard requires center TOTAL WIN, green >0.50 in 3 observations 2.2s apart and one click. Patch 4ffc52bf. Wrote targeted DEMO-only trigger 8878410e with one-off workflow fcb75c17; new Actions run ID not yet verified. No purchases/Ante attempted, 0/10 full."
+    "2026-10-26T09:12Z: Tested green pixel discriminator on all archive frames: terminal 00044/00045 green fraction 0.621 in ROI (530,470)-(750,528), nonterminal <=0.300; guard requires center TOTAL WIN, green >0.50 in 3 observations 2.2s apart and one click. Patch 4ffc52bf. Wrote targeted DEMO-only trigger 8878410e with one-off workflow fcb75c17; new Actions run ID not yet verified. No purchases/Ante attempted, 0/10 full.",
+    "2026-10-26T09:15:22Z: Read latest 12 game progress files. Wonder 4x5 40295892992 advanced to bonus_in_progress feature_seen=true, 71 observations 4 clicks; no 4x5 completion yet. FTSIS Lachesis 40295931557 still running 98 observations and no earned portal selection yet. 5x5 modal unacknowledged awaiting isolated trigger run verification."
   ],
   "games": {
     "ashadv": {
@@ -579,13 +580,19 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "3x5_PREVIOUSLY_VERIFIED; 4x5_SECOND_RECOVERY_ACTIVE_NO_FEATURE_YET; 5x5_EARNED_5_GAMES_TERMINAL_TOTAL_WIN_VISUALLY_VERIFIED_NO_ACK_BASE_RETURN",
+        "status": "3x5_PREVIOUSLY_VERIFIED; 4x5_EARNED_BONUS_IN_PROGRESS_NOT_TERMINAL; 5x5_EARNED_MODAL_€31.50_TERMINAL_UNACKNOWLEDGED",
         "evidence": "40295892992/12637919613/wonder_5x5/screenshots/00037-reel-choices.jpg,00039-selected.jpg,00044-watch.jpg,00045-terminal-no-confirmed-continue.jpg",
         "verified_total": false,
         "variants": {
           "4x5": {
-            "status": "connection_lost_external",
-            "no_bonus_end": true
+            "status": "earned_bonus_in_progress",
+            "verified_selection": true,
+            "completion": false,
+            "latest_run": 40295892992,
+            "checkpoint_time_utc": "2026-10-26T09:15:22Z",
+            "observations": 71,
+            "clicks": 4,
+            "run_active": true
           },
           "5x5": {
             "status": "earned_5_free_games_terminal_total_win_observed_NO_CONTINUE_ACK",
@@ -635,11 +642,11 @@
         "artifact": 12635431364,
         "mode": "FUN_OFFLINE_ONLY",
         "branch_4x5": {
-          "stage": "await_feature",
-          "observations": 45,
-          "clicks": 3,
+          "stage": "bonus_in_progress",
+          "observations": 71,
+          "clicks": 4,
           "run": 40295892992,
-          "checkpoint_time_utc": "2026-10-26T09:09:00Z",
+          "checkpoint_time_utc": "2026-10-26T09:15:22Z",
           "active": true
         },
         "branch_5x5": {
