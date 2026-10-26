@@ -1,10 +1,10 @@
 {
   "game": "ftsis",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "earned_temple_base_return_payout_unverified",
+  "outcome": "earned_temple_base_return_payout_unverified",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 82,
+  "observations": 92,
   "clicks": 5,
   "spin_attempts": 1,
   "autoplay_repeats": 1,
@@ -14,8 +14,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 19,
-  "elapsed_seconds": 858,
-  "latest_text": "©) oy ©: ig |_\\ 7 S | cota] SPIN 2 €1,004.80 10:43:57",
+  "elapsed_seconds": 952,
+  "latest_text": "©) PER PO ER Not available. Notiavatianle,. EXTRA Not available POWER FATS Not available POWER: <4 iif ij ij ti iif Mee i ni u fie. u i i SCATTER u S<ATTER i | | | U y Autoplay stopped. tif ii iif if ut ii nf Do you want to repeat Autoplay? tif u nf ",
   "run_id": "40307760694",
-  "time": "2026-10-26T10:44:03+00:00"
+  "time": "2026-10-26T10:45:36+00:00"
 }
