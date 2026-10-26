@@ -1,8 +1,8 @@
 {
-  "game": "gpas_gstorm2_pop",
-  "source_run": 40221846216,
-  "only_pending_function": "God of Storms 2: unverified earned Free Games/feature, terminal and FUN base return; previous time limit with no completed bonus.",
-  "run_key": "playtech-gstorm2-pending-feature-20261026-0631z",
+  "game": "gpas_aogwfot_pop",
+  "source_run": 40233694420,
+  "only_pending_function": "Wheels of Olympus: earned Free Games/feature wheel, terminal and FUN base return; Ante ON spin already visually checked in earlier run and is not to be repeated as evidence here.",
+  "run_key": "playtech-wheels-pending-freegames-20261026-0631z",
   "mode": "FUN_OFFLINE_ONLY",
   "context": "Pending earned feature only; fresh independent session. Previous completed bonuses must not be replayed. No Buy Bonus/Ante transactions.",
   "allowed_actions": "Only official public FUN demo URL real=0 preferedmode=offline; native autoplay UNTIL FEATURE or bounded verified base spin fallback, finish actually earned Free Games and record endpoint metadata, terminal and return. No purchases, no money wagers.",
