@@ -365,6 +365,25 @@ def midas_earned_sapphire_intro(png: Path) -> bool:
     return bool(re.search(r"\b\d{1,2}\s+SAPPHIRE\s+SPINS\b", title) and green > 0.35)
 
 
+def king_earned_free_games_intro(png: Path, text: str) -> bool:
+    """Earned King of Olympus 10 FREE GAMES start overlay, never a purchase.
+
+    Visual evidence: run 40261354023, artifact 12625895888,
+    gpas_mgaogkol_pop/_current.png. The overlay says YOU WIN 10 FREE GAMES
+    and shows a distinctive white right-arrow at (1175, 360). A terminal
+    FEATURE WIN is handled separately, never by this detector.
+    """
+    caption = bool(re.search(r"\bYOU\s+WIN\s+10\s+FREE\s+GAMES\b", text, re.I))
+    if not caption or "FEATURE WIN" in text.upper():
+        return False
+    with Image.open(png) as image:
+        pixels = list(image.convert("RGB").crop((1154, 336, 1206, 385)).getdata())
+    bright = sum(1 for r, g, b in pixels
+                 if min(r, g, b) > 195 and max(r, g, b) - min(r, g, b) < 45) / len(pixels)
+    # Archived earned overlay measures ~0.44, plain game UI ~0; require clear arrow.
+    return bright > 0.25
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -867,6 +886,42 @@ class Probe:
                         await self.checkpoint("bonus_needs_review", force=True)
                         return
                     self.note("BONUS_ACK", "Rulers earned bonus intro disappeared; bonus outcome still unverified")
+                    await self.checkpoint(force=True)
+                    continue
+                # 40261354023 earned 10 FREE GAMES but stalled for 15 minutes
+                # at the unacknowledged introductory overlay. The blue circular
+                # arrow is proven in the archived real FUN screenshot.
+                if (self.game == "gpas_mgaogkol_pop"
+                        and self.last_feature_action != "king_earned_10_free_games_start"
+                        and king_earned_free_games_intro(self.dir / "_current.png", state["text"])):
+                    stable = True
+                    for check_number in (2, 3):
+                        await page.wait_for_timeout(2000)
+                        _, checked = await self.shot(page, f"verify-king-10-free-games-{check_number}", save=True)
+                        if not king_earned_free_games_intro(self.dir / "_current.png", checked["text"]):
+                            self.note("KING_FREE_GAMES_UNSTABLE", "Earned start overlay moved; no input")
+                            stable = False
+                            break
+                    if not stable:
+                        continue
+                    if not ("real=0" in page.url and "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Cannot prove offline FUN mode before earned Free Games start")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    self.feature_seen = True
+                    self.feature_since = self.feature_since or time.monotonic()
+                    self.stage = "feature_observed"
+                    await self.click(page, (1175, 360), "verified_earned_FUN_king_10_free_games_arrow_once")
+                    self.last_feature_action = "king_earned_10_free_games_start"
+                    await page.wait_for_timeout(2400)
+                    _, after = await self.shot(page, "after-king-10-free-games-start", save=True)
+                    if king_earned_free_games_intro(self.dir / "_current.png", after["text"]):
+                        self.stage = "needs_review"
+                        self.note("KING_FREE_GAMES_START_UNCERTAIN", "Single earned play input; overlay remains; no retry")
+                        await self.checkpoint("king_free_games_start_uncertain", force=True)
+                        return
+                    self.note("KING_FREE_GAMES_START", "10 earned Free Games intro dismissed; spins/end still unverified")
                     await self.checkpoint(force=True)
                     continue
                 # Two verified modal controls from run 40221846216, NOT purchase buttons.
