@@ -1,19 +1,19 @@
 {
   "game": "wonder_5x5",
-  "stage": "bonus_in_progress",
-  "outcome": null,
+  "stage": "bonus_needs_review",
+  "outcome": "bonus_needs_review",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 121,
+  "observations": 122,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 1218,
+  "network_events": 1233,
   "websocket_connections": 2,
-  "requests_total": 237,
-  "elapsed_seconds": 4004,
-  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN SINE AGE aR, CDS: NDER\\WA fAN Y y Ap. O Y pf. AS ® —<< 2 3125 WAYS _— >) €5.00 €270.50 a J TOTAL BET ‘TOTAL WIN i 3) ay ~ €10,200.00 @ *)",
+  "requests_total": 238,
+  "elapsed_seconds": 4063,
+  "latest_text": "AGE OF THE GOI wo! PLAYING FOR FUN ND MORE EE “tin AS a €277.50 SPINS © LEFT .200.00 @ *)",
   "run_id": "40280174612",
-  "time": "2026-10-26T07:37:39+00:00"
+  "time": "2026-10-26T07:38:38+00:00"
 }
