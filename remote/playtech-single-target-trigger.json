@@ -1,17 +1,18 @@
 {
   "game": "ftsis",
-  "temple": "atropos",
-  "source_run": 40280332708,
-  "source_artifact": 12632717773,
-  "only_pending_function": "Fortune of the Gods: Sisters earned triple-temple Free Games portal. Attempt Atropos 15 earned FREE GAMES only, finish if actually observed. Lachesis 10 and Clotho 8 remain independent unverified branches.",
-  "run_key": "playtech-ftsis-atropos-portal-choice-20261026-0739z",
+  "temple": "lachesis",
+  "source_run": 40287108951,
+  "source_artifact": 12635328447,
+  "only_pending_function": "Fortune of the Gods: Sisters earned Lachesis Temple 10 Free Games only. Atropos was already selected once in FUN run 40287108951: countdown observed 14->9->0 and base returned; terminal payout not captured. Do not repeat Atropos. Clotho remains independently pending.",
+  "run_key": "playtech-ftsis-lachesis-portal-only-20261026-0859utc",
   "mode": "FUN_OFFLINE_ONLY",
-  "context": "New independent FUN demo; original portal screenshot left untouched and job ended needs_review. Re-earn portal if possible; never claim restored server state or any bonus purchase.",
-  "allowed_actions": "Official public FUN URL real=0 preferedmode=offline. Observe portal three times spaced 2s; choose only the visually verified Atropos temple card exactly once; observe 15 earned Free Games and terminal if available. No purchased/free money features, Buy Bonus, Ante Bet or uncertain repeats.",
+  "context": "Fresh independent FUN demo, not restoring previous server state; re-earn earned three-temple portal, select exactly one verified Lachesis card, observe countdown and terminal/base. Never treat earlier Atropos return as semantic payout or repeat purchases.",
+  "allowed_actions": "Official public FUN URL real=0 preferedmode=offline. Observe earned 3-temple portal three times separated 2s; click Lachesis once only when all guards pass; capture ALL earned bonus frames. If native Autoplay stopped appears after selected temple, verify 3 frames and stop without repeating. No Buy Bonus, Ante, purchased features or uncertain purchases.",
   "patch_commits": [
     "a601be669c6147f569566cce87a1af4c08e59c57",
     "14ecddabcee32017c2874926e2590c7029199ce5",
-    "07a83589f1ada65c040a7b6690f29bc7ef29d56d"
+    "07a83589f1ada65c040a7b6690f29bc7ef29d56d",
+    "bf26a1066ade1f1a073877eb127cd1e077d74181"
   ],
   "ci_run": 40286971291,
   "no_uncertain_purchase_retry": true,
