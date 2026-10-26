@@ -6,7 +6,10 @@
   "all_functions_verified": 0,
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
-  "current_active_runs": [],
+  "current_active_runs": [
+    40268935164,
+    40268966021
+  ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
     "Mere 'Not available' power labels do not prove buy/bonus absence in other menus.",
@@ -25,7 +28,8 @@
     "Network metadata for both latest artifacts (only): websocket oapi.playtechhorizon.com/socket.io/1/websocket/{session}, POST cachedownload.playtechone.com/cdn-cgi/rum HTTP204 and login.playtechone.com/KeepAlive.php HTTP200. Each artifact 2 WS sent/2 received frames; bodies opaque, no semantic result, buy or payout response confirmed.",
     "2026-10-26T02:53Z: Active DEMO runner 40260131442 reached earned 5 SAPPHIRE SPINS intro but no steps/end; future visual guard afacc812 (not injected into active checkout) added. Two separate one-game FUN recoveries 40261288969/40261354023 launched only for proven BET OPTIONS overlay blocking autoplay in GStorm3/King. No purchases attempted by these runners.",
     "2026-10-26T04:24Z: All targeted workflows 40260131442/40261288969/40261354023 completed technically. Actual artifacts 12624548546/12626412973/12625895888 and latest published checkpoints checked. Midas earned Sapphire OK never acknowledged; King earned 10 FREE GAMES startup arrow (1175,360) never clicked; GStorm3 had 199 FUN fallback spin attempts but no feature. None is complete.",
-    "2026-10-26T04:24Z: Added three-observation, FUN-only King earned 10 Free Games blue arrow guard in code commit 3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8. No new bought bonus or Ante executed; WS bodies remain opaque and no semantic game response verified."
+    "2026-10-26T04:24Z: Added three-observation, FUN-only King earned 10 Free Games blue arrow guard in code commit 3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8. No new bought bonus or Ante executed; WS bodies remain opaque and no semantic game response verified.",
+    "2026-10-26T04:25Z: King isolated new DEMO run 40268935164 started after verified King earned 10 FREE GAMES blue PLAY arrow (1175,360) guard commit 3d5a4fbd; Midas isolated new DEMO run 40268966021 started with already committed earned Sapphire guard afacc812. Neither repeats or purchases uncertain bonus; both must prove earned special transition and completion independently. 0/10 full audits."
   ],
   "games": {
     "ashadv": {
@@ -159,7 +163,7 @@
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": null,
+      "active_recovery": 40268966021,
       "last_result": {
         "run": 40260131442,
         "status": "needs_review",
@@ -342,7 +346,7 @@
         "artifact": 12625895888,
         "reason": "Won 10 FREE GAMES intro stayed visible 15min because runner did not recognize blue circular play arrow; verified screenshot and added guarded handler 3d5a4fb."
       },
-      "active_recovery": null,
+      "active_recovery": 40268935164,
       "initial_bet_options_overlay": {
         "run": 40246996090,
         "artifact": 12618998264,
@@ -421,5 +425,5 @@
   "last_checked_at_utc": "2026-10-26T01:15:00Z",
   "read_only_menu_inventory_run": 40246996090,
   "last_reviewed_utc": "2026-10-26T02:55:00Z",
-  "last_review_utc": "2026-10-26T04:24:00Z"
+  "last_review_utc": "2026-10-26T04:25:30Z"
 }
