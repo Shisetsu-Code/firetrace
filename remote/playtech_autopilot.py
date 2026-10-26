@@ -702,7 +702,10 @@ class Probe:
                     and time.monotonic() - self.feature_since < 900
                     and time.monotonic() - self.started < seconds + 900)):
                 await page.wait_for_timeout(2500 if fallback else 4500)
-                words, state = await self.shot(page, "poll", save=self.observations%6 == 0)
+                # Save EVERY earned-feature frame so that fast terminal dialogs
+                # are not lost between 6-observation archival intervals.
+                words, state = await self.shot(page, "poll",
+                                               save=self.feature_seen or self.observations%6 == 0)
                 if state["feature"]:
                     self.feature_seen = True
                     self.feature_since = self.feature_since or time.monotonic()
@@ -1136,6 +1139,36 @@ class Probe:
                     self.note("FEATURE_RESULT_UNCERTAIN", "One CONTINUE input; no unambiguous board return")
                     await self.checkpoint("feature_needs_review", force=True)
                     return
+                # 40287108951 / 12635328447: after one earned Atropos
+                # selection the bonus counter visibly ran 14 -> 9 -> 0, then
+                # the first-party *Autoplay stopped* repeat dialog covered
+                # the normal FTSIS FUN board. The generic feature_seen branch
+                # previously bypassed this dialog for 900 seconds. Preserve
+                # evidence of return, but DO NOT label the terminal payout or
+                # individual spins as server-verified, and do not repeat play.
+                if (self.game == "ftsis" and self.ftsis_choice_attempted
+                        and autoplay_stopped_popup(self.dir / "_current.png")):
+                    if not ("real=0" in page.url and "preferedmode=offline" in page.url):
+                        self.stage = "needs_review"
+                        self.note("BLOCKED", "Earned FTSIS exit not proven FUN; no input")
+                        await self.checkpoint("blocked_mode", force=True)
+                        return
+                    stable = True
+                    for check in (2, 3):
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, f"verify-ftsis-bonus-base-{check}", save=True)
+                        if not autoplay_stopped_popup(self.dir / "_current.png"):
+                            stable = False
+                            break
+                    if stable:
+                        self.stage = "earned_temple_base_return_payout_unverified"
+                        self.note("FTSIS_BASE_RETURN",
+                                  "Earned temple portal dismissed, native autoplay stopped over FUN base; "
+                                  "terminal payout/individual free spins remain unverified")
+                        await self.checkpoint(self.stage, force=True)
+                        return
+                    self.note("FTSIS_RETURN_UNSTABLE",
+                              "Overlay changed during 3-frame check; no input")
                 if self.feature_seen and state["finish"]:
                     self.feature_finished = True
                     self.stage = "feature_complete"
