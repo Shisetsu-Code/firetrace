@@ -11,17 +11,23 @@
     "6x5_3_free_games"
   ],
   "mode": "FUN_OFFLINE_ONLY",
-  "run_key": "wonder-pending-4x5-5x5-bounded-20261026-0630utc",
-  "source_run": 40211505961,
-  "source_artifact": 12607631700,
-  "reason": "Original two isolated branches 40211505961 made no feature selection before 3600s; existing native UNTIL FEATURE was visibly running. Retry only the two unverified branches with 5600s bounded limit and guarded terminal CONTINUE; do not replay 3x5 already completed.",
+  "run_key": "wonder-pending-4x5-5x5-separate-runners-20261026-0858utc",
+  "source_run": 40280174612,
+  "source_artifact": 12635431364,
+  "reason": "40280174612/12635431364: 4x5 stayed on a genuine first-party Connection Lost modal; 5x5 entered 5 earned Free Games but remained at 3 SPINS LEFT after 20-minute bonus window; no terminal or base return. Only retry those unverified branches, each on a separate isolated GitHub runner in offline FUN mode. Do not repeat 3x5 already verified or any purchased feature.",
   "fix_commits": [
     "4a66c39597f053aa412a2654a8982cb0590fd4ec",
     "308356552bbc6abcd00a1fba820a80900aaa27b9",
-    "34ba80a32da5af78570021d4db3b6da2b170f7d4"
+    "34ba80a32da5af78570021d4db3b6da2b170f7d4",
+    "f63d40d0ace4f15e846f329925903f02287e5870",
+    "691d715160ea5447dd93514db758bbd90491fd2f"
   ],
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "allow_cash": false
+  "allow_cash": false,
+  "verify_only": [
+    "4x5_10_free_games",
+    "5x5_5_free_games"
+  ]
 }
