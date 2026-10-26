@@ -1,19 +1,19 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 540,
+  "observations": 541,
   "clicks": 6,
   "spin_attempts": 1,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 973,
+  "network_events": 978,
   "websocket_connections": 2,
   "requests_total": 211,
-  "elapsed_seconds": 3596,
-  "latest_text": "= mo”) (4 AN « My | on PUS 18 I 18 €5:00 @ *)",
+  "elapsed_seconds": 3604,
+  "latest_text": "| af @ iy es ny | yA ] «i ui @ N< SF IK WK i 1 @ AM 2520 Rap 2520 €6.00 €5:00 @ *)",
   "run_id": "40268935164",
-  "time": "2026-10-26T05:25:25+00:00"
+  "time": "2026-10-26T05:25:33+00:00"
 }
