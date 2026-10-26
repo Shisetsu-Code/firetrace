@@ -25,6 +25,24 @@ def read_crop(path: Path, box, scale=2):
     return pytesseract.image_to_string(im, config="--psm 6").upper()
 
 
+def visual_continue_button(path: Path) -> bool:
+    """Conservative 1280x720 visual evidence for the large green CONTINUE button.
+
+    Independently measured on 40295892992/12637919613: terminal screens 00044
+    and 00045 have green-pixel fraction 0.621 in this ROI; prior nonterminal
+    screenshots 00013..00043 all stay at or below 0.300. Require >0.50, and
+    separately require the centered TOTAL WIN title and three stable images.
+    Never click based on this color cue alone.
+    """
+    with Image.open(path) as original:
+        if original.size != (1280, 720):
+            return False
+        crop = original.convert("RGB").crop((530, 470, 750, 528))
+        green = sum(1 for r, g, b in crop.getdata()
+                    if g > r * 1.25 and g > b * 1.15 and g > 45 and r < 190)
+        return green > crop.width * crop.height * 0.50
+
+
 async def play_variant(browser, variant: str, limit=3600):
     probe=Probe("gpas_aogww_pop")
     probe.game="wonder_"+variant
@@ -117,29 +135,42 @@ async def play_variant(browser, variant: str, limit=3600):
                     candidates=[w for w in words if re.fullmatch(
                         r"CONTINUE",w["text"].strip(".,:!?"),re.I)
                         and 250<=w["x"]<=1040 and 160<=w["y"]<=650]
-                    if not candidates:
+                    green_button=await asyncio.to_thread(visual_continue_button,img)
+                    if not candidates and not green_button:
                         probe.stage="terminal_needs_review"
-                        probe.note("PENDING_TERMINAL","Center TOTAL WIN visible but no OCR-grounded CONTINUE target; no blind click")
+                        probe.note("PENDING_TERMINAL","Centered TOTAL WIN present; neither localized green CONTINUE nor OCR button confirmed")
                         await probe.shot(page,"terminal-no-confirmed-continue",save=True)
                         break
-                    target=min(candidates,key=lambda w:abs(w["x"]-640))
+                    # Actual 5x5 earned modal uses a green CONTINUE at (640,500).
+                    # Its stylized font defeated generic word OCR in run 40295892992.
+                    # A green control is actionable ONLY with the centered result
+                    # title AND two independent 2.2-second-spaced confirmations.
+                    target = {"x":640,"y":500} if green_button else min(
+                        candidates,key=lambda w:abs(w["x"]-640))
+                    method = "visual_green_continue" if green_button else "word_ocr_continue"
                     await probe.shot(page,"terminal-result-first",save=True)
                     validated=True
                     for check in range(2):
                         await page.wait_for_timeout(2200)
                         words2,state2=await probe.shot(page,f"terminal-recheck-{check+2}",save=True)
-                        central2=await asyncio.to_thread(read_crop,probe.dir/"_current.png",(380,150,900,540))
-                        choices2=[w for w in words2 if re.fullmatch(
-                            r"CONTINUE",w["text"].strip(".,:!?"),re.I)
-                            and abs(w["x"]-target["x"])<=18 and abs(w["y"]-target["y"])<=18]
-                        if not ("TOTAL" in central2 and "WIN" in central2 and choices2):
+                        second=probe.dir/"_current.png"
+                        central2=await asyncio.to_thread(read_crop,second,(380,150,900,540))
+                        if green_button:
+                            button_ok=await asyncio.to_thread(visual_continue_button,second)
+                        else:
+                            button_ok=any(re.fullmatch(
+                                r"CONTINUE",w["text"].strip(".,:!?"),re.I)
+                                and abs(w["x"]-target["x"])<=18
+                                and abs(w["y"]-target["y"])<=18 for w in words2)
+                        if not ("TOTAL" in central2 and "WIN" in central2 and button_ok):
                             validated=False
                             break
                     if not validated:
-                        probe.note("TERMINAL_UNSTABLE","One or more independent images disagree; no action")
+                        probe.note("TERMINAL_UNSTABLE","Centered result/control not stable in all three images; no action")
                         continue
                     await probe.click(page,(target["x"],target["y"]),f"ack_{variant}_earned_bonus_result_CONTINUE_once")
-                    probe.note("TERMINAL_ACK","One OCR-grounded click after three 2s-spaced confirmations; return still unverified")
+                    probe.note("TERMINAL_ACK",
+                        f"One {method}-grounded click after three 2.2s-spaced confirmations; return still unverified")
                     await page.wait_for_timeout(2500)
                     base_ok=0
                     for check in range(3):
