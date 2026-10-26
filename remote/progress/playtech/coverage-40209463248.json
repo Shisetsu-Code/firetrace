@@ -8,15 +8,6 @@
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
     {
-      "run": 40307760694,
-      "game": "ftsis",
-      "temple": "clotho",
-      "scope": "Only previously untested earned Clotho 8 Free Games. Atropos and Lachesis already selected and observed in separate FUN sessions.",
-      "status": "in_progress_GitHub_confirmed_2026-10-26T10:29Z",
-      "mode": "FUN_OFFLINE_ONLY",
-      "no_purchases": true
-    },
-    {
       "run": 40307809292,
       "game": "gpas_aogww_pop",
       "variants": [
@@ -63,7 +54,8 @@
     "2026-10-26T09:12Z: Tested green pixel discriminator on all archive frames: terminal 00044/00045 green fraction 0.621 in ROI (530,470)-(750,528), nonterminal <=0.300; guard requires center TOTAL WIN, green >0.50 in 3 observations 2.2s apart and one click. Patch 4ffc52bf. Wrote targeted DEMO-only trigger 8878410e with one-off workflow fcb75c17; new Actions run ID not yet verified. No purchases/Ante attempted, 0/10 full.",
     "2026-10-26T09:15:22Z: Read latest 12 game progress files. Wonder 4x5 40295892992 advanced to bonus_in_progress feature_seen=true, 71 observations 4 clicks; no 4x5 completion yet. FTSIS Lachesis 40295931557 still running 98 observations and no earned portal selection yet. 5x5 modal unacknowledged awaiting isolated trigger run verification.",
     "2026-10-26T10:29Z: All earlier target jobs 40295892992, 40295931557 and 40297713925 completed technically. Independently examined ZIPs 12639885363/12639842901/12639834981, not job success alone. 4x5 earned 10 free games+3 retrigger terminal €67.00 FUN with CONTINUE visible but not clicked. Lachesis earned 10 selected once at 09:27:45Z; screenshot 00222 shows CONGRATULATIONS €42.55 virtual (game win €0.75, feature win €41.80), screenshot 00223 shows base and 00225-27 native autoplay stopped. No separate terminal click logged. 5x5 fresh re-earn produced €120.50 FUN modal, 3 stable observations and ONE CONTINUE click at 09:46:12Z; images 00085-87 show persistent FUN base reels and normal circular SPIN after result, though runner falsely labeled return_uncertain because OCR missed SPIN. Earlier 5x5 €31.50 modal was separate earlier fresh FUN session, not re-purchased.",
-    "2026-10-26T10:29Z: Fixed Wonder post-terminal false-negative with independently testable visual base-spin ROI (1100,550)-(1260,695), confirmed on 5x5 archived 00085-87 (mean RGB >=45, gold fraction <=0.09); original 5x5 terminal and numbered free spins rejected by cue. Guard also requires 3 FUN post-click observations, no centered TOTAL WIN, no SPINS LEFT. Code 2289b534, CI 40307696527 success. Started only pending Clotho (40307760694) and 4x5 unacknowledged earned terminal (40307809292), distinct games/sessions; no buy/ante or uncertain purchase retries. WebSocket bodies are opaque; HTTP 200/204 telemetry is not a semantic game payout."
+    "2026-10-26T10:29Z: Fixed Wonder post-terminal false-negative with independently testable visual base-spin ROI (1100,550)-(1260,695), confirmed on 5x5 archived 00085-87 (mean RGB >=45, gold fraction <=0.09); original 5x5 terminal and numbered free spins rejected by cue. Guard also requires 3 FUN post-click observations, no centered TOTAL WIN, no SPINS LEFT. Code 2289b534, CI 40307696527 success. Started only pending Clotho (40307760694) and 4x5 unacknowledged earned terminal (40307809292), distinct games/sessions; no buy/ante or uncertain purchase retries. WebSocket bodies are opaque; HTTP 200/204 telemetry is not a semantic game payout.",
+    "2026-10-26T10:45Z: Clotho 40307760694/12644855250 completed earned 8->0 FUN Free Games visually: 00088-poll.jpg CONGRATULATIONS GAME WIN €0.75, FEATURE WIN €9.10, TOTAL WIN €9.85; 00090/91/92 base with Autoplay stopped. No terminal CONTINUE input recorded; no semantic WebSocket payout. Runner checkpoint incorrectly says payout unverified due full-screen OCR. Guard fix 380884db1 (new runs only); full-game coverage remains 0/10."
   ],
   "games": {
     "ashadv": {
@@ -118,7 +110,7 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "ATROPOS_15_FUN_COUNTDOWN_AND_BASE_OBSERVED; LACHESIS_10_EARNED_FUN_SELECTED_ONCE_TERMINAL_€42.55_AND_BASE_RETURN_VISUAL; CLOTHO_8_RUNNING_UNVERIFIED",
+        "status": "ATROPOS_15_FUN_COUNTDOWN_AND_BASE_OBSERVED_TERMINAL_PAYOUT_MISSING; LACHESIS_10_EARNED_FUN_€42.55_TERMINAL_AND_BASE_VISUAL; CLOTHO_8_EARNED_FUN_€9.85_TERMINAL_AND_BASE_VISUAL",
         "evidence": "40280332708/12632717773/ftsis/_current.png and ftsis/screenshots/00278-feature.jpg",
         "options": [
           {
@@ -185,25 +177,73 @@
           ],
           "terminal_ack_click_logged": false,
           "interpretation": "Visual completion of earned Lachesis bonus/return; no semantic WebSocket payout decoded. Do not repeat."
+        },
+        "clotho_visual": {
+          "run": 40307760694,
+          "artifact": 12644855250,
+          "mode": "FUN_OFFLINE_ONLY",
+          "temple_clicked_once": "2026-10-26T10:42:29Z",
+          "selected_image": "ftsis/screenshots/00075-after-ftsis-clotho-choice.jpg",
+          "counter_observed": [
+            7,
+            6,
+            5,
+            4,
+            3,
+            1,
+            0
+          ],
+          "counter_evidence": [
+            "ftsis/screenshots/00075-after-ftsis-clotho-choice.jpg",
+            "ftsis/screenshots/00076-poll.jpg",
+            "ftsis/screenshots/00077-poll.jpg",
+            "ftsis/screenshots/00079-poll.jpg",
+            "ftsis/screenshots/00080-poll.jpg",
+            "ftsis/screenshots/00083-poll.jpg",
+            "ftsis/screenshots/00087-poll.jpg"
+          ],
+          "terminal_image": "ftsis/screenshots/00088-poll.jpg",
+          "terminal_display": {
+            "game_win": "€0.75 FUN",
+            "feature_win": "€9.10 FUN",
+            "total_win": "€9.85 FUN"
+          },
+          "other_transient_screen": "ftsis/screenshots/00089-poll.jpg BIG WIN €5.50; NOT counted as additional payout",
+          "base_images": [
+            "ftsis/screenshots/00090-poll.jpg",
+            "ftsis/screenshots/00091-verify-ftsis-bonus-base-2.jpg",
+            "ftsis/screenshots/00092-verify-ftsis-bonus-base-3.jpg"
+          ],
+          "terminal_ack_click_logged": false,
+          "visual_completed": true,
+          "semantic_game_response_decoded": false,
+          "runner_stage": "earned_temple_base_return_payout_unverified",
+          "runner_feature_finished": false,
+          "interpretation": "Independent manual inspection of original ZIP proves earned Clotho 8 free games to 0, terminal FUN payout and board return. Runner missed terminal via global OCR; no manual CONTINUE and no server payout decoded. Do not rerun Clotho."
         }
       },
       "special_functions": {
-        "status": "ATROPOS_AND_LACHESIS_EARNED_TEMPLE_PATHS_VISUAL; CLOTHO_IN_PROGRESS; BUYS_AND_ANTE_UNVERIFIED",
+        "status": "ALL_THREE_EARNED_TEMPLES_VISUALLY_TRAVERSED; ATROPOS_PAYOUT_NOT_CAPTURED; BUY_BONUS_AND_ANTE_UNVERIFIED",
         "evidence": "40287108951/12635328447/ftsis/screenshots/00051,00055,00061,00067; 40295931557/12639842901/ftsis/screenshots/00193,00199,00222-00227",
         "remaining": [
-          "clotho"
+          "Atropos terminal payout evidence missing",
+          "Buy Bonus availability/execution not verified",
+          "Ante Bet availability/execution not verified",
+          "Other special branches and semantic gameplay responses not verified"
         ],
         "guard": "bf26a1066: avoid 900-second loop when native autoplay stopped dialog follows bonus; no automatic repeat of spins or buys"
       },
       "bonus_result": {
-        "status": "LACHESIS_€42.55_FUN_TERMINAL_RESULT_AND_BASE_RETURN_VISUALLY_VERIFIED; ATROPOS_PAYOUT_SCREEN_MISSING",
+        "status": "LACHESIS_€42.55_AND_CLOTHO_€9.85_EARNED_FUN_TERMINALS_VISUALLY_VERIFIED_AND_BASE_RETURNED; ATROPOS_TERMINAL_PAYOUT_MISSING",
         "evidence": "40287108951/12635328447/ftsis/screenshots/00061-poll.jpg,00067-poll.jpg; 40295931557/12639842901/ftsis/screenshots/00222-poll.jpg and 00223,00225-27",
-        "verified_semantic_payout": false
+        "verified_semantic_payout": false,
+        "clotho_terminal_evidence": "40307760694/12644855250/ftsis/screenshots/00088-poll.jpg"
       },
       "server_game_response": {
         "status": "not_decoded",
-        "artifact": 12635328447,
+        "artifact": 12644855250,
         "websocket": "wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}",
+        "websocket_frames": "2 sent / 2 received, opaque only",
         "http": [
           {
             "endpoint": "https://cachedownload.playtechone.com/cdn-cgi/rum",
@@ -218,29 +258,22 @@
             "count": 1
           }
         ],
-        "meaning": "HTTP telemetry/KeepAlive only; no semantic bonus/bet/purchase response decoded"
+        "meaning": "HTTP telemetry/KeepAlive and opaque WebSocket frames do not confirm semantics of earned FUN payout, bonus purchases, bet or liquidation."
       },
       "last_result": {
-        "run": 40295931557,
-        "artifact": 12639842901,
+        "run": 40307760694,
+        "artifact": 12644855250,
         "stage": "earned_temple_base_return_payout_unverified",
-        "observations": 227,
-        "clicks": 6,
-        "spin_attempts": 1,
-        "ftsis_choice_attempted": true,
-        "temple": "lachesis",
-        "feature_seen": true,
+        "temple": "clotho",
         "runner_feature_finished": false,
-        "visual_reconciliation": "Lachesis terminal CONGRATULATIONS €42.55 and FUN base observed; no explicit terminal acknowledgment clicked; opaque WS has no semantic payout proof"
+        "visual_reconciliation": "8 earned Clotho free games exhausted (counter 7->0); result modal €9.85 and 3 FUN base/autoplay-stopped views. No terminal acknowledgement click, no decoded server payout."
       },
       "active_recovery": {
         "run": 40307760694,
         "temple": "clotho",
         "mode": "FUN_OFFLINE_ONLY",
-        "forbid_buy": true,
-        "last_known_status": "in_progress",
-        "source_run": 40295931557,
-        "source_artifact": 12639842901
+        "last_known_status": "completed/success 2026-10-26T10:45:44Z",
+        "safe_to_repeat": false
       }
     },
     "gpas_aogggriffin_pop": {
@@ -754,9 +787,9 @@
       "active_recovery": null
     }
   },
-  "last_checked_at_utc": "2026-10-26T08:58:59.230Z",
+  "last_checked_at_utc": "2026-10-26T10:56:01.881Z",
   "read_only_menu_inventory_run": 40246996090,
-  "last_reviewed_utc": "2026-10-26T08:58:59.230Z",
+  "last_reviewed_utc": "2026-10-26T10:56:01.881Z",
   "last_review_utc": "2026-10-26T08:58:59.230Z",
   "pending_or_unresolved_workflow_dispatches": [],
   "pending_unverified_triggers": [
