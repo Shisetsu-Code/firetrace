@@ -4,16 +4,16 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 32,
+  "observations": 43,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 79,
+  "network_events": 124,
   "websocket_connections": 2,
-  "requests_total": 100,
-  "elapsed_seconds": 200,
-  "latest_text": "\\GE OF THE GODS™ GOD OF STORMS: PLAYING FOR TRA Not available ——— Not available PQ! k al LW BN ihe \\ y 5 a SS Mie al — Fi ee a Ss — — €9,985.00 =)",
+  "requests_total": 101,
+  "elapsed_seconds": 281,
+  "latest_text": "\\GE OF THE GODS™ GOD OF STORMS: PLAYING FOR TRA Not available — Not available PQ! a Dir I 7 Nn iN ayy K aX J ) 7 Dem A) (| @* eran Ne Z J iy\" | a — €10,038.00",
   "run_id": "40280336714",
-  "time": "2026-10-26T06:35:55+00:00"
+  "time": "2026-10-26T06:37:17+00:00"
 }
