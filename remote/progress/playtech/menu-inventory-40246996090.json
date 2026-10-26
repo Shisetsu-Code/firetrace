@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "run_id": 40246996090,
+  "completed_at_utc": "2026-10-25T23:58:09Z",
+  "mode": "public_FUN_ONLY real=0",
+  "method": "Read-only screenshots before/after verified autoplay control; each game own headless Chromium context. A screenshot of a menu is not execution of a purchase/Ante/buy/free spin.",
+  "game_count": 10,
+  "all_jobs_completed_success": true,
+  "purchases_attempted": 0,
+  "ante_toggles_attempted": 0,
+  "semantic_gameplay_results_verified": 0,
+  "artifacts": [
+    12619375952,
+    12618998264
+  ],
+  "reliability_limits": "Some games remained in splash/intro after 12s; OCR only advisory; absence of Buy Bonus in screenshot does NOT prove unavailability. All ten remain pending full menu and bonus-buy inventory.",
+  "games": {
+    "aogroo": {
+      "artifact": 12619375952,
+      "screen": "aogroo/03-after-autoplay-click.jpg",
+      "status": "native_autoplay_options_visible",
+      "observed": [
+        "99 SPINS",
+        "25 SPINS",
+        "50 SPINS",
+        "UNTIL FEATURE"
+      ],
+      "note": "Autoplay menu read-only; no buy attempted."
+    },
+    "ashadv": {
+      "artifact": 12619375952,
+      "screen": "ashadv/03-after-autoplay-click.jpg",
+      "status": "main_game_visible_menu_not_fully_classified",
+      "observed": [
+        "FUN balance/HUD",
+        "autoplay and spin region"
+      ],
+      "note": "Menu must be revisited for explicit Buy Bonus/Ante/feature classification."
+    },
+    "gpas_agstorm3_pop": {
+      "artifact": 12619375952,
+      "screen": "gpas_agstorm3_pop/05-after-hold.jpg",
+      "status": "control_overlay_observed_not_fully_classified",
+      "observed": [
+        "FUN base reels",
+        "long_press_autoplay_test"
+      ],
+      "note": "No evidence of a buy being executed; controls not exhaustively inventoried."
+    },
+    "gpas_aogggriffin_pop": {
+      "artifact": 12619375952,
+      "screen": "gpas_aogggriffin_pop/03-after-autoplay-click.jpg",
+      "status": "game_and_autoplay_control_visible_not_full_purchase_audit",
+      "observed": [
+        "PLAYING FOR FUN",
+        "AUTO PLAY",
+        "SPIN"
+      ],
+      "note": "The completed Free Games result belongs to separate run 40240882306."
+    },
+    "gpas_aogww_pop": {
+      "artifact": 12619375952,
+      "screen": "gpas_aogww_pop/03-after-autoplay-click.jpg",
+      "status": "loading_inconclusive",
+      "observed": [
+        "loading splash"
+      ],
+      "note": "12-second startup is not enough to inspect any menu; retry only after stable loaded UI."
+    },
+    "aogmt": {
+      "artifact": 12618998264,
+      "screen": "aogmt/03-after-autoplay-click.jpg",
+      "status": "autoplay_options_visible",
+      "observed": [
+        "native autoplay selector",
+        "until feature"
+      ],
+      "note": "No bonus buy attempted; Amethyst earned feature spun separately in run 40246749884."
+    },
+    "ftsis": {
+      "artifact": 12618998264,
+      "screen": "ftsis/03-after-autoplay-click.jpg",
+      "status": "native_autoplay_menu_visible",
+      "observed": [
+        "AUTOPLAY",
+        "UNTIL FEATURE"
+      ],
+      "note": "No purchase or feature-completion proof from this menu screenshot."
+    },
+    "gpas_aogwfot_pop": {
+      "artifact": 12618998264,
+      "screen": "gpas_aogwfot_pop/03-after-autoplay-click.jpg",
+      "status": "intro_screen_visible_menu_inconclusive",
+      "observed": [
+        "Wheels of Olympus intro",
+        "50 FREE GAMES promotional text",
+        "PLAY button"
+      ],
+      "note": "Promotional text is not an awarded bonus. Ante ON + one FUN spin is independently verified in run 40233694420."
+    },
+    "gpas_gstorm2_pop": {
+      "artifact": 12618998264,
+      "screen": "gpas_gstorm2_pop/03-after-autoplay-click.jpg",
+      "status": "autoplay_mode_selector_visible",
+      "observed": [
+        "autoplay count/feature selector"
+      ],
+      "note": "Read-only mode inventory only; no bonus completion confirmed."
+    },
+    "gpas_mgaogkol_pop": {
+      "artifact": 12618998264,
+      "screen": "gpas_mgaogkol_pop/05-after-hold.jpg",
+      "status": "game_controls_visible_not_full_menu_inventory",
+      "observed": [
+        "FUN base board",
+        "long_press_autoplay_test"
+      ],
+      "note": "No verified buy menu or bonus payout from this capture."
+    }
+  }
+}
