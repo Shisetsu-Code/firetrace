@@ -318,6 +318,33 @@ def midas_earned_ruby_intro(png: Path) -> bool:
         ) / len(pixels)
     return bool(re.search(r"\b7\s+RUBY\s+SPINS\b", title) and green > 0.35)
 
+# Observed in FUN menu inventory 40246996090: both games advance from
+# legitimate introductory screens to a separate native BET OPTIONS modal.
+# Opening AUTOPLAY while this modal is present cannot work. Dismiss X only
+# after THREE consistent observations, with no bet adjustments.
+BET_OPTION_CLOSE = {
+    "gpas_agstorm3_pop": {"box": (450, 130, 830, 198), "xy": (828, 160)},
+    "gpas_mgaogkol_pop": {"box": (500, 222, 770, 270), "xy": (749, 248)},
+}
+
+
+def bet_options_modal(game: str, png: Path) -> bool:
+    """Recognize native Bet Options heading, not a buy-bonus control.
+
+    Archived menu inventory 40246996090/12619375952 shows the modal
+    after correctly advancing introductory screens in both named games.
+    OCR of the tightly cropped headings was verified against those JPGs.
+    """
+    cfg = BET_OPTION_CLOSE.get(game)
+    if not cfg:
+        return False
+    with Image.open(png) as image:
+        crop = image.convert("RGB").crop(cfg["box"])
+        crop = crop.resize((crop.width * 3, crop.height * 3))
+        label = pytesseract.image_to_string(crop, config="--psm 6").upper()
+    return bool(re.search(r"BET\\s+OPTIONS", label))
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -490,6 +517,40 @@ class Probe:
                 await self.click(page, INTRO[self.game], "verified_introduction")
                 await page.wait_for_timeout(2500)
                 words, state = await self.shot(page, "after-intro")
+            # Previously 40246996090 showed GStorm3 / King of Olympus
+            # sitting behind an initial BET OPTIONS modal after CONTINUE.
+            # Its CONFIRM button must never be treated as autoplay/start.
+            # Closing the existing panel with X changes no wager or buy.
+            if self.game in BET_OPTION_CLOSE:
+                await self.shot(page, "check-native-bet-options", save=True)
+                if bet_options_modal(self.game, self.dir / "_current.png"):
+                    stable = True
+                    for check_number in (2, 3):
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, f"revalidate-bet-options-{check_number}", save=True)
+                        if not bet_options_modal(self.game, self.dir / "_current.png"):
+                            stable = False
+                            self.note("BET_OPTIONS_UNSTABLE", "Modal changed; no input")
+                            break
+                    if stable:
+                        if not ("real=0" in page.url and "preferedmode=offline" in page.url):
+                            self.stage = "needs_review"
+                            self.note("BLOCKED", "FUN mode not proven before closing native bet options")
+                            await self.checkpoint("blocked_mode", force=True)
+                            return
+                        await self.click(page, BET_OPTION_CLOSE[self.game]["xy"],
+                                         "close_verified_native_bet_options_X_once")
+                        await page.wait_for_timeout(2000)
+                        await self.shot(page, "after-bet-options-X", save=True)
+                        if bet_options_modal(self.game, self.dir / "_current.png"):
+                            self.stage = "needs_review"
+                            self.note("BET_OPTIONS_CLOSE_UNCERTAIN",
+                                      "A single non-betting X click did not close the modal; no retry")
+                            await self.checkpoint("bet_options_uncertain", force=True)
+                            return
+                        self.note("BET_OPTIONS_CLOSED",
+                                  "Three consistent observations then single X; no bet, buy or ante action")
+                        await self.checkpoint(force=True)
             self.stage = "autoplay_setup"
             await self.click(page, AUTOPLAY[self.game], "open_native_autoplay")
             await page.wait_for_timeout(650)
