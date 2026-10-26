@@ -1,10 +1,10 @@
 {
   "game": "aogmt",
-  "stage": "feature_observed",
-  "outcome": null,
+  "stage": "needs_review",
+  "outcome": "feature_needs_review",
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 220,
+  "observations": 223,
   "clicks": 7,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
@@ -12,8 +12,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 20,
-  "elapsed_seconds": 1693,
-  "latest_text": "& UP Not available ACEEGODS N MIG ry MIDAS Not available OWER wh i ae ae a LINES WIN €0.40 SPIN LINFO 40 2 €995.85 [Play for Real 04:53:53",
+  "elapsed_seconds": 1724,
+  "latest_text": "& UP Not available ACEEGODS N MIG ry MIDAS Not available OWER wh i ae ae a LINES WIN €0.40 SPIN LINFO 40 2 €995.85 [Play for Real 04:54:21",
   "run_id": "40268966021",
-  "time": "2026-10-26T04:53:58+00:00"
+  "time": "2026-10-26T04:54:28+00:00"
 }
