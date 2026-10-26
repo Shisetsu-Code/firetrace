@@ -29,9 +29,17 @@ jobs:
           game = trigger.get("game")
           if game not in cfg["games"] or trigger.get("mode") != "FUN_OFFLINE_ONLY" or not trigger.get("no_uncertain_purchase_retry", False):
               raise SystemExit("Invalid or non-FUN target: refusing execution")
+          temple = trigger.get("temple", "atropos")
+          if game == "ftsis":
+              if temple not in ("atropos", "lachesis", "clotho"):
+                  raise SystemExit("Unknown earned FUN temple; refusing input")
+          elif "temple" in trigger:
+              raise SystemExit("Temple choice only valid for ftsis")
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as out:
               out.write(f"PLAYTECH_ONLY={game}\n")
-          print(f"Target: {game} (FUN/offline only, no buys)")
+              if game == "ftsis":
+                  out.write(f"PLAYTECH_FTSIS_TEMPLE={temple}\n")
+          print(f"Target: {game} (FUN/offline only, no buys; ftsis_temple={temple if game == 'ftsis' else 'n/a'})")
           PY
       - name: Install Chromium and OCR
         run: |
