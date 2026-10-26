@@ -8,22 +8,22 @@
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
     {
-      "run": 40295892992,
-      "game": "gpas_aogww_pop",
-      "variants": [
-        "4x5_10_free_games"
-      ],
-      "scope": "Only 4x5 pending earned bonus in progress; 5x5 branch technically finished at unacknowledged terminal modal.",
-      "status": "4x5_in_progress; 5x5_completed_technically_terminal_unacknowledged",
+      "run": 40307760694,
+      "game": "ftsis",
+      "temple": "clotho",
+      "scope": "Only previously untested earned Clotho 8 Free Games. Atropos and Lachesis already selected and observed in separate FUN sessions.",
+      "status": "in_progress_GitHub_confirmed_2026-10-26T10:29Z",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
     },
     {
-      "run": 40295931557,
-      "game": "ftsis",
-      "temple": "lachesis",
-      "scope": "New isolated earned Lachesis 10 Free Games portal selection only; do not repeat earlier Atropos counted 14->9->0 and visually returned to FUN base",
-      "status": "in_progress_verified_by_GitHub_job_steps",
+      "run": 40307809292,
+      "game": "gpas_aogww_pop",
+      "variants": [
+        "4x5_10_free_games"
+      ],
+      "scope": "Only earned 4x5 terminal €67.00 FUN reached but CONTINUE never clicked in source run 40295892992; guarded recovery and return confirmation.",
+      "status": "in_progress_GitHub_confirmed_2026-10-26T10:29Z",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
     }
@@ -61,7 +61,9 @@
     "2026-10-26T08:58:59.230Z: Verified code corrections f63d40d (Wonder connection loss detection and focus), 691d715 (two independent GitHub matrix runners), bf26a10 (capture each feature frame, stop on earned Sisters base return). CI 40295687220 and 40295740197 success; f63d40d CI 40295654058 still running at check. Launched only pending FUN branches 40295892992 (Wonder 4x5/5x5 distinct jobs), 40295931557 (Sisters Lachesis, Atropos not repeated). Neither is completion evidence.",
     "2026-10-26T09:12Z: 40295892992 matrix: 5x5 branch technically success, artifact 12637919613 visually shows earned 5x5 reels selection once, 0 SPINS LEFT, central TOTAL WIN €31.50 FUN, green CONTINUE visible at (640,500), but OCR missed it. No CONTINUE input or post-terminal FUN return; do NOT count complete. 4x5 still in_progress; FTSIS Lachesis 40295931557 in_progress. All websocket payloads opaque and server payout unverified.",
     "2026-10-26T09:12Z: Tested green pixel discriminator on all archive frames: terminal 00044/00045 green fraction 0.621 in ROI (530,470)-(750,528), nonterminal <=0.300; guard requires center TOTAL WIN, green >0.50 in 3 observations 2.2s apart and one click. Patch 4ffc52bf. Wrote targeted DEMO-only trigger 8878410e with one-off workflow fcb75c17; new Actions run ID not yet verified. No purchases/Ante attempted, 0/10 full.",
-    "2026-10-26T09:15:22Z: Read latest 12 game progress files. Wonder 4x5 40295892992 advanced to bonus_in_progress feature_seen=true, 71 observations 4 clicks; no 4x5 completion yet. FTSIS Lachesis 40295931557 still running 98 observations and no earned portal selection yet. 5x5 modal unacknowledged awaiting isolated trigger run verification."
+    "2026-10-26T09:15:22Z: Read latest 12 game progress files. Wonder 4x5 40295892992 advanced to bonus_in_progress feature_seen=true, 71 observations 4 clicks; no 4x5 completion yet. FTSIS Lachesis 40295931557 still running 98 observations and no earned portal selection yet. 5x5 modal unacknowledged awaiting isolated trigger run verification.",
+    "2026-10-26T10:29Z: All earlier target jobs 40295892992, 40295931557 and 40297713925 completed technically. Independently examined ZIPs 12639885363/12639842901/12639834981, not job success alone. 4x5 earned 10 free games+3 retrigger terminal €67.00 FUN with CONTINUE visible but not clicked. Lachesis earned 10 selected once at 09:27:45Z; screenshot 00222 shows CONGRATULATIONS €42.55 virtual (game win €0.75, feature win €41.80), screenshot 00223 shows base and 00225-27 native autoplay stopped. No separate terminal click logged. 5x5 fresh re-earn produced €120.50 FUN modal, 3 stable observations and ONE CONTINUE click at 09:46:12Z; images 00085-87 show persistent FUN base reels and normal circular SPIN after result, though runner falsely labeled return_uncertain because OCR missed SPIN. Earlier 5x5 €31.50 modal was separate earlier fresh FUN session, not re-purchased.",
+    "2026-10-26T10:29Z: Fixed Wonder post-terminal false-negative with independently testable visual base-spin ROI (1100,550)-(1260,695), confirmed on 5x5 archived 00085-87 (mean RGB >=45, gold fraction <=0.09); original 5x5 terminal and numbered free spins rejected by cue. Guard also requires 3 FUN post-click observations, no centered TOTAL WIN, no SPINS LEFT. Code 2289b534, CI 40307696527 success. Started only pending Clotho (40307760694) and 4x5 unacknowledged earned terminal (40307809292), distinct games/sessions; no buy/ante or uncertain purchase retries. WebSocket bodies are opaque; HTTP 200/204 telemetry is not a semantic game payout."
   ],
   "games": {
     "ashadv": {
@@ -116,7 +118,7 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "ATROPOS_EARNED_15_FREE_GAMES_SELECTED_ONCE_COUNTER_14_TO_9_TO_0_AND_FUN_BASE_RETURN_VISUAL; LACHESIS_CLOTHO_PENDING",
+        "status": "ATROPOS_15_FUN_COUNTDOWN_AND_BASE_OBSERVED; LACHESIS_10_EARNED_FUN_SELECTED_ONCE_TERMINAL_€42.55_AND_BASE_RETURN_VISUAL; CLOTHO_8_RUNNING_UNVERIFIED",
         "evidence": "40280332708/12632717773/ftsis/_current.png and ftsis/screenshots/00278-feature.jpg",
         "options": [
           {
@@ -158,20 +160,44 @@
           "terminal_win_dialog_seen": false,
           "server_game_payout_decoded": false,
           "interpretation": "One earned Atropos selection, free-game counter 14->9->0 and first-party base-board autoplay stopped modal. Terminal payout modal not captured: do not claim verified payout/semantic server result. Do not repeat Atropos in new recovery."
+        },
+        "lachesis_visual": {
+          "run": 40295931557,
+          "artifact": 12639842901,
+          "mode": "FUN_OFFLINE_ONLY",
+          "selected_once_at_utc": "2026-10-26T09:27:45Z",
+          "selection_image": "ftsis/screenshots/00193-after-ftsis-lachesis-choice.jpg",
+          "counter_sample_images": [
+            "ftsis/screenshots/00193-after-ftsis-lachesis-choice.jpg",
+            "ftsis/screenshots/00199-poll.jpg"
+          ],
+          "terminal": "ftsis/screenshots/00222-poll.jpg",
+          "terminal_display": {
+            "game_win": "€0.75 FUN",
+            "feature_win": "€41.80 FUN",
+            "total_win": "€42.55 FUN"
+          },
+          "base_images": [
+            "ftsis/screenshots/00223-poll.jpg",
+            "ftsis/screenshots/00225-poll.jpg",
+            "ftsis/screenshots/00226-verify-ftsis-bonus-base-2.jpg",
+            "ftsis/screenshots/00227-verify-ftsis-bonus-base-3.jpg"
+          ],
+          "terminal_ack_click_logged": false,
+          "interpretation": "Visual completion of earned Lachesis bonus/return; no semantic WebSocket payout decoded. Do not repeat."
         }
       },
       "special_functions": {
-        "status": "ATROPOS_EARNED_TEMPLE_SELECTED_AND_COUNTDOWN_TO_ZERO_VISUALLY_VERIFIED; LACHESIS_CLOTHO_NOT_VERIFIED",
-        "evidence": "40287108951/12635328447/ftsis/screenshots/00051,00055,00061,00067",
+        "status": "ATROPOS_AND_LACHESIS_EARNED_TEMPLE_PATHS_VISUAL; CLOTHO_IN_PROGRESS; BUYS_AND_ANTE_UNVERIFIED",
+        "evidence": "40287108951/12635328447/ftsis/screenshots/00051,00055,00061,00067; 40295931557/12639842901/ftsis/screenshots/00193,00199,00222-00227",
         "remaining": [
-          "lachesis",
           "clotho"
         ],
         "guard": "bf26a1066: avoid 900-second loop when native autoplay stopped dialog follows bonus; no automatic repeat of spins or buys"
       },
       "bonus_result": {
-        "status": "ATROPOS_COUNTER_ZERO_AND_FUN_BASE_RETURN_OBSERVED_NO_TERMINAL_PAYOUT_SCREEN",
-        "evidence": "40287108951/12635328447/ftsis/screenshots/00061-poll.jpg,00067-poll.jpg",
+        "status": "LACHESIS_€42.55_FUN_TERMINAL_RESULT_AND_BASE_RETURN_VISUALLY_VERIFIED; ATROPOS_PAYOUT_SCREEN_MISSING",
+        "evidence": "40287108951/12635328447/ftsis/screenshots/00061-poll.jpg,00067-poll.jpg; 40295931557/12639842901/ftsis/screenshots/00222-poll.jpg and 00223,00225-27",
         "verified_semantic_payout": false
       },
       "server_game_response": {
@@ -195,25 +221,26 @@
         "meaning": "HTTP telemetry/KeepAlive only; no semantic bonus/bet/purchase response decoded"
       },
       "last_result": {
-        "run": 40287108951,
-        "status": "needs_review",
-        "artifact": 12635328447,
-        "observations": 135,
-        "clicks": 4,
+        "run": 40295931557,
+        "artifact": 12639842901,
+        "stage": "earned_temple_base_return_payout_unverified",
+        "observations": 227,
+        "clicks": 6,
         "spin_attempts": 1,
         "ftsis_choice_attempted": true,
+        "temple": "lachesis",
         "feature_seen": true,
-        "feature_finished": false,
-        "visual_reconciliation": "Single Atropos card click, counter to zero then FUN base with Autoplay stopped; 900-second machine stall from feature_seen branching, not proof payout"
+        "runner_feature_finished": false,
+        "visual_reconciliation": "Lachesis terminal CONGRATULATIONS €42.55 and FUN base observed; no explicit terminal acknowledgment clicked; opaque WS has no semantic payout proof"
       },
       "active_recovery": {
-        "run": 40295931557,
-        "temple": "lachesis",
+        "run": 40307760694,
+        "temple": "clotho",
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
         "last_known_status": "in_progress",
-        "source_run": 40287108951,
-        "source_artifact": 12635328447
+        "source_run": 40295931557,
+        "source_artifact": 12639842901
       }
     },
     "gpas_aogggriffin_pop": {
@@ -580,37 +607,49 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "3x5_PREVIOUSLY_VERIFIED; 4x5_EARNED_BONUS_IN_PROGRESS_NOT_TERMINAL; 5x5_EARNED_MODAL_€31.50_TERMINAL_UNACKNOWLEDGED",
+        "status": "3x5_PREVIOUS_VERIFIED; 5x5_EARNED_€120.50_FUN_TERMINAL_SINGLE_ACK_AND_3_BASE_IMAGES_VISUAL; 4x5_€67.00_FUN_TERMINAL_NEEDS_ACK_RECOVERY_RUNNING; 6x5_LOCKED_IN_OBSERVED_FUN",
         "evidence": "40295892992/12637919613/wonder_5x5/screenshots/00037-reel-choices.jpg,00039-selected.jpg,00044-watch.jpg,00045-terminal-no-confirmed-continue.jpg",
         "verified_total": false,
         "variants": {
           "4x5": {
-            "status": "earned_bonus_in_progress",
-            "verified_selection": true,
+            "status": "earned_10_free_games_plus_3_retrigger_TERMINAL_UNACKNOWLEDGED",
+            "selected_once": true,
+            "initial_spins": 10,
+            "retriggered_spins": 3,
+            "terminal_visual": "€67.00 FUN (virtual)",
             "completion": false,
             "latest_run": 40295892992,
-            "checkpoint_time_utc": "2026-10-26T09:15:22Z",
-            "observations": 71,
-            "clicks": 4,
-            "run_active": true
+            "artifact": 12639885363,
+            "terminal_images": [
+              "wonder_4x5/screenshots/00085-watch.jpg",
+              "wonder_4x5/screenshots/00086-terminal-no-confirmed-continue.jpg"
+            ],
+            "acknowledged": false,
+            "run_active": false,
+            "recovery_run": 40307809292
           },
           "5x5": {
-            "status": "earned_5_free_games_terminal_total_win_observed_NO_CONTINUE_ACK",
+            "status": "VISUAL_EARNED_FUN_TERMINAL_SINGLE_ACK_AND_BASE_RETURN_VERIFIED",
             "initial_free_games": 5,
             "selected_once": true,
             "terminal_seen": true,
-            "terminal_display_amount": "€31.50 FUN virtual; not server verified",
-            "acknowledged": false,
-            "base_return_confirmed": false,
-            "evidence_run": 40295892992,
-            "evidence_artifact": 12637919613,
+            "terminal_display_amount": "€120.50 FUN virtual (fresh 40297713925 run); earlier separate FUN earned run terminal €31.50",
+            "acknowledged": true,
+            "ack_once_at_utc": "2026-10-26T09:46:12Z",
+            "base_return_confirmed": true,
+            "base_return_visual_reconciled": true,
+            "runner_still_false_negative_due_to_OCR": true,
+            "evidence_run": 40297713925,
+            "evidence_artifact": 12639834981,
             "evidence": [
-              "wonder_5x5/screenshots/00037-reel-choices.jpg",
-              "wonder_5x5/screenshots/00039-selected.jpg",
-              "wonder_5x5/screenshots/00044-watch.jpg",
-              "wonder_5x5/screenshots/00045-terminal-no-confirmed-continue.jpg"
+              "wonder_5x5/screenshots/00082-terminal-result-first.jpg",
+              "wonder_5x5/screenshots/00083-terminal-recheck-2.jpg",
+              "wonder_5x5/screenshots/00084-terminal-recheck-3.jpg",
+              "wonder_5x5/screenshots/00085-verify-5x5-base-return-1.jpg",
+              "wonder_5x5/screenshots/00086-verify-5x5-base-return-2.jpg",
+              "wonder_5x5/screenshots/00087-verify-5x5-base-return-3.jpg"
             ],
-            "pending": "One guarded CONTINUE and 3 stable post-click FUN base checks in fresh isolated earned-demo run; cannot resume closed browser"
+            "pending": "No further 5x5 repeats; other game functions remain unverified"
           },
           "3x5": {
             "status": "previously_verified_do_not_repeat"
@@ -621,62 +660,59 @@
         }
       },
       "special_functions": {
-        "status": "not_verified"
+        "status": "4x5_and_5x5_earned_reel_modes_observed; 5x5_visually_finished; 4x5_terminal_unacknowledged; 6x5_locked; all buys and Ante not verified"
       },
       "bonus_result": {
-        "status": "5x5_EARNED_TERMINAL_WIN_VISUALLY_CONFIRMED_NOT_ACKNOWLEDGED_OR_RETURNED",
-        "evidence": "40295892992/12637919613/00044-watch.jpg and 00045-terminal-no-confirmed-continue.jpg",
-        "amount": "€31.50 FUN virtual",
+        "status": "5x5_EARNED_€120.50_FUN_MODAL_ACK_ONCE_AND_TRIPLE_FUN_BASE_RETURN; 4x5_EARNED_€67.00_FUN_MODAL_NOT_ACKNOWLEDGED",
+        "evidence": "40297713925/12639834981/00082-87; 40295892992/12639885363/00085-86",
         "verified_semantic_payout": false,
-        "terminal_acknowledged": false,
-        "board_return": false,
-        "code_guard_commit": "4ffc52bfb5561c22ca2884251441902a4b7306bc",
-        "repeat_limit": "Only fresh 5x5 earned FUN feature pending; never repeat purchased feature"
+        "terminal_acknowledged_5x5": true,
+        "board_return_5x5": true,
+        "code_guard_commit": "2289b53465e39a577c2aaa7a3c4eb668e58bb068",
+        "repeat_limit": "Do not repeat visually completed earned 5x5; isolate only unacknowledged 4x5"
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
       "last_result": {
-        "run": 40295892992,
-        "artifact": 12635431364,
+        "run": 40297713925,
+        "artifact": 12639834981,
         "mode": "FUN_OFFLINE_ONLY",
         "branch_4x5": {
-          "stage": "bonus_in_progress",
-          "observations": 71,
-          "clicks": 4,
           "run": 40295892992,
-          "checkpoint_time_utc": "2026-10-26T09:15:22Z",
-          "active": true
+          "artifact": 12639885363,
+          "stage": "terminal_needs_review",
+          "visual_terminal": "€67.00",
+          "acknowledged": false
         },
         "branch_5x5": {
-          "stage": "terminal_needs_review",
-          "observations": 45,
-          "clicks": 4,
+          "stage": "return_uncertain",
+          "runner_stage_false_negative": true,
+          "observations": 87,
+          "clicks": 5,
           "spin_attempts": 0,
-          "selection": "5x5 5 earned Free Games (exactly once)",
-          "terminal_total_win": "€31.50 FUN",
-          "acknowledged": false,
-          "base_return": false
-        },
-        "artifact_5x5": 12637919613
+          "selection": "earned 5x5 5 Free Games",
+          "terminal_total_win": "€120.50 FUN",
+          "acknowledged": true,
+          "base_return": true,
+          "verified_three_original_images": true
+        }
       },
       "active_recovery": {
-        "run": 40295892992,
+        "run": 40307809292,
         "variants": [
           "4x5"
         ],
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
-        "last_known_status": "in_progress_4x5_only",
-        "source_run": 40280174612,
-        "source_artifact": 12635431364,
+        "last_known_status": "in_progress",
+        "source_run": 40295892992,
+        "source_artifact": 12639885363,
         "fixes": [
-          "f63d40d",
-          "691d715"
-        ],
-        "status": "4x5_job_in_progress__5x5_job_complete_terminal_unacknowledged",
-        "other_pending_trigger": "8878410ee1b9c467a6e54d99f84d6fe212e1f555"
+          "4ffc52bf",
+          "2289b534"
+        ]
       }
     },
     "gpas_aogwfot_pop": {
