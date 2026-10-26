@@ -1,19 +1,19 @@
 {
   "game": "gpas_agstorm3_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 41,
+  "observations": 47,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 113,
+  "network_events": 127,
   "websocket_connections": 2,
-  "requests_total": 137,
-  "elapsed_seconds": 299,
+  "requests_total": 138,
+  "elapsed_seconds": 344,
   "latest_text": "AGE OF THE GODS™ GOD OF STORMS 3™ PLAYING FOR FUN 4 SBPER —= | XTRA OWER al ER aan sa aS ) \\UTOPLAY a NUMBER OF S| 1G / is a ¥ ‘ A Ww € START a3 [: a o~ 0 LINES WIN TOTAL BET €9,997.60 @ *)",
   "run_id": "40261288969",
-  "time": "2026-10-26T02:58:43+00:00"
+  "time": "2026-10-26T02:59:29+00:00"
 }
