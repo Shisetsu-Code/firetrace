@@ -1,19 +1,19 @@
 {
   "game": "gpas_aogwfot_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 29,
+  "observations": 38,
   "clicks": 2,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 61,
+  "network_events": 78,
   "websocket_connections": 2,
-  "requests_total": 162,
-  "elapsed_seconds": 175,
-  "latest_text": "\\GE OF THE GODS™: WHEELS OF OLYMPUS PLAYING FOR FU! X100 me ey 4, Not availab! a EXTRA Not avai lable Not/available “ower Not available POWER POWER il y tis Bas) | 10.00 =e J uv) DOUBI OF 5 SPINS | 10 SPINS 20 SPINS | \\ JAZ, & a: 100 SPINS 50 SPINS t",
+  "requests_total": 163,
+  "elapsed_seconds": 239,
+  "latest_text": "\\GE OF THE GODS™: WHEELS OF OLYMPUS PLAYING FOR FU! WN // te We Not avail le’ £) EXTRA Not avai lable Not/available “ower Not available POWER POWER HA y tis Bas) | 10.00 =e J uv) DOUBI OF 5 SPINS | 10 SPINS 20 SPINS | \\ JAZ, & a: 100 SPINS 50 SPINS t",
   "run_id": "40280344330",
-  "time": "2026-10-26T06:48:35+00:00"
+  "time": "2026-10-26T06:49:39+00:00"
 }
