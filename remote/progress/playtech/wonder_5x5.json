@@ -4,16 +4,16 @@
   "outcome": null,
   "feature_seen": true,
   "feature_finished": false,
-  "observations": 98,
+  "observations": 101,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 977,
+  "network_events": 999,
   "websocket_connections": 2,
-  "requests_total": 223,
-  "elapsed_seconds": 3181,
-  "latest_text": "AGE OF THE GODS™: WONDER WARRIORS™ PLAYING FOR FUN pare SSS) ER. Mf iv Tite R) YY ® kK ®|A\\e@ ®|® 0 112 3125 WAYS aaa €5.00 €53.50 a TOTAL WIN i 3) ay ~ oan €9,976.00 @ *)",
+  "requests_total": 224,
+  "elapsed_seconds": 3256,
+  "latest_text": "\\GE OF THE GODS™: WONDER PLAYING FOR FUN Was af YA @ ® | |® >t D) 10 | 3125 WAYS | i) oo 87.00 *)",
   "run_id": "40280174612",
-  "time": "2026-10-26T07:23:56+00:00"
+  "time": "2026-10-26T07:25:11+00:00"
 }
