@@ -1,19 +1,19 @@
 {
   "game": "gpas_gstorm2_pop",
-  "stage": "bounded_base_spin_fallback",
-  "outcome": null,
+  "stage": "time_limit",
+  "outcome": "time_limit",
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 680,
-  "clicks": 207,
-  "spin_attempts": 203,
+  "observations": 689,
+  "clicks": 210,
+  "spin_attempts": 206,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 1470,
+  "network_events": 1486,
   "websocket_connections": 2,
   "requests_total": 156,
-  "elapsed_seconds": 3564,
-  "latest_text": "\\GE OF THE GODS™ GOD OF STORMS 2™ PLAYING FOR FUN TBE Not avaiable, COD WER —— =| tr ar (4 SSS ae —_ =i = WIN €5.00 —= £3.00 a €10,497.00 @",
+  "elapsed_seconds": 3608,
+  "latest_text": "\\GE OF THE GODS™ GOD OF STORMS: PLAYING FOR af TRA Not available — Not available PQ! fii ) ] LO J 4 PS, a> ~ \\ ) \\ la ) ctu) PY LO K aA ‘WIN €0.00 =) €5.00 Se Sy a — €10,486.00",
   "run_id": "40280336714",
-  "time": "2026-10-26T07:32:00+00:00"
+  "time": "2026-10-26T07:32:44+00:00"
 }
