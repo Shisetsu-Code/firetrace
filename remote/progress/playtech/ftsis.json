@@ -1,12 +1,12 @@
 {
   "game": "ftsis",
-  "stage": "bounded_base_spin_fallback",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 35,
-  "clicks": 3,
-  "spin_attempts": 0,
+  "observations": 49,
+  "clicks": 4,
+  "spin_attempts": 1,
   "autoplay_repeats": 1,
   "midas_feature_steps": 0,
   "ftsis_temple": "clotho",
@@ -14,8 +14,8 @@
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 19,
-  "elapsed_seconds": 357,
-  "latest_text": "JX AGE mGO Notavailable gD R Not available AN ST RA Not available Not available POWER: |i lit FREE FREE =] HH ARS id © — START 2 €1,002.25 10:35:40",
+  "elapsed_seconds": 496,
+  "latest_text": "») TH cats Gs & = ne A\" St) ATROPOS'S <LOTHO'S TEMPLE TEMPLE 15 FREE GAMES 10 FREE GAMES 8 FREE GAMES DYNAMIC MULTI PLIER LOCKING WI LDS RAN pom Wi LDS | ATROPOS ANYWHERE LACHESIS ANYWHERE CLOTHO ANYWHERE ON REEL 3 ON REEL 3 ON REEL 3 WINS 3 MORE FRE",
   "run_id": "40307760694",
-  "time": "2026-10-26T10:35:42+00:00"
+  "time": "2026-10-26T10:38:00+00:00"
 }
