@@ -417,6 +417,23 @@ def ftsis_earned_temple_portal(png: Path) -> bool:
             and all(q in right for q in ("CLOTHO", "8 FREE GAMES", "RANDOM")))
 
 
+def ftsis_earned_terminal_result(png: Path) -> bool:
+    """Identify an earned Sisters temple's terminal FUN results visually.
+
+    Archive 40307760694 / artifact 12644855250, 00088-poll.jpg has
+    CONGRATULATIONS, FEATURE WIN, TOTAL WIN, blue CONTINUE. Whole-screen
+    OCR dropped most words. A 2x scaled center crop with PSM 11 recovers
+    all three labels. No payment or server response is inferred from it.
+    """
+    with Image.open(png) as image:
+        crop = image.convert("RGB").crop((250, 130, 1040, 610))
+        crop = crop.resize((crop.width * 2, crop.height * 2))
+        caption = pytesseract.image_to_string(crop, config="--psm 11").upper()
+    return (("CONGRATULATIONS" in caption)
+            and ("FEATURE WI" in caption)
+            and ("TOTAL WIN" in caption))
+
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
@@ -443,6 +460,7 @@ class Probe:
         self.autoplay_repeats = 0
         self.midas_feature_steps = 0
         self.ftsis_choice_attempted = False
+        self.ftsis_terminal_result_seen = False
         self.feature_since = None
         self.last_feature_action = None
         self.feature_seen = False
@@ -557,6 +575,7 @@ class Probe:
              "midas_feature_steps": self.midas_feature_steps,
              "ftsis_temple": os.getenv("PLAYTECH_FTSIS_TEMPLE", "atropos") if self.game == "ftsis" else None,
              "ftsis_choice_attempted": self.ftsis_choice_attempted,
+             "ftsis_terminal_result_visual": self.ftsis_terminal_result_seen,
              "network_events": self.network_events, "websocket_connections": self.websockets,
              "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
              "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
@@ -1139,6 +1158,19 @@ class Probe:
                     self.note("FEATURE_RESULT_UNCERTAIN", "One CONTINUE input; no unambiguous board return")
                     await self.checkpoint("feature_needs_review", force=True)
                     return
+                # Clotho 40307760694/12644855250 displayed a terminal
+                # CONGRATULATIONS / FEATURE WIN / TOTAL WIN result at
+                # 00088-poll.jpg; whole-screen OCR missed these terms.
+                # Record it before the terminal automatically changes to
+                # the native autoplay-stopped overlay, without any input.
+                if (self.game == "ftsis" and self.ftsis_choice_attempted
+                        and not self.ftsis_terminal_result_seen
+                        and ftsis_earned_terminal_result(self.dir / "_current.png")):
+                    self.ftsis_terminal_result_seen = True
+                    self.note("FTSIS_TERMINAL_RESULT",
+                              "Earned FUN temple terminal FEATURE WIN / TOTAL WIN visible; "
+                              "no semantic WebSocket payout decoded")
+                    await self.checkpoint(force=True)
                 # 40287108951 / 12635328447: after one earned Atropos
                 # selection the bonus counter visibly ran 14 -> 9 -> 0, then
                 # the first-party *Autoplay stopped* repeat dialog covered
@@ -1161,10 +1193,17 @@ class Probe:
                             stable = False
                             break
                     if stable:
-                        self.stage = "earned_temple_base_return_payout_unverified"
-                        self.note("FTSIS_BASE_RETURN",
-                                  "Earned temple portal dismissed, native autoplay stopped over FUN base; "
-                                  "terminal payout/individual free spins remain unverified")
+                        if self.ftsis_terminal_result_seen:
+                            self.feature_finished = True
+                            self.stage = "feature_complete"
+                            self.note("FTSIS_TERMINAL_BASE_RETURN",
+                                      "Archived earned FUN result followed by three stable base "
+                                      "views; visual completion only, semantic payout unverified")
+                        else:
+                            self.stage = "earned_temple_base_return_payout_unverified"
+                            self.note("FTSIS_BASE_RETURN",
+                                      "Earned temple portal dismissed, native autoplay stopped "
+                                      "over FUN base; terminal payout remains unverified")
                         await self.checkpoint(self.stage, force=True)
                         return
                     self.note("FTSIS_RETURN_UNSTABLE",
