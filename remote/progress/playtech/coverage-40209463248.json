@@ -7,7 +7,9 @@
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
-    40260131442
+    40260131442,
+    40261288969,
+    40261354023
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
@@ -24,7 +26,8 @@
     "Network metadata in latest artifacts: redacted wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}; https://cachedownload.playtechone.com/cdn-cgi/rum HTTP 204. WebSocket frames opaque; no semantic win/buy/payout response verified.",
     "2026-10-26T02:40Z: 40253255839 Ash ended needs_review but screenshots 00093/00094/00095 independently VERIFY earned result €3.75, ONE CONTINUE action, and base board return before native autoplay stopped overlay; this is not whole-game coverage. Changed board-return detection in dc295d2.",
     "2026-10-26T02:40Z: 40253238501 Mighty Midas stalled at a distinct earned 7 RUBY SPINS introduction (green OK center 640,455); no Ruby spin executed. New guarded double-observation Ruby OK in dc2be90; isolated FUN recovery 40260131442 launched, no purchase retries.",
-    "Network metadata for both latest artifacts (only): websocket oapi.playtechhorizon.com/socket.io/1/websocket/{session}, POST cachedownload.playtechone.com/cdn-cgi/rum HTTP204 and login.playtechone.com/KeepAlive.php HTTP200. Each artifact 2 WS sent/2 received frames; bodies opaque, no semantic result, buy or payout response confirmed."
+    "Network metadata for both latest artifacts (only): websocket oapi.playtechhorizon.com/socket.io/1/websocket/{session}, POST cachedownload.playtechone.com/cdn-cgi/rum HTTP204 and login.playtechone.com/KeepAlive.php HTTP200. Each artifact 2 WS sent/2 received frames; bodies opaque, no semantic result, buy or payout response confirmed.",
+    "2026-10-26T02:53Z: Active DEMO runner 40260131442 reached earned 5 SAPPHIRE SPINS intro but no steps/end; future visual guard afacc812 (not injected into active checkout) added. Two separate one-game FUN recoveries 40261288969/40261354023 launched only for proven BET OPTIONS overlay blocking autoplay in GStorm3/King. No purchases attempted by these runners."
   ],
   "games": {
     "ashadv": {
@@ -158,7 +161,7 @@
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
-      "active_recovery": 40253238501,
+      "active_recovery": 40260131442,
       "last_result": {
         "run": 40253238501,
         "status": "needs_review",
@@ -170,6 +173,17 @@
         "midas_feature_steps": 0,
         "artifact": 12622422192,
         "reason": "7 earned RUBY SPINS intro with green OK (640,455) stayed on screen 15min because existing Emerald-only guard did not match. Ruby spins neither acknowledged nor performed."
+      },
+      "latest_observation": {
+        "run": 40260131442,
+        "time_utc": "2026-10-26T02:53:44Z",
+        "stage": "feature_observed",
+        "observed_text": "CONGRATULATIONS! 5 SAPPHIRE SPINS; Wild stacks added to reels 2–5",
+        "observations": 110,
+        "clicks": 3,
+        "midas_feature_steps": 0,
+        "verified_result": false,
+        "note": "Checkpoint proves an earned Sapphire Spins introduction only; no OK, individual spins, prize or end are yet verified. Workflow runs older code. Future guard afacc812 requires caption and green OK to be stable in three visual observations."
       }
     },
     "aogroo": {
@@ -263,6 +277,23 @@
       "last_result": {
         "run": 40221846216,
         "status": "time_limit_no_feature_end"
+      },
+      "active_recovery": 40261288969,
+      "initial_bet_options_overlay": {
+        "run": 40246996090,
+        "artifact": 12619375952,
+        "screenshots": [
+          "gpas_agstorm3_pop/01-loaded.jpg",
+          "gpas_agstorm3_pop/02-main.jpg"
+        ],
+        "status": "observed_native_BET_OPTIONS_modal_after_valid_CONTINUE",
+        "verified_close_control": "X (828,160) OCR header BET OPTIONS; new guarded code closes X exactly once if stable, does not change wager",
+        "fix_commits": [
+          "2151ab64",
+          "07c9e56"
+        ],
+        "pending_run": 40261288969,
+        "note": "No asserted bonus completion. Must observe new run screenshots to verify overlay dismissal and actual FUN play."
       }
     },
     "gpas_mgaogkol_pop": {
@@ -292,6 +323,23 @@
         "run": 40231711671,
         "status": "time_limit_no_new_feature",
         "artifact": 12614837947
+      },
+      "active_recovery": 40261354023,
+      "initial_bet_options_overlay": {
+        "run": 40246996090,
+        "artifact": 12618998264,
+        "screenshots": [
+          "gpas_mgaogkol_pop/01-loaded.jpg",
+          "gpas_mgaogkol_pop/02-main.jpg"
+        ],
+        "status": "observed_native_BET_OPTIONS_modal_after_play_intro",
+        "verified_close_control": "X (749,248) OCR BET OPTIONS, 3 screenshots then one close if FUN",
+        "fix_commits": [
+          "2151ab64",
+          "07c9e56"
+        ],
+        "pending_run": 40261354023,
+        "note": "No purchase/Ante changes; no earned bonus completion verified."
       }
     },
     "gpas_aogww_pop": {
@@ -354,5 +402,5 @@
   },
   "last_checked_at_utc": "2026-10-26T01:15:00Z",
   "read_only_menu_inventory_run": 40246996090,
-  "last_reviewed_utc": "2026-10-26T02:40:00Z"
+  "last_reviewed_utc": "2026-10-26T02:55:00Z"
 }
