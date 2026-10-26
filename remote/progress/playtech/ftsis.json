@@ -1,19 +1,19 @@
 {
   "game": "ftsis",
-  "stage": "bounded_base_spin_fallback",
+  "stage": "feature_observed",
   "outcome": null,
-  "feature_seen": false,
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 100,
-  "clicks": 3,
-  "spin_attempts": 0,
+  "observations": 114,
+  "clicks": 4,
+  "spin_attempts": 1,
   "autoplay_repeats": 1,
   "midas_feature_steps": 0,
   "network_events": 7,
   "websocket_connections": 1,
   "requests_total": 18,
-  "elapsed_seconds": 647,
-  "latest_text": "=) ODS) Notavailable R Not available AN ST WER M RA Not available a. _ Not available POWE: Gee =] | on ARS ARS | FREE © \\ hi ‘als — ee Be ee | 2 €987.70 [Play for Real 06:42:58",
+  "elapsed_seconds": 722,
+  "latest_text": "©) & ad Gs @ & xX ne se ——— 9) EG S= —- 3) ATROPOS'S <LOTHO'S TEMPLE TEMPLE 15 FREE GAMES 10 FREE GAMES 8 FREE GAMES DYNAMIC MULTI PLIER LOCKING WI LDS RAN poM WI LDS ATROPOS ANYWHERE LACHESIS ANYWHERE CLOTHO ANYWHERE ON REEL 3 ON REEL 3 ON REEL 3 WI",
   "run_id": "40280332708",
-  "time": "2026-10-26T06:43:00+00:00"
+  "time": "2026-10-26T06:44:16+00:00"
 }
