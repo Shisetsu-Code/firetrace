@@ -1,22 +1,21 @@
 {
-  "run_key": "playtech-king-native-bet-modal-close-20261026-0254Z",
+  "run_key": "playtech-king-earned-10-free-games-start-20261026-0425z",
   "game": "gpas_mgaogkol_pop",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40246996090,
-  "source_artifact": 12618998264,
+  "source_run": 40261354023,
+  "source_artifact": 12625895888,
   "source_screenshots": [
-    "gpas_mgaogkol_pop/01-loaded.jpg",
-    "gpas_mgaogkol_pop/02-main.jpg"
+    "gpas_mgaogkol_pop/_current.png",
+    "gpas_mgaogkol_pop/screenshots/00237-feature.jpg"
   ],
-  "verified_bug": "After native play-arrow intro, BET OPTIONS overlay obscures main game and autoplay. X control at (749,248), independently OCR-confirmed in archived screenshot.",
+  "verified_bug": "Earned YOU WIN 10 FREE GAMES overlay stalled for 15min. Blue white-arrow PLAY at (1175,360) visibly confirmed in archived 1280x720 FUN screenshot.",
   "fix_commits": [
-    "2151ab64d01997d86b52fa0968f75f5bc77ef2f1",
-    "07c9e56e71f447534e6cd4c15738a3884888d918"
+    "3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8"
   ],
-  "allowed_actions": "FUN/offline only. On verified BET OPTIONS, three screenshots at 2s intervals, close X once; verify dismissal, then native autoplay and earned bonus only. No buy or ante changes.",
+  "allowed_actions": "Only earned 10 Free Games START after 3 stable images 2s apart, explicit offline real=0; one click, then verify transition and earned spins/terminal result. No buy, Ante, or real-money actions.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "only_pending_function": "Clear observed start-modal blocker and verify King of Olympus earned feature/win result plus FUN board return if it occurs.",
-  "notes": "Separate fresh DEMO session; not recovery of previous server state or a repeat purchase. A complete GitHub job alone never proves game function."
+  "only_pending_function": "King of Olympus earned Free Games introduction, individual bonus rounds and final result/return. Do not infer any other feature executed.",
+  "notes": "Separate fresh FUN session; NOT continuation of previous Playtech state; no uncertain purchase repeated."
 }
