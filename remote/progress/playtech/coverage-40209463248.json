@@ -10,26 +10,7 @@
     {
       "run": 40280174612,
       "game": "gpas_aogww_pop",
-      "scope": "Only unverified 4x5/10 and 5x5/5 branches in distinct fresh FUN contexts",
-      "source": 40211505961,
-      "status": "in_progress_at_last_actions_check",
-      "mode": "FUN_OFFLINE_ONLY",
-      "no_purchases": true
-    },
-    {
-      "run": 40280332708,
-      "game": "ftsis",
-      "scope": "Earned Free Games/bonus path only; prior repeat autoplay verification does not count as bonus",
-      "source": 40232112481,
-      "status": "in_progress_at_last_actions_check",
-      "mode": "FUN_OFFLINE_ONLY",
-      "no_purchases": true
-    },
-    {
-      "run": 40280336714,
-      "game": "gpas_gstorm2_pop",
-      "scope": "Earned feature and final FUN return, previously unverified",
-      "source": 40221846216,
+      "scope": "Wonder Warriors remaining 4x5/10 and 5x5/5 branches in distinct FUN contexts; 5x5 bonus result pending review",
       "status": "in_progress_at_last_actions_check",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
@@ -37,8 +18,16 @@
     {
       "run": 40280344330,
       "game": "gpas_aogwfot_pop",
-      "scope": "Free Games wheel/bonus, not repeating the already verified Ante test",
-      "source": 40233694420,
+      "scope": "Wheels of Olympus pending earned Free Games/wheel; NOT repeating already verified Ante FUN spin",
+      "status": "in_progress_at_last_actions_check",
+      "mode": "FUN_OFFLINE_ONLY",
+      "no_purchases": true
+    },
+    {
+      "run": 40287108951,
+      "game": "ftsis",
+      "scope": "Sisters: re-earn three-temple bonus portal and select only earned Atropos 15 Free Games, once, after three stable screens. Lachesis/Clotho pending separate evidence.",
+      "source": 40280332708,
       "status": "in_progress_at_last_actions_check",
       "mode": "FUN_OFFLINE_ONLY",
       "no_purchases": true
@@ -70,7 +59,9 @@
     "2026-10-26T05:27Z: King single FUN 40268935164 completed success but game time_limit; ZIP 12629367546: one verified fallback spin at 05:24:48 triggered earned 10 FREE GAMES; arrow clicked ONCE 05:25:19 after 3 stable images; screenshots 00540/00541 show bonus running, spins left 8 to 7, NOT finished. No purchase or Ante.",
     "2026-10-26T05:27Z: 73 archived static King reel screenshots (obs 100..531) had layout 640-bit hash deltas ≤82 while original luminance delta >5 repeatedly restarted fallback 55min. Code 7468d296: use reel-layout hamming >120 to signal actual movement, and grant up to 900s beyond base deadline for already observed earned bonus, max 4500s. Source trigger c7d0cb46 targets only unfinished King with FUN/no-buy flags; new workflow run ID not yet available via linked API; check next checkpoint and do not assert success.",
     "2026-10-26T06:23:36.816Z: resolved previously unknown King trigger c7d0cb46 as Actions run 40274595606 (completed/success), artifact 12629764217. Independently examined original 00109 (7 spins left), 00117 (terminal FEATURE WIN €32.50), 00118 (FUN base returned beneath Autoplay Options). One earned arrow start and one terminal acknowledgement. King earned 10 Free Games feature now VISUALLY COMPLETE; semantic WebSocket frames opaque, no Buy Bonus/Ante verified. GitHub filtered active/queued workflow lists both empty. Still 0/10 all-function audits.",
-    "2026-10-26T06:33:06.121Z: Started only pending FUN functions in 4 isolated Actions: Wonder unverified 4x5/5x5 40280174612 (CI 40280174407 success; guarded final result and 5600s time cap), FTSIS 40280332708, God of Storms 2 40280336714 and Wheels Free Games 40280344330. Three latest runs use distinct trigger SHA; confirmed in_progress. Zero buys/uncertain purchase retries; former King 10 Free Games is now visually complete but full audit count stays 0/10."
+    "2026-10-26T06:33:06.121Z: Started only pending FUN functions in 4 isolated Actions: Wonder unverified 4x5/5x5 40280174612 (CI 40280174407 success; guarded final result and 5600s time cap), FTSIS 40280332708, God of Storms 2 40280336714 and Wheels Free Games 40280344330. Three latest runs use distinct trigger SHA; confirmed in_progress. Zero buys/uncertain purchase retries; former King 10 Free Games is now visually complete but full audit count stays 0/10.",
+    "2026-10-26T07:41:16.315Z: Source run 40209463248 remains completed/success only technically. Recovered FTSIS 40280332708/12632717773: clear 3-temple earned FUN portal Atropos 15/Lachesis 10/Clotho 8, no choice, 900s stall; corrected detector/one-click guard a601be6, target validation 14ecdda, non-repeat/checkpoint 07a83589; CI 40286971291 success. Isolated Atropos FUN run 40287108951 in_progress, other two choices pending.",
+    "2026-10-26T07:41:16.315Z: God of Storms 2 run 40280336714/12633864169 completed technically but ended time_limit after 206 fallback FUN spins, no special seen. Wonder 40280174612 and Wheels 40280344330 still active; Wonder 5x5 reached bonus_needs_review, NOT verified complete. No buys, no semantic WS response."
   ],
   "games": {
     "ashadv": {
@@ -125,27 +116,77 @@
         "status": "not_verified"
       },
       "free_games": {
-        "status": "not_verified"
+        "status": "EARNED_THREE_TEMPLE_PORTAL_VISIBLE_CHOICES_NOT_YET_EXECUTED",
+        "evidence": "40280332708/12632717773/ftsis/_current.png and ftsis/screenshots/00278-feature.jpg",
+        "options": [
+          {
+            "name": "Atropos",
+            "free_games": 15,
+            "mechanic": "dynamic multiplier"
+          },
+          {
+            "name": "Lachesis",
+            "free_games": 10,
+            "mechanic": "locking wilds"
+          },
+          {
+            "name": "Clotho",
+            "free_games": 8,
+            "mechanic": "random wilds"
+          }
+        ],
+        "verified_selection": false,
+        "verified_payout": false
       },
       "special_functions": {
-        "status": "not_verified"
+        "status": "EARNED_THREE_TEMPLE_CHOICE_MODAL_VISUALLY_VERIFIED_NOT_SELECTED",
+        "evidence": "40280332708/12632717773/ftsis/_current.png",
+        "blocker": "Autopilot recognized generic free games but lacked card-selection handler and stalled for 900 s; fixed future guarded single choice in a601be6,14ecdda,07a83589."
       },
       "bonus_result": {
         "status": "not_verified"
       },
       "server_game_response": {
         "status": "not_decoded",
-        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+        "artifact": 12632717773,
+        "network_metadata": {
+          "wss": "wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}",
+          "websocket_frames_sent": 2,
+          "websocket_frames_received": 2,
+          "http": [
+            {
+              "endpoint": "https://cachedownload.playtechone.com/cdn-cgi/rum",
+              "method": "POST",
+              "status": 204,
+              "count": 2
+            },
+            {
+              "endpoint": "https://login.playtechone.com/KeepAlive.php",
+              "method": "POST",
+              "status": 200,
+              "count": 1
+            }
+          ]
+        },
+        "explanation": "Opaque socket frames; HTTP only telemetry/keepalive, no semantic game result or payment response."
       },
       "last_result": {
-        "run": 40232112481,
+        "run": 40280332708,
         "status": "needs_review",
-        "evidence": "Four verified YES repeat confirmations only, no feature"
+        "feature_seen": true,
+        "feature_finished": false,
+        "observations": 278,
+        "clicks": 4,
+        "spin_attempts": 1,
+        "artifact": 12632717773,
+        "technical_reason": "Earned portal with 3 selection cards present at end; no selection input or terminal bonus; 900 s stalled. GitHub Actions success is not game completion."
       },
       "active_recovery": {
-        "run": 40280332708,
-        "scope": "Earned Free Games/bonus path only; prior repeat autoplay verification does not count as bonus",
-        "source_run": 40232112481,
+        "run": 40287108951,
+        "source_run": 40280332708,
+        "source_artifact": 12632717773,
+        "scope": "Atropos 15 earned Free Games only, FUN demo, no buys; re-earn portal in fresh session",
+        "temple": "atropos",
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
         "last_known_status": "in_progress"
@@ -331,20 +372,49 @@
       },
       "server_game_response": {
         "status": "not_decoded",
-        "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
+        "artifact": 12633864169,
+        "network_metadata": {
+          "wss_received": 881,
+          "wss_sent": 543,
+          "websockets": [
+            "wss://gpas-stg.playtechone.com/socket.io/1/websocket/{session}?client",
+            "wss://frontend.playtechhorizon.com/socket.io/1/websocket/{session}"
+          ],
+          "http": [
+            {
+              "endpoint": "https://beacon.tp-eye.com/collect",
+              "method": "POST",
+              "status": 200,
+              "count": 62
+            },
+            {
+              "endpoint": "https://cachedownload.playtechone.com/cdn-cgi/rum",
+              "method": "POST",
+              "status": 204,
+              "count": 1
+            },
+            {
+              "endpoint": "https://gpas-games.playtechone.com/cdn-cgi/rum",
+              "method": "POST",
+              "status": 204,
+              "count": 1
+            }
+          ]
+        },
+        "explanation": "No semantic results decoded; HTTP success is only telemetry."
       },
       "last_result": {
-        "run": 40221846216,
-        "status": "time_limit_no_feature_end"
-      },
-      "active_recovery": {
         "run": 40280336714,
-        "scope": "Earned feature and final FUN return, previously unverified",
-        "source_run": 40221846216,
-        "mode": "FUN_OFFLINE_ONLY",
-        "forbid_buy": true,
-        "last_known_status": "in_progress"
-      }
+        "status": "time_limit",
+        "feature_seen": false,
+        "feature_finished": false,
+        "observations": 689,
+        "clicks": 210,
+        "spin_attempts": 206,
+        "artifact": 12633864169,
+        "technical_reason": "206 verified-intent FUN spin inputs and network activity; no earned feature observed or terminal; expiry is NOT proof of game impossibility."
+      },
+      "active_recovery": null
     },
     "gpas_agstorm3_pop": {
       "complete": false,
@@ -504,10 +574,9 @@
       },
       "active_recovery": {
         "run": 40280174612,
-        "scope": "Only unverified 4x5/10 and 5x5/5 branches in distinct fresh FUN contexts",
-        "source_run": 40211505961,
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
+        "scope": "4x5 and 5x5 pending; at 07:39Z 4x5 still await_feature, 5x5 reached bonus_needs_review without final proof",
         "last_known_status": "in_progress"
       }
     },
@@ -542,17 +611,16 @@
       },
       "active_recovery": {
         "run": 40280344330,
-        "scope": "Free Games wheel/bonus, not repeating the already verified Ante test",
-        "source_run": 40233694420,
         "mode": "FUN_OFFLINE_ONLY",
         "forbid_buy": true,
+        "scope": "Earned wheel/free games only (Ante FUN already checked); 187 fallback spin attempts by 07:38Z with no feature observed",
         "last_known_status": "in_progress"
       }
     }
   },
-  "last_checked_at_utc": "2026-10-26T06:33:06.121Z",
+  "last_checked_at_utc": "2026-10-26T07:41:16.315Z",
   "read_only_menu_inventory_run": 40246996090,
   "last_reviewed_utc": "2026-10-26T02:55:00Z",
-  "last_review_utc": "2026-10-26T06:33:06.121Z",
+  "last_review_utc": "2026-10-26T07:41:16.315Z",
   "pending_or_unresolved_workflow_dispatches": []
 }
