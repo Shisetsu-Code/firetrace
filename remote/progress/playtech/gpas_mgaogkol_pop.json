@@ -1,19 +1,19 @@
 {
   "game": "gpas_mgaogkol_pop",
-  "stage": "running",
+  "stage": "bounded_base_spin_fallback",
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 75,
+  "observations": 85,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 300,
+  "network_events": 320,
   "websocket_connections": 2,
-  "requests_total": 162,
-  "elapsed_seconds": 520,
-  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN \\EXTRA Not available POWER. | @ x. | N a J <i a = Of NS 7 Ay fi * WAYS TOTAL BET 6400 €112.00 am €5.00 €10,001.00 @ *)",
+  "requests_total": 163,
+  "elapsed_seconds": 594,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS PLAYING FOR FUN WER G4 pw om. KK G =F © © ~ RIN g US EG dia Ei: WAYS: WIN TOTAL BET 6400 €112.00 €5.00 €10,001.00 @",
   "run_id": "40261354023",
-  "time": "2026-10-26T03:03:12+00:00"
+  "time": "2026-10-26T03:04:25+00:00"
 }
