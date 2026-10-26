@@ -342,7 +342,7 @@ def bet_options_modal(game: str, png: Path) -> bool:
         crop = image.convert("RGB").crop(cfg["box"])
         crop = crop.resize((crop.width * 3, crop.height * 3))
         label = pytesseract.image_to_string(crop, config="--psm 6").upper()
-    return bool(re.search(r"BET\\s+OPTIONS", label))
+    return bool(re.search(r"BET\s+OPTIONS", label))
 
 
 def record_event(path: Path, event: dict):
