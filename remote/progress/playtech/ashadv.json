@@ -1,19 +1,19 @@
 {
   "game": "ashadv",
-  "stage": "bounded_base_spin_fallback",
-  "outcome": null,
-  "feature_seen": false,
+  "stage": "needs_review",
+  "outcome": "feature_needs_review",
+  "feature_seen": true,
   "feature_finished": false,
-  "observations": 86,
-  "clicks": 7,
-  "spin_attempts": 5,
+  "observations": 95,
+  "clicks": 9,
+  "spin_attempts": 6,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
   "network_events": 8,
   "websocket_connections": 1,
   "requests_total": 12,
-  "elapsed_seconds": 667,
-  "latest_text": "% Jackpot ACTIVE & dN ih a af Tt | 0 GY ww), a] 1 Ta i _ | wef FT ye €0.56 : « de €995.60 Play for Ri 1:26:31",
+  "elapsed_seconds": 719,
+  "latest_text": "©) Z| (OT ACTIVE C Cap ewe a | vs { { Autoplay stopped. Do you want to repeat Autoplay? 2 U a \\ 2 q \\\\ » iy BET. WIN’ ste €0.20 €3.79 a 2 €995.60 Play for Real 01:27:22",
   "run_id": "40253255839",
-  "time": "2026-10-26T01:26:34+00:00"
+  "time": "2026-10-26T01:27:26+00:00"
 }
