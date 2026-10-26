@@ -7,8 +7,7 @@
   "total_games": 10,
   "definition": "Complete only after each available buy, Ante, Free Games/special and bonus end is individually checked; record UI and semantic game response when available. Do not count a successful GitHub Actions job as a game result.",
   "current_active_runs": [
-    40253238501,
-    40253255839
+    40260131442
   ],
   "no_purchase_ever_claimed_from_opaque_frames": true,
   "notes": [
@@ -22,7 +21,10 @@
     "40246996090 inspects screenshots of all ten FUN autoplay menus without buying, toggling Ante, or claiming bonus outcomes; results await classification.",
     "2026-10-26T01:14Z: 40246246062 completed earned Rulers Free Games result/return, but full-game coverage remains false. 40246248235 Ash reached terminal €2.38 CONTINUE not clicked due heading OCR missing R & feature_seen guard. 40246749884 Midas stalled on earned Emerald Bonus green OK; no feature steps. Artifacts 12620120243/12619922530/12619273713.",
     "Verified fixes fae9661, 368876d, ce7aca1; CI checks 40253126090/40253148039/40253173122 successful. Isolated no-buy DEMO-only recoveries 40253255839 Ash and 40253238501 Midas now active. Their success != full game completion.",
-    "Network metadata in latest artifacts: redacted wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}; https://cachedownload.playtechone.com/cdn-cgi/rum HTTP 204. WebSocket frames opaque; no semantic win/buy/payout response verified."
+    "Network metadata in latest artifacts: redacted wss://oapi.playtechhorizon.com/socket.io/1/websocket/{session}; https://cachedownload.playtechone.com/cdn-cgi/rum HTTP 204. WebSocket frames opaque; no semantic win/buy/payout response verified.",
+    "2026-10-26T02:40Z: 40253255839 Ash ended needs_review but screenshots 00093/00094/00095 independently VERIFY earned result €3.75, ONE CONTINUE action, and base board return before native autoplay stopped overlay; this is not whole-game coverage. Changed board-return detection in dc295d2.",
+    "2026-10-26T02:40Z: 40253238501 Mighty Midas stalled at a distinct earned 7 RUBY SPINS introduction (green OK center 640,455); no Ruby spin executed. New guarded double-observation Ruby OK in dc2be90; isolated FUN recovery 40260131442 launched, no purchase retries.",
+    "Network metadata for both latest artifacts (only): websocket oapi.playtechhorizon.com/socket.io/1/websocket/{session}, POST cachedownload.playtechone.com/cdn-cgi/rum HTTP204 and login.playtechone.com/KeepAlive.php HTTP200. Each artifact 2 WS sent/2 received frames; bodies opaque, no semantic result, buy or payout response confirmed."
   ],
   "games": {
     "ashadv": {
@@ -44,24 +46,26 @@
         "verified_control": "green START (809,494); direct action must be verified in new run"
       },
       "bonus_result": {
-        "status": "earned_terminal_result_modal_observed_return_not_verified",
-        "evidence": "40246248235/12619922530/ashadv/_current.png",
-        "text": "Congatulations / YOU'VE WON €2.38 / CONTINUE",
-        "verified_control": "CONTINUE at (640,507) visible in finished FUN bonus; no repeat or click verified yet"
+        "status": "earned_FUN_bonus_result_and_base_board_return_VISUALLY_VERIFIED_from_artifact",
+        "evidence": "40253255839/12622146101/ashadv/screenshots/00093-verify-result-modal.jpg,00094-after-result-continue.jpg,00095-verify-base-return.jpg",
+        "amount_on_screen": "€3.75 (virtual FUN), not server-verified",
+        "verified_action": "CONTINUE (640,507) exactly once at 2026-10-26T01:27:16Z",
+        "interpretation": "Result modal disappeared, actual reel board and SPIN visible in screenshot 00094; screenshot 00095 shows native autoplay-repeat prompt over visible base reels. The runner labeled needs_review because global OCR missed SPIN, corrected in dc295d2/dc2be9. This earned bonus only; NOT all game functions."
       },
       "server_game_response": {
         "status": "not_decoded",
         "explanation": "WebSocket frames sanitized as opaque; HTTP 200/204 are only telemetry or keepalive"
       },
       "last_result": {
-        "run": 40246248235,
+        "run": 40253255839,
         "status": "needs_review",
-        "feature_seen": false,
+        "feature_seen": true,
         "feature_finished": false,
-        "observations": 259,
-        "spin_attempts": 11,
-        "artifact": 12619922530,
-        "reason": "EARNED RESULT modal €2.38 remained onscreen; global OCR missed heading (CONGATULATIONS) and feature_seen gate prevented verified CONTINUE"
+        "observations": 95,
+        "clicks": 9,
+        "spin_attempts": 6,
+        "artifact": 12622146101,
+        "technical_reason": "Runner's OCR failed to recognize base SPIN behind native 'Autoplay stopped' dialog; checkpoint erroneously leaves feature_finished=false although visually verified screens show board return."
       },
       "active_recovery": 40253255839
     },
@@ -141,9 +145,10 @@
         "status": "not_verified"
       },
       "special_functions": {
-        "status": "EARNED_EMERALD_BONUS_INTRO_OBSERVED_NOT_ACKNOWLEDGED;_PRIOR_AMETHYST_SPINS_NOT_COMPLETED",
-        "evidence": "40246749884/12619273713/aogmt/_current.png",
-        "verified_control": "Green OK center (640,454), guarded in follow-up"
+        "status": "EARNED_RUBY_SPINS_7_INTRO_STALLED; AMETHYST_AND_EMERALD_PREVIOUSLY_UNFINISHED",
+        "evidence": "40253238501/12622422192/aogmt/_current.png",
+        "verified_control": "earned RUBY modal green OK (640,455), double-view guard dc2be900; new DEMO-only recovery 40260131442",
+        "note": "No 7 Ruby spins or payout verified, and no bonus purchase was attempted."
       },
       "bonus_result": {
         "status": "stalled_no_end_observed",
@@ -155,14 +160,16 @@
       },
       "active_recovery": 40253238501,
       "last_result": {
-        "run": 40246749884,
+        "run": 40253238501,
         "status": "needs_review",
         "feature_seen": true,
         "feature_finished": false,
+        "observations": 156,
+        "clicks": 3,
+        "spin_attempts": 0,
         "midas_feature_steps": 0,
-        "observations": 309,
-        "artifact": 12619273713,
-        "reason": "EARNED Emerald Bonus intro and green OK, old OCR missed control. No Amethyst spins or Emerald payout verified in this run."
+        "artifact": 12622422192,
+        "reason": "7 earned RUBY SPINS intro with green OK (640,455) stayed on screen 15min because existing Emerald-only guard did not match. Ruby spins neither acknowledged nor performed."
       }
     },
     "aogroo": {
@@ -346,5 +353,6 @@
     }
   },
   "last_checked_at_utc": "2026-10-26T01:15:00Z",
-  "read_only_menu_inventory_run": 40246996090
+  "read_only_menu_inventory_run": 40246996090,
+  "last_reviewed_utc": "2026-10-26T02:40:00Z"
 }
