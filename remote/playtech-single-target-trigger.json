@@ -1,21 +1,21 @@
 {
-  "run_key": "playtech-king-earned-10-free-games-start-20261026-0425z",
-  "game": "gpas_mgaogkol_pop",
+  "run_key": "playtech-midas-earned-5-sapphire-spins-confirm-20261026-0426z",
+  "game": "aogmt",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40261354023,
-  "source_artifact": 12625895888,
+  "source_run": 40260131442,
+  "source_artifact": 12624548546,
   "source_screenshots": [
-    "gpas_mgaogkol_pop/_current.png",
-    "gpas_mgaogkol_pop/screenshots/00237-feature.jpg"
+    "aogmt/_current.png",
+    "aogmt/screenshots/00202-feature.jpg"
   ],
-  "verified_bug": "Earned YOU WIN 10 FREE GAMES overlay stalled for 15min. Blue white-arrow PLAY at (1175,360) visibly confirmed in archived 1280x720 FUN screenshot.",
+  "verified_bug": "Earned 5 SAPPHIRE SPINS and green OK (640,455) persisted without action for 25 min because the workflow checkout predated the verified Sapphire visual guard.",
   "fix_commits": [
-    "3d5a4fbd5aafb7c89839da9175ed5b7c91bf3ea8"
+    "afacc812e630c208784d6ee36dde7bc791f2f19c"
   ],
-  "allowed_actions": "Only earned 10 Free Games START after 3 stable images 2s apart, explicit offline real=0; one click, then verify transition and earned spins/terminal result. No buy, Ante, or real-money actions.",
+  "allowed_actions": "Only acknowledge proven earned Sapphire bonus intro with 3 stable images 2s apart, FUN offline real=0 verified, one OK and check disappearance; observe earned spins/terminal result without buying.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "only_pending_function": "King of Olympus earned Free Games introduction, individual bonus rounds and final result/return. Do not infer any other feature executed.",
-  "notes": "Separate fresh FUN session; NOT continuation of previous Playtech state; no uncertain purchase repeated."
+  "only_pending_function": "Mighty Midas won Sapphire (or another earned bonus if triggered in fresh FUN session), spins and terminal result; do not repeat a purchase or infer prior session state.",
+  "notes": "Separate fresh FUN session; no restoration of server-side prior bonus state and no repeated uncertain purchase."
 }
