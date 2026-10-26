@@ -279,6 +279,25 @@ def midas_earned_spin_ready(png: Path) -> bool:
     return magenta > 0.11 and "SPIN" in label
 
 
+def midas_earned_emerald_intro(png: Path) -> bool:
+    """Identify earned EMERALD BONUS OK; no bet or purchase.
+
+    Proof: 40246749884/12619273713/aogmt/_current.png.
+    Require caption and green button because global OCR misses OK.
+    """
+    with Image.open(png) as image:
+        rgb = image.convert("RGB")
+        title = pytesseract.image_to_string(
+            rgb.crop((290, 130, 985, 401)), config="--psm 6",
+        ).upper()
+        pixels = list(rgb.crop((606, 426, 670, 478)).getdata())
+        green = sum(
+            1 for r, g, b in pixels
+            if g > 65 and g > r * 1.24 and g > b * 1.10
+        ) / len(pixels)
+    return (all(s in title for s in ("CONGRATULATIONS", "EMERALD", "BONUS", "REVEAL"))
+            and green > 0.35)
+
 def record_event(path: Path, event: dict):
     with path.open("a", encoding="utf-8") as fp:
         fp.write(json.dumps({"time": iso(), **event}, ensure_ascii=False) + "\n")
