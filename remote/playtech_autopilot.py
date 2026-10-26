@@ -442,6 +442,7 @@ class Probe:
         self.spin_attempts = 0
         self.autoplay_repeats = 0
         self.midas_feature_steps = 0
+        self.ftsis_choice_attempted = False
         self.feature_since = None
         self.last_feature_action = None
         self.feature_seen = False
@@ -554,6 +555,8 @@ class Probe:
              "spin_attempts": self.spin_attempts,
              "autoplay_repeats": self.autoplay_repeats,
              "midas_feature_steps": self.midas_feature_steps,
+             "ftsis_temple": os.getenv("PLAYTECH_FTSIS_TEMPLE", "atropos") if self.game == "ftsis" else None,
+             "ftsis_choice_attempted": self.ftsis_choice_attempted,
              "network_events": self.network_events, "websocket_connections": self.websockets,
              "requests_total": sum(self.requests.values()), "elapsed_seconds": int(now-self.started),
              "latest_text": self.last_text[:250], "run_id": RUN, "time": iso()}
@@ -718,7 +721,7 @@ class Probe:
                         self.note("BLOCKED", "Invalid FTSIS temple; refusing choice")
                         await self.checkpoint("invalid_temple", force=True)
                         return
-                    if self.last_feature_action == "ftsis_portal_choice":
+                    if self.ftsis_choice_attempted:
                         self.stage = "needs_review"
                         self.note("FTSIS_CHOICE_UNCERTAIN", "Already clicked this portal once")
                         await self.checkpoint("temple_choice_uncertain", force=True)
@@ -740,6 +743,7 @@ class Probe:
                         return
                     self.feature_seen = True
                     self.feature_since = self.feature_since or time.monotonic()
+                    self.ftsis_choice_attempted = True
                     await self.click(page, FTSIS_TEMPLES[choice],
                                      f"verified_earned_FUN_ftsis_{choice}_temple_choice_once")
                     self.last_feature_action = "ftsis_portal_choice"
