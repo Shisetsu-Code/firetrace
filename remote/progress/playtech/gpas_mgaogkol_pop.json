@@ -4,16 +4,16 @@
   "outcome": null,
   "feature_seen": false,
   "feature_finished": false,
-  "observations": 64,
+  "observations": 75,
   "clicks": 4,
   "spin_attempts": 0,
   "autoplay_repeats": 0,
   "midas_feature_steps": 0,
-  "network_events": 256,
+  "network_events": 300,
   "websocket_connections": 2,
-  "requests_total": 161,
-  "elapsed_seconds": 439,
-  "latest_text": "AGE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN Up i AT No | le Not available o* a GE (4 CLS Ag OL i i is WAYS WIN BET 1620 ‘*s ae 00 €9,922.50",
+  "requests_total": 162,
+  "elapsed_seconds": 520,
+  "latest_text": "\\GE OF THE GODS™: KING OF OLYMPUS MEGAWAYS™ PLAYING FOR FUN \\EXTRA Not available POWER. | @ x. | N a J <i a = Of NS 7 Ay fi * WAYS TOTAL BET 6400 €112.00 am €5.00 €10,001.00 @ *)",
   "run_id": "40261354023",
-  "time": "2026-10-26T03:01:51+00:00"
+  "time": "2026-10-26T03:03:12+00:00"
 }
