@@ -1,16 +1,16 @@
 {
-  "run_key": "playtech-midas-earned-emerald-modal-guard-20261026-0110Z",
+  "run_key": "playtech-midas-earned-ruby-modal-guard-20261026-0234Z",
   "game": "aogmt",
   "mode": "FUN_OFFLINE_ONLY",
-  "source_run": 40246749884,
-  "source_artifact": 12619273713,
+  "source_run": 40253238501,
+  "source_artifact": 12622422192,
   "source_screenshot": "aogmt/_current.png",
-  "verified_bug": "Run 40246749884 stopped on a visually verified earned EMERALD BONUS introduction and green OK centered (640,454). Global OCR sees CONGRATULATIONS EMERALD BONUS but misses OK, causing FEATURE_STALLED without action.",
-  "fix_commit": "ce7aca1d7a4ba20b0aed29e74732b20d3ec6bee9",
-  "allowed_actions": "FUN/offline only. Double-verify earned Emerald Bonus intro and green OK, acknowledge once; verify new screen and stop on uncertain outcome. Allow previously verified earned Amethyst steps only when guard matches; do not buy, bet real money, or guess choices.",
+  "verified_bug": "FUN Ruby Spins earned: latest run stopped on 'CONGRATULATIONS! 7 RUBY SPINS' with a green OK (640,455) but Emerald-only guard never acknowledged it; 156 observations without one Ruby spin.",
+  "fix_commit": "dc2be9003b7e273c386e019d0091050fae8682ae",
+  "allowed_actions": "FUN/offline only. Verify Ruby intro and green OK in 2 screenshots 2s apart; acknowledge once, observe next state. Handle earned Emerald/Amethyst only when stable matching guard; no buy, real bets, or guessed coordinates.",
   "no_uncertain_purchase_retry": true,
   "forbid_buy": true,
   "forbid_real_money": true,
-  "only_pending_function": "Acknowledge earned Emerald Bonus and inspect its next state; finish earned features only with verified controls and outcome.",
-  "notes": "Fresh DEMO context: cannot restore the prior game session from checkpoint. All buy options and semantic game responses remain unverified."
+  "only_pending_function": "Acknowledge earned Ruby bonus introduction, inspect and complete previously earned special spins if UI and outcome verifiable. Do not repeat any uncertain action.",
+  "notes": "New DEMO browser context with virtual FUN funds, not recovered server game state. A successful job does not prove spins completed."
 }
