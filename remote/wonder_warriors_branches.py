@@ -66,6 +66,11 @@ async def play_variant(browser, variant: str, limit=3600):
             await page.wait_for_timeout(5500)
             words,state=await probe.shot(page,"watch",save=probe.observations%4==0)
             img=probe.dir/"_current.png"
+            # Hard guard: no actions if the current screen is not explicitly FUN.
+            if "PLAYING FOR FUN" not in state["text"].upper():
+                probe.stage="needs_review"
+                probe.note("FUN_GUARD","Current screenshot lacks PLAYING FOR FUN; stop")
+                break
             if not selected:
                 choice_text=await asyncio.to_thread(read_crop,img,(370,135,940,225))
                 if "SELECT" in choice_text or "YOUR REELS" in choice_text:
@@ -84,6 +89,58 @@ async def play_variant(browser, variant: str, limit=3600):
                     probe.note("CHOICE",f"Selected {variant} via real feature prompt")
                     await probe.shot(page,"selected",save=True)
             else:
+                # The verified 3x5 branch ends on a FULL-SCREEN TOTAL WIN
+                # dialog requiring CONTINUE. The ordinary bottom HUD also
+                # says TOTAL WIN, so only consider the CENTER crop.
+                central=await asyncio.to_thread(read_crop,img,(380,150,900,540))
+                if "TOTAL" in central and "WIN" in central:
+                    candidates=[w for w in words if re.fullmatch(
+                        r"CONTINUE",w["text"].strip(".,:!?"),re.I)
+                        and 250<=w["x"]<=1040 and 160<=w["y"]<=650]
+                    if not candidates:
+                        probe.stage="terminal_needs_review"
+                        probe.note("PENDING_TERMINAL","Center TOTAL WIN visible but no OCR-grounded CONTINUE target; no blind click")
+                        await probe.shot(page,"terminal-no-confirmed-continue",save=True)
+                        break
+                    target=min(candidates,key=lambda w:abs(w["x"]-640))
+                    await probe.shot(page,"terminal-result-first",save=True)
+                    validated=True
+                    for check in range(2):
+                        await page.wait_for_timeout(2200)
+                        words2,state2=await probe.shot(page,f"terminal-recheck-{check+2}",save=True)
+                        central2=await asyncio.to_thread(read_crop,probe.dir/"_current.png",(380,150,900,540))
+                        choices2=[w for w in words2 if re.fullmatch(
+                            r"CONTINUE",w["text"].strip(".,:!?"),re.I)
+                            and abs(w["x"]-target["x"])<=18 and abs(w["y"]-target["y"])<=18]
+                        if not ("TOTAL" in central2 and "WIN" in central2 and choices2):
+                            validated=False
+                            break
+                    if not validated:
+                        probe.note("TERMINAL_UNSTABLE","One or more independent images disagree; no action")
+                        continue
+                    await probe.click(page,(target["x"],target["y"]),f"ack_{variant}_earned_bonus_result_CONTINUE_once")
+                    probe.note("TERMINAL_ACK","One OCR-grounded click after three 2s-spaced confirmations; return still unverified")
+                    await page.wait_for_timeout(2500)
+                    base_ok=0
+                    for check in range(3):
+                        words3,state3=await probe.shot(page,f"verify-{variant}-base-return-{check+1}",save=True)
+                        central3=await asyncio.to_thread(read_crop,probe.dir/"_current.png",(380,150,900,540))
+                        base_text=state3["text"].upper()
+                        if ("PLAYING FOR FUN" in base_text and
+                            "TOTAL" not in central3 and "SPINS LEFT" not in base_text and
+                            ("HIT SPIN" in base_text or
+                             any(w["text"].upper() in {"SPIN","AUTOPLAY"} for w in words3))):
+                            base_ok+=1
+                        if check!=2:
+                            await page.wait_for_timeout(2200)
+                    if base_ok==3:
+                        probe.feature_finished=True
+                        probe.stage="verified_return_to_base"
+                        probe.note("FEATURE_COMPLETE",f"{variant} terminal acknowledged and FUN base confirmed three times")
+                    else:
+                        probe.stage="return_uncertain"
+                        probe.note("BLOCKED","Terminal CONTINUE sent exactly once but FUN base not independently established; no retry")
+                    break
                 count_text=await asyncio.to_thread(read_crop,img,(930,560,1048,668),3)
                 m=re.search(r"(\d{1,2})\s*(?:SPINS|GAMES)",count_text)
                 if m:
@@ -93,10 +150,10 @@ async def play_variant(browser, variant: str, limit=3600):
                 if ("BONUS COMPLETE" in state["text"].upper() or
                     "FEATURE COMPLETE" in state["text"].upper() or
                     "FREE GAMES COMPLETE" in state["text"].upper()):
-                    probe.feature_finished=True
-                    probe.stage="verified_complete"
-                    await probe.shot(page,"bonus-end",save=True)
-                    break
+                    # A final title alone is not evidence of acknowledgement
+                    # and return; preserve checkpoint and inspect next image.
+                    probe.note("TERMINAL_HINT","Completion text appeared; require terminal result and confirmed base return")
+                    await probe.shot(page,"bonus-terminal-hint",save=True)
                 base_ui = "HIT SPIN" in state["text"].upper() or "CLICK SPIN TO START" in state["text"].upper()
                 if (last_spins==0 or (base_ui and time.monotonic()-bonus_started_at>40)):
                     # Wait for return-to-base and absence of feature counter.
