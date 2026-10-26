@@ -67,9 +67,10 @@ async def play_variant(browser, variant: str, limit=3600):
             words,state=await probe.shot(page,"watch",save=probe.observations%4==0)
             img=probe.dir/"_current.png"
             # Hard guard: no actions if the current screen is not explicitly FUN.
-            if "PLAYING FOR FUN" not in state["text"].upper():
+            if ("PLAYING FOR FUN" not in state["text"].upper() and not
+                    ("preferedmode=offline" in page.url and "real=0" in page.url)):
                 probe.stage="needs_review"
-                probe.note("FUN_GUARD","Current screenshot lacks PLAYING FOR FUN; stop")
+                probe.note("FUN_GUARD","Neither screen nor live URL independently establishes FUN/offline; stop")
                 break
             if not selected:
                 choice_text=await asyncio.to_thread(read_crop,img,(370,135,940,225))
